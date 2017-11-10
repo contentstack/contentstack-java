@@ -13,7 +13,7 @@ public class CSAppConstants {
     public static final String SYNC_STORE_DEFAULT_TIMESTAMP  = "2010-01-01T00:00:00.000Z";;
     public static String URLSCHEMA_HTTP = "http://";
     public static String URLSCHEMA_HTTPS = "https://";
-    public static String SDK_VERSION = "1.0.0";
+    public static String SDK_VERSION = "1.1.0";
     public final static int NONETWORKCONNECTION = 408;
     public final static int TimeOutDuration = 15000;
     public final static int NumRetry = 0;

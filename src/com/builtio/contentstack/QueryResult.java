@@ -18,6 +18,7 @@ public class QueryResult {
     private static final String TAG = "QueryResult";
     protected JSONObject receiveJson;
     protected JSONArray schemaArray;
+    protected JSONObject contentObject;
     protected int count;
     protected List<Entry> resultObjects;
 
@@ -37,7 +38,8 @@ public class QueryResult {
      * Returns count of objects available.<br>
      *
      * <b>Note : </b>
-     * 			To retrieve this data, {@link Query#includeCount()} or {@link Query#count()} should be added in {@link Query} while querying.
+     * To retrieve this data, {@link Query#includeCount()} or {@link Query#count()}
+     * should be added in {@link Query} while querying.
      * @return int count
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -62,6 +64,21 @@ public class QueryResult {
         return schemaArray;
     }
 
+
+    /**
+     * Returns class&#39;s content type if call to fetch contentType executed successfully.
+     * @return JSONObject contentObject
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     * JSONObject contentObject = queryResultObject.getContentType();<br>
+     * </pre>
+     */
+    public JSONObject getContentType() {
+        return contentObject;
+    }
+
+
+
     protected void setJSON(JSONObject jsonobject, List<Entry> objectList) {
         receiveJson = jsonobject;
         resultObjects = objectList;
@@ -74,6 +91,14 @@ public class QueryResult {
                     jsonarray  = receiveJson.getJSONArray("schema");
                     if(jsonarray != null){
                         schemaArray = jsonarray;
+                    }
+                }
+
+                if(receiveJson.has("content_type")){
+
+                    JSONObject jsonObject  = receiveJson.getJSONObject("content_type");
+                    if(jsonObject != null){
+                        contentObject = jsonObject;
                     }
                 }
 

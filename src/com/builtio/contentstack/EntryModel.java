@@ -24,8 +24,8 @@ class EntryModel {
     protected String title                     = null;
     protected String url                       = null;
     protected String[] tags					   = null;
-    protected WeakHashMap<String, Object> ownerMap = null;
-    protected WeakHashMap<String, Object> _metadata= null;
+    protected Map<String, Object> ownerMap = null;
+    protected Map<String, Object> _metadata= null;
     private JSONArray tagsArray = null;
 
     public EntryModel(JSONObject jsonObj, String entryUid, boolean isFromObjectsModel ,boolean isFromCache, boolean isFromDeltaResponse) {
@@ -64,7 +64,7 @@ class EntryModel {
             if(jsonObject != null && jsonObject.has("_metadata")){
                 JSONObject _metadataJSON  = jsonObject.optJSONObject("_metadata");
                 Iterator<String> iterator = _metadataJSON.keys();
-                _metadata = new WeakHashMap<>();
+                _metadata = new HashMap<>();
                 while (iterator.hasNext()) {
                     String key = iterator.next();
                     if(key.equalsIgnoreCase("uid")){
@@ -75,18 +75,24 @@ class EntryModel {
             }else if(jsonObject != null && jsonObject.has("publish_details")){
 
                 JSONArray publishArray = jsonObject.optJSONArray("publish_details");
-                for (int i = 0; i < publishArray.length(); i++) {
-                    JSONObject jsonObject = publishArray.optJSONObject(i);
-                    Iterator<String> iterator = jsonObject.keys();
-                    HashMap<String, Object> hashMap = new HashMap<>();
-                    while (iterator.hasNext()) {
-                        String key = iterator.next();
-                        hashMap.put(key, jsonObject.opt(key));
+
+                if (publishArray!=null && publishArray.length()>0){
+
+                    for (int i = 0; i < publishArray.length(); i++) {
+                        JSONObject jsonObject = publishArray.optJSONObject(i);
+                        Iterator<String> iterator = jsonObject.keys();
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        while (iterator.hasNext()) {
+                            String key = iterator.next();
+                            hashMap.put(key, jsonObject.opt(key));
+                        }
                     }
                 }
 
+
+
                 if(_metadata == null) {
-                    _metadata = new WeakHashMap<>();
+                    _metadata = new HashMap<>();
                     _metadata.put("publish_details", publishArray);
                 }
 
@@ -104,7 +110,7 @@ class EntryModel {
                 }
                 JSONObject owner = jsonObject.optJSONObject("_owner");
                 Iterator<String> iterator = owner.keys();
-                ownerMap = new WeakHashMap<>();
+                ownerMap = new HashMap<>();
                 while (iterator.hasNext()) {
                     String key = iterator.next();
                     ownerMap.put(key, owner.optString(key));

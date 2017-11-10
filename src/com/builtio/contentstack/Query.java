@@ -1264,9 +1264,14 @@ public class Query implements INotifyClass{
      *     csQuery.includeSchema();
      * </pre>
      */
+    @Deprecated
     public Query includeSchema(){
         try {
-            urlQueries.put("include_schema",true);
+
+            if (!urlQueries.has("include_content_type")){
+                urlQueries.put("include_schema",true);
+            }
+
         } catch (Exception e) {
             throwException("includeSchema", CSAppConstants.ErrorMessage_QueryFilterException, e);
         }
@@ -1275,11 +1280,49 @@ public class Query implements INotifyClass{
 
 
 
+
+
+
     /**
-     * Include object owner&#39;s profile in the objects data.
+     * Include Content Type of all returned objects along with objects themselves.
+     *
      *
      * @return
-     * 		    {@linkplain Query} object, so you can chain this call.
+     * {@link Query} object, so you can chain this call.
+     *
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *     //'blt5d4sample2633b' is a dummy Stack API key
+     *     //'blt6d0240b5sample254090d' is dummy access token.
+     *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *     Query csQuery = stack.contentType("contentType_name").query();<br>
+     *     csQuery.includeContentType();
+     * </pre>
+     */
+    public Query includeContentType(){
+        try {
+
+            if (urlQueries.has("include_schema")){
+                urlQueries.remove("include_schema");
+            }
+
+            urlQueries.put("include_content_type",true);
+
+        } catch (Exception e) {
+            throwException("include_content_type", CSAppConstants.ErrorMessage_QueryFilterException, e);
+        }
+        return this;
+    }
+
+
+
+
+
+
+    /**
+     * Include object owner&#39;s profile in the objects data.
+     * @return
+     * {@linkplain Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
