@@ -21,6 +21,7 @@ public class ImageTransformTestcase extends JUnitCore {
     private LinkedHashMap imageParams = new LinkedHashMap();
     private final String IMAGE_URL = "https://images.contentstack.io/v3/assets/blt903007d63561dea2/blt638399801b6bd23c/59afa6406c11eb860ddf04aa/download";
 
+
     public ImageTransformTestcase() throws Exception {
         Config config = new Config();
         config.setHost("api.contentstack.io");

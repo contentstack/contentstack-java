@@ -49,9 +49,9 @@ A publishing environment corresponds to one or more deployment servers or a cont
 #### Initializing your SDK
 
 To initialize the SDK, specify application  API key, access token, and environment name of the stack as shown in the snippet given below:
-```
+
     Stack stack = Contentstack.stack( "apiKey", "accessToken", "environment_name");
-```
+
 To get the API credentials mentioned above, log in to your Contentstack account and then in your top panel navigation, go to Settings &gt; Stack to view the API Key and Access Token.
 
 
@@ -59,7 +59,7 @@ To get the API credentials mentioned above, log in to your Contentstack account 
 #### Querying content from your stack
 
 To retrieve a single entry from a content type use the code snippet given below:
-```
+
     ContentType contentType = stack.contentType("content_type_uid");
 
     Entry blogEntry = contentType.entry("entry_uid");blogEntry.fetch(new EntryResultCallBack() {@OverridepublicvoidonCompletion(ResponseType responseType, Error error) {
@@ -68,13 +68,13 @@ To retrieve a single entry from a content type use the code snippet given below:
     } else {
     // Error block
     }}});
-```
+
 ##### Get Multiple Entries
 
 To retrieve multiple entries of a particular content type, use the code snippet given below:
 
 //stack is an instance of Stack class
-```
+
     Query blogQuery = stack.contentType("content_type_uid").query();
     blogQuery.find(new QueryResultsCallBack() {@OverridepublicvoidonCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
     if(error == null){
@@ -82,7 +82,7 @@ To retrieve multiple entries of a particular content type, use the code snippet 
     }else{
     //Error block
     }}});
-```
+
 
 
 ### Advanced Queries
@@ -99,7 +99,29 @@ For example, if you want to crop an image (with width as 300 and height as 400),
 
 [Read Image Delivery API documentation](https://www.contentstack.com/docs/apis/image-delivery-api/).
 
-SDK functions for Image Delivery API coming soon.
+You can use the Image Delivery API functions in this SDK as well. Here are a few examples of its usage in the SDK.
+
+
+       //set the image quality to 100
+
+       LinkedHashMap imageParams = new LinkedHashMap();
+       imageParams.put("quality", 100);
+       imageUrl = Stack.ImageTransform(imageUrl, imageParams);
+
+
+      //resize the image by specifying width and height
+
+      LinkedHashMap imageParams = new LinkedHashMap();
+      imageParams.put("width", 100);
+      imageParams.put("height",100);
+      imageUrl = Stack.ImageTransform(imageUrl, imageParams);
+
+
+       // enable auto optimization for the image
+
+       LinkedHashMap imageParams = new LinkedHashMap();
+       imageParams.put("auto", "webp");
+       imageUrl = Stack.ImageTransform(imageUrl, imageParams);
 
 
 
