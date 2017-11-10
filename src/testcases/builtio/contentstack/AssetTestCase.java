@@ -1,30 +1,21 @@
-package com.builtio.contentstack.testcases;
+package testcases.builtio.contentstack;
 
 
 import com.builtio.contentstack.*;
 import com.builtio.contentstack.Error;
-import com.builtio.contentstack.Utility.CSAppUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
 
 /**
  * Created by Shailesh Mishra on 12/10/17.
  */
 public class AssetTestCase extends JUnitCore {
+
+
 
     /* static api key and access token */
     private static final String TAG = "AssetTestCase";
@@ -39,7 +30,7 @@ public class AssetTestCase extends JUnitCore {
 
     public  AssetTestCase() throws Exception {
         Config config = new Config();
-        config.setHost("cdn.contentstack.io");
+        config.setHost("api.contentstack.io");
         stack = Contentstack.stack( DEFAULT_APPLICATION_KEY, DEFAULT_ACCESS_TOKEN, DEFAULT_ENV, config);
         latch = new CountDownLatch(1);
     }
