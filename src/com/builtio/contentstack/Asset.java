@@ -4,6 +4,7 @@ import com.builtio.contentstack.Utility.CSAppConstants;
 import com.builtio.contentstack.Utility.CSAppUtils;
 import com.builtio.contentstack.Utility.CSController;
 import com.builtio.contentstack.Utility.ContentstackUtil;
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
 import java.util.*;
@@ -456,6 +457,10 @@ public class Asset {
     private void fetchFromNetwork(String URL, JSONObject urlQueries, LinkedHashMap<String, Object> headers, FetchResultCallback callback) {
         if(callback != null) {
             HashMap<String, Object> urlParams = getUrlParams(urlQueries);
+
+            System.out.println("headers : "+headers);
+            System.out.println("URL: "+URL);
+
             new CSBackgroundTask(this, stackInstance, CSController.FETCHASSETS, URL, headers, urlParams, new JSONObject(),  CSAppConstants.callController.ASSET.toString(), false, CSAppConstants.RequestMethod.GET, callback);
         }
     }
@@ -519,6 +524,39 @@ public class Asset {
     }
 
 
+    /**
+     * This method adds key and value to an Entry.
+     * @param key The key as string which needs to be added to an Asset
+     * @param value The value as string which needs to be added to an Asset
+     * @return {@link Asset}
+     *
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *  final Asset asset = stack.asset("blt5312f71416d6e2c8");
+        asset.addParam("key", "some_value");
 
+     *  asset.fetch(new FetchResultCallback() {
+     *    &#64;Override
+     *    public void onCompletion(ResponseType responseType, Error error) {
+     *          if(error == null){
+     *            //Success Block.
+     *          }else {
+     *            //Fail Block.
+     *          }
+     *    }
+     *  });
+     * </pre>
+     *
+     *
+     */
+
+   public Asset addParam(String key, String value){
+
+       if(key != null && value != null){
+           headerGroup_local.put(key, value);
+       }
+
+       return this;
+   }
 
 }

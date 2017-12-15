@@ -167,8 +167,6 @@ class CSConnectionRequest implements IRequestModelHTTP{
     @Override
     public void onRequestFinished(CSHttpConnection request) {
 
-        System.out.println("onRequestFinished: CSHttpConnection: "+request.getResponse());
-
         responseJSON = request.getResponse();
 
         String controller = request.getController();

@@ -1221,7 +1221,7 @@ public class Query implements INotifyClass{
      *
      *
      * @return
-     * 			 {@link Query} object, so you can chain this call.
+     * {@link Query} object, so you can chain this call.
      *
      * <b>Note :- </b>
      * Call {@link QueryResult#getCount()} method in the success to get count of  objects.
@@ -1936,6 +1936,8 @@ public class Query implements INotifyClass{
                 mainJSON.put("query", urlQueries);
                 mainJSON.put("_method", CSAppConstants.RequestMethod.GET.toString());
 
+                System.out.println("urlQueries: "+urlQueries);
+
                 /* Network only request*/
                 fetchFromNetwork(URL, headers, mainJSON, callback, callBack);
 
@@ -2085,6 +2087,43 @@ public class Query implements INotifyClass{
         }
     }
 
+
+
+    /**
+     * This method adds key and value to an Entry.
+     * @param key The key as string which needs to be added to the Query
+     * @param value The value as string which needs to be added to the Query
+     * @return {@link Query}
+     *
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *      //'blt5d4sample2633b' is a dummy Stack API key
+     *      //'blt6d0240b5sample254090d' is dummy access token.
+     *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *      Query csQuery = stack.contentType("contentType_name").query();<br>
+     *      csQuery.addParam("key", "some_value");
+     *      csQuery.findOne(new QueryResultsCallBack() {<br>
+     *          &#64;Override
+     *          public void onCompletion(ResponseType responseType, ENTRY entry, Error error) {<br>
+     *
+     *          }
+     *      });<br>
+     * </pre>
+     *
+     */
+    public Query addParam(String key, String value){
+        try {
+            if(key != null && value != null){
+
+                urlQueries.put(key, value);
+            }else{
+                throwException("and", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            }
+        } catch (Exception e) {
+            throwException("and", CSAppConstants.ErrorMessage_QueryFilterException, e);
+        }
+        return this;
+    }
 
 
 }

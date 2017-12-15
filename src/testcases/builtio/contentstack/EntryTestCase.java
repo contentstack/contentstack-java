@@ -223,6 +223,8 @@ public class EntryTestCase extends JUnitCore {
         latch.await();
 
     }
+
+
     @Test
     public void test_08_get() throws InterruptedException {
         final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762");
@@ -241,4 +243,29 @@ public class EntryTestCase extends JUnitCore {
         latch.await();
 
     }
+
+
+
+    @Test
+    public void test_09_getParam() throws InterruptedException {
+        final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762");
+        entry.addParam("include_dimensions", "true");
+        entry.fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+
+                if (error == null) {
+                    latch.countDown();
+                } else {
+                    latch.countDown();
+                }
+
+            }
+        });
+        latch.await();
+
+    }
+
+
+
 }

@@ -315,9 +315,53 @@ public class AssetTestCase extends JUnitCore {
 
 
 
+
+
+
+    @Test
+    public void test_14_StackGetParams() throws InterruptedException {
+        final Object result[] = new Object[2];
+        final Asset asset = stack.asset("blt5312f71416d6e2c8");
+        asset.addParam("key", "some_value");
+
+        asset.fetch(new FetchResultCallback() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+
+                if(error == null){
+
+                    System.out.println( "----------Test--Asset-03--Success---------" + asset.toJSON());
+                    System.out.println( "----------Test--Asset-03--Success---------" + asset.getFileType());
+                    System.out.println( "----------Test--Asset-03--Success---------" + asset.getCreatedBy());
+                    System.out.println( "----------Test--Asset-03--Success---------" + asset.getUpdatedBy());
+                    System.out.println( "----------Test--Asset-03--Success---------" + asset.getFileName());
+                    System.out.println( "----------Test--Asset-03--Success---------" + asset.getFileSize());
+                    System.out.println("-----------Test--Asset-03--Success---------" + asset.getAssetUid());
+                    System.out.println( "----------Test--Asset-03--Success---------" + asset.getUrl());
+                    System.out.println( "----------Test--Asset-03--Success---------" + asset.getCreateAt().getTime());
+                    System.out.println( "----------Test--Asset-03--Success---------" + asset.getUpdateAt().getTime());
+                    result[0] = asset;
+                    latch.countDown();
+                }else {
+
+                    result[0] = error;
+                    System.out.println( "----------Test--Asset--03--Error---------" + error.getErrorMessage());
+                    System.out.println("----------Test--Asset--03--Error---------" + error.getErrorCode());
+                    System.out.println( "----------Test--Asset--03--Error---------" + error.getErrors());
+                    latch.countDown();
+                }
+
+            }
+        });
+
+    }
+
+
     private void printLog( String logMessage){
         System.out.println(logMessage);
     }
+
+
 
 
 }

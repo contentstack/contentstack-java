@@ -1,5 +1,7 @@
 package com.builtio.contentstack;
 
+import org.json.JSONException;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.LinkedHashMap;
@@ -157,8 +159,6 @@ public class Stack {
 
         return imageTransformationUrl;
     }
-
-
 
 
 }

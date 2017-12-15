@@ -5,6 +5,7 @@ import com.builtio.contentstack.Utility.CSAppUtils;
 import com.builtio.contentstack.Utility.CSController;
 import com.builtio.contentstack.Utility.ContentstackUtil;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
 import java.util.*;
@@ -661,7 +662,7 @@ public class Entry {
      * Asset asset = entry.getAsset("key");
      * </pre>
      */
-        public Asset getAsset(String key){
+    public Asset getAsset(String key){
 
         JSONObject assetObject = getJSONObject(key);
         Asset asset = contentTypeInstance.stackInstance.asset().configure(assetObject);
@@ -1137,7 +1138,7 @@ public class Entry {
 
                 fetchFromNetwork(URL, urlQueries, callBack);
 
-                }
+            }
         }catch(Exception e){
             throwException(null, e, callBack);
         }
@@ -1156,6 +1157,10 @@ public class Entry {
             mainJson.put("query", urlQueries);
             mainJson.put("_method", CSAppConstants.RequestMethod.GET.toString());
             HashMap<String, Object> urlParams = getUrlParams(mainJson);
+
+            System.out.println("urlQueries: "+urlQueries);
+            System.out.println("URL: "+URL);
+
             new CSBackgroundTask(this, contentTypeInstance.stackInstance, CSController.FETCHENTRY, URL, getHeader(localHeader), urlParams, new JSONObject(), CSAppConstants.callController.ENTRY.toString(), false, CSAppConstants.RequestMethod.GET, callBack);
 
         }catch(Exception e){
@@ -1268,4 +1273,48 @@ public class Entry {
             return formHeader;
         }
     }
+
+
+    /**
+     * This method adds key and value to an Entry.
+     * @param key The key as string which needs to be added to an Entry
+     * @param value The value as string which needs to be added to an Entry
+     * @return {@link Entry}
+     *
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *    //'blt5d4sample2633b' is a dummy Stack API key
+     *    //'blt6d0240b5sample254090d' is dummy access token.
+     *    {@code
+     *
+     *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *    final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762"); <br>
+          entry.addParam("include_dimensions", "true"); <br>
+     *    entry.fetch(new BuiltResultCallBack() {<br>
+     *           &#64;Override
+     *           public void onCompletion(ResponseType responseType, BuiltError builtError) {
+     *
+     *           }<br>
+     *    });<br>
+     *
+     *      }
+     *   </pre>
+     *
+     *
+     */
+
+    public Entry addParam(String key, String value){
+
+        if(key != null && value != null){
+                try {
+                    otherPostJSON.put(key, value);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+        }
+
+        return this;
+    }
+
+
 }
