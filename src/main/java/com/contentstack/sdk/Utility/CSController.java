@@ -16,4 +16,6 @@ public class CSController {
     public static final String FETCHALLASSETS = "getAllAssets";
 
     public static final String FETCHASSETS = "getAssets";
+
+    public static final String FETCHSYNC = "getSync";
 }

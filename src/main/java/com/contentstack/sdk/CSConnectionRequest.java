@@ -32,6 +32,7 @@ class CSConnectionRequest implements IRequestModelHTTP{
     private Entry entryInstance;
     private Query queryInstance;
     private Asset assetInstance;
+    private Stack stackInstance;
     private JSONObject errorJObject;
     private Error errorObject = new Error() ;
 
@@ -54,6 +55,10 @@ class CSConnectionRequest implements IRequestModelHTTP{
         this.assetInstance = asset;
     }
 
+    public CSConnectionRequest(Stack stack) {
+        this.stackInstance = stack;
+    }
+
     public void setQueryInstance(Query queryInstance) {
         this.queryInstance = queryInstance;
     }
@@ -62,7 +67,9 @@ class CSConnectionRequest implements IRequestModelHTTP{
         this.urlQueries = urlQueries;
     }
 
-
+    public void setStackInstance(Stack stackInstance) {
+        this.stackInstance = stackInstance;
+    }
 
 
     public void setParams(Object... objects){
@@ -228,6 +235,14 @@ class CSConnectionRequest implements IRequestModelHTTP{
             if(request.getCallBackObject() != null){
                 ((FetchResultCallback) request.getCallBackObject()).onRequestFinish(ResponseType.NETWORK);
             }
+        }else if(controller.equalsIgnoreCase(CSController.FETCHSYNC)){
+
+            SyncStack model = new SyncStack();
+            model.setJSON(responseJSON);
+            if(request.getCallBackObject() != null){
+                ((SyncResultCallBack) request.getCallBackObject()).onRequestFinish(model);
+            }
+
         }
     }
 

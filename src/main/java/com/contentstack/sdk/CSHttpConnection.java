@@ -121,13 +121,12 @@ public class CSHttpConnection implements IURLRequestHTTP{
 
             for (Map.Entry<String, Object> e : params.entrySet()) {
 
-                    if (urlParams == null) {
-                        urlParams = "?" + e.getKey() + "=" + e.getValue();
-                    }
-                    //else {
-                       // urlParams += "&" + e.getKey() + "=" + e.getValue();
-                    //}
+                if (urlParams == null) {
+                    urlParams = "?" + e.getKey() + "=" + e.getValue();
+                } else {
+                    urlParams += "&" + e.getKey() + "=" + e.getValue();
                 }
+            }
             return urlParams;
         }
         return null;
@@ -364,7 +363,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
 
             if(connection != null){
 
-               String responseMessage = connection.getResponseMessage();
+                String responseMessage = connection.getResponseMessage();
                 statusCode = connection.getResponseCode();
 
 

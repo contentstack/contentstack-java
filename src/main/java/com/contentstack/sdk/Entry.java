@@ -1158,9 +1158,6 @@ public class Entry {
             mainJson.put("_method", CSAppConstants.RequestMethod.GET.toString());
             HashMap<String, Object> urlParams = getUrlParams(mainJson);
 
-            System.out.println("urlQueries: "+urlQueries);
-            System.out.println("URL: "+URL);
-
             new CSBackgroundTask(this, contentTypeInstance.stackInstance, CSController.FETCHENTRY, URL, getHeader(localHeader), urlParams, new JSONObject(), CSAppConstants.callController.ENTRY.toString(), false, CSAppConstants.RequestMethod.GET, callBack);
 
         }catch(Exception e){

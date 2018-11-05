@@ -11,6 +11,7 @@ public class CSAppConstants {
 
     public static final boolean debug = false;
     public static final String SYNC_STORE_DEFAULT_TIMESTAMP  = "2010-01-01T00:00:00.000Z";;
+    public static final String REQUEST_URL = "";
     public static String URLSCHEMA_HTTP = "http://";
     public static String URLSCHEMA_HTTPS = "https://";
     public static String SDK_VERSION = "1.2.0";
@@ -34,6 +35,7 @@ public class CSAppConstants {
         ENTRY,
         STACK,
         ASSET,
+        SYNC,
         ASSETLIBRARY;
     }
 

@@ -1936,9 +1936,6 @@ public class Query implements INotifyClass{
                 mainJSON.put("query", urlQueries);
                 mainJSON.put("_method", CSAppConstants.RequestMethod.GET.toString());
 
-                System.out.println("urlQueries: "+urlQueries);
-
-                /* Network only request*/
                 fetchFromNetwork(URL, headers, mainJSON, callback, callBack);
 
             }
