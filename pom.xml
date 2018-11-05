@@ -9,7 +9,8 @@
     <version>1.2.0</version>
     <packaging>jar</packaging>
 
-    <name>Contentstack</name>
+
+    <name>contentstack-java</name>
     <description>Java SDK for Contentstack Content Delivery API, Contentstack is a headless CMS with an API-first approach</description>
     <url>http://www.contentstack.com/</url>
 
@@ -81,6 +82,33 @@
             </plugin>
 
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -107,8 +135,8 @@
 
     <developers>
         <developer>
-            <name>Shailesh Mishra</name>
-            <email>shailesh.mishra@contentstack.com</email>
+            <name>contentstack-java</name>
+            <email>mobile@contentstack.com</email>
             <organization>contentstack</organization>
             <organizationUrl>https://www.contentstack.com/</organizationUrl>
         </developer>
