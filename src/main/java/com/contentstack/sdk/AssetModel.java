@@ -61,7 +61,7 @@ class AssetModel {
         if(json != null && json.has("_metadata")){
             JSONObject _metadataJSON  = json.optJSONObject("_metadata");
             Iterator<String> iterator = _metadataJSON.keys();
-            _metadata = new WeakHashMap<>();
+            _metadata = new WeakHashMap<String, Object>();
             while (iterator.hasNext()) {
                 String key = iterator.next();
                 _metadata.put(key, _metadataJSON.optString(key));
