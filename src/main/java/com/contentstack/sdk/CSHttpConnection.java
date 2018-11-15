@@ -117,14 +117,14 @@ public class CSHttpConnection implements IURLRequestHTTP{
         if(params != null && params.size() > 0){
             String urlParams = null;
 
-            urlParams = info.equalsIgnoreCase(CSAppConstants.callController.QUERY.name()) || info.equalsIgnoreCase(CSAppConstants.callController.ENTRY.name()) ? getParams(params) : null;
+            urlParams = info.equalsIgnoreCase(CSAppConstants.callController.QUERY.name()) || info.equalsIgnoreCase(CSAppConstants.callController.SYNC.name()) || info.equalsIgnoreCase(CSAppConstants.callController.ENTRY.name()) ? getParams(params) : null;
 
             for (Map.Entry<String, Object> e : params.entrySet()) {
 
                 if (urlParams == null) {
                     urlParams = "?" + e.getKey() + "=" + e.getValue();
                 } else {
-                    urlParams += "&" + e.getKey() + "=" + e.getValue();
+                    //urlParams += "&" + e.getKey() + "=" + e.getValue();
                 }
             }
             return urlParams;

@@ -12,80 +12,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1d65c82-a56b-412b-98b5-a1ec32f1bd45" name="Default" comment="pom.xml added">
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Contentstack-java.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Contentstack-java.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Asset.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/AssetLibrary$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/AssetLibrary$ORDERBY.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/AssetLibrary.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/AssetModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/AssetsModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/CSBackgroundTask.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/CSConnectionRequest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/CSHttpConnection$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/CSHttpConnection.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Config.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/ContentType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Contentstack.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/ContentstackResultCallback.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/EntriesModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Entry.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/EntryModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/EntryResultCallBack.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Error.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/ErrorType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/FetchAssetsCallback.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/FetchResultCallback.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Group.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/INotifyClass.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/IRequestModelHTTP.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/IURLRequestHTTP.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Language.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/LanguageCode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Query.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/QueryResult.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/QueryResultsCallBack.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/ResponseType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/ResultCallBack.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/SingleQueryResultCallback.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Stack.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/URLConnection.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Utility/CSAppConstants$RequestMethod.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Utility/CSAppConstants$callController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Utility/CSAppConstants.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Utility/CSAppUtils$DateComapareType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Utility/CSAppUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Utility/CSController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Utility/ContentstackUtil$DateComapareType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/com/builtio/contentstack/Utility/ContentstackUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/CDL.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/Cookie.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/CookieList.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/HTTP.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/HTTPTokener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONArray.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONML.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONObject$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONObject$Null.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONObject.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONPointer$Builder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONPointer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONPointerException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONString.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONStringer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONTokener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/JSONWriter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/XML$1$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/XML$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/XML.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Contentstack-java/org/json/XMLTokener.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/profiles.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -99,69 +35,122 @@
     <SUITE FILE_PATH="coverage/contentstack_java$SyncTestCase.ic" NAME="SyncTestCase Coverage Results" MODIFIED="1541235652322" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.contentstack.sdk.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/contentstack_java$com_contentstack_sdk_in_Contentstack_java.ic" NAME="com.contentstack.sdk in Contentstack-java Coverage Results" MODIFIED="1542273384303" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.contentstack.sdk.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/contentstack_java$QueryTestCase_test_35_includeReferenceOnly_fetch.ic" NAME="QueryTestCase.test_35_includeReferenceOnly_fetch Coverage Results" MODIFIED="1542268912593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.contentstack.sdk.*</FILTER>
+    </SUITE>
   </component>
   <component name="ExportTestResults" outputFolder="$USER_HOME$/Desktop/WorkSpace/java-testcases" userTempatePath="" />
   <component name="FUSProjectUsageTrigger">
     <session id="54802006">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="10" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="2" />
+          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.5" value="2" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.open.time.9" value="1" />
+          <entry key="project.opened" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="LICENSE" value="2" />
-          <entry key="class" value="1" />
+          <entry key="LICENSE" value="3" />
+          <entry key="class" value="8" />
           <entry key="html" value="2" />
-          <entry key="iml" value="5" />
-          <entry key="java" value="78" />
+          <entry key="iml" value="7" />
+          <entry key="java" value="124" />
           <entry key="md" value="3" />
           <entry key="package-list" value="1" />
-          <entry key="xml" value="10" />
+          <entry key="xml" value="21" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CLASS" value="1" />
+          <entry key="CLASS" value="8" />
           <entry key="HTML" value="2" />
-          <entry key="IDEA_MODULE" value="5" />
-          <entry key="JAVA" value="78" />
-          <entry key="PLAIN_TEXT" value="6" />
-          <entry key="XML" value="10" />
+          <entry key="IDEA_MODULE" value="7" />
+          <entry key="JAVA" value="124" />
+          <entry key="PLAIN_TEXT" value="7" />
+          <entry key="XML" value="21" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="iml" value="2" />
-          <entry key="java" value="462" />
+          <entry key="java" value="1082" />
           <entry key="md" value="26" />
           <entry key="txt" value="90" />
-          <entry key="xml" value="123" />
+          <entry key="xml" value="524" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="IDEA_MODULE" value="2" />
-          <entry key="JAVA" value="462" />
+          <entry key="JAVA" value="1082" />
           <entry key="PLAIN_TEXT" value="116" />
-          <entry key="XML" value="123" />
+          <entry key="XML" value="524" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="259" column="22" selection-start-line="259" selection-start-column="22" selection-end-line="259" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="185">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
+              <folding>
+                <element signature="e#664#1384#0" expanded="true" />
+                <element signature="e#1383#1384#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+              <folding>
+                <element signature="e#958#1603#0" expanded="true" />
+                <element signature="e#1602#1603#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>setIncludeJSON</find>
       <find>onRequestFinished</find>
       <find>mainJSON</find>
+      <find>org.apache.maven.plugins</find>
+      <find>formParams</find>
+      <find>formName</find>
+      <find>latch.countDown();</find>
+      <find>latch.await();</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -191,9 +180,7 @@
         <option value="$PROJECT_DIR$/contentstack-java.iml" />
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntriesModel.java" />
         <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/AssetTestCase.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java" />
         <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/ImageTransformTestcase.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/SyncStack.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSAppConstants.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSController.java" />
@@ -202,13 +189,15 @@
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Stack.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSBackgroundTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSConnectionRequest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java" />
         <option value="$PROJECT_DIR$/profiles.xml" />
         <option value="$USER_HOME$/.m2/settings.xml" />
-        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java" />
       </list>
     </option>
   </component>
@@ -251,7 +240,19 @@
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
           <item name="contentstack-java" type="9519ce18:MavenProjectsStructure$ProjectNode" />
           <item name="Plugins" type="7aea1407:MavenProjectsStructure$PluginsNode" />
+          <item name="compiler" type="36feed69:MavenProjectsStructure$PluginNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="contentstack-java" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Plugins" type="7aea1407:MavenProjectsStructure$PluginsNode" />
           <item name="deploy" type="36feed69:MavenProjectsStructure$PluginNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="contentstack-java" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Plugins" type="7aea1407:MavenProjectsStructure$PluginsNode" />
+          <item name="install" type="36feed69:MavenProjectsStructure$PluginNode" />
         </path>
       </expand>
       <select />
@@ -264,10 +265,9 @@
     <scope name="include_dimension" pattern="src:com.builtio.contentstack.Utility.ContentstackUtil||src:com.builtio.contentstack.Utility.CSAppUtils||src:com.builtio.contentstack.Asset||src:com.builtio.contentstack.AssetLibrary||src:com.builtio.contentstack.Config||src:com.builtio.contentstack.Contentstack||src:com.builtio.contentstack.ContentType||src:com.builtio.contentstack.Entry||src:com.builtio.contentstack.Error||src:com.builtio.contentstack.Group||src:com.builtio.contentstack.Language||src:com.builtio.contentstack.Query||src:com.builtio.contentstack.QueryResult||src:com.builtio.contentstack.Stack" />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="55" />
-    <option name="y" value="25" />
+    <option name="y" value="23" />
     <option name="width" value="1280" />
-    <option name="height" value="714" />
+    <option name="height" value="716" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -277,6 +277,17 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="contentstack-java" type="58d84e3e:PackageViewProjectNode" />
+              <item name="Contentstack-java" type="616d4139:PackageViewModuleNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -288,19 +299,6 @@
               <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
               <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
-              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
-              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
@@ -328,7 +326,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -339,7 +336,8 @@
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="contentstack-java" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541437363883" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/shaileshmishra/Documents/workspace/Contentstack-Java/development/contentstack-java/src/main/java/com/contentstack/sdk/CSHttpConnection.java" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542274808321" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -386,33 +384,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in Contentstack-java" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Contentstack-java" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AssetTestCase.test_12_StackGetParams" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="QueryTestCase.test_10_fetchEntryLessThanEqualField" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Contentstack-java" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value=".*" />
+          <option name="PATTERN" value="com.contentstack.sdk.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="AssetTestCase" />
-      <option name="METHOD_NAME" value="test_12_StackGetParams" />
+      <option name="PACKAGE_NAME" value="com.contentstack.sdk" />
+      <option name="MAIN_CLASS_NAME" value="com.contentstack.sdk.QueryTestCase" />
+      <option name="METHOD_NAME" value="test_10_fetchEntryLessThanEqualField" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SyncTestCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="QueryTestCase.test_33_language" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Contentstack-java" />
       <extension name="coverage">
         <pattern>
@@ -421,13 +410,15 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.contentstack.sdk" />
-      <option name="MAIN_CLASS_NAME" value="com.contentstack.sdk.SyncTestCase" />
+      <option name="MAIN_CLASS_NAME" value="com.contentstack.sdk.QueryTestCase" />
+      <option name="METHOD_NAME" value="test_33_language" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SyncTestCase.test00_SyncInit" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SyncTestCase.testSyncInit" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Contentstack-java" />
       <extension name="coverage">
         <pattern>
@@ -437,7 +428,24 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.contentstack.sdk" />
       <option name="MAIN_CLASS_NAME" value="com.contentstack.sdk.SyncTestCase" />
-      <option name="METHOD_NAME" value="test00_SyncInit" />
+      <option name="METHOD_NAME" value="testSyncInit" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TicketsTestcase.TicketONE" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Contentstack-java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.contentstack.sdk.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.contentstack.sdk" />
+      <option name="MAIN_CLASS_NAME" value="com.contentstack.sdk.TicketsTestcase" />
+      <option name="METHOD_NAME" value="TicketONE" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
@@ -499,19 +507,19 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.testcases.builtio.contentstack in Contentstack-java" />
-      <item itemvalue="JUnit.AssetTestCase.test_12_StackGetParams" />
-      <item itemvalue="JUnit.All in Contentstack-java" />
+      <item itemvalue="JUnit.TicketsTestcase.TicketONE" />
+      <item itemvalue="JUnit.QueryTestCase.test_33_language" />
+      <item itemvalue="JUnit.QueryTestCase.test_10_fetchEntryLessThanEqualField" />
+      <item itemvalue="JUnit.SyncTestCase.testSyncInit" />
       <item itemvalue="JUnit.com.contentstack.sdk in Contentstack-java" />
-      <item itemvalue="JUnit.SyncTestCase" />
-      <item itemvalue="JUnit.SyncTestCase.test00_SyncInit" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.com.contentstack.sdk in Contentstack-java" />
-        <item itemvalue="JUnit.SyncTestCase" />
-        <item itemvalue="JUnit.SyncTestCase.test00_SyncInit" />
-        <item itemvalue="JUnit.All in Contentstack-java" />
-        <item itemvalue="JUnit.AssetTestCase.test_12_StackGetParams" />
+        <item itemvalue="JUnit.TicketsTestcase.TicketONE" />
+        <item itemvalue="JUnit.SyncTestCase.testSyncInit" />
+        <item itemvalue="JUnit.QueryTestCase.test_10_fetchEntryLessThanEqualField" />
+        <item itemvalue="JUnit.QueryTestCase.test_33_language" />
       </list>
     </recent_temporary>
   </component>
@@ -561,63 +569,80 @@
       <option name="project" value="LOCAL" />
       <updated>1541402710913</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="pom.xml added">
+      <created>1541437704339</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1541437704339</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="SyncTestCase_test00_SyncInit - 2018.11.03 at 15h 11m 48s.xml">
-      <configuration name="SyncTestCase.test00_SyncInit" configurationId="JUnit" />
+    <history-entry file="QueryTestCase_test_33_language - 2018.11.15 at 14h 54m 49s.xml">
+      <configuration name="QueryTestCase.test_33_language" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SyncTestCase_test00_SyncInit - 2018.11.03 at 15h 18m 17s.xml">
-      <configuration name="SyncTestCase.test00_SyncInit" configurationId="JUnit" />
+    <history-entry file="QueryTestCase_test_10_fetchEntryLessThanEqualField - 2018.11.15 at 14h 58m 34s.xml">
+      <configuration name="QueryTestCase.test_10_fetchEntryLessThanEqualField" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SyncTestCase - 2018.11.03 at 15h 19m 43s.xml">
-      <configuration name="SyncTestCase" configurationId="JUnit" />
+    <history-entry file="QueryTestCase_test_10_fetchEntryLessThanEqualField - 2018.11.15 at 14h 58m 47s.xml">
+      <configuration name="QueryTestCase.test_10_fetchEntryLessThanEqualField" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SyncTestCase - 2018.11.03 at 15h 20m 54s.xml">
-      <configuration name="SyncTestCase" configurationId="JUnit" />
+    <history-entry file="QueryTestCase_test_10_fetchEntryLessThanEqualField - 2018.11.15 at 14h 59m 29s.xml">
+      <configuration name="QueryTestCase.test_10_fetchEntryLessThanEqualField" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SyncTestCase - 2018.11.03 at 15h 21m 30s.xml">
-      <configuration name="SyncTestCase" configurationId="JUnit" />
+    <history-entry file="TicketsTestcase_TicketONE - 2018.11.15 at 14h 59m 52s.xml">
+      <configuration name="TicketsTestcase.TicketONE" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SyncTestCase - 2018.11.03 at 15h 23m 23s.xml">
-      <configuration name="SyncTestCase" configurationId="JUnit" />
+    <history-entry file="QueryTestCase_test_10_fetchEntryLessThanEqualField - 2018.11.15 at 15h 01m 38s.xml">
+      <configuration name="QueryTestCase.test_10_fetchEntryLessThanEqualField" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SyncTestCase - 2018.11.03 at 15h 28m 48s.xml">
-      <configuration name="SyncTestCase" configurationId="JUnit" />
+    <history-entry file="SyncTestCase_testSyncInit - 2018.11.15 at 15h 04m 52s.xml">
+      <configuration name="SyncTestCase.testSyncInit" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.03 at 15h 31m 17s.xml">
-      <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
+    <history-entry file="SyncTestCase_testSyncInit - 2018.11.15 at 15h 05m 44s.xml">
+      <configuration name="SyncTestCase.testSyncInit" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.05 at 10h 55m 15s.xml">
-      <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
+    <history-entry file="SyncTestCase_testSyncInit - 2018.11.15 at 15h 08m 22s.xml">
+      <configuration name="SyncTestCase.testSyncInit" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.05 at 12h 54m 05s.xml">
-      <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
+    <history-entry file="TicketsTestcase_TicketONE - 2018.11.15 at 15h 09m 03s.xml">
+      <configuration name="TicketsTestcase.TicketONE" configurationId="JUnit" />
     </history-entry>
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27022654" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25809062" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Thumbnails" weight="0.32921812" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.66941017" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.45404664" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39917696" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32784638" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32886904" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32921812" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.3251029" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32905295" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49919093" weight="0.66941017" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5008091" side_tool="true" weight="0.3251029" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32905295" />
+      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49919093" weight="0.3251029" />
+      <window_info anchor="bottom" id="Thumbnails" order="11" weight="0.32744783" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -667,49 +692,62 @@
     <MESSAGE value="pom.xml added" />
     <option name="LAST_COMMIT_MESSAGE" value="pom.xml added" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java</url>
+          <line>30</line>
+          <properties />
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>syncStack.getItems().toArray()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>syncStack.getItems()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>syncStack</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>queryresult.getResultObjects()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>queryresult.getResultObjects().forEach(entry -&gt; entry.get(&quot;price&quot;))</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>queryresult.getResultObjects().forEach(entry -&gt; entry.get(&quot;price&quot;));</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>query.</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Language.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/IURLRequestHTTP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/INotifyClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/FetchResultCallback.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/FetchAssetsCallback.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ErrorType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntryModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-664">
@@ -728,13 +766,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="256">
           <caret line="16" column="29" lean-forward="true" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetLibrary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -791,29 +822,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
           <caret line="12" column="24" lean-forward="true" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="18" column="15" lean-forward="true" selection-start-line="18" selection-start-column="15" selection-end-line="18" selection-end-column="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/ImageTransformTestcase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -821,9 +829,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
           <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -838,9 +843,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="docComment;class#SyncResultCallBack#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -858,44 +860,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSBackgroundTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="104" column="29" selection-start-line="104" selection-start-column="29" selection-end-line="104" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSConnectionRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="113" column="22" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Entry.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="482">
           <caret line="1165" column="5" lean-forward="true" selection-start-line="1165" selection-start-column="5" selection-end-line="1165" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-102">
-          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
         </state>
       </provider>
     </entry>
@@ -915,54 +883,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/target/classes/com/contentstack/sdk/Stack.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5856">
-          <caret line="383" column="9" lean-forward="true" selection-start-line="383" selection-start-column="9" selection-end-line="383" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#12760#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.m2/settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/profiles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/javadoc-bundle-options/package-list">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2723" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/javadoc-bundle-options/javadoc-options-javadoc-resources.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/site/apidocs/index.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/site/apidocs/com/contentstack/sdk/AssetLibrary.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3">
-          <caret line="595" column="85" selection-start-line="595" selection-start-column="85" selection-end-line="595" selection-end-column="85" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/target/classes/com/contentstack/sdk/Stack.class" />
+    <entry file="file://$PROJECT_DIR$/target/javadoc-bundle-options/package-list" />
+    <entry file="file://$PROJECT_DIR$/target/javadoc-bundle-options/javadoc-options-javadoc-resources.xml" />
+    <entry file="file://$PROJECT_DIR$/target/site/apidocs/index.html" />
+    <entry file="file://$PROJECT_DIR$/target/site/apidocs/com/contentstack/sdk/AssetLibrary.html" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
@@ -970,48 +895,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Stack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="174" column="19" selection-start-line="174" selection-start-column="19" selection-end-line="174" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Query.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="46" column="52" selection-start-line="46" selection-start-column="52" selection-end-line="46" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/SyncStack.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="55" column="54" selection-start-line="55" selection-start-column="54" selection-end-line="55" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="221" column="66" selection-start-line="221" selection-start-column="66" selection-end-line="221" selection-end-column="66" />
-          <folding>
-            <element signature="e#1497#1498#0" expanded="true" />
-            <element signature="e#1535#1536#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="2304">
+          <caret line="144" lean-forward="true" selection-start-line="144" selection-end-line="144" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="36" column="46" lean-forward="true" selection-start-line="36" selection-start-column="46" selection-end-line="36" selection-end-column="46" />
+        <state relative-caret-position="336">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
@@ -1022,17 +923,164 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
+    <entry file="file://$PROJECT_DIR$/profiles.xml" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetLibrary.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="19" column="19" lean-forward="true" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
+        <state relative-caret-position="-1948">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/Assert.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2304">
-          <caret line="144" lean-forward="true" selection-start-line="144" selection-end-line="144" />
+        <state relative-caret-position="432">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/runners/BlockJUnit4ClassRunner.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/runners/ParentRunner.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="240" selection-start-line="240" selection-end-line="240" />
+          <folding>
+            <element signature="e#2111#2112#0" expanded="true" />
+            <element signature="e#2155#2156#0" expanded="true" />
+            <element signature="e#5951#6086#0" expanded="true" />
+            <element signature="e#6085#6086#0" expanded="true" />
+            <element signature="e#6484#6648#0" expanded="true" />
+            <element signature="e#6647#6648#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/runner/JUnitCore.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="76" selection-start-line="76" selection-end-line="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.m2/settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="159" column="16" selection-start-line="159" selection-start-column="16" selection-end-line="159" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Stack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="222" selection-start-line="222" selection-end-line="222" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/QueryResultsCallBack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <element signature="e#528#529#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1566">
+          <caret line="196" column="38" lean-forward="true" selection-start-line="196" selection-start-column="38" selection-end-line="196" selection-end-column="38" />
+          <folding>
+            <element signature="e#5787#6099#0" expanded="true" />
+            <element signature="e#6098#6099#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/ImageTransformTestcase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Query.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="1638" column="17" selection-start-line="1638" selection-start-column="17" selection-end-line="1638" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="328" column="45" lean-forward="true" selection-start-line="328" selection-start-column="45" selection-end-line="328" selection-end-column="45" />
+          <folding>
+            <element signature="e#42684#42685#0" expanded="true" />
+            <element signature="e#42730#42731#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+          <folding>
+            <element signature="e#958#1603#0" expanded="true" />
+            <element signature="e#1602#1603#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSConnectionRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="113" selection-start-line="113" selection-end-line="113" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSBackgroundTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="65">
+          <caret line="20" column="79" lean-forward="true" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="259" column="22" selection-start-line="259" selection-start-column="22" selection-end-line="259" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+          <folding>
+            <element signature="e#664#1384#0" expanded="true" />
+            <element signature="e#1383#1384#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
