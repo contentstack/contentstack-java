@@ -11,17 +11,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d65c82-a56b-412b-98b5-a1ec32f1bd45" name="Default" comment="pom.xml added">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="f1d65c82-a56b-412b-98b5-a1ec32f1bd45" name="Default" comment="testcase refactored">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Contentstack-java.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Contentstack-java.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -69,7 +61,7 @@
           <entry key="java" value="124" />
           <entry key="md" value="3" />
           <entry key="package-list" value="1" />
-          <entry key="xml" value="21" />
+          <entry key="xml" value="25" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -79,24 +71,24 @@
           <entry key="IDEA_MODULE" value="7" />
           <entry key="JAVA" value="124" />
           <entry key="PLAIN_TEXT" value="7" />
-          <entry key="XML" value="21" />
+          <entry key="XML" value="25" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="iml" value="2" />
-          <entry key="java" value="1082" />
+          <entry key="java" value="1083" />
           <entry key="md" value="26" />
-          <entry key="txt" value="90" />
-          <entry key="xml" value="524" />
+          <entry key="txt" value="118" />
+          <entry key="xml" value="526" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="IDEA_MODULE" value="2" />
-          <entry key="JAVA" value="1082" />
-          <entry key="PLAIN_TEXT" value="116" />
-          <entry key="XML" value="524" />
+          <entry key="JAVA" value="1083" />
+          <entry key="PLAIN_TEXT" value="144" />
+          <entry key="XML" value="526" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -105,36 +97,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="259" column="22" selection-start-line="259" selection-start-column="22" selection-end-line="259" selection-end-column="22" />
+            <state relative-caret-position="225">
+              <caret line="154" column="39" selection-start-line="154" selection-start-column="34" selection-end-line="154" selection-end-column="39" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java">
+        <entry file="file://$USER_HOME$/.m2/settings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
-              <folding>
-                <element signature="e#664#1384#0" expanded="true" />
-                <element signature="e#1383#1384#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
-              <folding>
-                <element signature="e#958#1603#0" expanded="true" />
-                <element signature="e#1602#1603#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="519">
+              <caret line="34" column="29" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -191,13 +166,13 @@
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSConnectionRequest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java" />
         <option value="$PROJECT_DIR$/profiles.xml" />
-        <option value="$USER_HOME$/.m2/settings.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java" />
         <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java" />
         <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java" />
+        <option value="$USER_HOME$/.m2/settings.xml" />
       </list>
     </option>
   </component>
@@ -295,32 +270,6 @@
               <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
               <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
-              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
-              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
-              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
-              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com.contentstack.sdk" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -337,7 +286,7 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/shaileshmishra/Documents/workspace/Contentstack-Java/development/contentstack-java/src/main/java/com/contentstack/sdk/CSHttpConnection.java" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542274808321" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542276750825" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -576,16 +525,17 @@
       <option name="project" value="LOCAL" />
       <updated>1541437704339</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="testcase refactored">
+      <created>1542274946988</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1542274946988</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="QueryTestCase_test_33_language - 2018.11.15 at 14h 54m 49s.xml">
-      <configuration name="QueryTestCase.test_33_language" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="QueryTestCase_test_10_fetchEntryLessThanEqualField - 2018.11.15 at 14h 58m 34s.xml">
-      <configuration name="QueryTestCase.test_10_fetchEntryLessThanEqualField" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="QueryTestCase_test_10_fetchEntryLessThanEqualField - 2018.11.15 at 14h 58m 47s.xml">
       <configuration name="QueryTestCase.test_10_fetchEntryLessThanEqualField" configurationId="JUnit" />
     </history-entry>
@@ -610,6 +560,12 @@
     <history-entry file="TicketsTestcase_TicketONE - 2018.11.15 at 15h 09m 03s.xml">
       <configuration name="TicketsTestcase.TicketONE" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="TicketsTestcase_TicketONE - 2018.11.15 at 15h 09m 21s.xml">
+      <configuration name="TicketsTestcase.TicketONE" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.15 at 15h 11m 18s.xml">
+      <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -633,12 +589,12 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.45404664" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.45404664" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39917696" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32905295" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49919093" weight="0.66941017" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49919093" weight="0.48285323" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5008091" side_tool="true" weight="0.3251029" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32905295" />
       <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49919093" weight="0.3251029" />
@@ -690,19 +646,8 @@
     <MESSAGE value="'Read me changes'" />
     <MESSAGE value="package renamed to 'com.contentstack.sdk'" />
     <MESSAGE value="pom.xml added" />
-    <option name="LAST_COMMIT_MESSAGE" value="pom.xml added" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java</url>
-          <line>30</line>
-          <properties />
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="testcase refactored" />
+    <option name="LAST_COMMIT_MESSAGE" value="testcase refactored" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -967,20 +912,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.m2/settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="159" column="16" selection-start-line="159" selection-start-column="16" selection-end-line="159" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Stack.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="129">
@@ -1041,17 +972,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
-          <folding>
-            <element signature="e#958#1603#0" expanded="true" />
-            <element signature="e#1602#1603#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSConnectionRequest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -1068,19 +988,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="259" column="22" selection-start-line="259" selection-start-column="22" selection-end-line="259" selection-end-column="22" />
+        <state relative-caret-position="2569">
+          <caret line="259" column="7" lean-forward="true" selection-start-line="259" selection-start-column="7" selection-end-line="259" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="256">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
           <folding>
             <element signature="e#664#1384#0" expanded="true" />
             <element signature="e#1383#1384#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="11" column="26" lean-forward="true" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
+          <folding>
+            <element signature="e#958#1603#0" expanded="true" />
+            <element signature="e#1602#1603#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="154" column="39" selection-start-line="154" selection-start-column="34" selection-end-line="154" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.m2/settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="519">
+          <caret line="34" column="29" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
         </state>
       </provider>
     </entry>
