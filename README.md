@@ -9,7 +9,7 @@ Contentstack provides Java SDK to build application on top of Java. Given below 
 
 ### Prerequisite
 
-You will need JDK installed on your machine. You can install it from [here] (http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html).
+You will need JDK installed on your machine. You can install it from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html).
 
 ### Setup and Installation
 
