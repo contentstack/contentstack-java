@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * To retrieve information related to network call failure.
  *
- *  * @author  built.io. Inc
+ *  * @author  Contentstack.com
  */
 public class Error {
 

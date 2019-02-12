@@ -6,7 +6,7 @@ package com.contentstack.sdk;
  * In following categories.
  * Network, Cache.
  *
- * @author  built.io, Inc
+ * @author  Contentstack.com
  */
 public enum ResponseType {
 

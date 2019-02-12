@@ -11,7 +11,7 @@ import java.util.*;
 
 /**
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 public class CSHttpConnection implements IURLRequestHTTP{

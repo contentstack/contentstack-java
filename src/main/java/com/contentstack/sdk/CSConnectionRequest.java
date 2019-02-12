@@ -9,7 +9,7 @@ import java.util.*;
 
 /**
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 class CSConnectionRequest implements IRequestModelHTTP{

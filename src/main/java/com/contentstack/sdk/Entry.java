@@ -10,9 +10,9 @@ import org.json.JSONObject;
 
 import java.util.*;
 
-/*** Entry is used to create, update and delete contentType&#39;s entries on the Built.io Content stack.
+/*** Entry is used to create, update and delete contentType&#39;s entries on the Contentstack.com Content stack.
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 public class Entry {
@@ -1092,7 +1092,7 @@ public class Entry {
     }
 
     /**
-     * Fetches the latest version of the entries from Built.io content stack
+     * Fetches the latest version of the entries from Contentstack.com content stack
      *
      * @param callBack
      * {@link EntryResultCallBack} object to notify the application when the request has completed.

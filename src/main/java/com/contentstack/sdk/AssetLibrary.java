@@ -11,7 +11,7 @@ import java.util.*;
 /**
  *  AssetLibrary class to fetch all files details on Conentstack server.
  *
- *  @author  built.io. Inc
+ *  @author  Contentstack.com
  *
  */
 public class AssetLibrary implements INotifyClass{
@@ -27,7 +27,7 @@ public class AssetLibrary implements INotifyClass{
 
     /**
      * Sorting order enum for {@link AssetLibrary}.
-     * @author built.io, Inc
+     * @author Contentstack.com, Inc
      */
 
     public enum ORDERBY
@@ -47,7 +47,7 @@ public class AssetLibrary implements INotifyClass{
     }
 
     /**
-     * To set headers for Built.io Contentstack rest calls.
+     * To set headers for Contentstack rest calls.
      * <br>
      * Scope is limited to this object only.
      * @param key

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Created by shailesh on 5/7/17.
+ * Created by Contentstack.com on 5/7/17.
  */
 public class CSAppUtils {
 
@@ -26,15 +26,11 @@ public class CSAppUtils {
 
     /**
      * To check if required response within given time window available in cache
-     *
-     * @param file
-     * 				cache file.
-     * @param time
-     * 				time
-     *
-     * @return
-     * 			true if cache data available which satisfy given time condition.
+     * @param file cache file.
+     * @param time time
+     * @return true if cache data available which satisfy given time condition.
      */
+
     public boolean getResponseTimeFromCacheFile(File file, long time) {
         try{
             JSONObject jsonObj = getJsonFromCacheFile(file);
@@ -64,18 +60,17 @@ public class CSAppUtils {
             }
 
         }catch(Exception e) {
-            showLog("appUtils", "------------getJsonFromFilec catch-|" + e.toString());
+            e.printStackTrace();
             return false;
         }
     }
 
+
     /**
      * To retrieve data from cache.
      *
-     * @param file
-     * 				cache file.
-     * @return
-     * 				cache data in JSON.
+     * @param file cache file.
+     * @return cache data in JSON.
      */
     public static JSONObject getJsonFromCacheFile(File file) {
 
@@ -96,21 +91,20 @@ public class CSAppUtils {
             buffer.close();
             input.close();
             return json;
+
         }catch (Exception e) {
-            showLog("appUtils", "------------getJsonFromFilec catch-|" + e.toString());
+            e.printStackTrace();
             return null;
         }
     }
 
     /**
      * To encrypt given value.
+     * @param value string
+     * @return MD5 value
      *
-     * @param value
-     * 				string
-     *
-     * @return
-     * 			MD5 value
      */
+
     public String getMD5FromString(String value) {
         String output;
         output = value.toString().trim();
@@ -136,7 +130,7 @@ public class CSAppUtils {
                 return hexString.toString();
 
             } catch (Exception e) {
-                showLog("appUtils", "------------getMD5FromString catch-|" + e.toString());
+                e.printStackTrace();
                 return null;
             }
         }else{
@@ -148,12 +142,8 @@ public class CSAppUtils {
 
     /**
      * Converts the given date to user&#39;s timezone.
-     *
-     * @param date
-     * 				date in ISO format.
-     * @return
-     * 				{@link Calendar} object.
-     *
+     * @param date date in ISO format.
+     * @return {@link Calendar} object.
      * @throws ParseException
      *
      * <br><br><b>Example :</b><br>
@@ -187,18 +177,12 @@ public class CSAppUtils {
         return null;
     }
 
+
     /**
      * Converts the given date to the user&#39;s timezone.
-     *
-     * @param date
-     * 				date in string format.
-     *
-     * @param dateFormat
-     * 				 date format.
-     *
-     * @return
-     * 				{@link Calendar} object.
-     *
+     * @param date date in string format.
+     * @param dateFormat date format.
+     * @return {@link Calendar} object.
      * @throws ParseException
      *
      * <br><br><b>Example :</b><br>
@@ -245,15 +229,12 @@ public class CSAppUtils {
         return cal;
     }
 
+
     /**
      * Type to compare dates.
-     *
-     * @author built.io. Inc
-     *
+     * @author Contentstack.com
      */
     public static enum DateComapareType{
-
         WEEK, DAY, HOURS, MINUTES, SECONDS
-
     };
 }

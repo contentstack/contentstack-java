@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 class EntryModel {

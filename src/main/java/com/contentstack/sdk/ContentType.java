@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * BuiltClass provides {@link Entry} and {@link Query} instance.<br>
  *
- * @author  built.io, Inc
+ * @author  Contentstack.com
  */
 public class ContentType {
 

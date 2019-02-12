@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * To notify class which initiate network call when network call complete.
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 public interface INotifyClass {

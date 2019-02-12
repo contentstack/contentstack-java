@@ -5,7 +5,7 @@ import com.contentstack.sdk.Utility.CSAppConstants;
 /**
  * Set Configuration for stack instance creation.
  *
- * @author  built.io. Inc
+ * @author  Contentstack.com
  *
  */
 public class Config {
@@ -31,7 +31,7 @@ public class Config {
     public Config(){}
 
     /**
-     * Sets host name of the Built.io Contentstack server.
+     * Sets host name of the Contentstack.com Contentstack server.
      *
      * @param hostName
      * host name.
@@ -121,7 +121,7 @@ public class Config {
 
     public boolean isSSL(){ return URLSCHEMA.equalsIgnoreCase(CSAppConstants.URLSCHEMA_HTTPS) ? true : false; }
     /**
-     * Get version of the Built.io Contentstack server.
+     * Get version of the Contentstack server.
      *
      * @return String @VERSION
      *
@@ -137,7 +137,7 @@ public class Config {
 
 
     /**
-     * Changes the Built.io Contentstack version to be used in the final URL.
+     * Changes the Contentstack version to be used in the final URL.
      *
      * @param version
      *                  version string.

@@ -14,7 +14,7 @@ import java.util.List;
 /***
  * Group class is represent group field uid value.
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 public class Group {

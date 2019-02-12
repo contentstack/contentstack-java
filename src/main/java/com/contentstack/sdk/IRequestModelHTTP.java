@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 /**
  * 
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 public interface IRequestModelHTTP {

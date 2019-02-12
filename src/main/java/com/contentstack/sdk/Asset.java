@@ -11,7 +11,7 @@ import java.util.*;
 
 /**
  * Asset class to fetch files details on Conentstack server.
- * @author  built.io. Inc
+ * @author  Contentstack.com
  */
 
 public class Asset {
@@ -62,11 +62,11 @@ public class Asset {
      * <br><br><b>Example :</b><br>
      * <br>1. Single Attachment :-<br>
      * <pre class="prettyprint linenums:1">
-     *    //'blt5d4sample2633b' is a dummy Application API key
-     *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config);
+     *  //'blt5d4sample2633b' is a dummy Application API key
+     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config);
      *
-     *    Asset assetObject = stack.asset("assetUid");<br>
-     *    assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));</pre>
+     *  Asset assetObject = stack.asset("assetUid");<br>
+     *  assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));</pre>
      *
      * <br>2. Multiple Attachment :-<br>
      *
@@ -108,7 +108,7 @@ public class Asset {
     }
 
     /**
-     * To set headers for Built.io Contentstack rest calls.
+     * To set headers for Contentstack rest calls.
      * <br>
      * Scope is limited to this object only.
      * @param key
@@ -165,7 +165,7 @@ public class Asset {
 
 
     /**
-     * To set uid of media file which is uploaded on Built.io Contentstack server.
+     * To set uid of media file which is uploaded on Contentstack server.
      * @param assetUid
      * upload uid.
      *
@@ -250,8 +250,8 @@ public class Asset {
 
 
     /**
-     * @return String @uploadUrl by which you can download media file uploaded on Built.io Contentstack server.
-     * You will get uploaded url after uploading media file on Built.io Contentstack server.
+     * @return String @uploadUrl by which you can download media file uploaded on Contentstack server.
+     * You will get uploaded url after uploading media file on Contentstack server.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">

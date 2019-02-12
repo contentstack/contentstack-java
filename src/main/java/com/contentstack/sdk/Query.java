@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * A class that defines a query that is used to query for {@link Entry} instance.
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 public class Query implements INotifyClass{

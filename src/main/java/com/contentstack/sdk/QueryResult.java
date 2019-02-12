@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Helper class for parsing the result of {@link Entry}
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 public class QueryResult {

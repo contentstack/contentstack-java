@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * To FetchAssetsCallback response
  *
- * @author  built.io, Inc
+ * @author  Contentstack.com
  */
 
 public abstract class FetchAssetsCallback extends ResultCallBack{

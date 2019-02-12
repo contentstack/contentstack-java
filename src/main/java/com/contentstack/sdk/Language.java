@@ -4,7 +4,7 @@ package com.contentstack.sdk;
  * Helper enum for pass language.
  * Differentiated using languages and countries.
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 public enum Language {

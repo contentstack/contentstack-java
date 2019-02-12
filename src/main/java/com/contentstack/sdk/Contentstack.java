@@ -3,7 +3,7 @@ package com.contentstack.sdk;
 import com.contentstack.sdk.Utility.CSAppConstants;
 
 /**
- *  @author  built.io. Inc
+ *  @author  Contentstack.com
  */
 public class Contentstack {
 
@@ -15,12 +15,12 @@ public class Contentstack {
     /**
      *
      * Authenticates the stack api key of your stack.
-     * This must be called before your stack uses Built.io Contentstack sdk.
+     * This must be called before your stack uses Contentstack sdk.
      * <br>
      * You can find your stack api key from web.
      *
      * @param stackApiKey
-     * application api Key of your application on Built.io Contentstack.
+     * application api Key of your application on Contentstack.
      *
      * @param accessToken
      * access token
@@ -68,12 +68,12 @@ public class Contentstack {
     /**
      *
      * Authenticates the stack api key of your stack.
-     * This must be called before your stack uses Built.io Contentstack sdk.
+     * This must be called before your stack uses  Contentstack sdk.
      * <br>
      * You can find your stack api key from web.
      *
      * @param stackApiKey
-     * application api Key of your application on Built.io Contentstack.
+     * application api Key of your application on  Contentstack.
      *
      * @param accessToken
      * access token
@@ -127,12 +127,12 @@ public class Contentstack {
     /**
      *
      * Initialise the stack api key of your stack.
-     * This must be called to initialise Built.io Contentstack sdk.
+     * This must be called to initialise  Contentstack sdk.
      * <br>
      * You can find your stack api key from web.
      *
      * @param stackApiKey
-     * application api Key of your application on Built.io Contentstack.
+     * application api Key of your application on  Contentstack.
      *
      * @param accessToken
      * access token

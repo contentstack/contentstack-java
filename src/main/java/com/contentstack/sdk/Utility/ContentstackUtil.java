@@ -12,7 +12,7 @@ import java.util.TimeZone;
  * Helper class of utilities.
  *
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 public class ContentstackUtil {

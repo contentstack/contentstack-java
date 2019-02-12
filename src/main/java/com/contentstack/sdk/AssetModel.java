@@ -8,7 +8,7 @@ import java.util.WeakHashMap;
 /**
  *  AssetLibrary class to fetch all files details on Conentstack server.
  *
- *  @author  built.io. Inc
+ *  @author  Contentstack.com
  *
  */
 class AssetModel {

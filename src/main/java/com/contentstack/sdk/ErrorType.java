@@ -3,7 +3,7 @@ package com.contentstack.sdk;
 /**
  * To retrieve information of Error Type.
  *
- * @author  built.io, Inc
+ * @author  Contentstack.com
  */
 public class ErrorType {
 

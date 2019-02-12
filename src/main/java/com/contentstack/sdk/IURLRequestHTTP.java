@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 /**
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 public interface IURLRequestHTTP {

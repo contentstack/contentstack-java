@@ -11,15 +11,47 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d65c82-a56b-412b-98b5-a1ec32f1bd45" name="Default" comment="&#10;pom.xml included">
+    <list default="true" id="f1d65c82-a56b-412b-98b5-a1ec32f1bd45" name="Default" comment="pom.xml included">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Contentstack-java.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Contentstack-java.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Asset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Asset.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetLibrary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetsModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetsModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSBackgroundTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSBackgroundTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSConnectionRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSConnectionRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ContentType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ContentType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Contentstack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Contentstack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ContentstackResultCallback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ContentstackResultCallback.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntriesModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntriesModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Entry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Entry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntryModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntryModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntryResultCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntryResultCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Error.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Error.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ErrorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ErrorType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/FetchAssetsCallback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/FetchAssetsCallback.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/FetchResultCallback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/FetchResultCallback.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Group.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/INotifyClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/INotifyClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/IRequestModelHTTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/IRequestModelHTTP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/IURLRequestHTTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/IURLRequestHTTP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Language.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Language.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/LanguageCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/LanguageCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Query.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/QueryResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/QueryResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/QueryResultsCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/QueryResultsCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ResponseType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ResponseType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ResultCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ResultCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/SingleQueryResultCallback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/SingleQueryResultCallback.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Stack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Stack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSAppUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSAppUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/ContentstackUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/ContentstackUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/AssetTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/AssetTestCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/ImageTransformTestcase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/ImageTransformTestcase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -30,79 +62,52 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/contentstack_java$SyncTestCase.ic" NAME="SyncTestCase Coverage Results" MODIFIED="1541235652322" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>com.contentstack.sdk.*</FILTER>
-    </SUITE>
     <SUITE FILE_PATH="coverage/contentstack_java$com_contentstack_sdk_in_Contentstack_java.ic" NAME="com.contentstack.sdk in Contentstack-java Coverage Results" MODIFIED="1542273384303" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.contentstack.sdk.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/contentstack_java$QueryTestCase_test_35_includeReferenceOnly_fetch.ic" NAME="QueryTestCase.test_35_includeReferenceOnly_fetch Coverage Results" MODIFIED="1542268912593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.contentstack.sdk.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/contentstack_java$SyncTestCase.ic" NAME="SyncTestCase Coverage Results" MODIFIED="1541235652322" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.contentstack.sdk.*</FILTER>
+    </SUITE>
   </component>
-  <component name="ExportTestResults" outputFolder="$USER_HOME$/Desktop/16-Nov-testcase" userTempatePath="" />
-  <component name="FUSProjectUsageTrigger">
-    <session id="54802006">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="17" />
-          <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.1" value="3" />
-          <entry key="project.open.time.10" value="1" />
-          <entry key="project.open.time.12" value="1" />
-          <entry key="project.open.time.13" value="2" />
-          <entry key="project.open.time.19" value="1" />
-          <entry key="project.open.time.5" value="2" />
-          <entry key="project.open.time.6" value="3" />
-          <entry key="project.open.time.8" value="1" />
-          <entry key="project.open.time.9" value="2" />
-          <entry key="project.opened" value="17" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="LICENSE" value="3" />
-          <entry key="class" value="8" />
-          <entry key="html" value="2" />
-          <entry key="iml" value="7" />
-          <entry key="java" value="149" />
-          <entry key="md" value="3" />
-          <entry key="package-list" value="1" />
-          <entry key="xml" value="28" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="CLASS" value="8" />
-          <entry key="HTML" value="2" />
-          <entry key="IDEA_MODULE" value="7" />
-          <entry key="JAVA" value="149" />
-          <entry key="PLAIN_TEXT" value="7" />
-          <entry key="XML" value="28" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="iml" value="2" />
-          <entry key="java" value="1106" />
-          <entry key="md" value="26" />
-          <entry key="txt" value="135" />
-          <entry key="xml" value="551" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="IDEA_MODULE" value="2" />
-          <entry key="JAVA" value="1106" />
-          <entry key="PLAIN_TEXT" value="161" />
-          <entry key="XML" value="551" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.vcs.git.usages" />
-    </session>
-  </component>
+  <component name="ExportTestResults" outputFolder="$USER_HOME$/Desktop" userTempatePath="" />
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="6" column="7" lean-forward="true" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Asset.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2709">
+              <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSAppUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3664">
+              <caret line="237" column="42" selection-start-line="237" selection-start-column="42" selection-end-line="237" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -114,6 +119,9 @@
       <find>formName</find>
       <find>latch.countDown();</find>
       <find>latch.await();</find>
+      <find>built.io, Inc</find>
+      <find>built.</find>
+      <find>built</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -123,44 +131,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/testcases/buitio/contentstack/AssetTestCase.java" />
-        <option value="$PROJECT_DIR$/src/com/builtio/contentstack/QueryResult.java" />
-        <option value="$PROJECT_DIR$/src/testcases/builtio/contentstack/ImageTransformTestcase.java" />
-        <option value="$PROJECT_DIR$/src/com/builtio/contentstack/URLConnection.java" />
-        <option value="$PROJECT_DIR$/src/com/builtio/contentstack/CSConnectionRequest.java" />
-        <option value="$PROJECT_DIR$/src/com/builtio/contentstack/Stack.java" />
-        <option value="$PROJECT_DIR$/src/testcases/builtio/contentstack/EntryTestCase.java" />
-        <option value="$PROJECT_DIR$/src/com/builtio/contentstack/Entry.java" />
-        <option value="$PROJECT_DIR$/src/testcases/builtio/contentstack/QueryTestCase.java" />
-        <option value="$PROJECT_DIR$/src/com/builtio/contentstack/Query.java" />
-        <option value="$PROJECT_DIR$/src/com/builtio/contentstack/Asset.java" />
-        <option value="$PROJECT_DIR$/src/com/builtio/contentstack/Utility/CSAppConstants.java" />
-        <option value="$PROJECT_DIR$/src/testcases/builtio/contentstack/AssetTestCase.java" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/test/com.contentstack.sdk/QueryTestCase.java" />
         <option value="$PROJECT_DIR$/src/test/com.contentstack.sdk/AssetTestCase.java" />
         <option value="$PROJECT_DIR$/src/test/com.contentstack.sdk/EntryTestCase.java" />
         <option value="$PROJECT_DIR$/contentstack-java.iml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntriesModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/SyncStack.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSAppConstants.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Query.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Entry.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSBackgroundTask.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSConnectionRequest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java" />
-        <option value="$PROJECT_DIR$/profiles.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java" />
         <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Stack.java" />
+        <option value="$PROJECT_DIR$/profiles.xml" />
         <option value="$USER_HOME$/.m2/settings.xml" />
-        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/AssetTestCase.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/EntryTestCase.java" />
         <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/ImageTransformTestcase.java" />
         <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java" />
         <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Stack.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/SingleQueryResultCallback.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ResultCallBack.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ResponseType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/QueryResultsCallBack.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/QueryResult.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Query.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/LanguageCode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Language.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/IURLRequestHTTP.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/IRequestModelHTTP.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/INotifyClass.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Group.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/FetchResultCallback.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/FetchAssetsCallback.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ErrorType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Error.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntryResultCallBack.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntryModel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Entry.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntriesModel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSConnectionRequest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSBackgroundTask.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ContentType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ContentstackResultCallback.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetsModel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetLibrary.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Config.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Contentstack.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/ContentstackUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSController.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com.contentstack.sdk/AssetTestCase.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Asset.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSAppUtils.java" />
       </list>
     </option>
   </component>
@@ -182,11 +203,6 @@
         <path>
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
           <item name="contentstack-java" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="contentstack-java" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
         </path>
         <path>
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
@@ -228,7 +244,7 @@
     <scope name="include_dimension" pattern="src:com.builtio.contentstack.Utility.ContentstackUtil||src:com.builtio.contentstack.Utility.CSAppUtils||src:com.builtio.contentstack.Asset||src:com.builtio.contentstack.AssetLibrary||src:com.builtio.contentstack.Config||src:com.builtio.contentstack.Contentstack||src:com.builtio.contentstack.ContentType||src:com.builtio.contentstack.Entry||src:com.builtio.contentstack.Error||src:com.builtio.contentstack.Group||src:com.builtio.contentstack.Language||src:com.builtio.contentstack.Query||src:com.builtio.contentstack.QueryResult||src:com.builtio.contentstack.Stack" />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="638" />
+    <option name="width" value="1280" />
     <option name="height" value="800" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -239,18 +255,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="contentstack-java" type="58d84e3e:PackageViewProjectNode" />
-              <item name="Contentstack-java" type="616d4139:PackageViewModuleNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -267,7 +271,72 @@
               <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
               <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sdk" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sdk" type="462c0819:PsiDirectoryNode" />
+              <item name="Utility" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="META-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="contentstack-java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="contentstack-java" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com.contentstack.sdk" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="contentstack-java" type="58d84e3e:PackageViewProjectNode" />
+              <item name="Contentstack-java" type="616d4139:PackageViewModuleNode" />
             </path>
           </expand>
           <select />
@@ -284,9 +353,9 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/shaileshmishra/Documents/workspace/Contentstack-Java/development/contentstack-java/src/main/java/com/contentstack/sdk/CSHttpConnection.java" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542439145738" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549963737032" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.3643678" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
@@ -319,8 +388,22 @@
     </option>
   </component>
   <component name="RunManager" selected="JUnit.com.contentstack.sdk in Contentstack-java">
-    <configuration default="true" type="Applet" factoryName="Applet">
+    <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AssetTestCase" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.contentstack.sdk.AssetTestCase" />
+      <module name="Contentstack-java" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.contentstack.sdk.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -331,7 +414,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="QueryTestCase.test_10_fetchEntryLessThanEqualField" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="EntryTestCase.test_00_fetch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Contentstack-java" />
       <extension name="coverage">
         <pattern>
@@ -340,8 +423,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.contentstack.sdk" />
-      <option name="MAIN_CLASS_NAME" value="com.contentstack.sdk.QueryTestCase" />
-      <option name="METHOD_NAME" value="test_10_fetchEntryLessThanEqualField" />
+      <option name="MAIN_CLASS_NAME" value="com.contentstack.sdk.EntryTestCase" />
+      <option name="METHOD_NAME" value="test_00_fetch" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
@@ -358,23 +441,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.contentstack.sdk" />
       <option name="MAIN_CLASS_NAME" value="com.contentstack.sdk.SyncTestCase" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SyncTestCase.testSyncInit" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Contentstack-java" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.contentstack.sdk.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.contentstack.sdk" />
-      <option name="MAIN_CLASS_NAME" value="com.contentstack.sdk.SyncTestCase" />
-      <option name="METHOD_NAME" value="testSyncInit" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -398,6 +465,7 @@
       </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -433,7 +501,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="TestNG" factoryName="TestNG">
+    <configuration default="true" type="TestNG">
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <properties />
       <listeners />
@@ -441,30 +509,30 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
       <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file id="idea.log" enabled="true" />
+      <predefined_log_file enabled="true" id="idea.log" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.AssetTestCase" />
       <item itemvalue="JUnit.testcases.builtio.contentstack in Contentstack-java" />
       <item itemvalue="JUnit.TicketsTestcase.TicketONE" />
-      <item itemvalue="JUnit.QueryTestCase.test_10_fetchEntryLessThanEqualField" />
-      <item itemvalue="JUnit.SyncTestCase.testSyncInit" />
       <item itemvalue="JUnit.com.contentstack.sdk in Contentstack-java" />
       <item itemvalue="JUnit.SyncTestCase" />
+      <item itemvalue="JUnit.EntryTestCase.test_00_fetch" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.com.contentstack.sdk in Contentstack-java" />
+        <item itemvalue="JUnit.EntryTestCase.test_00_fetch" />
+        <item itemvalue="Application.AssetTestCase" />
         <item itemvalue="JUnit.SyncTestCase" />
         <item itemvalue="JUnit.TicketsTestcase.TicketONE" />
-        <item itemvalue="JUnit.SyncTestCase.testSyncInit" />
-        <item itemvalue="JUnit.QueryTestCase.test_10_fetchEntryLessThanEqualField" />
       </list>
     </recent_temporary>
   </component>
@@ -535,38 +603,45 @@
       <option name="project" value="LOCAL" />
       <updated>1542277408347</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="&#10;pom.xml included">
+      <created>1542633610154</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1542633610154</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="TicketsTestcase_TicketONE - 2018.11.15 at 15h 09m 03s.xml">
-      <configuration name="TicketsTestcase.TicketONE" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TicketsTestcase_TicketONE - 2018.11.15 at 15h 09m 21s.xml">
-      <configuration name="TicketsTestcase.TicketONE" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.15 at 15h 11m 18s.xml">
+    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.30 at 10h 29m 27s.xml">
       <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.16 at 15h 42m 39s.xml">
+    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.30 at 11h 15m 28s.xml">
       <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SyncTestCase - 2018.11.16 at 15h 44m 11s.xml">
-      <configuration name="SyncTestCase" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SyncTestCase - 2018.11.16 at 15h 44m 27s.xml">
-      <configuration name="SyncTestCase" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SyncTestCase - 2018.11.16 at 15h 44m 44s.xml">
-      <configuration name="SyncTestCase" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.16 at 15h 46m 08s.xml">
+    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.30 at 13h 29m 40s.xml">
       <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.16 at 15h 46m 27s.xml">
+    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.12.29 at 15h 02m 50s.xml">
       <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2018.11.17 at 12h 48m 39s.xml">
+    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2019.01.18 at 15h 01m 47s.xml">
+      <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2019.01.18 at 18h 13m 52s.xml">
+      <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="EntryTestCase_test_00_fetch - 2019.01.31 at 17h 54m 51s.xml">
+      <configuration name="EntryTestCase.test_00_fetch" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="EntryTestCase_test_00_fetch - 2019.01.31 at 17h 55m 36s.xml">
+      <configuration name="EntryTestCase.test_00_fetch" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2019.02.01 at 21h 44m 43s.xml">
+      <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="com_contentstack_sdk_in_Contentstack-java - 2019.02.02 at 16h 15m 53s.xml">
       <configuration name="com.contentstack.sdk in Contentstack-java" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -581,8 +656,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28398058" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27346277" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -590,14 +666,14 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.66941017" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32921812" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.36762688" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39917696" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32784638" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49919093" weight="1.0" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5008091" side_tool="true" weight="0.3251029" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49838188" weight="1.0" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50161815" side_tool="true" weight="0.66941017" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32784638" />
       <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49919093" weight="0.3251029" />
       <window_info anchor="bottom" id="Thumbnails" order="11" weight="0.32744783" />
@@ -610,10 +686,8 @@
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info anchor="right" id="Maven Projects" order="7" weight="0.32928804" />
       <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.32928804" />
+      <window_info anchor="right" id="Maven" order="9" />
     </layout>
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="*Stack&#10;&#9;- added method ‘ImageTransform’&#10;&#10;*Query&#10;&#9;- added method 'includeContentType:'&#10;&#10;*QueryResult&#10;&#9;- added method ‘content_type’&#10;&#9;&#10;*Query&#10;    - Deprecated method 'getSchema'" />
@@ -622,7 +696,8 @@
     <MESSAGE value="pom.xml added" />
     <MESSAGE value="testcase refactored" />
     <MESSAGE value="&#10;pom.xml included" />
-    <option name="LAST_COMMIT_MESSAGE" value="&#10;pom.xml included" />
+    <MESSAGE value="pom.xml included" />
+    <option name="LAST_COMMIT_MESSAGE" value="pom.xml included" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -668,160 +743,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Group.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-496">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/IRequestModelHTTP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="16" column="29" lean-forward="true" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetsModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Contentstack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ContentstackResultCallback.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ContentType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Asset.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8576">
-          <caret line="559" column="4" selection-start-line="559" selection-start-column="4" selection-end-line="559" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/ContentstackUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntriesModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="12" column="24" lean-forward="true" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSAppUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/SyncResultCallBack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSAppConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="38" column="21" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="19" column="53" lean-forward="true" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Entry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="1165" column="5" lean-forward="true" selection-start-line="1165" selection-start-column="5" selection-end-line="1165" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/dictionaries/shaileshmishra.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/compiler.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/classes/com/contentstack/sdk/Stack.class" />
-    <entry file="file://$PROJECT_DIR$/target/javadoc-bundle-options/package-list" />
-    <entry file="file://$PROJECT_DIR$/target/javadoc-bundle-options/javadoc-options-javadoc-resources.xml" />
-    <entry file="file://$PROJECT_DIR$/target/site/apidocs/index.html" />
-    <entry file="file://$PROJECT_DIR$/target/site/apidocs/com/contentstack/sdk/AssetLibrary.html" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="63" column="40" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/SyncStack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="55" column="54" selection-start-line="55" selection-start-column="54" selection-end-line="55" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2304">
-          <caret line="144" lean-forward="true" selection-start-line="144" selection-end-line="144" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/contentstack-java.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -830,115 +751,290 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/profiles.xml" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetLibrary.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/SyncResultCallBack.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1948">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        <state relative-caret-position="272">
+          <caret line="21" column="13" lean-forward="true" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/Assert.class">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/SyncStack.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        <state relative-caret-position="106">
+          <caret line="55" column="54" selection-start-line="55" selection-start-column="54" selection-end-line="55" selection-end-column="54" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/runners/BlockJUnit4ClassRunner.class">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/URLConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="49" selection-start-line="49" selection-end-line="49" />
+        <state relative-caret-position="16">
+          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/runners/ParentRunner.class">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/SingleQueryResultCallback.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="240" selection-start-line="240" selection-end-line="240" />
+        <state relative-caret-position="64">
+          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/runner/JUnitCore.class">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ResultCallBack.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="76" selection-start-line="76" selection-end-line="76" />
+        <state relative-caret-position="112">
+          <caret line="7" column="3" lean-forward="true" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ResponseType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="160">
+          <caret line="10" column="26" lean-forward="true" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/QueryResultsCallBack.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSConnectionRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="113" selection-start-line="113" selection-end-line="113" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSBackgroundTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
-          <caret line="20" column="79" lean-forward="true" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Stack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="41" column="44" lean-forward="true" selection-start-line="41" selection-start-column="44" selection-end-line="41" selection-end-column="44" />
+        <state relative-caret-position="112">
+          <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+          <folding>
+            <element signature="e#473#474#0" expanded="true" />
+            <element signature="e#528#529#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/QueryResult.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="471">
-          <caret line="116" column="14" selection-start-line="116" selection-start-column="14" selection-end-line="116" selection-end-column="14" />
+        <state relative-caret-position="160">
+          <caret line="14" column="3" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Query.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="1944" column="14" selection-start-line="1944" selection-start-column="14" selection-end-line="1944" selection-end-column="14" />
+        <state relative-caret-position="176">
+          <caret line="17" column="3" lean-forward="true" selection-start-line="17" selection-start-column="3" selection-end-line="17" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/LanguageCode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Language.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/IURLRequestHTTP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="8" column="27" lean-forward="true" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/IRequestModelHTTP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="9" column="3" lean-forward="true" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/INotifyClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="13" column="3" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Group.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="532" column="32" selection-start-line="532" selection-start-column="27" selection-end-line="532" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/FetchResultCallback.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="28" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/FetchAssetsCallback.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ErrorType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="28" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Error.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Entry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="16" column="3" lean-forward="true" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntryModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="35">
+          <caret line="10" column="3" lean-forward="true" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntryResultCallBack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/EntriesModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSHttpConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="129" selection-start-line="129" selection-end-line="129" />
+        <state relative-caret-position="96">
+          <caret line="13" column="27" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSConnectionRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2208">
-          <caret line="138" column="13" selection-start-line="138" selection-start-column="13" selection-end-line="138" selection-end-column="13" />
+        <state relative-caret-position="75">
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/CSBackgroundTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="12" column="3" lean-forward="true" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ContentType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetLibrary.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="52" column="17" lean-forward="true" selection-start-line="52" selection-start-column="17" selection-end-line="52" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="15" column="23" lean-forward="true" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/AssetsModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="873">
+          <caret line="139" column="18" selection-start-line="139" selection-start-column="18" selection-end-line="139" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Contentstack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="134" column="50" selection-start-line="134" selection-start-column="50" selection-end-line="134" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/ContentstackResultCallback.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="28" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/ContentstackUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSAppConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="12" column="40" lean-forward="true" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="3" lean-forward="true" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Stack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1072">
+          <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.m2/settings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
-          <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
+          <caret line="12" column="11" lean-forward="true" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="20" column="18" lean-forward="true" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/AssetTestCase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="28" column="24" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
+        <state relative-caret-position="256">
+          <caret line="21" column="33" lean-forward="true" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -958,22 +1054,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/QueryTestCase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+        <state relative-caret-position="336">
+          <caret line="33" column="24" selection-start-line="33" selection-start-column="24" selection-end-line="33" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/SyncTestCase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="304">
+          <caret line="28" column="24" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com.contentstack.sdk/TicketsTestcase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="16" column="47" lean-forward="true" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
+        <state relative-caret-position="128">
+          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="7" lean-forward="true" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Asset.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2709">
+          <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/contentstack/sdk/Utility/CSAppUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3664">
+          <caret line="237" column="42" selection-start-line="237" selection-start-column="42" selection-end-line="237" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -1022,7 +1142,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.3643678" />
               </list>
             </option>
           </splitter-proportions>
@@ -1034,7 +1154,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.3643678" />
               </list>
             </option>
           </splitter-proportions>

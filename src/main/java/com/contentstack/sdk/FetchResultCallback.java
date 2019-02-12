@@ -3,7 +3,7 @@ package com.contentstack.sdk;
 /**
  * To FetchResultCallback response
  *
- * @author  built.io, Inc
+ * @author  Contentstack.com
  */
 public abstract class FetchResultCallback extends ResultCallBack{
 

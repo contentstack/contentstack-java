@@ -1,7 +1,7 @@
 package com.contentstack.sdk;
 
 /**
- *  * @author  built.io. Inc
+ *  * @author  Contentstack.com
  */
 public abstract class EntryResultCallBack extends ResultCallBack{
 

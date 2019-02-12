@@ -3,7 +3,7 @@ package com.contentstack.sdk;
 /**
  * Helper enum for pass language code.
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 enum LanguageCode {

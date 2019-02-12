@@ -2,7 +2,7 @@ package com.contentstack.sdk.Utility;
 
 /**
  *
- * @author built.io, Inc
+ * @author Contentstack.com
  *
  */
 public class CSController {

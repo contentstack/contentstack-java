@@ -13,8 +13,8 @@ import java.util.*;
 
 
 /**
- * To fetch stack level information of your application from Built.io Contentstack server.
- * @author built.io, Inc
+ * To fetch stack level information of your application from Contentstack Contentstack server.
+ * @author Contentstack
  */
 public class Stack {
 
