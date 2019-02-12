@@ -148,7 +148,7 @@ public class CSAppUtils {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *   BuiltUtil.parseDate(dateString, TimeZone.getDefault());
+     *   CSAppUtils.parseDate(dateString, TimeZone.getDefault());
      * </pre>
      *
      */
@@ -187,7 +187,7 @@ public class CSAppUtils {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *   BuiltUtil.parseDate(dateString, "yyyy-MM-dd'T'HH:mm:ssZ", TimeZone.getTimeZone("GMT"));
+     *   CSAppUtils.parseDate(dateString, "yyyy-MM-dd'T'HH:mm:ssZ", TimeZone.getTimeZone("GMT"));
      * </pre>
      */
     public static Calendar parseDate(String date, String dateFormat, TimeZone timeZone) throws ParseException {
