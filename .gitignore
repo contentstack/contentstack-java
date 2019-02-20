@@ -1,0 +1,20 @@
+# Package Files #
+#*.jar
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+!/src/main/java/Test.java
+
+# OS generated files #
+.DS_Store
+.DS_Store?
+
+# Compiled source #
+*.iml
+/target/
+/out/
+*.class
+out/
+build/
+.idea/
