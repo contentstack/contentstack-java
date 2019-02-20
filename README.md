@@ -15,8 +15,7 @@ You will need JDK installed on your machine. You can install it from [here](http
 
 To use the Contentstack Java SDK to your existing project, perform the steps given below:
 
-1. [Download the Contentstack Java SDK](https://www.contentstack.com/docs/platforms/java/java_sdk_latest
-) and extract the ZIP file to your local disk to use Contentstack jar in your project.
+1. [Download the Contentstack Java SDK](https://www.contentstack.com/docs/platforms/java/java_sdk_latest) and extract the ZIP file to your local disk to use Contentstack jar in your project.
 2. Add references/dependencies using Eclipse/IntelliJ IDEA:
 
 
@@ -62,7 +61,10 @@ To retrieve a single entry from a content type use the code snippet given below:
 
 ```
 ContentType contentType = stack.contentType("content_type_uid");
-Entry blogEntry = contentType.entry("entry_uid");blogEntry.fetch(new EntryResultCallBack() {@OverridepublicvoidonCompletion(ResponseType responseType, Error error) {
+Entry blogEntry = contentType.entry("entry_uid");
+blogEntry.fetch(new EntryResultCallBack() {
+@Override
+public void onCompletion(ResponseType responseType, Error error) {
     if (error == null) {
          [Success block]
     } else {
@@ -77,7 +79,9 @@ To retrieve multiple entries of a particular content type, use the code snippet 
 ```
 //stack is an instance of Stack class
 Query blogQuery = stack.contentType("content_type_uid").query();
-blogQuery.find(new QueryResultsCallBack() {@OverridepublicvoidonCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+blogQuery.find(new QueryResultsCallBack() {
+@Override
+publicvoidonCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
     if(error == null){
        [Success block]
     }else{
