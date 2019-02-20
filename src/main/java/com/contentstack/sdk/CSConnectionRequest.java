@@ -1,8 +1,8 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.Utility.CSAppConstants;
-import com.contentstack.sdk.Utility.CSAppUtils;
-import com.contentstack.sdk.Utility.CSController;
+import com.contentstack.sdk.utility.CSAppConstants;
+import com.contentstack.sdk.utility.CSAppUtils;
+import com.contentstack.sdk.utility.CSController;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -15,7 +15,6 @@ import java.util.*;
 class CSConnectionRequest implements IRequestModelHTTP{
 
     private static final String TAG = "CSConnectionRequest";
-
     private String urlToCall;
     private CSAppConstants.RequestMethod method;
     private String controller;

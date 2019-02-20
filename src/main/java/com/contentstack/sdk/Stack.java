@@ -1,7 +1,7 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.Utility.CSAppConstants;
-import com.contentstack.sdk.Utility.CSController;
+import com.contentstack.sdk.utility.CSAppConstants;
+import com.contentstack.sdk.utility.CSController;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,7 +13,6 @@ import java.util.*;
 
 
 /**
- * To fetch stack level information of your application from Contentstack Contentstack server.
  * @author Contentstack
  */
 public class Stack {
@@ -24,7 +23,6 @@ public class Stack {
     private String imageTransformationUrl;
     private LinkedHashMap<String, Object> imageParams = new LinkedHashMap<>();
 
-    //TODO CONSTANTS
     protected String URLSCHEMA     = "https://";
     protected String URL           = "cdn.contentstack.io";
     protected String VERSION       = "v3";
@@ -59,7 +57,6 @@ public class Stack {
     protected Stack(String stackApiKey) {
         this.stackApiKey = stackApiKey;
         this.localHeader = new LinkedHashMap<>();
-
     }
 
     protected void setConfig(Config config){

@@ -1,4 +1,4 @@
-package com.contentstack.sdk.Utility;
+package com.contentstack.sdk.utility;
 
 
 import java.text.ParseException;
@@ -9,25 +9,16 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Helper class of utilities.
- *
- *
  * @author Contentstack.com
- *
  */
+
 public class ContentstackUtil {
 
     /**
      * Converts the given date to user&#39;s timezone.
-     *
-     * @param date
-     * 				date in ISO format.
-     *
-     * @param timeZone
-     *               timezone selection
-     * @return
-     * 				{@link Calendar} object.
-     *
+     * @param date date in ISO format.
+     * @param timeZone timezone selection
+     * @return {@link Calendar} object.
      * @throws ParseException
      *
      * <br><br><b>Example :</b><br>
@@ -52,7 +43,6 @@ public class ContentstackUtil {
 
         for (String formatString : knownPatterns){
             try {
-
                 return parseDate(date, formatString, timeZone);
 
             }catch (ParseException e) {}
@@ -63,21 +53,11 @@ public class ContentstackUtil {
 
     /**
      * Converts the given date to the user&#39;s timezone.
-     *
-     * @param date
-     * 				date in string format.
-     *
-     * @param dateFormat
-     * 				 date format.
-     *
-     * @param timeZone
-     * 				TimeZone .
-     *
-     * @return
-     * 				{@link Calendar} object.
-     *
-     * 		@return timeZone time zone
-     *
+     * @param date date in string format.
+     * @param dateFormat date format.
+     * @param timeZone TimeZone.
+     * @return {@link Calendar} object.
+     * @return timeZone time zone
      * @throws ParseException
      *
      * <br><br><b>Example :</b><br>
@@ -125,15 +105,4 @@ public class ContentstackUtil {
         return cal;
     }
 
-    /**
-     * Type to compare dates.
-     *
-     * @author built.io, Inc
-     *
-     */
-    public static enum DateComapareType{
-
-        WEEK, DAY, HOURS, MINUTES, SECONDS
-
-    };
 }

@@ -1,19 +1,15 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.Utility.CSAppUtils;
-import com.contentstack.sdk.Utility.ContentstackUtil;
-
+import com.contentstack.sdk.utility.CSAppUtils;
+import com.contentstack.sdk.utility.ContentstackUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-/***
- * Group class is represent group field uid value.
- *
+/****
  * @author Contentstack.com
  *
  */
@@ -23,18 +19,16 @@ public class Group {
     private JSONObject resultJson;
     private Stack stackInstance;
 
+
     protected Group(Stack stack, JSONObject jsonObject){
         resultJson    = jsonObject;
         stackInstance = stack;
     }
 
 
-
-
     /**
      * Get group representation in json
      * @return JSONObject
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * JSONObject json = group.toJSON();
@@ -49,10 +43,7 @@ public class Group {
 
     /**
      * Get object value for key.
-     *
-     * @param key
-     *             field_uid as key.
-     *
+     * @param key field_uid as key.
      * @return JSONObject
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -76,12 +67,8 @@ public class Group {
 
     /**
      * Get html text for markdown data type
-     *
-     * @param markdownKey
-     *                   field_uid as key.
-     * @return
-     *          html text in string format.
-     *
+     * @param markdownKey field_uid as key.
+     * @return html text in string format.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String htmlText = group.getHtmlText("markdownKey");
@@ -101,12 +88,8 @@ public class Group {
 
     /**
      * Get html text for markdown data type which is multiple true
-     *
-     * @param markdownKey
-     *                   field_uid as key.
-     * @return
-     *          html text in string format.
-     *
+     * @param markdownKey field_uid as key.
+     * @return html text in string format.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * ArrayList&#60;String&#62; htmlTexts = group.getMultipleHtmlText("markdownKey");
@@ -132,14 +115,9 @@ public class Group {
 
 
 
-
-
-
     /**
      * Get string value for key.
-     *
-     * @param key
-     *             field_uid as key.
+     * @param key field_uid as key.
      *  @return String
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -156,11 +134,12 @@ public class Group {
         return null;
     }
 
+
+
+
     /**
      * Get boolean value for key.
-     *
-     * @param key
-     *             field_uid as key.
+     * @param key field_uid as key.
      * @return boolean true or false
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -177,11 +156,13 @@ public class Group {
         return false;
     }
 
+
+
+
+
     /**
      * Get {@link JSONArray} value for key
-     *
-     * @param key
-     *          field_uid as key.
+     * @param key field_uid as key.
      * @return JSONArray
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -197,6 +178,9 @@ public class Group {
         }
         return null;
     }
+
+
+
 
     /**
      * Get {@link JSONObject} value for key
@@ -219,11 +203,12 @@ public class Group {
         return null;
     }
 
+
+
+
     /**
      * Get {@link JSONObject} value for key
-     *
-     * @param key
-     *               field_uid as key.
+     * @param key field_uid as key.
      * @return Number
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -240,11 +225,12 @@ public class Group {
         return null;
     }
 
+
+
+
     /**
      * Get integer value for key
-     *
-     * @param key
-     *               field_uid as key.
+     * @param key field_uid as key.
      * @return int
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -259,11 +245,12 @@ public class Group {
         return 0;
     }
 
+
+
+
     /**
      * Get integer value for key
-     *
-     * @param key
-     *               field_uid as key.
+     * @param key field_uid as key.
      * @return float
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -277,6 +264,8 @@ public class Group {
         }
         return (float) 0;
     }
+
+
 
     /**
      * Get double value for key
@@ -297,11 +286,10 @@ public class Group {
         return (double) 0;
     }
 
+
     /**
      * Get long value for key
-     *
-     * @param key
-     *               field_uid as key.
+     * @param key field_uid as key.
      * @return long
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -318,9 +306,7 @@ public class Group {
 
     /**
      * Get short value for key
-     *
-     * @param key
-     *               field_uid as key.
+     * @param key field_uid as key.
      * @return short
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -337,9 +323,7 @@ public class Group {
 
     /**
      * Get {@link Calendar} value for key
-     *
-     * @param key
-     *               field_uid as key.
+     * @param key field_uid as key.
      * @return  {@link java.util.Date}
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -357,11 +341,11 @@ public class Group {
         return null;
     }
 
+
+
     /**
      * Get an asset from the group
-     *
-     * @param key
-     *              field_uid as key.
+     * @param key field_uid as key.
      * @return Asset object
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -371,16 +355,14 @@ public class Group {
     public Asset getAsset(String key){
 
         JSONObject assetObject = getJSONObject(key);
-
         return stackInstance.asset().configure(assetObject);
     }
 
+
+
     /**
      * Get an assets from the group. This works with multiple true fields
-     *
-     * @param key
-     *              field_uid as key.
-     *
+     * @param key field_uid as key.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * {@code List<Asset> asset = group.getAssets("key"); }
@@ -390,14 +372,11 @@ public class Group {
     public List<Asset> getAssets(String key){
         List<Asset> assets = new ArrayList<>();
         JSONArray assetArray = getJSONArray(key);
-
         for (int i = 0; i < assetArray.length(); i++) {
-
             if(assetArray.opt(i) instanceof JSONObject){
                 Asset asset = stackInstance.asset().configure(assetArray.optJSONObject(i));
                 assets.add(asset);
             }
-
         }
         return assets;
     }
@@ -405,10 +384,7 @@ public class Group {
 
     /**
      * Get a group from the group.
-     *
-     * @param key
-     *              field_uid as key.
-     *
+     * @param key field_uid as key.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * Group innerGroup = group.getGroup("key");
@@ -416,22 +392,19 @@ public class Group {
      * </pre>
      */
     public Group getGroup(String key){
-
         if(!key.isEmpty() && resultJson.has(key) && resultJson.opt(key) instanceof JSONObject ){
             return new Group(stackInstance, resultJson.optJSONObject(key));
         }
         return null;
     }
 
+
+
     /**
      * Get a list of group from the group.
-     *
      * <p>
      * <b>Note :-</b> This will work when group is multiple true.
-     *
-     * @param key
-     *              field_uid as key.
-     *
+     * @param key field_uid as key.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * Group innerGroup = group.getGroups("key");
@@ -456,45 +429,35 @@ public class Group {
         return null;
     }
 
+
+
     /**
      * Get value for the given reference key.
-     *
-     * @param refKey
-     * 			  key of a reference field.
-     *
-     * @param refContentType
-     * 					 class uid.
-     *
-     * @return
-     * 			{@link ArrayList} of {@link Entry} instances.
+     * @param refKey key of a reference field.
+     * @param refContentType class uid.
+     * @return {@link ArrayList} of {@link Entry} instances.
      * Also specified contentType value will be set as class uid for all {@link Entry} instance.
-     *
-     *
-     *<br><br><b>Example :</b><br>
+     * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *  //'blt5d4sample2633b' is a dummy Stack API key
-     *  //'blt6d0240b5sample254090d' is dummy access token.
-     *
+     * //'blt5d4sample2633b' is a dummy Stack API key
+     * //'blt6d0240b5sample254090d' is dummy access token.
      *  {@code
      *  Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *  Query csQuery = stack.contentType("contentType_name").query();
-     *
-     * csQuery.includeReference("for_bug");
-     *
-     * csQuery.find(new QueryResultsCallBack() {<br>
-     *          &#64;Override
-     *          public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {<br>
-     *
-     *              if(error == null){
-     *                  List&#60;Entry&#62; list = builtqueryresult.getResultObjects();
-     *                   for (int i = 0; i < list.queueSize(); i++) {
-     *                           Entry   entry   = list.get(i);
-     *                           Group   group   = entry.getGroup("fieldUid");
-     *                           Entry taskEntry = entry.getAllEntries("for_task", "task");
-     *                   }
-     *              }
-     *
-     *          }
+     *  csQuery.includeReference("for_bug");
+     *  csQuery.find(new QueryResultsCallBack() {<br>
+     *          &#64;
+     *     Override
+     *  public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {<br>
+     *     if(error == null){
+     *     List&#60;Entry&#62; list = builtqueryresult.getResultObjects();
+     *      for (int i = 0; i < list.queueSize(); i++) {
+     *           Entry   entry   = list.get(i);
+     *           Group   group   = entry.getGroup("fieldUid");
+     *           Entry taskEntry = entry.getAllEntries("for_task", "task");
+     *           }
+     *         }
+     *       }
      *      });<br>
      * }
      * </pre>
@@ -529,16 +492,13 @@ public class Group {
                         builtObjectList.add(entryInstance);
                         model = null;
                     }
-
                     return builtObjectList;
-
                 }
             }
         } catch (Exception e) {
             CSAppUtils.showLog(TAG, "-----------------get|" + e);
             return null;
         }
-
         return null;
     }
 

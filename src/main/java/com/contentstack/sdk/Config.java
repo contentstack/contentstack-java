@@ -1,10 +1,8 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.Utility.CSAppConstants;
+import com.contentstack.sdk.utility.CSAppConstants;
 
 /**
- * Set Configuration for stack instance creation.
- *
  * @author  Contentstack.com
  *
  */
@@ -21,7 +19,6 @@ public class Config {
 
     /**
      * BuiltConfig constructor
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * BuiltConfig config = new BuiltConfig();
@@ -30,12 +27,11 @@ public class Config {
 
     public Config(){}
 
+
     /**
      * Sets host name of the Contentstack.com Contentstack server.
-     *
      * @param hostName
      * host name.
-     *
      * <p>
      * <b>Note:</b> Default hostname sets to <a href ="https://cdn.contentstack.io"> cdn.contentstack.io </a>
      *  and default protocol is HTTPS.
@@ -53,10 +49,7 @@ public class Config {
 
     /**
      * Sets the protocol in base url.
-     *
-     * @param isSSL
-     * 					true/false values initiating calls (HTTPS/HTTP) respectively.
-     *
+     * @param isSSL true/false values initiating calls (HTTPS/HTTP) respectively.
      * <p>
      * <b>Note:</b> Default protocol is HTTPS.
      *
@@ -91,12 +84,10 @@ public class Config {
         return REQUEST_METHOD_POST;
     }
 
+
     /**
      * Get URL.
-     *
-     *
      * @return String @getHost
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String url = config.getHost();
@@ -110,9 +101,7 @@ public class Config {
 
     /**
      * Get URL.
-     *
-     *  @return boolean @isSSL
-     *
+     * @return boolean @isSSL
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * boolean protocol = config.isSSL();
@@ -120,11 +109,11 @@ public class Config {
      */
 
     public boolean isSSL(){ return URLSCHEMA.equalsIgnoreCase(CSAppConstants.URLSCHEMA_HTTPS) ? true : false; }
+
+
     /**
      * Get version of the Contentstack server.
-     *
      * @return String @VERSION
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String version = config.getVersion();
@@ -138,10 +127,7 @@ public class Config {
 
     /**
      * Changes the Contentstack version to be used in the final URL.
-     *
-     * @param version
-     *                  version string.
-     *
+     * @param version version string.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      config.setVersion("v3");
@@ -152,12 +138,10 @@ public class Config {
         }
     }
 
+
     /**
      * set environment.
-     *
-     * @param environment
-     *                      environment uid/name
-     *
+     * @param environment environment uid/name
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
      *  config.setEnvironment("stag", false);
@@ -172,9 +156,7 @@ public class Config {
 
     /**
      * Get environment.
-     *
      * @return String @environment
-     *
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
      *  String environment = config.getEnvironment();

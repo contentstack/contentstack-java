@@ -1,6 +1,6 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.Utility.CSAppUtils;
+import com.contentstack.sdk.utility.CSAppUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -120,7 +120,7 @@ class EntryModel {
 
         }catch (Exception e) {
             e.printStackTrace();
-            CSAppUtils.showLog("EntryModel", "---------------------EntryModel---------err|" + e);
+            CSAppUtils.showLog("EntryModel", "err|" + e);
         }
 
     }

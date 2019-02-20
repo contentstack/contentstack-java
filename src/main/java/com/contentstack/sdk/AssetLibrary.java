@@ -1,16 +1,13 @@
 package com.contentstack.sdk;
 
 
-import com.contentstack.sdk.Utility.CSAppConstants;
-import com.contentstack.sdk.Utility.CSAppUtils;
-import com.contentstack.sdk.Utility.CSController;
+import com.contentstack.sdk.utility.CSAppConstants;
+import com.contentstack.sdk.utility.CSController;
 import org.json.JSONObject;
 
 import java.util.*;
 
 /**
- *  AssetLibrary class to fetch all files details on Conentstack server.
- *
  *  @author  Contentstack.com
  *
  */
@@ -59,24 +56,22 @@ public class AssetLibrary implements INotifyClass{
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
      * AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     *
      * assetLibObject.setHeader("custom_header_key", "custom_header_value");
      * </pre>
      */
+
     public void setHeader(String key, String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
             localHeader.put(key, value);
         }
     }
 
+
     /**
      * Remove a header for a given key from headers.
      * <br>
      * Scope is limited to this object only.
-     *
-     * @param key
-     * 			   header key.
-     *
+     * @param key header key.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
@@ -91,18 +86,15 @@ public class AssetLibrary implements INotifyClass{
         }
     }
 
+
     /**
      * Sort assets by fieldUid.
-     *
      * @param key
      * field Uid.
-     *
      * @param orderby
      * {@link ORDERBY} value for ascending or descending.
-     *
      * @return
      * {@link AssetLibrary} object, so you can chain this call.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
@@ -131,16 +123,14 @@ public class AssetLibrary implements INotifyClass{
 
     /**
      * Retrieve count and data of assets in result.
-     *
      * @return {@link AssetLibrary} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *    //'blt5d4sample2633b' is a dummy Stack API key
-     *    //'bltdtsample_accessToken767vv' is dummy access token.
-     *    AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     *
-     *    assetLibObject.includeCount();
+     * //'blt5d4sample2633b' is a dummy Stack API key
+     * //'bltdtsample_accessToken767vv' is dummy access token.
+     * AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     * assetLibObject.includeCount();
      * </pre>
      */
     public AssetLibrary includeCount(){
@@ -152,19 +142,17 @@ public class AssetLibrary implements INotifyClass{
         return this;
     }
 
+
     /**
      * Retrieve relative urls objects in result.
-     *
      * @return
      * {@link AssetLibrary} object, so you can chain this call.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *    //'blt5d4sample2633b' is a dummy Stack API key
-     *    //'bltdtsample_accessToken767vv' is dummy access token.
-     *    AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     *
-     *    assetLibObject.includeRelativeUrl();
+     * //'blt5d4sample2633b' is a dummy Stack API key
+     * //'bltdtsample_accessToken767vv' is dummy access token.
+     * AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     * assetLibObject.includeRelativeUrl();
      * </pre>
      */
     public AssetLibrary includeRelativeUrl(){
@@ -178,7 +166,6 @@ public class AssetLibrary implements INotifyClass{
 
     /**
      * Get a count of assets in success callback of {@link FetchAssetsCallback}.
-     *
      * @return int @count
      */
     public int getCount(){
@@ -189,7 +176,6 @@ public class AssetLibrary implements INotifyClass{
 
     /**
      * Fetch a all asset.
-     *
      * @param assetsCallback
      * {@link FetchAssetsCallback} instance for success and failure result.
      *
@@ -198,10 +184,7 @@ public class AssetLibrary implements INotifyClass{
      *    //'blt5d4sample2633b' is a dummy Stack API key
      *    //'bltdtsample_accessToken767vv' is dummy access token.
      *    AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     *
      *   assetLibObject.fetchAll(new FetchAssetsCallback() {
-     *
-     *
      *   {@code public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) }{
      *      if (error == null) {
      *         //Success Block.
@@ -227,7 +210,6 @@ public class AssetLibrary implements INotifyClass{
 
         } catch (Exception e){
             e.printStackTrace();
-            CSAppUtils.showLog(TAG, "------"+TAG+"---fetchAll---||"+e.toString());
         }
 
     }
@@ -260,7 +242,7 @@ public class AssetLibrary implements INotifyClass{
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    CSAppUtils.showLog(TAG, "----------------setQueryJson"+e.toString());
+                    e.printStackTrace();
                 }
             }
 

@@ -1,8 +1,6 @@
 package com.contentstack.sdk;
 
-/**
- * To FetchResultCallback response
- *
+/***
  * @author  Contentstack.com
  */
 public abstract class FetchResultCallback extends ResultCallBack{
@@ -14,6 +12,7 @@ public abstract class FetchResultCallback extends ResultCallBack{
      * @param error
      * {@link Error} instance if call failed else null.
      */
+
     public abstract void onCompletion(ResponseType responseType, Error error);
 
     void onRequestFinish(ResponseType responseType){

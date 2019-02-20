@@ -1,38 +1,30 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.Utility.CSAppConstants;
+import com.contentstack.sdk.utility.CSAppConstants;
 
 /**
  *  @author  Contentstack.com
  */
 public class Contentstack {
 
-    private static final String TAG = "Contentstack";
-    private Contentstack(){
 
-    }
+    private Contentstack(){ }
+
 
     /**
-     *
      * Authenticates the stack api key of your stack.
      * This must be called before your stack uses Contentstack sdk.
      * <br>
      * You can find your stack api key from web.
-     *
      * @param stackApiKey
      * application api Key of your application on Contentstack.
-     *
      * @param accessToken
      * access token
-     *
      * @param environment
      * environment name
-     *
      * @return
      * {@link Stack} instance.
-     *
      * @throws Exception
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
@@ -40,7 +32,6 @@ public class Contentstack {
      * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      * </pre>
      */
-
 
     public static Stack stack( String stackApiKey, String accessToken, String environment) throws Exception{
 
@@ -71,24 +62,17 @@ public class Contentstack {
      * This must be called before your stack uses  Contentstack sdk.
      * <br>
      * You can find your stack api key from web.
-     *
      * @param stackApiKey
      * application api Key of your application on  Contentstack.
-     *
      * @param accessToken
      * access token
-     *
      * @param environment
      * environment name
-
      * @param config
      * {@link Config} instance to set environment and other configuration details.
-     *
      * @return
      * {@link Stack} instance.
-     *
      * @throws Exception
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
@@ -96,7 +80,6 @@ public class Contentstack {
      * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      * </pre>
      */
-
 
     public static Stack stack(String stackApiKey, String accessToken, String environment, Config config) throws Exception{
 
@@ -130,21 +113,15 @@ public class Contentstack {
      * This must be called to initialise  Contentstack sdk.
      * <br>
      * You can find your stack api key from web.
-     *
      * @param stackApiKey
      * application api Key of your application on  Contentstack.
-     *
      * @param accessToken
      * access token
-     *
      * @param config
      * {@link Config} instance to set environment and other configuration details.
-     *
      * @return
      * {@link Stack} instance.
-     *
      * @throws Exception
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key

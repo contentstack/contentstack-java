@@ -1,4 +1,4 @@
-package com.contentstack.sdk.Utility;
+package com.contentstack.sdk.utility;
 
 import org.json.JSONObject;
 import java.io.*;
@@ -17,10 +17,8 @@ public class CSAppUtils {
 
     public CSAppUtils(){}
 
-    public static void showLog(String tag, String message){
-        if(CSAppConstants.debug){
-            System.out.println(tag+":: "+message);
-        }
+    public static void showLog(String builtObject, String s) {
+        System.out.println(builtObject+"___"+s);
     }
 
 

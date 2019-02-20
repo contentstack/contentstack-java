@@ -5,9 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * To retrieve information related to network call failure.
- *
- *  * @author  Contentstack.com
+ * @author  Contentstack.com
  */
 public class Error {
 
@@ -35,10 +33,8 @@ public class Error {
 
 
     /**
-     * Returns error code.
-     *
+     * Returns error code
      * @return int value.
-     *
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
      *  int errorCode = error.getErrorCode();
@@ -54,10 +50,8 @@ public class Error {
 
 
     /**
-     *
-     * Returns error in {@linkplain HashMap} format where error is key and its respective information as HashMap&#39;s value.
-
-
+     Returns error in {@linkplain HashMap}
+     format where error is key and its respective information as HashMap&#39;s value.
      @return Map Error Hashmap
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">

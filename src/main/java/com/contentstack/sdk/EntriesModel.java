@@ -1,7 +1,7 @@
 package com.contentstack.sdk;
 
 
-import com.contentstack.sdk.Utility.CSAppUtils;
+import com.contentstack.sdk.utility.CSAppUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,7 +18,6 @@ class EntriesModel {
     protected JSONObject jsonObject;
     protected String formName;
     protected List<Object> objectList;
-
     protected EntriesModel(JSONObject responseJSON, String formName, boolean isFromCache) {
 
         try {
@@ -30,7 +29,6 @@ class EntriesModel {
 
             this.formName   = formName;
             objectList      = new ArrayList<Object>();
-
             JSONArray entriesArray =  jsonObject.opt("entries") == null ? null : jsonObject.optJSONArray("entries");
 
             if(entriesArray != null && entriesArray.length() > 0){

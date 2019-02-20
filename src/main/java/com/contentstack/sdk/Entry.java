@@ -1,20 +1,20 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.Utility.CSAppConstants;
-import com.contentstack.sdk.Utility.CSAppUtils;
-import com.contentstack.sdk.Utility.CSController;
-import com.contentstack.sdk.Utility.ContentstackUtil;
+import com.contentstack.sdk.utility.CSAppConstants;
+import com.contentstack.sdk.utility.CSAppUtils;
+import com.contentstack.sdk.utility.CSController;
+import com.contentstack.sdk.utility.ContentstackUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.*;
 
-/*** Entry is used to create, update and delete contentType&#39;s entries on the Contentstack.com Content stack.
- *
+/*
  * @author Contentstack.com
  *
  */
+
 public class Entry {
 
     private static final String TAG              = "Entry";
@@ -73,15 +73,14 @@ public class Entry {
         return this;
     }
 
+
+
     /**
      * Set headers.
-     *
      * @param key
      * custom_header_key
-     *
      * @param value
      * custom_header_value
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
@@ -90,7 +89,6 @@ public class Entry {
      * Entry entry = stack.contentType("form_name").entry("entry_uid");
      * entry.setHeader("custom_header_key", "custom_header_value");
      * </pre>
-     *
      */
 
     public void setHeader(String key, String value){
@@ -99,12 +97,12 @@ public class Entry {
         }
     }
 
+
+
     /**
      * Remove header key.
-     *
      * @param key
      * custom_header_key
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
@@ -123,38 +121,34 @@ public class Entry {
 
     /**
      * Get title string
-     *
      * @return String @title
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String title = entry.getTitle();
      * </pre>
-     *
      */
 
     public String getTitle(){ return title; }
 
+
+
+
     /**
      * Get url string
-     *
-     *
      * @return String @url
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String url = entry.getURL();
      * </pre>
-     *
      */
 
     public String getURL(){ return url; }
 
+
+
     /**
      * Get tags.
-     *
      * @return String @tags
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String[] tags = entry.getURL();
@@ -165,11 +159,11 @@ public class Entry {
         return tags;
     }
 
+
+
     /**
      * Get contentType name.
-     *
      * @return String @contentTypeName
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String contentType = entry.getFileType();
@@ -180,11 +174,11 @@ public class Entry {
         return contentTypeName;
     }
 
+
+
     /**
      * Get uid.
-     *
      * @return String @uid
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String uid = entry.getUid();
@@ -197,7 +191,6 @@ public class Entry {
 
     /**
      * Get metadata of entry.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * HashMap<String, Object> metaData = entry.getMetadata();
@@ -208,11 +201,11 @@ public class Entry {
         return _metadata;
     }
 
+
+
     /**
      * Get {@link Language} instance
-     *
      * @return Language @getLanguage
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * Language local = entry.getLanguage();
@@ -240,16 +233,18 @@ public class Entry {
         return null;
     }
 
+
+
+
     public HashMap<String, Object> getOwner() {
         return owner;
     }
 
+
+
     /**
      * Get entry representation in json
-     *
      * @return JSONObject @resultJson
-     *
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * JSONObject json = entry.toJSON();
@@ -261,11 +256,11 @@ public class Entry {
         return resultJson;
     }
 
+
+
     /**
      * Get object value for key.
-     *
      * @return Object @resultJson
-     *
      * @param key
      * field_uid as key.
      * <br><br><b>Example :</b><br>
@@ -273,7 +268,6 @@ public class Entry {
      * Object obj = entry.get("key");
      * </pre>
      */
-
     public Object get(String key){
         try{
             if(resultJson != null && key != null){
@@ -282,7 +276,7 @@ public class Entry {
                 return null;
             }
         }catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------get|" + e);
+            System.out.println(TAG +"------get|"+ e);
             return null;
         }
     }
@@ -293,11 +287,8 @@ public class Entry {
 
     /**
      * Get string value for key.
-     *
      * @return String @getString
-     *
      * @param key field_uid as key.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String value = entry.getString("key");
@@ -316,12 +307,9 @@ public class Entry {
 
     /**
      * Get boolean value for key.
-     *
-     *
      * @return boolean @getBoolean
      * @param key
-     *             field_uid as key.
-     *
+     * field_uid as key.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * Boolean value = entry.getBoolean("key");
@@ -338,14 +326,13 @@ public class Entry {
         return false;
     }
 
+
+
     /**
      * Get {@link JSONArray} value for key
-     *
      * @return JSONArray @getJSONArray
-     *
      * @param key
-     *          field_uid as key.
-     *
+     * field_uid as key.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * JSONArray value = entry.getJSONArray("key");
@@ -362,13 +349,12 @@ public class Entry {
         return null;
     }
 
+
+
     /**
      * Get {@link JSONObject} value for key
-     *
      * @return JSONObject @getJSONObject
-     *
      * @param key field_uid as key.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * JSONObject value = entry.getJSONObject("key");
@@ -384,14 +370,13 @@ public class Entry {
         return null;
     }
 
+
+
     /**
      * Get {@link JSONObject} value for key
-     *
      * @return Number @getNumber
-     *
      * @param key
-     *               field_uid as key.
-     *
+     * field_uid as key.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * JSONObject value = entry.getJSONObject("key");
@@ -408,14 +393,13 @@ public class Entry {
         return null;
     }
 
+
+
     /**
      * Get integer value for key
-     *
      * @return int @getInt
-     *
      * @param key
      * field_uid as key.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * int value = entry.getInt("key");
@@ -430,14 +414,14 @@ public class Entry {
         return 0;
     }
 
+
+
+
     /**
      * Get integer value for key
-     *
      * @param key
      * field_uid as key.
-     *
      * @return float @getFloat
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * float value = entry.getFloat("key");
@@ -452,14 +436,13 @@ public class Entry {
         return (float) 0;
     }
 
+
+
+
     /**
      * Get double value for key
-     *
-     * @param key
-     * field_uid as key.
-     *
+     * @param key field_uid as key.
      * @return double @getDouble
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * double value = entry.getDouble("key");
@@ -474,14 +457,12 @@ public class Entry {
         return (double) 0;
     }
 
+
+
     /**
      * Get long value for key
-     *
      * @return long @getLong
-     *
-     * @param key
-     *               field_uid as key.
-     *
+     * @param key field_uid as key.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * long value = entry.getLong("key");
@@ -496,13 +477,12 @@ public class Entry {
         return (long) 0;
     }
 
+
     /**
      * Get short value for key
-     *
      * @return short @getShort
-     *
      * @param key
-     *               field_uid as key.
+     * field_uid as key.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -517,14 +497,12 @@ public class Entry {
         return (short) 0;
     }
 
+
+
     /**
      * Get {@link Calendar} value for key
-     *
      * @return Calendar @getDate
-     *
-     * @param key
-     *               field_uid as key.
-     *
+     * @param key field_uid as key.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * Calendar value = entry.getDate("key");
@@ -532,21 +510,20 @@ public class Entry {
      */
 
     public Calendar getDate(String key){
-
         try {
             String value = getString(key);
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------getDate|" + e);
+            System.out.println(TAG +"------get|"+ e);
         }
         return null;
     }
 
+
+
     /**
      * Get {@link Calendar} value of creation time of entry.
-     *
      * @return Calendar @getCreateAt
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * Calendar createdAt = entry.getCreateAt("key");
@@ -559,16 +536,16 @@ public class Entry {
             String value = getString("created_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------getCreateAtDate|" + e);
+            System.out.println(TAG +"------get|"+ e);
         }
         return null;
     }
 
+
+
     /**
      * Get uid who created this entry.
-     *
      * @return String @getCreatedBy
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String createdBy_uid = entry.getCreatedBy();
@@ -579,11 +556,11 @@ public class Entry {
         return getString("created_by");
     }
 
+
+
     /**
      * Get {@link Calendar} value of updating time of entry.
-     *
      * @return Calendar @getUpdateAt
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * Calendar updatedAt = entry.getUpdateAt("key");
@@ -595,14 +572,15 @@ public class Entry {
             String value = getString("updated_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------getUpdateAtDate|" + e);
+            System.out.println(TAG +"------get|"+ e);
         }
         return null;
     }
 
+
+
     /**
      * Get uid who updated this entry.
-     *
      * @return String @getString
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -630,14 +608,15 @@ public class Entry {
             String value = getString("deleted_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------getDeleteAt|" + e);
+            System.out.println(TAG +"------get|"+ e);
         }
         return null;
     }
 
+
+
     /**
      * Get uid who deleted this entry.
-     *
      * @return String
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -649,14 +628,12 @@ public class Entry {
         return getString("deleted_by");
     }
 
+
     /**
      * Get an asset from the entry
-     *
      * @param key
      * field_uid as key.
-     *
      * @return Asset
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * Asset asset = entry.getAsset("key");
@@ -672,23 +649,15 @@ public class Entry {
 
 
 
-
-
     /**
      * Get an assets from the entry. This works with multiple true fields
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *
      * {@code List<Asset> asset = entry.getAssets("key"); }
-     *
      * </pre>
-     *
      * @param key This is the String key
      * @return ArrayList This returns list of Assets.
      */
-
-
 
     public List<Asset> getAssets(String key){
         List<Asset> assets = new ArrayList<>();
@@ -704,12 +673,13 @@ public class Entry {
         return assets;
     }
 
+
+
+
     /**
      * Get a group from entry.
-     *
      * @param key
-     *              field_uid as key.
-     *
+     * field_uid as key.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * Group innerGroup = entry.getGroup("key");
@@ -724,16 +694,14 @@ public class Entry {
         return null;
     }
 
+
+
     /**
      * Get a list of group from entry.
-     *
      * <p>
      * <b>Note :-</b> This will work when group is multiple true.
-     *
      * @param key field_uid as key.
-     *
      * @return  list of group from entry
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * Group innerGroup = entry.getGroups("key");
@@ -757,45 +725,35 @@ public class Entry {
         return null;
     }
 
+
+
     /**
      * Get value for the given reference key.
-     *
-     * @param refKey
-     * 			  key of a reference field.
-     *
-     * @param refContentType
-     * 					 class uid.
-     *
-     * @return
-     * 			{@link ArrayList} of {@link Entry} instances.
+     * @param refKey key of a reference field.
+     * @param refContentType class uid.
+     * @return {@link ArrayList} of {@link Entry} instances.
      * Also specified contentType value will be set as class uid for all {@link Entry} instance.
-     *
-     *
-     *<br><br><b>Example :</b><br>
+     * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *  //'blt5d4sample2633b' is a dummy Stack API key
-     *  //'blt6d0240b5sample254090d' is dummy access token.
-     *
-     *  {@code
-     *  Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *  Query csQuery = stack.contentType("contentType_name").query();
+     * //'blt5d4sample2633b' is a dummy Stack API key
+     * //'blt6d0240b5sample254090d' is dummy access token.
+     * {@code
+     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * Query csQuery = stack.contentType("contentType_name").query();
      * csQuery.includeReference("for_bug");
      * csQuery.find(new QueryResultsCallBack() {<br>
      *          &#64;Override
      *          public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {<br>
-     *
      *              if(error == null){
      *                  List&#60;Entry&#62; list = builtqueryresult.getResultObjects();
      *                   for (int i = 0; i < list.queueSize(); i++) {
-     *                           Entry   entry   = list.get(i);
-     *                           Entry taskEntry = entry.getAllEntries("for_task", "task");
+     *                         Entry   entry   = list.get(i);
+     *                         Entry taskEntry = entry.getAllEntries("for_task", "task");
      *                  }
      *              }
-     *
      *          }
      *      });
      *      }<br>
-     *
      * </pre>
      */
     public ArrayList<Entry> getAllEntries(String refKey, String refContentType) {
@@ -814,7 +772,7 @@ public class Entry {
                             entryInstance = contentTypeInstance.stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            CSAppUtils.showLog("BuiltObject", "----------------getAllEntries" + e.toString());
+                            CSAppUtils.showLog("BuiltObject", "---------getAllEntries" + e.toString());
                         }
                         entryInstance.setUid(model.entryUid);
                         entryInstance.ownerEmailId = model.ownerEmailId;
@@ -841,15 +799,14 @@ public class Entry {
         return null;
     }
 
+
+
+
     /**
      * Specifies list of field uids that would be &#39;excluded&#39; from the response.
-     *
      * @param fieldUid
-     * 					field uid  which get &#39;excluded&#39; from the response.
-     *
-     * @return
-     *           {@link Entry} object, so you can chain this call.
-     *
+     * field uid  which get &#39;excluded&#39; from the response.
+     * @return {@link Entry} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
@@ -859,6 +816,7 @@ public class Entry {
      *     entry.except(new String[]{"name", "description"});
      * </pre>
      */
+
     public Entry except(String[] fieldUid){
         try{
             if(fieldUid != null && fieldUid.length > 0){
@@ -878,15 +836,13 @@ public class Entry {
         return this;
     }
 
+
+
+
     /**
      * Add a constraint that requires a particular reference key details.
-     *
-     * @param referenceField
-     * 				 key that to be constrained.
-     *
-     * @return
-     * 			 {@link Entry} object, so you can chain this call.
-     *
+     * @param referenceField key that to be constrained.
+     * @return {@link Entry} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *    //'blt5d4sample2633b' is a dummy Stack API key
@@ -902,27 +858,23 @@ public class Entry {
                 if (referenceArray == null) {
                     referenceArray = new JSONArray();
                 }
-
                 referenceArray.put(referenceField);
-
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
             CSAppUtils.showLog(TAG, "--include Reference-catch|" + e);
         }
-
         return this;
     }
 
+
+
+
+
     /**
      * Add a constraint that requires a particular reference key details.
-     *
-     * @param referenceFields
-     * 				 array key that to be constrained.
-     *
-     * @return
-     * 			 {@link Entry} object, so you can chain this call.
-     *
+     * @param referenceFields array key that to be constrained.
+     * @return {@link Entry} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *    //'blt5d4sample2633b' is a dummy Stack API key
@@ -941,25 +893,23 @@ public class Entry {
                 for (int i = 0; i < referenceFields.length; i++) {
                     referenceArray.put(referenceFields[i]);
                 }
-
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
             CSAppUtils.showLog(TAG, "--include Reference-catch|" + e);
         }
-
         return this;
     }
 
+
+
+
     /**
      * Specifies an array of &#39;only&#39; keys in BASE object that would be &#39;included&#39; in the response.
-     *
      * @param fieldUid
      * Array of the &#39;only&#39; reference keys to be included in response.
-     *
      * @return
      * {@link Entry} object, so you can chain this call.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *    //'blt5d4sample2633b' is a dummy Stack API key
@@ -984,21 +934,19 @@ public class Entry {
         }catch(Exception e) {
             CSAppUtils.showLog(TAG, "--include Reference-catch|" + e);
         }
-
         return this;
     }
 
+
+
+
     /**
      * Specifies an array of &#39;only&#39; keys that would be &#39;included&#39; in the response.
-     *
      *  @param fieldUid
      *  Array of the &#39;only&#39; reference keys to be included in response.
-     *
      *  @param referenceFieldUid
      *  Key who has reference to some other class object..
-     *
      *  @return  {@link Entry} object, so you can chain this call.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *    //'blt5d4sample2633b' is a dummy Stack API key
@@ -1025,9 +973,7 @@ public class Entry {
                 }
 
                 onlyJsonObject.put(referenceFieldUid, fieldValueArray);
-
                 includeReference(referenceFieldUid);
-
             }
         }catch(Exception e) {
             CSAppUtils.showLog(TAG, "--onlyWithReferenceUid-catch|" + e);
@@ -1035,17 +981,13 @@ public class Entry {
         return this;
     }
 
+
+
     /**
      * Specifies an array of &#39;except&#39; keys that would be &#39;excluded&#39; in the response.
-     *
-     * @param fieldUid
-     * 					Array of the &#39;except&#39; reference keys to be excluded in response.
-     *
-     * @param referenceFieldUid
-     * 					Key who has reference to some other class object.
-     *
-     * @return
-     *           {@link Entry} object, so you can chain this call.
+     * @param fieldUid Array of the &#39;except&#39; reference keys to be excluded in response.
+     * @param referenceFieldUid Key who has reference to some other class object.
+     * @return  {@link Entry} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -1087,31 +1029,29 @@ public class Entry {
         this.tags = tags;
     }
 
+
     protected void setUid(String uid) {
         this.uid = uid;
     }
 
+
+
     /**
      * Fetches the latest version of the entries from Contentstack.com content stack
-     *
      * @param callBack
      * {@link EntryResultCallBack} object to notify the application when the request has completed.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *    //'blt5d4sample2633b' is a dummy Stack API key
      *    //'blt6d0240b5sample254090d' is dummy access token.
      *    {@code
-     *
      *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *    Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
      *    entry.fetch(new BuiltResultCallBack() {<br>
      *           &#64;Override
      *           public void onCompletion(ResponseType responseType, BuiltError builtError) {
-     *
      *           }<br>
      *    });<br>
-     *
      *      }
      *   </pre>
      */
@@ -1121,10 +1061,9 @@ public class Entry {
             if (!uid.isEmpty()) {
 
                 String URL = "/" + contentTypeInstance.stackInstance.VERSION + "/content_types/" + contentTypeName + "/entries/" + uid;
-
                 LinkedHashMap<String, Object> headers  = getHeader(localHeader);
                 LinkedHashMap<String, String> headerAll = new LinkedHashMap<String, String>();
-                JSONObject              urlQueries= new JSONObject();
+                JSONObject urlQueries= new JSONObject();
 
                 if (headers != null && headers.size() > 0) {
                     for (Map.Entry<String, Object> entry : headers.entrySet()) {
@@ -1135,16 +1074,12 @@ public class Entry {
                         urlQueries.put("environment", headers.get("environment"));
                     }
                 }
-
                 fetchFromNetwork(URL, urlQueries, callBack);
-
             }
         }catch(Exception e){
             throwException(null, e, callBack);
         }
     }
-
-
 
 
 
@@ -1164,9 +1099,6 @@ public class Entry {
             throwException(null, e, callBack);
         }
     }
-
-
-
 
 
 
@@ -1280,22 +1212,20 @@ public class Entry {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *    //'blt5d4sample2633b' is a dummy Stack API key
-     *    //'blt6d0240b5sample254090d' is dummy access token.
-     *    {@code
-     *
-     *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *    final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762"); <br>
-          entry.addParam("include_dimensions", "true"); <br>
-     *    entry.fetch(new BuiltResultCallBack() {<br>
-     *           &#64;Override
-     *           public void onCompletion(ResponseType responseType, BuiltError builtError) {
-     *
-     *           }<br>
-     *    });<br>
-     *
-     *      }
-     *   </pre>
+     * //'blt5d4sample2633b' is a dummy Stack API key
+     * //'blt6d0240b5sample254090d' is dummy access token.
+     * {@code
+     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762"); <br>
+     * entry.addParam("include_dimensions", "true"); <br>
+     * entry.fetch(new BuiltResultCallBack() {
+     * <br>&#64;
+     * Override
+     * public void onCompletion(ResponseType responseType, BuiltError builtError) {
+     *  }<br>
+     * });<br>
+     *  }
+     * </pre>
      *
      *
      */

@@ -1,9 +1,9 @@
 package com.contentstack.sdk;
 
 
-import com.contentstack.sdk.Utility.CSAppConstants;
-import com.contentstack.sdk.Utility.CSAppUtils;
-import com.contentstack.sdk.Utility.CSController;
+import com.contentstack.sdk.utility.CSAppConstants;
+import com.contentstack.sdk.utility.CSAppUtils;
+import com.contentstack.sdk.utility.CSController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,8 +11,6 @@ import java.util.*;
 
 
 /**
- * A class that defines a query that is used to query for {@link Entry} instance.
- *
  * @author Contentstack.com
  *
  */
@@ -65,7 +63,6 @@ public class Query implements INotifyClass{
      * header name.
      * @param value
      * header value against given header name.
-     *
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
      *  //'blt5d4sample2633b' is a dummy Stack API key
@@ -84,11 +81,7 @@ public class Query implements INotifyClass{
 
 
     /**
-     * Remove header key.
-     *
-     * @param key
-     *              custom_header_key
-     *
+     * Remove header key @param key custom_header_key
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *  //'blt5d4sample2633b' is a dummy Stack API key
@@ -111,28 +104,21 @@ public class Query implements INotifyClass{
 
 
     /**
-     * Add a constraint to fetch all entries that contains given value against specified  key.
-     *
+     * Add a constraint to fetch all entries that contains given value against specified  key
      * @param key
      * field uid.
-     *
-     *
      * @param value
      * field value which get &#39;included&#39; from the response.
-     *
      * @return
      * {@link Query} object, so you can chain this call.
-     *
      * <p>
      * <b>Note :</b> for group field provide key in a &#34;key.groupFieldUid&#34; format.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *    //'blt5d4sample2633b' is a dummy Stack API key
      *    //'blt6d0240b5sample254090d' is dummy access token.
      *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *    Query csQuery = stack.contentType("contentType_name").query();
-     *
      *    csQuery.where("uid", "bltf4fbsample851db");
      * </pre>
      */
@@ -154,26 +140,20 @@ public class Query implements INotifyClass{
 
 
 
+
     /**
      * Add a custom query against specified key.
-     *
-     * @param key
-     * key.
-     *
-     * @param value
-     * value.
-     *
-     * @return
-     * {@link Query} object, so you can chain this call.
+     * @param key key.
+     * @param value value.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *    //'blt5d4sample2633b' is a dummy Stack API key
-     *    //'blt6d0240b5sample254090d' is dummy access token.
-     *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *    Query csQuery = stack.contentType("contentType_name").query();
-     *
-     *    csQuery.addQuery("query_param_key", "query_param_value");
+     *   //'blt5d4sample2633b' is a dummy Stack API key
+     *   //'blt6d0240b5sample254090d' is dummy access token.
+     *   Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *   Query csQuery = stack.contentType("contentType_name").query();
+     *   csQuery.addQuery("query_param_key", "query_param_value");
      * </pre>
      */
     public Query addQuery(String key, String value){
@@ -194,13 +174,8 @@ public class Query implements INotifyClass{
 
     /**
      * Remove provided query key from custom query if exist.
-     *
-     * @param key
-     * 				Query name to remove.
-     *
-     * @return
-     * 			{@linkplain Query} object, so you can chain this call.
-     *
+     * @param key Query name to remove.
+     * @return {@linkplain Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      projectQuery.removeQuery("Query_Key");
@@ -221,12 +196,8 @@ public class Query implements INotifyClass{
 
     /**
      * Combines all the queries together using AND operator
-     *
-     * @param queryObjects
-     * 					list of {@link Query} instances on which AND query executes.
-     *
-     * @return
-     * 			{@link Query} object, so you can chain this call.
+     * @param queryObjects list of {@link Query} instances on which AND query executes.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example ;</b><br>
      * <pre class="prettyprint">
@@ -272,12 +243,8 @@ public class Query implements INotifyClass{
 
     /**
      * Add a constraint to fetch all entries which satisfy <b> any </b> queries.
-     *
-     * @param queryObjects
-     * 					list of {@link Query} instances on which OR query executes.
-     *
-     * @return
-     * 			{@link Query} object, so you can chain this call.
+     * @param queryObjects list of {@link Query} instances on which OR query executes.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -325,16 +292,9 @@ public class Query implements INotifyClass{
 
     /**
      * Add a constraint to the query that requires a particular key entry to be less than the provided value.
-     *
-     * @param key
-     * 				the key to be constrained.
-     *
-     * @param value
-     * 				the value that provides an upper bound.
-     *
-     * @return
-     * 			 {@link Query} object, so you can chain this call.
-     *
+     * @param key the key to be constrained.
+     * @param value the value that provides an upper bound.
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
@@ -349,19 +309,14 @@ public class Query implements INotifyClass{
         if(key != null && value != null) {
             try {
                 if (queryValueJSON.isNull(key)) {
-
                     if (queryValue.length() > 0) {
                         queryValue = new JSONObject();
                     }
-
                     queryValue.put("$lt", value);
                     queryValueJSON.put(key, queryValue);
-
                 } else if (queryValueJSON.has(key)) {
-
                     queryValue.put("$lt", value);
                     queryValueJSON.put(key, queryValue);
-
                 }
             } catch (Exception e) {
                 throwException("lessThan",CSAppConstants.ErrorMessage_QueryFilterException, e);
@@ -377,14 +332,9 @@ public class Query implements INotifyClass{
 
     /**
      * Add a constraint to the query that requires a particular key entry to be less than or equal to the provided value.
-     *
-     * @param key
-     * 				The key to be constrained
-     * @param value
-     * 				The value that must be equalled.
-     *
-     * @return
-     * 		   {@link Query} object, so you can chain this call.
+     * @param key The key to be constrained
+     * @param value The value that must be equalled.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -392,7 +342,6 @@ public class Query implements INotifyClass{
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();
-     *
      *     csQuery.lessThanOrEqualTo("due_date", "2013-06-25T00:00:00+05:30");
      * </pre>
      */
@@ -402,19 +351,14 @@ public class Query implements INotifyClass{
 
             try{
                 if(queryValueJSON.isNull(key)){
-
                     if(queryValue.length() > 0){
                         queryValue = new JSONObject();
                     }
-
                     queryValue.put("$lte", value);
                     queryValueJSON.put(key, queryValue);
-
                 }else if(queryValueJSON.has(key)){
-
                     queryValue.put("$lte", value);
                     queryValueJSON.put(key, queryValue);
-
                 }
             }catch(Exception e){
                 throwException("lessThanOrEqualTo",CSAppConstants.ErrorMessage_QueryFilterException, e);
@@ -429,15 +373,9 @@ public class Query implements INotifyClass{
 
     /**
      * Add a constraint to the query that requires a particular key entry to be greater than the provided value.
-     *
-     * @param key
-     * The key to be constrained.
-     *
-     * @param value
-     * The value that provides an lower bound.
-     *
-     * @return
-     * {@link Query} object, so you can chain this call.
+     * @param key The key to be constrained.
+     * @param value The value that provides an lower bound.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -445,7 +383,6 @@ public class Query implements INotifyClass{
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();
-     *
      *     csQuery.greaterThan("due_date", "2013-06-25T00:00:00+05:30");
      * </pre>
      */
@@ -454,19 +391,14 @@ public class Query implements INotifyClass{
         if(key != null && value != null){
             try{
                 if(queryValueJSON.isNull(key)){
-
                     if(queryValue.length() > 0){
                         queryValue = new JSONObject();
                     }
-
                     queryValue.put("$gt", value);
                     queryValueJSON.put(key, queryValue);
-
                 }else if(queryValueJSON.has(key)){
-
                     queryValue.put("$gt", value);
                     queryValueJSON.put(key, queryValue);
-
                 }
             }catch (Exception e){
                 throwException("greaterThan",CSAppConstants.ErrorMessage_QueryFilterException, e);
@@ -474,7 +406,6 @@ public class Query implements INotifyClass{
         }else{
             throwException("greaterThan",CSAppConstants.ErrorMessage_QueryFilterException, null);
         }
-
         return this;
     }
 
@@ -482,15 +413,9 @@ public class Query implements INotifyClass{
 
     /**
      * Add a constraint to the query that requires a particular key entry to be greater than or equal to the provided value.
-     *
-     * @param key
-     * The key to be constrained.
-     *
-     * @param value
-     * The value that provides an lower bound.
-     *
-     * @return
-     *  {@link Query} object, so you can chain this call.
+     * @param key The key to be constrained.
+     * @param value The value that provides an lower bound.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -507,19 +432,14 @@ public class Query implements INotifyClass{
         if(key != null && value != null){
             try {
                 if(queryValueJSON.isNull(key)){
-
                     if(queryValue.length() > 0){
                         queryValue = new JSONObject();
                     }
-
                     queryValue.put("$gte", value);
                     queryValueJSON.put(key, queryValue);
-
                 }else if(queryValueJSON.has(key)){
-
                     queryValue.put("$gte", value);
                     queryValueJSON.put(key, queryValue);
-
                 }
             }catch(Exception e){
                 throwException("greaterThanOrEqualTo", CSAppConstants.ErrorMessage_QueryFilterException, e);
@@ -527,24 +447,17 @@ public class Query implements INotifyClass{
         }else{
             throwException("greaterThanOrEqualTo", CSAppConstants.ErrorMessage_QueryFilterException, null);
         }
-
         return this;
-
     }
 
 
 
     /**
-     * Add a constraint to the query that requires a particular key&#39;s entry to be not equal to the provided value.
-     *
-     * @param key
-     * 				The key to be constrained.
-     *
-     * @param value
-     * 				The object that must not be equaled.
-     *
-     * @return
-     * 			 {@link Query} object, so you can chain this call.
+     * Add a constraint to the query that requires a particular key&#39;s
+     * entry to be not equal to the provided value.
+     * @param key The key to be constrained.
+     * @param value The object that must not be equaled.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example ;</b><br>
      * <pre class="prettyprint">
@@ -562,19 +475,14 @@ public class Query implements INotifyClass{
 
             try{
                 if(queryValueJSON.isNull(key)){
-
                     if(queryValue.length() > 0){
                         queryValue = new JSONObject();
                     }
-
                     queryValue.put("$ne", value);
                     queryValueJSON.put(key, queryValue);
-
                 }else if(queryValueJSON.has(key)){
-
                     queryValue.put("$ne", value);
                     queryValueJSON.put(key, queryValue);
-
                 }
             }catch(Exception e){
                 throwException("notEqualTo",null, e);
@@ -585,7 +493,6 @@ public class Query implements INotifyClass{
         }
 
         return this;
-
     }
 
 
@@ -594,17 +501,11 @@ public class Query implements INotifyClass{
 
 
     /**
-     * Add a constraint to the query that requires a particular key&#39;s entry to be contained in the provided array.
-     *
-     * @param key
-     * 				The key to be constrained.
-     *
-     * @param values
-     *  			 The possible values for the key&#39;s object.
-     *
-     * @return
-     * 			 {@link Query} object, so you can chain this call.
-     *
+     * Add a constraint to the query that requires a particular key&#39;s entry to be contained
+     * in the provided array.
+     * @param key The key to be constrained.
+     * @param values The possible values for the key&#39;s object.
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
@@ -631,10 +532,8 @@ public class Query implements INotifyClass{
                     queryValue.put("$in", valuesArray);
                     queryValueJSON.put(key, queryValue);
                 } else if (queryValueJSON.has(key)) {
-
                     queryValue.put("$in", valuesArray);
                     queryValueJSON.put(key, queryValue);
-
                 }
             }catch(Exception e){
                 throwException("containedIn", CSAppConstants.ErrorMessage_QueryFilterException, e);
@@ -649,16 +548,11 @@ public class Query implements INotifyClass{
 
 
     /**
-     * Add a constraint to the query that requires a particular key entry&#39;s value not be contained in the provided array.
-     *
-     * @param key
-     * 				The key to be constrained.
-     *
-     * @param values
-     * 				The list of values the key object should not be.
-     *
-     * @return
-     * 			 {@link Query} object, so you can chain this call.
+     * Add a constraint to the query that requires a particular key entry&#39;s
+     * value not be contained in the provided array.
+     * @param key The key to be constrained.
+     * @param values The list of values the key object should not be.
+     * @return  {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -686,10 +580,8 @@ public class Query implements INotifyClass{
                     queryValue.put("$nin", valuesArray);
                     queryValueJSON.put(key, queryValue);
                 } else if (queryValueJSON.has(key)) {
-
                     queryValue.put("$nin", valuesArray);
                     queryValueJSON.put(key, queryValue);
-
                 }
             }catch(Exception e){
                 throwException("containedIn", CSAppConstants.ErrorMessage_QueryFilterException, e);
@@ -699,18 +591,13 @@ public class Query implements INotifyClass{
         }
 
         return this;
-
     }
 
 
     /**
      * Add a constraint that requires, a specified key exists in response.
-     *
-     * @param key
-     * 			  The key to be constrained.
-     *
-     * @return
-     * 			 {@link Query} object, so you can chain this call.
+     * @param key The key to be constrained.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -726,7 +613,6 @@ public class Query implements INotifyClass{
 
         if(key != null){
             try {
-
                 if (queryValueJSON.isNull(key)) {
                     if (queryValue.length() > 0) {
                         queryValue = new JSONObject();
@@ -734,7 +620,6 @@ public class Query implements INotifyClass{
                     queryValue.put("$exists", true);
                     queryValueJSON.put(key, queryValue);
                 } else if (queryValueJSON.has(key)) {
-
                     queryValue.put("$exists", true);
                     queryValueJSON.put(key, queryValue);
                 }
@@ -744,7 +629,6 @@ public class Query implements INotifyClass{
         }else{
             throwException("exists", CSAppConstants.ErrorMessage_QueryFilterException, null);
         }
-
         return this;
     }
 
@@ -752,20 +636,14 @@ public class Query implements INotifyClass{
 
     /**
      * Add a constraint that requires, a specified key does not exists in response.
-     *
-     * @param key
-     * 			  The key to be constrained.
-     *
-     * @return
-     * 			 {@link Query} object, so you can chain this call.
-     *
+     * @param key The key to be constrained.
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();
-     *
      *     csQuery.notExists("status");
      * </pre>
      */
@@ -798,12 +676,8 @@ public class Query implements INotifyClass{
 
     /**
      * Add a constraint that requires a particular reference key details.
-     *
-     * @param key
-     * 				 key that to be constrained.
-     *
-     * @return
-     * 			 {@link Query} object, so you can chain this call.
+     * @param key key that to be constrained.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -811,7 +685,6 @@ public class Query implements INotifyClass{
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();
-     *
      *     csQuery.includeReference("for_bug");
      * </pre>
      */
@@ -819,9 +692,7 @@ public class Query implements INotifyClass{
         if(objectUidForInclude == null){
             objectUidForInclude = new JSONArray();
         }
-
         objectUidForInclude.put(key);
-
         return this;
     }
 
@@ -830,20 +701,14 @@ public class Query implements INotifyClass{
 
     /**
      * Include tags with which to search entries.
-     *
-     * @param tags
-     * 				Comma separated array of tags with which to search entries.
-     *
-     * @return
-     *           {@link Query} object, so you can chain this call.
-     *
+     * @param tags Comma separated array of tags with which to search entries.
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();
-     *
      *     csQuery.tags(new String[]{"tag1","tag2"});
      * </pre>
      */
@@ -871,20 +736,14 @@ public class Query implements INotifyClass{
      * Sort the results in ascending order with the given key.
      * <br>
      * Sort the returned entries in ascending order of the provided key.
-     *
-     * @param key
-     * 			 The key to order by.
-     *
-     * @return
-     * 			 {@link Query} object, so you can chain this call.
-     *
+     * @param key The key to order by.
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();
-     *
      *     csQuery.ascending("name");
      * </pre>
      */
@@ -909,20 +768,14 @@ public class Query implements INotifyClass{
      * Sort the results in descending order with the given key.
      * <br>
      * Sort the returned entries in descending order of the provided key.
-     *
-     * @param key
-     * The key to order by.
-     *
-     * @return
-     * 			 {@link Query} object, so you can chain this call.
-     *
+     * @param key The key to order by.
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();
-     *
      *     csQuery.descending("name");
      * </pre>
      */
@@ -944,13 +797,8 @@ public class Query implements INotifyClass{
 
     /**
      * Specifies list of field uids that would be &#39;excluded&#39; from the response.
-     *
-     * @param fieldUid
-     * 					field uid  which get &#39;excluded&#39; from the response.
-     *
-     *
-     * @return
-     *           {@link Query} object, so you can chain this call.
+     * @param fieldUid field uid  which get &#39;excluded&#39; from the response.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -958,11 +806,9 @@ public class Query implements INotifyClass{
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *     ArrayList&#60;String&#62; array = new ArrayList&#60;String&#62;();
      *     array.add("name");
      *     array.add("description");<br>
-     *
      *     csQuery.except(array);
      * </pre>
      */
@@ -991,22 +837,15 @@ public class Query implements INotifyClass{
 
     /**
      * Specifies list of field uids that would be &#39;excluded&#39; from the response.
-     *
-     * @param fieldUids
-     * 					field uid  which get &#39;excluded&#39; from the response.
-     *
-     *
-     * @return
-     *           {@link Query} object, so you can chain this call.
-     *
+     * @param fieldUids field uid  which get &#39;excluded&#39; from the response.
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     //'blt5d4sample2633b' is a dummy Stack API key
-     *     //'blt6d0240b5sample254090d' is dummy access token.
-     *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *     Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
-     *     csQuery.except(new String[]{"name", "description"});
+     *  //'blt5d4sample2633b' is a dummy Stack API key
+     *  //'blt6d0240b5sample254090d' is dummy access token.
+     *  Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *  Query csQuery = stack.contentType("contentType_name").query();<br>
+     *  csQuery.except(new String[]{"name", "description"});
      * </pre>
      */
     public Query except(String[] fieldUids){
@@ -1015,7 +854,6 @@ public class Query implements INotifyClass{
                 if(objectUidForExcept == null){
                     objectUidForExcept = new JSONArray();
                 }
-
                 int count = fieldUids.length;
                 for(int i = 0; i < count; i++){
                     objectUidForExcept.put(fieldUids[i]);
@@ -1034,13 +872,8 @@ public class Query implements INotifyClass{
 
     /**
      * Specifies an array of &#39;only&#39; keys in BASE object that would be &#39;included&#39; in the response.
-     *
-     * @param fieldUid
-     * 					Array of the &#39;only&#39; reference keys to be included in response.
-     *
-     * @return
-     *           {@link Query} object, so you can chain this call.
-     *
+     * @param fieldUid Array of the &#39;only&#39; reference keys to be included in response.
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
@@ -1056,7 +889,6 @@ public class Query implements INotifyClass{
                 if(objectUidForOnly == null){
                     objectUidForOnly = new JSONArray();
                 }
-
                 int count = fieldUid.length;
                 for(int i = 0; i < count; i++){
                     objectUidForOnly.put(fieldUid[i]);
@@ -1074,16 +906,9 @@ public class Query implements INotifyClass{
 
     /**
      * Specifies an array of &#39;only&#39; keys that would be &#39;included&#39; in the response.
-     *
-     * @param fieldUid
-     * 					Array of the &#39;only&#39; reference keys to be included in response.
-     *
-     * @param referenceFieldUid
-     * 					Key who has reference to some other class object.
-     *
-     * @return
-     *           {@link Query} object, so you can chain this call.
-     *
+     * @param fieldUid Array of the &#39;only&#39; reference keys to be included in response.
+     * @param referenceFieldUid Key who has reference to some other class object.
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      //'blt5d4sample2633b' is a dummy Stack API key
@@ -1109,7 +934,6 @@ public class Query implements INotifyClass{
                 }
 
                 onlyJsonObject.put(referenceFieldUid, fieldValueArray);
-
                 if(objectUidForInclude == null){
                     objectUidForInclude = new JSONArray();
                 }
@@ -1130,16 +954,9 @@ public class Query implements INotifyClass{
 
     /**
      * Specifies an array of &#39;except&#39; keys that would be &#39;excluded&#39; in the response.
-     *
-     * @param fieldUid
-     * 					Array of the &#39;except&#39; reference keys to be excluded in response.
-     *
-     * @param referenceFieldUid
-     * 					Key who has reference to some other class object.
-     *
-     * @return
-     *           {@link Query} object, so you can chain this call.
-     *
+     * @param fieldUid Array of the &#39;except&#39; reference keys to be excluded in response.
+     * @param referenceFieldUid Key who has reference to some other class object.
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
@@ -1163,14 +980,11 @@ public class Query implements INotifyClass{
                 for(int i = 0; i < count; i++){
                     fieldValueArray.put(fieldUid.get(i));
                 }
-
                 exceptJsonObject.put(referenceFieldUid, fieldValueArray);
-
                 if(objectUidForInclude == null){
                     objectUidForInclude = new JSONArray();
                 }
                 objectUidForInclude.put(referenceFieldUid);
-
             }else{
                 throwException("exceptWithReferenceUid",CSAppConstants.ErrorMessage_QueryFilterException, null);
             }
@@ -1185,21 +999,15 @@ public class Query implements INotifyClass{
 
     /**
      * Retrieve only count of entries in result.
-     *
-     *
-     * @return
-     *       {@link Query} object, so you can chain this call.
-     *
+     * @return {@link Query} object, so you can chain this call.
      * <b>Note :- </b>
      * Call {@link QueryResult#getCount()} method in the success to get count of objects.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *     csQuery.count();
      * </pre>
      */
@@ -1217,22 +1025,16 @@ public class Query implements INotifyClass{
 
 
     /**
-     * Retrieve count and data of objects in result.
-     *
-     *
-     * @return
-     * {@link Query} object, so you can chain this call.
-     *
+     * Retrieve count and data of objects in result
+     * @return {@link Query} object, so you can chain this call.
      * <b>Note :- </b>
      * Call {@link QueryResult#getCount()} method in the success to get count of  objects.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *     csQuery.includeCount();
      * </pre>
      */
@@ -1249,29 +1051,22 @@ public class Query implements INotifyClass{
 
     /**
      * Include schemas of all returned objects along with objects themselves.
-     *
-     *
-     * @return
-     * 			 {@link Query} object, so you can chain this call.
-     *
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *     csQuery.includeSchema();
      * </pre>
      */
     @Deprecated
     public Query includeSchema(){
         try {
-
             if (!urlQueries.has("include_content_type")){
                 urlQueries.put("include_schema",true);
             }
-
         } catch (Exception e) {
             throwException("includeSchema", CSAppConstants.ErrorMessage_QueryFilterException, e);
         }
@@ -1285,11 +1080,7 @@ public class Query implements INotifyClass{
 
     /**
      * Include Content Type of all returned objects along with objects themselves.
-     *
-     *
-     * @return
-     * {@link Query} object, so you can chain this call.
-     *
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
@@ -1301,13 +1092,10 @@ public class Query implements INotifyClass{
      */
     public Query includeContentType(){
         try {
-
             if (urlQueries.has("include_schema")){
                 urlQueries.remove("include_schema");
             }
-
             urlQueries.put("include_content_type",true);
-
         } catch (Exception e) {
             throwException("include_content_type", CSAppConstants.ErrorMessage_QueryFilterException, e);
         }
@@ -1321,16 +1109,13 @@ public class Query implements INotifyClass{
 
     /**
      * Include object owner&#39;s profile in the objects data.
-     * @return
-     * {@linkplain Query} object, so you can chain this call.
-     *
+     * @return {@linkplain Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *     csQuery.includeOwner();
      * </pre>
      */
@@ -1348,22 +1133,17 @@ public class Query implements INotifyClass{
 
     /**
      * Fetches all the objects before specified uid.
-     *
-     * @param uid
-     * 			  uid before which objects should be returned.
-     *
-     * @return
-     *          {@link Query} object, so you can chain this call.
+     * @param uid  uid before which objects should be returned.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
-     *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *     Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
-     *     //'blt0ae4df463e93f6f5' is dummy uid
-     *     csQuery.beforeUid("blt0ae4df463e93f6f5");
+     *   Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *   Query csQuery = stack.contentType("contentType_name").query();<br>
+     *   //'blt0ae4df463e93f6f5' is dummy uid
+     *   csQuery.beforeUid("blt0ae4df463e93f6f5");
      * </pre>
      */
 
@@ -1384,12 +1164,8 @@ public class Query implements INotifyClass{
 
     /**
      * Fetches all the objects after specified uid.
-     *
-     * @param uid
-     * 			   uid after which objects should be returned.
-     *
-     * @return
-     *          {@link Query} object, so you can chain this call.
+     * @param uid uid after which objects should be returned.
+     * @return {@link Query} object, so you can chain this call.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -1397,7 +1173,6 @@ public class Query implements INotifyClass{
      *      //'blt6d0240b5sample254090d' is dummy access token.
      *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *      //'blt0ae4df463e93f6f5' is dummy uid
      *      csQuery.afterUid("blt0ae4df463e93f6f5");
      * </pre>
@@ -1421,22 +1196,17 @@ public class Query implements INotifyClass{
     /**
      * The number of objects to skip before returning any.
      *
-     * @param number
-     * 				No of objects to skip from returned objects.
-     *
-     * @return
-     * 			 {@link Query} object, so you can chain this call.
-     *
+     * @param number No of objects to skip from returned objects
+     * @return {@link Query} object, so you can chain this call.
      * <p>
-     * <b> Note: </b>The skip parameter can be used for pagination, &#34;skip&#34; specifies the number of objects to skip in the response.
-     *
+     * <b> Note: </b>
+     * The skip parameter can be used for pagination, &#34;skip&#34; specifies the number of objects to skip in the response.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      //'blt5d4sample2633b' is a dummy Stack API key
      *      //'blt6d0240b5sample254090d' is dummy access token.
      *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *      csQuery.skip(2);
      * </pre>
      */
@@ -1454,22 +1224,17 @@ public class Query implements INotifyClass{
 
     /**
      * A limit on the number of objects to return.
-     *
-     * @param number
-     * 				No of objects to limit.
-     *
-     * @return
-     * 		    {@link Query} object, so you can chain this call.
+     * @param number No of objects to limit.
+     * @return {@link Query} object, so you can chain this call.
      * <p>
-     * <b> Note:</b> The limit parameter can be used for pagination, &#34;limit&#34; specifies the number of objects to limit to in the response.
-     *
+     * <b> Note:</b> The limit parameter can be used for pagination, &#34;
+     * limit&#34; specifies the number of objects to limit to in the response.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      //'blt5d4sample2633b' is a dummy Stack API key
      *      //'blt6d0240b5sample254090d' is dummy access token.
      *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *      csQuery.limit(2);
      * </pre>
      */
@@ -1488,24 +1253,15 @@ public class Query implements INotifyClass{
      *
      * Add a regular expression constraint for finding string values that match the provided regular expression.
      * This may be slow for large data sets.
-     *
-     * @param key
-     * 				The key to be constrained.
-     *
-     * @param regex
-     * 				The regular expression pattern to match.
-     *
-     *
-     * @return
-     *		   {@link Query} object, so you can chain this call.
-     *
+     * @param key The key to be constrained.
+     * @param regex The regular expression pattern to match.
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      //'blt5d4sample2633b' is a dummy Stack API key
      *      //'blt6d0240b5sample254090d' is dummy access token.
      *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *      csQuery.regex("name", "^browser");
      * </pre>
      */
@@ -1513,26 +1269,18 @@ public class Query implements INotifyClass{
     public Query regex(String key, String regex){
 
         if(key != null && regex != null){
-
             try {
                 if(queryValueJSON.isNull(key)){
 
                     if(queryValue.length() > 0){
                         queryValue = new JSONObject();
                     }
-
                     queryValue.put("$regex", regex);
-
                     queryValueJSON.put(key, queryValue);
-
                 }else if(queryValueJSON.has(key)){
-
                     queryValue.put("$regex", regex);
-
                     queryValueJSON.put(key, queryValue);
-
                 }
-
             } catch (Exception e) {
                 throwException("matches", CSAppConstants.ErrorMessage_QueryFilterException, e);
             }
@@ -1549,29 +1297,20 @@ public class Query implements INotifyClass{
      *
      * Add a regular expression constraint for finding string values that match the provided regular expression.
      * This may be slow for large data sets.
-     *
-     * @param key
-     * 				The key to be constrained.
-     *
-     * @param regex
-     * 				The regular expression pattern to match.
-     *
+     * @param key The key to be constrained.
+     * @param regex The regular expression pattern to match
      * @param modifiers
-     * 				Any of the following supported Regular expression modifiers.
-     *  				<p>use <b> i </b> for case-insensitive matching.</p>
-     *					<p>use <b> m </b> for making dot match newlines.</p>
-     *					<p>use <b> x </b> for ignoring whitespace in regex</p>
-     *
-     * @return
-     *		   {@link Query} object, so you can chain this call.
-     *
+     * Any of the following supported Regular expression modifiers.
+     * <p>use <b> i </b> for case-insensitive matching.</p>
+     * <p>use <b> m </b> for making dot match newlines.</p>
+     * <p>use <b> x </b> for ignoring whitespace in regex</p>
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      //'blt5d4sample2633b' is a dummy Stack API key
      *      //'blt6d0240b5sample254090d' is dummy access token.
      *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *      csQuery.regex("name", "^browser", "i");
      * </pre>
      */
@@ -1586,25 +1325,18 @@ public class Query implements INotifyClass{
                     if(queryValue.length() > 0){
                         queryValue = new JSONObject();
                     }
-
                     queryValue.put("$regex", regex);
-
                     if(modifiers != null){
                         queryValue.put("$options", modifiers);
                     }
                     queryValueJSON.put(key, queryValue);
-
                 }else if(queryValueJSON.has(key)){
-
                     queryValue.put("$regex", regex);
-
                     if(modifiers != null){
                         queryValue.put("$options", modifiers);
                     }
                     queryValueJSON.put(key, queryValue);
-
                 }
-
             } catch (Exception e) {
                 throwException("matches", CSAppConstants.ErrorMessage_QueryFilterException, e);
             }
@@ -1619,20 +1351,14 @@ public class Query implements INotifyClass{
 
     /**
      * Set {@link Language} instance.
-     *
-     * @param language
-     *               {@link Language} value
-     *
-     * @return
-     *		   {@link Query} object, so you can chain this call.
-     *
+     * @param language {@link Language} value
+     * @return {@link Query} object, so you can chain this call
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      //'blt5d4sample2633b' is a dummy Stack API key
      *      //'blt6d0240b5sample254090d' is dummy access token.
      *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *      csQuery.language(Language.ENGLISH_UNITED_STATES);
      * </pre>
      */
@@ -1665,20 +1391,14 @@ public class Query implements INotifyClass{
 
     /**
      * This method provides only the entries matching the specified value.
-     *
-     * @param value
-     *              value used to match or compare
-     *
-     * @return
-     *           {@link Query} object, so you can chain this call.
-     *
+     * @param value value used to match or compare
+     * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      //'blt5d4sample2633b' is a dummy Stack API key
      *      //'blt6d0240b5sample254090d' is dummy access token.
      *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
-     *
      *      csQuery.search("header");
      * </pre>
      */
@@ -1687,7 +1407,6 @@ public class Query implements INotifyClass{
 
         if(value != null){
             try {
-
                 if (urlQueries.isNull(value)) {
                     urlQueries.put("typeahead", value);
                 }
@@ -1706,13 +1425,9 @@ public class Query implements INotifyClass{
 
     /**
      * Execute a Query and Caches its result (Optional)
-     *
      * @param callback
      *{@link QueryResultsCallBack} object to notify the application when the request has completed.
-     *
-     * @return
-     * {@linkplain Query} object, so you can chain this call.
-     *
+     * @return {@linkplain Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      //'blt5d4sample2633b' is a dummy Stack API key
@@ -1723,7 +1438,6 @@ public class Query implements INotifyClass{
      *      csQuery.find(new QueryResultsCallBack() {<br>
      *          &#64;Override
      *          public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {<br>
-     *
      *          }
      *      });<br>
      * </pre>
@@ -1735,7 +1449,6 @@ public class Query implements INotifyClass{
 
         Error error = null;
         try{
-
             if(isJsonProper){
 
                 if(!formName.isEmpty()){
@@ -1776,13 +1489,9 @@ public class Query implements INotifyClass{
 
     /**
      * Execute a Query and Caches its result (Optional)
-     *
      * @param callBack
      * {@link QueryResultsCallBack} object to notify the application when the request has completed.
-     *
-     * @return
-     * 		{@linkplain Query} object, so you can chain this call.
-     *
+     * @return {@linkplain Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      //'blt5d4sample2633b' is a dummy Stack API key
@@ -1913,31 +1622,21 @@ public class Query implements INotifyClass{
         try{
 
             String URL = "/" + contentTypeInstance.stackInstance.VERSION + "/content_types/" + formName + "/entries";
-
-
             queryResultCallback = callback;
             singleQueryResultCallback = callBack;
-
             setQueryJson(callback);
-
             //TODO Delta is not yet added
             LinkedHashMap<String, Object> headers = getHeader(localHeader);
-
             if (headers.size() < 1) {
                 //TODO HANDLE HEADER NOT PRESENT ERROR
                 throwException("find", CSAppConstants.ErrorMessage_CalledDefaultMethod, null);
-
             } else {
-
                 if (headers.containsKey("environment")) {
                     urlQueries.put("environment", headers.get("environment"));
                 }
-
                 mainJSON.put("query", urlQueries);
                 mainJSON.put("_method", CSAppConstants.RequestMethod.GET.toString());
-
                 fetchFromNetwork(URL, headers, mainJSON, callback, callBack);
-
             }
 
 
@@ -1953,9 +1652,7 @@ public class Query implements INotifyClass{
 
     //fetch from network.
     private void fetchFromNetwork(String URL, LinkedHashMap<String, Object> headers, JSONObject jsonMain, ResultCallBack callback, SingleQueryResultCallback resultCallback){
-
         LinkedHashMap<String, Object> urlParams = getUrlParams(jsonMain);
-
         if(resultCallback != null){
             new CSBackgroundTask(this, contentTypeInstance.stackInstance, CSController.SINGLEQUERYOBJECT, URL, headers, urlParams, new JSONObject(),  CSAppConstants.callController.QUERY.toString(), CSAppConstants.RequestMethod.GET, resultCallback);
         }else {
@@ -1971,7 +1668,6 @@ public class Query implements INotifyClass{
 
         JSONObject queryJSON = jsonMain.optJSONObject("query");
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<>();
-
         if(queryJSON != null && queryJSON.length() > 0){
             Iterator<String> iter = queryJSON.keys();
             while (iter.hasNext()) {
@@ -2091,7 +1787,6 @@ public class Query implements INotifyClass{
      * @param key The key as string which needs to be added to the Query
      * @param value The value as string which needs to be added to the Query
      * @return {@link Query}
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      //'blt5d4sample2633b' is a dummy Stack API key
@@ -2102,11 +1797,9 @@ public class Query implements INotifyClass{
      *      csQuery.findOne(new QueryResultsCallBack() {<br>
      *          &#64;Override
      *          public void onCompletion(ResponseType responseType, ENTRY entry, Error error) {<br>
-     *
      *          }
      *      });<br>
      * </pre>
-     *
      */
     public Query addParam(String key, String value){
         try {

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.WeakHashMap;
 
 /**
- *  AssetLibrary class to fetch all files details on Conentstack server.
+ *  AssetLibrary class to fetch all files details on Contentstack server.
  *
  *  @author  Contentstack.com
  *
@@ -20,10 +20,9 @@ class AssetModel {
     String uploadUrl;
     String[] tags;
     JSONObject json;
-    int totalCount = 0;
+    private int totalCount = 0;
     int count = 0;
 
-    protected WeakHashMap<String, Object> _metadata= null;
     public AssetModel(JSONObject responseJSON, boolean isArray, boolean isFromCache) {
 
         if(isFromCache){
@@ -61,7 +60,7 @@ class AssetModel {
         if(json != null && json.has("_metadata")){
             JSONObject _metadataJSON  = json.optJSONObject("_metadata");
             Iterator<String> iterator = _metadataJSON.keys();
-            _metadata = new WeakHashMap<String, Object>();
+            WeakHashMap<String, Object> _metadata = new WeakHashMap<String, Object>();
             while (iterator.hasNext()) {
                 String key = iterator.next();
                 _metadata.put(key, _metadataJSON.optString(key));

@@ -3,8 +3,6 @@ package com.contentstack.sdk;
 import java.util.List;
 
 /**
- * To FetchAssetsCallback response
- *
  * @author  Contentstack.com
  */
 

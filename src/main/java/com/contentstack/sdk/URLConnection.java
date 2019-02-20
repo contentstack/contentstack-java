@@ -20,7 +20,6 @@ public class URLConnection {
         URL obj = new URL(csUrl);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod(requestMethod);
-        //con.setRequestProperty("User-Agent", USER_AGENT);
         int responseCode = con.getResponseCode();
         System.out.println("GET Response Code :: " + responseCode);
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
@@ -43,43 +42,23 @@ public class URLConnection {
 
 
 
-
-
-
-
-
-
-
     public void postDataRequest(String contentstackUrl, String requestMethod, Map<String,Object> params) throws IOException {
 
         String requesturl = contentstackUrl+"?"+postParamData(params).toString();
-
         URL obj = new URL(contentstackUrl+"?");
         HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
         connection.setRequestMethod("GET");
-        //connection.setRequestProperty("User-Agent", USER_AGENT);
         connection.setDoOutput(true);
-
-
         OutputStream outputStream = connection.getOutputStream();
-
-        System.out.println("CS Url : "+requesturl);
-        System.out.println("Request method : "+requestMethod);
-        System.out.println("Post params : "+postParamData(params).toString());
-
         if (!postParamData(params).isEmpty() && postParamData(params)!=null){
-            //replace("%2F","/")
             outputStream.write(postParamData(params).toString().getBytes("UTF-8"));
         }
 
-
-        //System.out.println("OutputStream "+outputStream);
         outputStream.flush();
         outputStream.close();
         int responseCode = connection.getResponseCode();
-        System.out.println("POST Response Code :: " + responseCode);
 
-        if (responseCode == HttpURLConnection.HTTP_OK) { //success
+        if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
             StringBuffer response = new StringBuffer();
@@ -90,29 +69,19 @@ public class URLConnection {
             in.close();
             System.out.println(response.toString());
 
-        } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED)
-        {
+        } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
             this.sendError(HttpURLConnection.HTTP_UNAUTHORIZED, "UNAUTHORIZED REQUEST");
         }
-        else
-        {
+        else {
             this.sendError(0, "POST request not worked");
         }
     }
 
 
-
-
-
-
-
-
-
-
-
     private void sendError(int responseCode, String respMessage){
         System.out.print(responseCode+":: "+respMessage);
     }
+
 
     public String postParamData(Map<String,Object> params){
 

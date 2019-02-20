@@ -1,16 +1,13 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.Utility.CSAppUtils;
+import com.contentstack.sdk.utility.CSAppUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
 
 /**
- * Helper class for parsing the result of {@link Entry}
- *
  * @author Contentstack.com
- *
  */
 public class QueryResult {
 
@@ -22,9 +19,9 @@ public class QueryResult {
     protected int count;
     protected List<Entry> resultObjects;
 
+
     /**
      * @return List of {@link Entry} objects list.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * List&#60;Entry&#62; list = queryResultObject.getResultObjects();<br>
@@ -34,9 +31,10 @@ public class QueryResult {
         return resultObjects;
     }
 
+
+
     /**
      * Returns count of objects available.<br>
-     *
      * <b>Note : </b>
      * To retrieve this data, {@link Query#includeCount()} or {@link Query#count()}
      * should be added in {@link Query} while querying.
@@ -114,8 +112,7 @@ public class QueryResult {
             }
 
         }catch(Exception e){
-            //TODO ERROR HANDLE
-            CSAppUtils.showLog(TAG, "----------------------QueryResult--setJSON--"+e.toString());
+            CSAppUtils.showLog(TAG, "-QueryResult--setJSON--"+e.toString());
         }
     }
 

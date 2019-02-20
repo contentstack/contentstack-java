@@ -1,25 +1,19 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.Utility.CSAppConstants;
-import com.contentstack.sdk.Utility.CSAppUtils;
-import com.contentstack.sdk.Utility.CSController;
-import com.contentstack.sdk.Utility.ContentstackUtil;
+import com.contentstack.sdk.utility.CSAppConstants;
+import com.contentstack.sdk.utility.CSController;
+import com.contentstack.sdk.utility.ContentstackUtil;
 import org.json.JSONObject;
 
 import java.util.*;
 
 
 /**
- * Asset class to fetch files details on Conentstack server.
  * @author  Contentstack.com
  */
 
 public class Asset {
 
-
-    private final static String TAG = "Asset";
-
-    /*For SingleUpload variable*/
     protected String assetUid     = null;
     protected String contentType  = null;
     protected String fileSize     = null;
@@ -53,23 +47,20 @@ public class Asset {
     /**
      * Creates new instance of {@link Asset} from valid {@link JSONObject}.
      * If JSON object is not appropriate then it will return null.
-     *
-     * @param jsonObject
-     * 					json object of particular file attached in the built object.<br>
-     *
-     * {@link Asset} can be generate using of data filled {@link Entry} and {@link #configure(JSONObject)}.<br>
+     * @param jsonObject json object of particular file attached in the built object.<br>
+     * {@link Asset} can be generate using of data filled {@link Entry}
+     * and
+     * {@link #configure(JSONObject)}.<br>
      *
      * <br><br><b>Example :</b><br>
      * <br>1. Single Attachment :-<br>
      * <pre class="prettyprint linenums:1">
      *  //'blt5d4sample2633b' is a dummy Application API key
      * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config);
-     *
-     *  Asset assetObject = stack.asset("assetUid");<br>
-     *  assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));</pre>
+     * Asset assetObject = stack.asset("assetUid");<br>
+     * assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));</pre>
      *
      * <br>2. Multiple Attachment :-<br>
-     *
      * <pre class="prettyprint linenums:1">
      * JSONArray array = entryObject.getJSONArray(Attach_Image_Field_Uid);
      * <br>{@code for (int i = 0; i < array.length(); i++)} {<br>
@@ -77,7 +68,6 @@ public class Asset {
      *  	  assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));<br>
      *    }<br>
      * </pre>
-     *
      * @return {@link Asset} instance.
      */
 
@@ -111,16 +101,12 @@ public class Asset {
      * To set headers for Contentstack rest calls.
      * <br>
      * Scope is limited to this object only.
-     * @param key
-     * 				header name.
-     * @param value
-     * 				header value against given header name.
-     *
+     * @param key header name.
+     * @param value header value against given header name.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
      * Asset assetObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
-     *
      * assetObject.setHeader("custom_header_key", "custom_header_value");
      * </pre>
      */
@@ -137,16 +123,12 @@ public class Asset {
     /**
      * Remove a header for a given key from headers.
      * <br>
-     * Scope is limited to this object only.
-     *
-     * @param key
-     * 			   header key.
-     *
+     * Scope is limited to this object only
+     * @param key header key.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
      * Asset assetObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
-     *
      * assetObject.removeHeader("custom_header_key");
      * </pre>
      */
@@ -168,12 +150,10 @@ public class Asset {
      * To set uid of media file which is uploaded on Contentstack server.
      * @param assetUid
      * upload uid.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
      * Asset assetObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
-     *
      * assetObject.setUid("upload_uid");
      * </pre>
      *
@@ -191,11 +171,9 @@ public class Asset {
     /**
      *
      *  @return String @assetUid
-     *
      * <br><br><b> Example :</b><br>
      * <pre class="prettyprint">
      * String uid = assetObject.getAssetUid();
-     *
      * return String of @uid
      * </pre>
      */
@@ -206,7 +184,6 @@ public class Asset {
 
     /**
      * @return String @contentType
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String contentType = assetObject.getFileType();
@@ -221,9 +198,7 @@ public class Asset {
     /**
      *
      * @return String @fileSize
-     *
      * <br><b>Note :</b><br> file size will receive in bytes number.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String queueSize = assetObject.getFileSize();
@@ -237,7 +212,6 @@ public class Asset {
 
     /**
      * @return String @fileName
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String fileName = assetObject.getFileName();
@@ -252,7 +226,6 @@ public class Asset {
     /**
      * @return String @uploadUrl by which you can download media file uploaded on Contentstack server.
      * You will get uploaded url after uploading media file on Contentstack server.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String url = assetObject.getUrl();
@@ -267,7 +240,6 @@ public class Asset {
     /**
      *
      * @return JSON @json representation of this {@link Asset} instance data.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *  JSONObject json = assetObject.toJSON();
@@ -281,11 +253,7 @@ public class Asset {
 
     /**
      * @return Calendar @{@link java.util.Date}
-     *
-     *
      * Get {@link Calendar} value of creation time of entry.
-     *
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * Calendar createdAt = assetObject.getCreateAt("key");
@@ -298,14 +266,13 @@ public class Asset {
             String value = json.optString("created_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------getCreateAtDate|" + e);
+            e.printStackTrace();
         }
         return null;
     }
 
 
     public String getCreatedBy(){
-
         return json.optString("created_by");
     }
 
@@ -325,7 +292,7 @@ public class Asset {
             String value = json.optString("updated_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------getUpdateAtDate|" + e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -333,9 +300,7 @@ public class Asset {
 
     /**
      * Get uid who updated this entry.
-     *
      * @return String @getUpdatedBy
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String updatedBy_uid = assetObject.getUpdatedBy();
@@ -343,7 +308,6 @@ public class Asset {
      */
 
     public String getUpdatedBy(){
-
         return json.optString("updated_by");
     }
 
@@ -351,10 +315,8 @@ public class Asset {
 
 
     /**
-     * Get {@link Calendar} value of deletion time of entry.
-     *
+     * Get {@link Calendar} value of deletion time of entry
      * @return Calendar @{@link java.util.Date}
-     *
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -368,7 +330,7 @@ public class Asset {
             String value = json.optString("deleted_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------getDeleteAt|" + e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -378,7 +340,6 @@ public class Asset {
      * Get uid who deleted this entry.
      *
      * @return String @getDeletedBy
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String deletedBy_uid = assetObject.getDeletedBy();
@@ -391,9 +352,7 @@ public class Asset {
 
     /**
      * Get tags.
-     *
      * @return String @tagsArray
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String[] tags = assetObject.getURL();
@@ -409,10 +368,8 @@ public class Asset {
 
     /**
      * Fetch a particular asset using uid.
-     *
      * @param callback
      * {@link FetchResultCallback} instance for success and failure result.
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *  Asset asset = stack.asset("blt5312f71416d6e2c8");
@@ -434,7 +391,6 @@ public class Asset {
         try {
 
             String URL = "/" + stackInstance.VERSION + "/assets/" + assetUid;
-
             LinkedHashMap<String, Object> headers = getHeader(headerGroup_local);
             JSONObject urlQueries = new JSONObject();
             if (headers.containsKey("environment")) {
@@ -456,10 +412,6 @@ public class Asset {
     private void fetchFromNetwork(String URL, JSONObject urlQueries, LinkedHashMap<String, Object> headers, FetchResultCallback callback) {
         if(callback != null) {
             HashMap<String, Object> urlParams = getUrlParams(urlQueries);
-
-            System.out.println("headers : "+headers);
-            System.out.println("URL: "+URL);
-
             new CSBackgroundTask(this, stackInstance, CSController.FETCHASSETS, URL, headers, urlParams, new JSONObject(),  CSAppConstants.callController.ASSET.toString(), false, CSAppConstants.RequestMethod.GET, callback);
         }
     }
@@ -480,7 +432,7 @@ public class Asset {
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    CSAppUtils.showLog(TAG, "----------------setQueryJson"+e.toString());
+                    e.printStackTrace();
                 }
             }
 

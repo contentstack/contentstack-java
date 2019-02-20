@@ -1,30 +1,24 @@
 package com.contentstack.sdk;
 
 /**
- * To retrieve information of Error Type.
- *
  * @author  Contentstack.com
  */
+
 public class ErrorType {
 
-
     public static final int HTTP_CREATED = 201;
-
     /**
      * HTTP Status-Code 202: Accepted.
      */
     public static final int HTTP_ACCEPTED = 202;
-
     /**
      * HTTP Status-Code 203: Non-Authoritative Information.
      */
     public static final int HTTP_NOT_AUTHORITATIVE = 203;
-
     /**
      * HTTP Status-Code 204: No Content.
      */
     public static final int HTTP_NO_CONTENT = 204;
-
     /**
      * HTTP Status-Code 205: Reset Content.
      */

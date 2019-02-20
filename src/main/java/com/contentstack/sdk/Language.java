@@ -1,9 +1,6 @@
 package com.contentstack.sdk;
 
 /**
- * Helper enum for pass language.
- * Differentiated using languages and countries.
- *
  * @author Contentstack.com
  *
  */

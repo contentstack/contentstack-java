@@ -1,4 +1,4 @@
-package com.contentstack.sdk.Utility;
+package com.contentstack.sdk.utility;
 
 /**
  *

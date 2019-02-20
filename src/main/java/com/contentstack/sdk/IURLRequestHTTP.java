@@ -1,6 +1,6 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.Utility.CSAppConstants;
+import com.contentstack.sdk.utility.CSAppConstants;
 import org.json.JSONObject;
 import java.util.LinkedHashMap;
 

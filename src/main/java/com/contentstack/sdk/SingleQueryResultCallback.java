@@ -1,7 +1,6 @@
 package com.contentstack.sdk;
 
 /**
- *
  * @author Contentstack.com
  *
  */

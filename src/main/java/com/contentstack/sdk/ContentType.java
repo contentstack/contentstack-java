@@ -4,10 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * BuiltClass provides {@link Entry} and {@link Query} instance.<br>
- *
  * @author  Contentstack.com
  */
+
 public class ContentType {
 
     protected String contentTypeName = null;
@@ -36,16 +35,14 @@ public class ContentType {
      * header name.
      * @param value
      * header value against given header name.
-     *
-     *  <br><br><b>Example :</b><br>
-     *  <pre class="prettyprint">
-     *  //'blt5d4sample2633b' is a dummy Stack API key
-     *  //'blt6d0240b5sample254090d' is dummy access token.
-     *  Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *  ContentType contentType = stack.contentType("form_name");<br>
-     *
-     *  contentType.setHeader("custom_key", "custom_value");
-     *  </pre>
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     * //'blt5d4sample2633b' is a dummy Stack API key
+     * //'blt6d0240b5sample254090d' is dummy access token.
+     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * ContentType contentType = stack.contentType("form_name");<br>
+     * contentType.setHeader("custom_key", "custom_value");
+     * </pre>
      */
 
     public void setHeader(String key, String value){
@@ -57,10 +54,8 @@ public class ContentType {
 
     /**
      * Remove header key.
-     *
      * @param key
      * custom_header_key
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
@@ -70,6 +65,7 @@ public class ContentType {
      *  contentType.removeHeader("custom_header_key");
      * </pre>
      */
+
     public void removeHeader(String key){
         if(!key.isEmpty()){
             localHeader.remove(key);
@@ -80,14 +76,11 @@ public class ContentType {
 
     /**
      * Represents a {@link Entry}.
-     * Create {@link Entry} instance.
-     *
+     * Create {@link Entry} instance
      * @param entryUid
      * Set entry uid.
-     *
      * @return
      * {@link Entry} instance.
-     *
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
      *  //'blt5d4sample2633b' is a dummy Stack API key
@@ -109,8 +102,6 @@ public class ContentType {
 
 
 
-
-
     protected Entry entry(){
         Entry entry = new Entry(contentTypeName);
         entry.formHeader = getHeader(localHeader);
@@ -121,12 +112,9 @@ public class ContentType {
 
 
 
-
-
     /**
      * Represents a {@link Query}.
      * Create {@link Query} instance.
-     *
      * @return
      * {@link Query} instance.
      *  <br><br><b>Example :</b><br>

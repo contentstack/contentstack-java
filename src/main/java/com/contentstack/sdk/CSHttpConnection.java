@@ -1,7 +1,6 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.Utility.CSAppConstants;
-import com.contentstack.sdk.Utility.CSAppUtils;
+import com.contentstack.sdk.utility.CSAppConstants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -203,7 +202,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
                 }
 
             }catch (Exception e1){
-                CSAppUtils.showLog(TAG, "--------------------getQueryParam--||"+e1.toString());
+                e1.printStackTrace();
             }
         }
 
@@ -421,7 +420,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
                 connectionRequest.onRequestFailed(responseJSON, 0, callBackObject);
             }
         }catch (Exception exception) {
-            CSAppUtils.showLog(TAG, exception.toString());
+            exception.printStackTrace();
         }
     }
 

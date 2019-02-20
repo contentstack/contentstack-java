@@ -7,7 +7,6 @@ package com.contentstack.sdk;
  */
 public abstract class SyncResultCallBack extends ResultCallBack {
 
-
 	public abstract void onCompletion(SyncStack syncStack, Error error);
 
 	void onRequestFinish(SyncStack syncStack){
