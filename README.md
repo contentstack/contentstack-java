@@ -9,14 +9,13 @@ Contentstack provides Java SDK to build application on top of Java. Given below 
 
 ### Prerequisite
 
-You will need JDK installed on your machine. You can install it from [here] (http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html).
+You will need JDK installed on your machine. You can install it from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html).
 
 ### Setup and Installation
 
 To use the Contentstack Java SDK to your existing project, perform the steps given below:
 
-1. [Download the Contentstack Java SDK](https://www.contentstack.com/docs/platforms/java/java_sdk_latest
-) and extract the ZIP file to your local disk to use Contentstack jar in your project.
+1. [Download the Contentstack Java SDK](https://www.contentstack.com/docs/platforms/java/java_sdk_latest) and extract the ZIP file to your local disk to use Contentstack jar in your project.
 2. Add references/dependencies using Eclipse/IntelliJ IDEA:
 
 
@@ -49,9 +48,9 @@ A publishing environment corresponds to one or more deployment servers or a cont
 #### Initializing your SDK
 
 To initialize the SDK, specify application  API key, access token, and environment name of the stack as shown in the snippet given below:
-
-    Stack stack = Contentstack.stack( "apiKey", "accessToken", "environment_name");
-
+```
+Stack stack = Contentstack.stack( "apiKey", "accessToken", "environment_name");
+```
 To get the API credentials mentioned above, log in to your Contentstack account and then in your top panel navigation, go to Settings &gt; Stack to view the API Key and Access Token.
 
 
@@ -60,29 +59,35 @@ To get the API credentials mentioned above, log in to your Contentstack account 
 
 To retrieve a single entry from a content type use the code snippet given below:
 
-    ContentType contentType = stack.contentType("content_type_uid");
-
-    Entry blogEntry = contentType.entry("entry_uid");blogEntry.fetch(new EntryResultCallBack() {@OverridepublicvoidonCompletion(ResponseType responseType, Error error) {
+```
+ContentType contentType = stack.contentType("content_type_uid");
+Entry blogEntry = contentType.entry("entry_uid");
+blogEntry.fetch(new EntryResultCallBack() {
+@Override
+public void onCompletion(ResponseType responseType, Error error) {
     if (error == null) {
-    // Success block
+         [Success block]
     } else {
-    // Error block
-    }}});
-
+         [Error block]
+    }}
+ });
+  ```
 ##### Get Multiple Entries
 
 To retrieve multiple entries of a particular content type, use the code snippet given below:
 
+```
 //stack is an instance of Stack class
-
-    Query blogQuery = stack.contentType("content_type_uid").query();
-    blogQuery.find(new QueryResultsCallBack() {@OverridepublicvoidonCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+Query blogQuery = stack.contentType("content_type_uid").query();
+blogQuery.find(new QueryResultsCallBack() {
+@Override
+publicvoidonCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
     if(error == null){
-    //Success block
+       [Success block]
     }else{
-    //Error block
+       [Error block]
     }}});
-
+  ```
 
 
 ### Advanced Queries
@@ -101,27 +106,23 @@ For example, if you want to crop an image (with width as 300 and height as 400),
 
 You can use the Image Delivery API functions in this SDK as well. Here are a few examples of its usage in the SDK.
 
+```
+//set the image quality to 100
+LinkedHashMap imageParams = new LinkedHashMap();
+imageParams.put("quality", 100);
+imageUrl = Stack.ImageTransform(imageUrl, imageParams);
 
-       //set the image quality to 100
+//resize the image by specifying width and height
+LinkedHashMap imageParams = new LinkedHashMap();
+imageParams.put("width", 100);
+imageParams.put("height",100);
+imageUrl = Stack.ImageTransform(imageUrl, imageParams);
 
-       LinkedHashMap imageParams = new LinkedHashMap();
-       imageParams.put("quality", 100);
-       imageUrl = Stack.ImageTransform(imageUrl, imageParams);
-
-
-      //resize the image by specifying width and height
-
-      LinkedHashMap imageParams = new LinkedHashMap();
-      imageParams.put("width", 100);
-      imageParams.put("height",100);
-      imageUrl = Stack.ImageTransform(imageUrl, imageParams);
-
-
-       // enable auto optimization for the image
-
-       LinkedHashMap imageParams = new LinkedHashMap();
-       imageParams.put("auto", "webp");
-       imageUrl = Stack.ImageTransform(imageUrl, imageParams);
+//enable auto optimization for the image
+LinkedHashMap imageParams = new LinkedHashMap();
+imageParams.put("auto", "webp");
+imageUrl = Stack.ImageTransform(imageUrl, imageParams);
+```
 
 
 
@@ -131,14 +132,13 @@ You can use the Image Delivery API functions in this SDK as well. Here are a few
 - [Official Documentation](https://contentstack.com/docs)
 - [Content Delivery API Docs](https://contentstack.com/docs/apis/content-delivery-api/)
 
+
 ### The MIT License (MIT)
 
-Copyright © 2012-2017 [Built.io](https://www.built.io/). All Rights Reserved
+Copyright © 2012-2018 [Contentstack](https://www.contentstack.com/). All Rights Reserved
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN C
-
-
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
