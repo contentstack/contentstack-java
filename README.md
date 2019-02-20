@@ -105,6 +105,7 @@ For example, if you want to crop an image (with width as 300 and height as 400),
 [Read Image Delivery API documentation](https://www.contentstack.com/docs/apis/image-delivery-api/).
 
 You can use the Image Delivery API functions in this SDK as well. Here are a few examples of its usage in the SDK.
+
 ```
 //set the image quality to 100
 LinkedHashMap imageParams = new LinkedHashMap();
