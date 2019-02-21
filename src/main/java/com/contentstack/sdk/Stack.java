@@ -189,8 +189,6 @@ public class Stack {
 
     /**
      * @param syncCallBack returns callback for sync result.
-     *
-     *
      * The Sync request performs a complete sync of your app data.
      * It returns all the published entries and assets of the specified stack in response.
      * The response also contains a sync token, which you need to store,
