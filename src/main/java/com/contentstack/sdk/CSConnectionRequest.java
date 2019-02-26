@@ -73,7 +73,6 @@ class CSConnectionRequest implements IRequestModelHTTP{
 
     public void setParams(Object... objects){
 
-        CSAppUtils.showLog(TAG, "ParallelTasks------|" + objects[0] + " started");
 
         this.urlToCall    = (String) objects[0];
         this.method       = (CSAppConstants.RequestMethod) objects[1];

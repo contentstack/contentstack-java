@@ -2,6 +2,7 @@ package com.contentstack.sdk;
 
 import com.contentstack.sdk.utility.CSAppConstants;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -251,7 +252,11 @@ public class CSHttpConnection implements IURLRequestHTTP{
 
         headers.put("Content-Type", "application/json");
         headers.put("User-Agent", defaultUserAgent()+"/"+ CSAppConstants.SDK_VERSION);
-        requestJSON.put("_method","get");
+        try {
+            requestJSON.put("_method","get");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
         try {
@@ -309,7 +314,11 @@ public class CSHttpConnection implements IURLRequestHTTP{
             }
             inputStreamReader.close();
 
-            responseJSON = new JSONObject(response.toString());
+            try {
+                responseJSON = new JSONObject(response.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             if (responseJSON != null) {
                 connectionRequest.onRequestFinished(CSHttpConnection.this);
