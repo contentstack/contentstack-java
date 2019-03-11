@@ -6,7 +6,7 @@
 
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>contentstack-java</name>
@@ -36,6 +36,17 @@
         <developerConnection>scm:git:ssh://github.com:contentstack/contentstack-java.git</developerConnection>
         <tag>v@{project.version}</tag>
     </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/contentstack/contentstack-java/issues</url>
+    </issueManagement>
+
+
+    <organization>
+        <name>Contentstack</name>
+        <url>https://www.contentstack.com</url>
+    </organization>
 
 
     <distributionManagement>
@@ -68,6 +79,7 @@
             <artifactId>json</artifactId>
             <version>20090211</version>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -112,6 +124,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
