@@ -7,5 +7,5 @@ package com.contentstack.sdk;
 public abstract class ResultCallBack {
 
     abstract void onRequestFail(ResponseType responseType, Error error);
-    abstract void always();
+    public abstract void always();
 }

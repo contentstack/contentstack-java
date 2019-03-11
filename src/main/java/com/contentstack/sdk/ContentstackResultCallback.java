@@ -15,5 +15,5 @@ public abstract class ContentstackResultCallback extends  ResultCallBack {
         onCompletion(responseType, error);
     }
     @Override
-    void always() { }
+    public void always() { }
 }

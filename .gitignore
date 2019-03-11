@@ -10,10 +10,12 @@ hs_err_pid*
 .DS_Store
 .DS_Store?
 
-# Compiled source #
+
+# Compiled source files #
 *.iml
 /target/
 /out/
+/profiles.xml/
 *.class
 out/
 build/

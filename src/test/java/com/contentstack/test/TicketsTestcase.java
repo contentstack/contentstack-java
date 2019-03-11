@@ -16,7 +16,9 @@ public class TicketsTestcase extends JUnitCore {
         String STACK_API_KEY = "blt4c0468fe43dc5bdd";
         String ACCESS_TOKEN = "csbb1543164d7a0684b5a0f87f";
         String ENV = "staging";
-        stack = Contentstack.stack(STACK_API_KEY, ACCESS_TOKEN, ENV);
+
+        Config config = new Config();
+        stack = Contentstack.stack(STACK_API_KEY, ACCESS_TOKEN, ENV, config);
     }
 
 
@@ -43,5 +45,8 @@ public class TicketsTestcase extends JUnitCore {
             }
         });
     }
+
+
+
 
 }
