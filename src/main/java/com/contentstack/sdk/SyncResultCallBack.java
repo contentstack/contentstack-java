@@ -19,7 +19,7 @@ public abstract class SyncResultCallBack extends ResultCallBack {
 	}
 
 	@Override
-	void always() {
+	public void always() {
 
 	}
 

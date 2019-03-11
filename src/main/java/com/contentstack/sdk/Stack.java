@@ -42,7 +42,7 @@ public class Stack {
     private Stack(){}
 
 
-    public enum PublishType
+    public static enum PublishType
     {
         entry_published,
         entry_unpublished ,

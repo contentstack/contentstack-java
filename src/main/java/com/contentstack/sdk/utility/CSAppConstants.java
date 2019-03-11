@@ -12,10 +12,10 @@ public class CSAppConstants {
     public static final String REQUEST_URL = "";
     public static String URLSCHEMA_HTTP = "http://";
     public static String URLSCHEMA_HTTPS = "https://";
-    public static String SDK_VERSION = "1.2.0";
+    public static final String SDK_VERSION = "1.2.1";
     public final static int NONETWORKCONNECTION = 408;
 
-    public enum RequestMethod
+    public static enum RequestMethod
     {
         GET,
         POST,
@@ -23,7 +23,7 @@ public class CSAppConstants {
         DELETE
     }
 
-    public enum callController {
+    public static enum callController {
 
         QUERY,
         ENTRY,
