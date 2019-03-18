@@ -18,7 +18,7 @@ public abstract class SingleQueryResultCallback extends ResultCallBack {
     }
 
     @Override
-    void always() {
+    public void always() {
 
     }
 

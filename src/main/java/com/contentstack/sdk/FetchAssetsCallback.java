@@ -20,7 +20,7 @@ public abstract class FetchAssetsCallback extends ResultCallBack{
     }
 
     @Override
-    void always() {
+    public void always() {
 
     }
 }
