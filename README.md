@@ -15,9 +15,19 @@ You will need JDK installed on your machine. You can install it from [here](http
 
 To use the Contentstack Java SDK to your existing project, perform the steps given below:
 
-1. [Download the Contentstack Java SDK](https://www.contentstack.com/docs/platforms/java/java_sdk_latest) and extract the ZIP file to your local disk to use Contentstack jar in your project.
-2. Add references/dependencies using Eclipse/IntelliJ IDEA:
+1. **Maven**
+```
+<dependency>
+  <groupId>com.contentstack.sdk</groupId>
+  <artifactId>java</artifactId>
+  <version>1.2.1</version>
+</dependency>
+```
 
+2. **Gradle**
+```
+implementation 'com.contentstack.sdk:java:1.2.1'
+```
 
 ### Key Concepts for using Contentstack
 
@@ -135,7 +145,7 @@ imageUrl = Stack.ImageTransform(imageUrl, imageParams);
 
 ### The MIT License (MIT)
 
-Copyright © 2012-2018 [Contentstack](https://www.contentstack.com/). All Rights Reserved
+Copyright © 2012-2019 [Contentstack](https://www.contentstack.com/). All Rights Reserved
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
