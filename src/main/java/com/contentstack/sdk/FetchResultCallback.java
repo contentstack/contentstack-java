@@ -25,7 +25,7 @@ public abstract class FetchResultCallback extends ResultCallBack{
     }
 
     @Override
-    void always() {
+    public void always() {
     }
 
 }

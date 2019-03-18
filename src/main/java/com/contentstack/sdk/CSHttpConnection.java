@@ -2,11 +2,14 @@ package com.contentstack.sdk;
 
 import com.contentstack.sdk.utility.CSAppConstants;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -25,12 +28,14 @@ public class CSHttpConnection implements IURLRequestHTTP{
     private ResultCallBack callBackObject;
     private CSAppConstants.RequestMethod requestMethod;
     private JSONObject responseJSON;
+
     public HashMap<String, Object> getFormParams() {
         return formParams;
     }
     public void setFormParams(HashMap<String, Object> formParams) {
         this.formParams = formParams;
     }
+
     private HashMap<String, Object> formParams;
     private boolean treatDuplicateKeysAsArrayItems;
 
@@ -115,15 +120,11 @@ public class CSHttpConnection implements IURLRequestHTTP{
     public String setFormParamsGET(HashMap<String, java.lang.Object> params){
         if(params != null && params.size() > 0){
             String urlParams = null;
-
-            urlParams = info.equalsIgnoreCase(CSAppConstants.callController.QUERY.name()) || info.equalsIgnoreCase(CSAppConstants.callController.SYNC.name()) || info.equalsIgnoreCase(CSAppConstants.callController.ENTRY.name()) ? getParams(params) : null;
-
             for (Map.Entry<String, Object> e : params.entrySet()) {
-
                 if (urlParams == null) {
                     urlParams = "?" + e.getKey() + "=" + e.getValue();
-                } else {
-                    //urlParams += "&" + e.getKey() + "=" + e.getValue();
+                }else {
+                    urlParams += "&" + e.getKey() + "=" + e.getValue();
                 }
             }
             return urlParams;
@@ -218,18 +219,15 @@ public class CSHttpConnection implements IURLRequestHTTP{
         String url                            = null;
         String httpsORhttp                    = CSAppConstants.URLSCHEMA_HTTPS;
         int requestId                         = getRequestId(requestMethod);
-        final Map<String, String> headers     = new LinkedHashMap<>();
+        final LinkedHashMap<String, String> headers     = new LinkedHashMap<>();
         int count                             = this.headers.size();
 
         if(requestMethod == CSAppConstants.RequestMethod.GET){
             String  params = setFormParamsGET(formParams);
-
-            if( params != null)
-            {
+            if( params != null) {
                 url = urlPath + params;
             }
-            else
-            {
+            else {
                 url = urlPath;
             }
         }else{
@@ -251,23 +249,49 @@ public class CSHttpConnection implements IURLRequestHTTP{
 
         headers.put("Content-Type", "application/json");
         headers.put("User-Agent", defaultUserAgent()+"/"+ CSAppConstants.SDK_VERSION);
-        requestJSON.put("_method","get");
-
 
         try {
-            /* always network call*/
-            String requestMethod = CSAppConstants.RequestMethod.GET.toString();
-            callNetworkFunction(url, requestMethod, requestJSON, (LinkedHashMap<String, String>) headers);
+            requestJSON.put("_method",getRequestMethod().toString());
+            this.callNetworkRequest(url, getRequestMethod().toString(), requestJSON, headers);
 
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
+            System.out.println("Localized Message : "+e.getLocalizedMessage());
             e.printStackTrace();
         }
-
     }
 
 
 
-    private void callNetworkFunction(String url, String requestMethod, JSONObject jsonParam, Map<String, String> reqHeaders) throws IOException {
+    private String getRequest( String urlString, String requestMethod ) {
+
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod(requestMethod);
+            conn.setRequestProperty("Accept", "application/json");
+
+            conn.connect();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    conn.getInputStream(), "UTF-8"));
+
+            StringBuilder sb = new StringBuilder(2048);
+            for (String line; (line = br.readLine()) != null; ) {
+                sb.append(line);
+            }
+            conn.disconnect();
+
+            return sb.toString();
+
+        } catch (IOException ex) {
+            Logger.getLogger(CSHttpConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return ex.toString();
+        }
+    }
+
+
+
+    private void callNetworkRequest(String url, String requestMethod, JSONObject jsonParam, Map<String, String> reqHeaders) throws IOException {
 
         URL objURL = new URL(url);
         HttpURLConnection con = (HttpURLConnection) objURL.openConnection();
@@ -289,7 +313,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
         OutputStream outputStream = con.getOutputStream();
         String paramString = jsonParam.toString().trim();
 
-        if (!paramString.isEmpty() && paramString!=null)
+        if (!paramString.isEmpty())
         {
             byte[] postParams = paramString.getBytes("UTF-8");
             outputStream.write(postParams);
@@ -307,24 +331,25 @@ public class CSHttpConnection implements IURLRequestHTTP{
             while ((inputLine = inputStreamReader.readLine()) != null) {
                 response.append(inputLine);
             }
+
             inputStreamReader.close();
 
-            responseJSON = new JSONObject(response.toString());
+            try {
+                responseJSON = new JSONObject(response.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             if (responseJSON != null) {
                 connectionRequest.onRequestFinished(CSHttpConnection.this);
             }
 
         } else {
-
             generateBuiltError(con);
-
         }
 
 
     }
-
-
 
 
 
@@ -349,8 +374,6 @@ public class CSHttpConnection implements IURLRequestHTTP{
         String agent = System.getProperty("http.agent");
         return agent != null ? agent : ("Java" + System.getProperty("java.version"));
     }
-
-
 
 
 

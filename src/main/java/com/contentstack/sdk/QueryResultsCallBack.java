@@ -19,7 +19,7 @@ public abstract class QueryResultsCallBack extends ResultCallBack {
     }
 
     @Override
-    void always() {
+    public void always() {
 
     }
 
