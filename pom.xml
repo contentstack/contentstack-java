@@ -6,7 +6,7 @@
 
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>contentstack-java</name>
@@ -21,12 +21,21 @@
     </licenses>
 
     <developers>
+
         <developer>
             <name>Shailesh Mishra</name>
             <email>mshaileshr@gmail.com</email>
             <organization>Contentstack</organization>
             <organizationUrl>https://www.contentstack.com/</organizationUrl>
         </developer>
+
+        <developer>
+            <name>Contentstacksdk</name>
+            <email>mobile@contentstack.com</email>
+            <organization>Contentstack</organization>
+            <organizationUrl>https://www.contentstack.com/</organizationUrl>
+        </developer>
+
     </developers>
 
 
@@ -34,7 +43,7 @@
         <url>https://github.com/contentstack/contentstack-java/tree/master</url>
         <connection>scm:git:git://github.com/contentstack/contentstack-java.git</connection>
         <developerConnection>scm:git:ssh://github.com:contentstack/contentstack-java.git</developerConnection>
-        <tag>v@{project.version}</tag>
+        <tag>v1.2.1</tag>
     </scm>
 
     <issueManagement>
@@ -50,14 +59,17 @@
 
 
     <distributionManagement>
+
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+
         <repository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
+
     </distributionManagement>
 
 
@@ -67,6 +79,7 @@
 
 
     <dependencies>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -84,6 +97,7 @@
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -97,6 +111,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -159,6 +174,7 @@
                     <goals>deploy</goals>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

@@ -4,25 +4,8 @@
              xsi:schemaLocation="http://maven.apache.org/PROFILES/1.0.0 http://maven.apache.org/xsd/profiles-1.0.0.xsd">
     <profiles>
         <profile>
-            <id>77b9c8fd28426a</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
+            <id></id>
+            
         </profile>
-
-        <profile>
-            <id>ossrh</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <gpg.executable>gpg2</gpg.executable>
-                <gpg.passphrase>YGn5dlGWYwMTnplSuH3gKRh14kT6JbR7dQWppvR6UY4</gpg.passphrase>
-            </properties>
-        </profile>
-
     </profiles>
 </profilesXml>

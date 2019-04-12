@@ -1,10 +1,15 @@
 package com.contentstack.sdk;
 
+import com.contentstack.sdk.utility.CSAppConstants;
+import com.contentstack.sdk.utility.CSController;
+import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @author  Contentstack.com
+ * @author Contentstack
  */
 
 public class ContentType {
@@ -135,6 +140,73 @@ public class ContentType {
     }
 
 
+
+
+    /**
+     *
+     *
+     * @param callback ContentTypesCallback
+     * This call returns information of a specific content type. It returns the content type schema, but does not include its entries.
+     *
+     *  <br><br><b>Example :</b><br>
+     *  <pre class="prettyprint">
+     * ContentType  contentType = stack.contentType("content_type_uid");
+     * contentType.fetch(new ContentTypesCallback() {
+     * @Override
+     * public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
+     * if (error==null){
+     *
+     * }else {
+     *
+     * }
+     * }
+     * });
+     *</pre>
+     */
+
+
+    public void fetch(final ContentTypesCallback callback) {
+
+        try {
+
+            String URL = "/" + stackInstance.VERSION + "/content_types/"+contentTypeName;
+            HashMap<String, Object> headers = getHeader(localHeader);
+            JSONObject param = new JSONObject();
+            if (headers.containsKey("environment")) {
+                param.put("environment", headers.get("environment"));
+            }
+
+            if (contentTypeName!=null) {
+                fetchContentTypes(URL, param, headers, callback );
+            }else {
+                Error error = new Error();
+                error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
+                callback.onRequestFail(ResponseType.UNKNOWN, error);
+            }
+
+
+        }catch (Exception e){
+
+            Error error = new Error();
+            error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
+            callback.onRequestFail(ResponseType.UNKNOWN, error);
+        }
+
+    }
+
+
+
+    private void fetchContentTypes(String urlString, JSONObject content_type_param, HashMap<String, Object> headers, ContentTypesCallback callback) {
+
+        if(callback != null) {
+
+            HashMap<String, Object> urlParams = getUrlParams(content_type_param);
+            new CSBackgroundTask(this,  stackInstance, CSController.FETCHCONTENTTYPES, urlString, headers, urlParams, new JSONObject(), CSAppConstants.callController.CONTENTTYPES.toString(), false, CSAppConstants.RequestMethod.GET, callback);
+        }
+    }
+
+
+
     /**
      *
      */
@@ -163,6 +235,30 @@ public class ContentType {
         }else{
             return stackHeader;
         }
+    }
+
+
+
+    private HashMap<String, Object> getUrlParams(JSONObject urlQueriesJSON) {
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+
+        if(urlQueriesJSON != null && urlQueriesJSON.length() > 0){
+            Iterator<String> iter = urlQueriesJSON.keys();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                try {
+                    Object value = urlQueriesJSON.opt(key);
+                    hashMap.put(key, value);
+                } catch (Exception e) {
+                    System.out.println("------setQueryJson"+e.toString());
+                }
+            }
+
+            return hashMap;
+        }
+
+        return null;
     }
 
 }

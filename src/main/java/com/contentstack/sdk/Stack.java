@@ -28,6 +28,7 @@ public class Stack {
     protected String VERSION       = "v3";
     protected Config config;
     protected String SYNC_KEY      = "sync";
+    protected String content_type;
 
     private JSONObject syncParams = null;
     protected String sync_token = null;
@@ -73,10 +74,13 @@ public class Stack {
 
 
     public ContentType contentType(String contentTypeName){
+        this.content_type = contentType;
         ContentType contentType = new ContentType(contentTypeName);
         contentType.setStackInstance(this);
         return contentType;
     }
+
+
 
 
     public Asset asset(String uid){
@@ -87,12 +91,14 @@ public class Stack {
     }
 
 
+
     protected Asset asset(){
         Asset asset = new Asset();
         asset.setStackInstance(this);
 
         return asset;
     }
+
 
 
     public AssetLibrary assetLibrary(){
@@ -103,10 +109,13 @@ public class Stack {
     }
 
 
+
     public String getApplicationKey(){ return stackApiKey;}
 
 
+
     public String getAccessToken(){ return localHeader != null ? (String)localHeader.get("access_token") : null;};
+
 
 
     public void removeHeader(String key){
@@ -114,6 +123,7 @@ public class Stack {
             localHeader.remove(key);
         }
     }
+
 
 
     public void setHeader(String key, String value) {
@@ -145,9 +155,6 @@ public class Stack {
      *  imageParams.put("height",100);
      *  imageUrl = Stack.ImageTransform(image_url, parameters);
      *  stack.ImageTransform(image_url, parameters);
-     *
-     *
-     *
      *  </pre>
      *
      */
@@ -156,7 +163,6 @@ public class Stack {
         imageParams = parameters;
         return getImageUrl();
     }
-
 
 
 
@@ -184,6 +190,52 @@ public class Stack {
 
         return imageTransformationUrl;
     }
+
+
+
+
+
+
+    /**
+     * @param callback ContentTypesCallback
+     * This call returns comprehensive information of all the content types available in a particular stack in your account.
+     *
+     *  <br><br><b>Example :</b><br>
+     *  <pre class="prettyprint">
+     * stack.getContentTypes(false, new ContentTypesCallback() {
+     * @Override
+     * public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
+     * System.out.println("contentTypesModel: "+ contentTypesModel.getResponseJSON());
+     * include_count = contentTypesModel.getCount();
+     *
+     * }
+     * });
+     *</pre>
+     */
+
+    public void getContentTypes( final ContentTypesCallback callback) {
+
+        try {
+            String URL = "/" + this.VERSION + "/content_types/";
+            HashMap<String, Object> headers = getHeader(localHeader);
+            JSONObject content_type_param = new JSONObject();
+            if (headers.containsKey("environment")) {
+                content_type_param.put("environment", headers.get("environment"));
+                content_type_param.put("include_count", true);
+            }
+
+            fetchContentTypes(URL, content_type_param, headers, callback );
+
+        }catch (Exception e){
+
+            Error error = new Error();
+            error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
+            callback.onRequestFail(ResponseType.UNKNOWN, error);
+        }
+    }
+
+
+
 
 
 
@@ -542,6 +594,17 @@ public class Stack {
             callback.onRequestFail(ResponseType.UNKNOWN, error);
         }
 
+    }
+
+
+
+    private void fetchContentTypes(String urlString, JSONObject content_type_param, HashMap<String, Object> headers, ContentTypesCallback callback) {
+
+        if(callback != null) {
+
+            HashMap<String, Object> urlParams = getUrlParams(content_type_param);
+            new CSBackgroundTask(this,  CSController.FETCHCONTENTTYPES, urlString, headers, urlParams, new JSONObject(), CSAppConstants.callController.CONTENTTYPES.toString(), false, CSAppConstants.RequestMethod.GET, callback);
+        }
     }
 
 
