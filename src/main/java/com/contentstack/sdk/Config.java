@@ -1,7 +1,5 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.utility.CSAppConstants;
-
 /**
  * @author  Contentstack.com
  *
@@ -45,28 +43,6 @@ public class Config {
         }
     }
 
-    /**
-     * Sets the protocol in base url.
-     *
-     * @param isSSL
-     * 					true/false values initiating calls (HTTPS/HTTP) respectively.
-     *
-     * <p>
-     * <b>Note:</b> Default protocol is HTTPS.
-     *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * config.setSSL(true);
-     * </pre>
-     */
-    public void setSSL(boolean isSSL){
-
-        if(isSSL){
-            URLSCHEMA = CSAppConstants.URLSCHEMA_HTTPS;
-        }else{
-            URLSCHEMA = CSAppConstants.URLSCHEMA_HTTP;
-        }
-    }
 
     /**
      * Get URL.
@@ -81,19 +57,6 @@ public class Config {
         return URL;
     }
 
-    /**
-     * Get URL.
-     *
-     *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * boolean protocol = config.isSSL();
-     * </pre>
-     */
-    public boolean isSSL(){
-
-        return URLSCHEMA.equalsIgnoreCase(CSAppConstants.URLSCHEMA_HTTPS) ? true : false;
-    }
 
     /**
      * Get version of the Built.io Contentstack server.

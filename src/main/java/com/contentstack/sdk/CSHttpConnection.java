@@ -234,12 +234,6 @@ public class CSHttpConnection implements IURLRequestHTTP{
             url = urlPath;
         }
 
-        if(url.contains(CSAppConstants.URLSCHEMA_HTTPS)){
-            httpsORhttp = CSAppConstants.URLSCHEMA_HTTPS;
-        }else if(url.contains(CSAppConstants.URLSCHEMA_HTTP)){
-            httpsORhttp = CSAppConstants.URLSCHEMA_HTTP;
-        }
-
         for (Map.Entry<String, Object> entry : this.headers.entrySet())
         {
             String key = entry.getKey();
