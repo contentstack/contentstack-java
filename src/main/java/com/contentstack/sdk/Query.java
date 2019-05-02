@@ -82,6 +82,7 @@ public class Query implements INotifyClass{
 
     /**
      * Remove header key @param key custom_header_key
+     * @return key string
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *  //'blt5d4sample2633b' is a dummy Stack API key

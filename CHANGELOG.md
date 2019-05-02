@@ -1,6 +1,16 @@
 
 ## CHANGELOG  
-   
+
+
+## Version 1.3.1
+  ### Date: May-02-2019
+  Change: include reference bug fixed
+  added testcase report for v1.3.1
+
+
+------------------------------------------------
+
+
 ## Version 1.3.0  
   ### Date: Apr-12-2019  
   Change: Added support of below methods in SDK   
