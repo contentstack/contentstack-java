@@ -23,7 +23,7 @@ public class Config {
     public Config(){}
 
     /**
-     * Sets host name of the Built.io Contentstack server.
+     * Sets host name of the Contentstack server.
      *
      * @param hostName
      * host name.
@@ -44,10 +44,10 @@ public class Config {
     }
 
 
+
     /**
-     * Get URL.
      *
-     *
+     * @return URL String
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String url = config.getHost();
@@ -59,8 +59,8 @@ public class Config {
 
 
     /**
-     * Get version of the Built.io Contentstack server.
-     *
+     * Get version of the Contentstack server.
+     * @return VERSION String
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * String version = config.getVersion();
@@ -71,7 +71,7 @@ public class Config {
     }
 
     /**
-     * Changes the Built.io Contentstack version to be used in the final URL.
+     * Changes the Contentstack version to be used in the final URL.
      *
      * @param version
      *                  version string.
@@ -92,8 +92,7 @@ public class Config {
     /**
      * set environment.
      *
-     * @param environment
-     *                      environment uid/name
+     * @param environment uid/name
      *
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
@@ -109,6 +108,7 @@ public class Config {
 
     /**
      * Get environment.
+     * @return param environment string
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
      *  String environment = config.getEnvironment();
