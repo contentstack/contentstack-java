@@ -11,7 +11,7 @@ public class CSAppConstants {
     public static final boolean debug = false;
     public static final String REQUEST_URL = "";
     public static String URLSCHEMA_HTTPS = "https://";
-    public static final String SDK_VERSION = "1.3.0";
+    public static final String SDK_VERSION = "1.3.1";
     public final static int NONETWORKCONNECTION = 408;
 
     public static enum RequestMethod
