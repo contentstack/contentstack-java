@@ -13,11 +13,13 @@ public class TicketsTestcase extends JUnitCore {
     private Stack stack;
 
     public TicketsTestcase() throws Exception {
+
         String STACK_API_KEY = "blt4c0468fe43dc5bdd";
         String ACCESS_TOKEN = "csbb1543164d7a0684b5a0f87f";
         String ENV = "staging";
 
         Config config = new Config();
+        config.setHost("cdn.contentstack.io");
         stack = Contentstack.stack(STACK_API_KEY, ACCESS_TOKEN, ENV, config);
     }
 
@@ -25,6 +27,7 @@ public class TicketsTestcase extends JUnitCore {
     @Test
     public void TicketONE(){
 
+        //Query query = stack.contentType("collection").query().includeReference("card");
         Query query = stack.contentType("help_center_topic").query();
         query.find(new QueryResultsCallBack() {
             @Override

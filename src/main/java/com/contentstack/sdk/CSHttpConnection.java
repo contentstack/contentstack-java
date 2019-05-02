@@ -120,17 +120,23 @@ public class CSHttpConnection implements IURLRequestHTTP{
     public String setFormParamsGET(HashMap<String, java.lang.Object> params){
         if(params != null && params.size() > 0){
             String urlParams = null;
-            for (Map.Entry<String, Object> e : params.entrySet()) {
-                if (urlParams == null) {
-                    urlParams = "?" + e.getKey() + "=" + e.getValue();
-                }else {
-                    urlParams += "&" + e.getKey() + "=" + e.getValue();
+
+            urlParams = info.equalsIgnoreCase(CSAppConstants.callController.QUERY.name()) || info.equalsIgnoreCase(CSAppConstants.callController.ENTRY.name()) ? getParams(params) : null;
+            if(urlParams==null) {
+                for (Map.Entry<String, Object> e : params.entrySet()) {
+
+                    if (urlParams == null) {
+                        urlParams = "?" + e.getKey() + "=" + e.getValue();
+                    } else {
+                        urlParams += "&" + e.getKey() + "=" + e.getValue();
+                    }
                 }
             }
             return urlParams;
         }
         return null;
     }
+
 
 
 
@@ -232,6 +238,10 @@ public class CSHttpConnection implements IURLRequestHTTP{
             }
         }else{
             url = urlPath;
+        }
+
+        if(url.contains(CSAppConstants.URLSCHEMA_HTTPS)){
+            httpsORhttp = CSAppConstants.URLSCHEMA_HTTPS;
         }
 
         for (Map.Entry<String, Object> entry : this.headers.entrySet())

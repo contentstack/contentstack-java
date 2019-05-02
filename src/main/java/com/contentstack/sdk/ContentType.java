@@ -145,7 +145,7 @@ public class ContentType {
     /**
      *
      *
-     * @param callback ContentTypesCallback
+     * @return callback ContentTypesCallback
      * This call returns information of a specific content type. It returns the content type schema, but does not include its entries.
      *
      *  <br><br><b>Example :</b><br>
