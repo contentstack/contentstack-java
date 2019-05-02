@@ -27,8 +27,8 @@ public class TicketsTestcase extends JUnitCore {
     @Test
     public void TicketONE(){
 
-        Query query = stack.contentType("collection").query().includeReference("card");
-        //Query query = stack.contentType("help_center_topic").query();
+        //Query query = stack.contentType("collection").query().includeReference("card");
+        Query query = stack.contentType("help_center_topic").query();
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
