@@ -21,3 +21,4 @@ out/
 build/
 .idea/
 *.log
+CSLoggerLevel/
