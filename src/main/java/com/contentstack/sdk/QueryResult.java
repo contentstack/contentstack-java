@@ -112,7 +112,7 @@ public class QueryResult {
             }
 
         }catch(Exception e){
-            CSAppUtils.showLog(TAG, "-QueryResult--setJSON--"+e.toString());
+            Stack.log(TAG, "-QueryResult--setJSON--"+e.getLocalizedMessage());
         }
     }
 

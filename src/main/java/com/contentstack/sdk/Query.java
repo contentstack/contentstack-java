@@ -1677,7 +1677,7 @@ public class Query implements INotifyClass{
                     Object value = queryJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    CSAppUtils.showLog(TAG, "----------------setQueryJson"+e.toString());
+                    Stack.log(TAG, "----------------setQueryJson"+e.getLocalizedMessage());
                 }
             }
 
@@ -1815,6 +1815,7 @@ public class Query implements INotifyClass{
         }
         return this;
     }
+
 
 
 }

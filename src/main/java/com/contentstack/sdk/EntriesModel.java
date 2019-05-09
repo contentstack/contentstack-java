@@ -41,7 +41,7 @@ class EntriesModel {
                 }
             }
         }catch (Exception localException){
-            CSAppUtils.showLog("EntriesModel", "----------------------parsing error|" + localException);
+            Stack.log("EntriesModel", localException.getLocalizedMessage());
         }
 
     }

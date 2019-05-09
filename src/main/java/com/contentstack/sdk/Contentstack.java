@@ -1,6 +1,7 @@
 package com.contentstack.sdk;
 
 import com.contentstack.sdk.utility.CSAppConstants;
+import org.apache.log4j.BasicConfigurator;
 
 /**
  *  @author  Contentstack.com
@@ -40,9 +41,9 @@ public class Contentstack {
                     if(!environment.isEmpty()) {
                         Config config = new Config();
                         config.setEnvironment(environment);
+                        BasicConfigurator.configure();
                         return initializeStack( stackApiKey, accessToken, config);
                     }else{
-                        CSAppConstants.printMessage(CSAppConstants.ErrorMessage_Stack_Environment_IsNull);
                         throw new Exception(CSAppConstants.ErrorMessage_Stack_Environment_IsNull);
                     }
                 }else{
@@ -92,6 +93,7 @@ public class Contentstack {
                             config = new Config();
                             config.setEnvironment(environment);
                         }
+                        BasicConfigurator.configure();
                         return initializeStack(stackApiKey, accessToken, config);
                     }else{
                         throw new Exception(CSAppConstants.ErrorMessage_Stack_Environment_IsNull);
