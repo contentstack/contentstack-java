@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class SyncStack {
 
+    private final String TAG = SyncStack.class.getSimpleName();
     private JSONObject receiveJson;
     private int skip;
     private int limit;
@@ -81,7 +82,7 @@ public class SyncStack {
                     }
                 }
             }catch(Exception e){
-                System.out.println("---------QueryResult--setJSON--"+e.toString());
+                Stack.log(TAG,"QueryResult--setJSON--"+e.toString());
             }
 
         }

@@ -8,10 +8,9 @@ import java.net.URLConnection;
 
 public class CSAppConstants {
 
-    public static final boolean debug = false;
     public static final String REQUEST_URL = "";
     public static String URLSCHEMA_HTTPS = "https://";
-    public static final String SDK_VERSION = "1.3.1";
+    public static final String SDK_VERSION = "1.3.2";
     public final static int NONETWORKCONNECTION = 408;
 
     public static enum RequestMethod
@@ -30,13 +29,6 @@ public class CSAppConstants {
         SYNC,
         CONTENTTYPES,
         ASSETLIBRARY
-    }
-
-
-    public static String printMessage(String message)
-    {
-        System.out.println(message);
-        return message;
     }
 
 

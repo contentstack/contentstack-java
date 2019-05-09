@@ -259,7 +259,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
             this.callNetworkRequest(url, getRequestMethod().toString(), requestJSON, headers);
 
         } catch (IOException | JSONException e) {
-            System.out.println("Localized Message : "+e.getLocalizedMessage());
+            Stack.log(TAG,"Localized Message : "+e.getLocalizedMessage());
             e.printStackTrace();
         }
     }

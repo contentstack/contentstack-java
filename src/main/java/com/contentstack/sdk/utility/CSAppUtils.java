@@ -1,5 +1,9 @@
 package com.contentstack.sdk.utility;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import java.io.*;
 import java.security.MessageDigest;
@@ -11,16 +15,12 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Created by Contentstack.com on 5/7/17.
+ * Created by Contentstack on 5/7/17.
  */
 public class CSAppUtils {
 
+
     public CSAppUtils(){}
-
-    public static void showLog(String builtObject, String s) {
-        System.out.println(builtObject+"___"+s);
-    }
-
 
     /**
      * To check if required response within given time window available in cache
@@ -230,7 +230,7 @@ public class CSAppUtils {
 
     /**
      * Type to compare dates.
-     * @author Contentstack.com
+     * @author Contentstack
      */
     public static enum DateComapareType{
         WEEK, DAY, HOURS, MINUTES, SECONDS

@@ -276,7 +276,7 @@ public class Entry {
                 return null;
             }
         }catch (Exception e) {
-            System.out.println(TAG +"------get|"+ e);
+            Stack.log(TAG,  e.getLocalizedMessage());
             return null;
         }
     }
@@ -514,7 +514,7 @@ public class Entry {
             String value = getString(key);
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            System.out.println(TAG +"------get|"+ e);
+            Stack.log(TAG, e.getLocalizedMessage());
         }
         return null;
     }
@@ -536,7 +536,7 @@ public class Entry {
             String value = getString("created_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            System.out.println(TAG +"------get|"+ e);
+            Stack.log(TAG,  e.getLocalizedMessage());
         }
         return null;
     }
@@ -572,7 +572,7 @@ public class Entry {
             String value = getString("updated_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            System.out.println(TAG +"------get|"+ e);
+            Stack.log(TAG,  e.getLocalizedMessage());
         }
         return null;
     }
@@ -608,7 +608,7 @@ public class Entry {
             String value = getString("deleted_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            System.out.println(TAG +"------get|"+ e);
+            Stack.log(TAG,  e.getLocalizedMessage());
         }
         return null;
     }
@@ -772,7 +772,7 @@ public class Entry {
                             entryInstance = contentTypeInstance.stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            CSAppUtils.showLog("BuiltObject", "---------getAllEntries" + e.toString());
+                            Stack.log("BuiltObject", "---------getAllEntries" + e.toString());
                         }
                         entryInstance.setUid(model.entryUid);
                         entryInstance.ownerEmailId = model.ownerEmailId;
@@ -792,7 +792,7 @@ public class Entry {
                 }
             }
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------get|" + e);
+            Stack.log(TAG, "-----------------get|" + e);
             return null;
         }
 
@@ -831,7 +831,7 @@ public class Entry {
                 }
             }
         }catch(Exception e) {
-            CSAppUtils.showLog(TAG, "--except-catch|" + e);
+            Stack.log(TAG, "--except-catch|" + e);
         }
         return this;
     }
@@ -862,7 +862,7 @@ public class Entry {
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "--include Reference-catch|" + e);
+            Stack.log(TAG, "--include Reference-catch|" + e);
         }
         return this;
     }
@@ -896,7 +896,7 @@ public class Entry {
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "--include Reference-catch|" + e);
+            Stack.log(TAG, "--include Reference-catch|" + e);
         }
         return this;
     }
@@ -932,7 +932,7 @@ public class Entry {
                 }
             }
         }catch(Exception e) {
-            CSAppUtils.showLog(TAG, "--include Reference-catch|" + e);
+            Stack.log(TAG, "--include Reference-catch|" + e);
         }
         return this;
     }
@@ -976,7 +976,7 @@ public class Entry {
                 includeReference(referenceFieldUid);
             }
         }catch(Exception e) {
-            CSAppUtils.showLog(TAG, "--onlyWithReferenceUid-catch|" + e);
+            Stack.log(TAG, "--onlyWithReferenceUid-catch|" + e);
         }
         return this;
     }
@@ -1018,7 +1018,7 @@ public class Entry {
                 includeReference(referenceFieldUid);
             }
         }catch(Exception e) {
-            CSAppUtils.showLog(TAG, "--exceptWithReferenceUid-catch|" + e);
+            Stack.log(TAG, "--exceptWithReferenceUid-catch|" + e);
         }
         return this;
     }
@@ -1115,7 +1115,7 @@ public class Entry {
                     Object value = queryJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    CSAppUtils.showLog(TAG, "----------------setQueryJson"+e.toString());
+                    Stack.log(TAG, "----------------setQueryJson"+e.toString());
                 }
             }
             return hashMap;

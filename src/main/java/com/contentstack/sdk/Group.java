@@ -58,7 +58,7 @@ public class Group {
                 return null;
             }
         }catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------get|" + e);
+            Stack.log(TAG,  e.getLocalizedMessage());
             return null;
         }
     }
@@ -336,7 +336,7 @@ public class Group {
             String value = getString(key);
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------getDate|" + e);
+            Stack.log(TAG, "-----------------getDate|" + e.getLocalizedMessage());
         }
         return null;
     }
@@ -478,7 +478,7 @@ public class Group {
                             entryInstance = stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            CSAppUtils.showLog("BuiltObject", "----------------getAllEntries" + e.toString());
+                            Stack.log(TAG, "----------------getAllEntries" + e.toString());
                         }
                         entryInstance.setUid(model.entryUid);
                         entryInstance.ownerEmailId = model.ownerEmailId;
@@ -496,7 +496,7 @@ public class Group {
                 }
             }
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------get|" + e);
+            Stack.log(TAG, "-----------------get|" + e.getLocalizedMessage());
             return null;
         }
         return null;

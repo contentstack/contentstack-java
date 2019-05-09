@@ -2,6 +2,10 @@ package com.contentstack.sdk;
 
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +22,9 @@ import java.util.*;
 public class Stack {
 
     private static final String TAG = "Stack";
+    public static Level loggerLevel = Level.DEBUG;
+    public static boolean LOG_TAKE_OFF_STACKTRACE = true;
+
     private String stackApiKey = null;
     protected LinkedHashMap<String, Object> localHeader = null;
     private String imageTransformationUrl;
@@ -40,7 +47,7 @@ public class Stack {
     private  SyncResultCallBack syncCallBack;
     protected HashMap<String, Object> headerGroup_app;
 
-    private Stack(){}
+    private Stack(){ }
 
 
     public static enum PublishType
@@ -95,7 +102,6 @@ public class Stack {
     protected Asset asset(){
         Asset asset = new Asset();
         asset.setStackInstance(this);
-
         return asset;
     }
 
@@ -205,7 +211,7 @@ public class Stack {
      * stack.getContentTypes(false, new ContentTypesCallback() {
      * @Override
      * public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
-     * System.out.println("contentTypesModel: "+ contentTypesModel.getResponseJSON());
+     * Stack.log(TAG,"contentTypesModel: "+ contentTypesModel.getResponseJSON());
      * include_count = contentTypesModel.getCount();
      *
      * }
@@ -630,7 +636,7 @@ public class Stack {
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    System.out.println("------setQueryJson"+e.toString());
+                    Stack.log(TAG,"------setQueryJson"+e.toString());
                 }
             }
 
@@ -670,6 +676,14 @@ public class Stack {
             return headerGroup_app;
         }
 
+    }
+
+
+    public static void log(String TAG, String logMsg) {
+
+        Logger logger = LogManager.getLogger(TAG);
+        logger.setLevel(loggerLevel);
+        if (LOG_TAKE_OFF_STACKTRACE){ logger.debug(logMsg); }
     }
 
 }

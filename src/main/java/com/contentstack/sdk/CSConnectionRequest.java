@@ -153,7 +153,7 @@ class CSConnectionRequest implements IRequestModelHTTP{
             }
 
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "------------------catch 210 urlReq---|" + e);
+            Stack.log(TAG, "------------------catch 210 urlReq---|" + e);
             errorMessage = e.getLocalizedMessage();
         }
         if(errorMessage == null || (! (errorMessage.length() > 0))){
