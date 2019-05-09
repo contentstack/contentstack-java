@@ -1,9 +1,8 @@
 package com.contentstack.sdk;
 
-/**
- * @author Contentstack.com
- *
- */
+
+
+
 public enum Language {
 
     AFRIKAANS_SOUTH_AFRICA,
