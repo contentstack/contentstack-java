@@ -1,6 +1,12 @@
 
-## CHANGELOG  
+## CHANGELOG
 
+## Version 1.3.2
+   ### Date: 13-May-2019
+   Removed println
+   Added support for Logger
+
+------------------------------------------------
 
 ## Version 1.3.1
   ### Date: May-02-2019
