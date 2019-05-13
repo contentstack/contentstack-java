@@ -10,9 +10,30 @@ import org.json.JSONObject;
 
 import java.util.*;
 
-/*
- * @author Contentstack.com
+/**
+ * @Author Contentstack
  *
+ * MIT License
+ *
+ * Copyright (c) 2012 - 2019 Contentstack
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 public class Entry {
@@ -276,7 +297,7 @@ public class Entry {
                 return null;
             }
         }catch (Exception e) {
-            System.out.println(TAG +"------get|"+ e);
+            Stack.log(TAG,  e.getLocalizedMessage());
             return null;
         }
     }
@@ -514,7 +535,7 @@ public class Entry {
             String value = getString(key);
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            System.out.println(TAG +"------get|"+ e);
+            Stack.log(TAG, e.getLocalizedMessage());
         }
         return null;
     }
@@ -536,7 +557,7 @@ public class Entry {
             String value = getString("created_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            System.out.println(TAG +"------get|"+ e);
+            Stack.log(TAG,  e.getLocalizedMessage());
         }
         return null;
     }
@@ -572,7 +593,7 @@ public class Entry {
             String value = getString("updated_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            System.out.println(TAG +"------get|"+ e);
+            Stack.log(TAG,  e.getLocalizedMessage());
         }
         return null;
     }
@@ -608,7 +629,7 @@ public class Entry {
             String value = getString("deleted_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            System.out.println(TAG +"------get|"+ e);
+            Stack.log(TAG,  e.getLocalizedMessage());
         }
         return null;
     }
@@ -772,7 +793,7 @@ public class Entry {
                             entryInstance = contentTypeInstance.stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            CSAppUtils.showLog("BuiltObject", "---------getAllEntries" + e.toString());
+                            Stack.log("BuiltObject", "---------getAllEntries" + e.toString());
                         }
                         entryInstance.setUid(model.entryUid);
                         entryInstance.ownerEmailId = model.ownerEmailId;
@@ -792,7 +813,7 @@ public class Entry {
                 }
             }
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "-----------------get|" + e);
+            Stack.log(TAG, "-----------------get|" + e);
             return null;
         }
 
@@ -831,7 +852,7 @@ public class Entry {
                 }
             }
         }catch(Exception e) {
-            CSAppUtils.showLog(TAG, "--except-catch|" + e);
+            Stack.log(TAG, "--except-catch|" + e);
         }
         return this;
     }
@@ -862,7 +883,7 @@ public class Entry {
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "--include Reference-catch|" + e);
+            Stack.log(TAG, "--include Reference-catch|" + e);
         }
         return this;
     }
@@ -896,7 +917,7 @@ public class Entry {
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
-            CSAppUtils.showLog(TAG, "--include Reference-catch|" + e);
+            Stack.log(TAG, "--include Reference-catch|" + e);
         }
         return this;
     }
@@ -932,7 +953,7 @@ public class Entry {
                 }
             }
         }catch(Exception e) {
-            CSAppUtils.showLog(TAG, "--include Reference-catch|" + e);
+            Stack.log(TAG, "--include Reference-catch|" + e);
         }
         return this;
     }
@@ -976,7 +997,7 @@ public class Entry {
                 includeReference(referenceFieldUid);
             }
         }catch(Exception e) {
-            CSAppUtils.showLog(TAG, "--onlyWithReferenceUid-catch|" + e);
+            Stack.log(TAG, "--onlyWithReferenceUid-catch|" + e);
         }
         return this;
     }
@@ -1018,7 +1039,7 @@ public class Entry {
                 includeReference(referenceFieldUid);
             }
         }catch(Exception e) {
-            CSAppUtils.showLog(TAG, "--exceptWithReferenceUid-catch|" + e);
+            Stack.log(TAG, "--exceptWithReferenceUid-catch|" + e);
         }
         return this;
     }
@@ -1115,7 +1136,7 @@ public class Entry {
                     Object value = queryJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    CSAppUtils.showLog(TAG, "----------------setQueryJson"+e.toString());
+                    Stack.log(TAG, "----------------setQueryJson"+e.toString());
                 }
             }
             return hashMap;
