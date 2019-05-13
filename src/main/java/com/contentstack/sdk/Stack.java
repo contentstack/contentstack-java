@@ -2,6 +2,10 @@ package com.contentstack.sdk;
 
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,11 +17,38 @@ import java.util.*;
 
 
 /**
- * @author Contentstack
+ * @Author Contentstack
+ *
+ * MIT License
+ *
+ * Copyright (c) 2012 - 2019 Contentstack
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
+
+
 public class Stack {
 
     private static final String TAG = "Stack";
+    public static Level loggerLevel = Level.DEBUG;
+    public static boolean LOG_TAKE_OFF_STACKTRACE = true;
+
     private String stackApiKey = null;
     protected LinkedHashMap<String, Object> localHeader = null;
     private String imageTransformationUrl;
@@ -40,7 +71,7 @@ public class Stack {
     private  SyncResultCallBack syncCallBack;
     protected HashMap<String, Object> headerGroup_app;
 
-    private Stack(){}
+    private Stack(){ }
 
 
     public static enum PublishType
@@ -95,7 +126,6 @@ public class Stack {
     protected Asset asset(){
         Asset asset = new Asset();
         asset.setStackInstance(this);
-
         return asset;
     }
 
@@ -205,7 +235,7 @@ public class Stack {
      * stack.getContentTypes(false, new ContentTypesCallback() {
      * @Override
      * public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
-     * System.out.println("contentTypesModel: "+ contentTypesModel.getResponseJSON());
+     * Stack.log(TAG,"contentTypesModel: "+ contentTypesModel.getResponseJSON());
      * include_count = contentTypesModel.getCount();
      *
      * }
@@ -630,7 +660,7 @@ public class Stack {
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    System.out.println("------setQueryJson"+e.toString());
+                    Stack.log(TAG,"------setQueryJson"+e.toString());
                 }
             }
 
@@ -670,6 +700,14 @@ public class Stack {
             return headerGroup_app;
         }
 
+    }
+
+
+    public static void log(String TAG, String logMsg) {
+
+        Logger logger = LogManager.getLogger(TAG);
+        logger.setLevel(loggerLevel);
+        if (LOG_TAKE_OFF_STACKTRACE){ logger.debug(logMsg); }
     }
 
 }
