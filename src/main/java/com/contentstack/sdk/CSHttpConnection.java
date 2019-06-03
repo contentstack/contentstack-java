@@ -272,7 +272,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
         }
 
         headers.put("Content-Type", "application/json");
-        headers.put("User-Agent", defaultUserAgent()+"/"+ CSAppConstants.SDK_VERSION);
+        headers.put("X-User-Agent", defaultUserAgent()+"/"+ CSAppConstants.SDK_VERSION);
 
         try {
             requestJSON.put("_method",getRequestMethod().toString());
