@@ -20,13 +20,13 @@ To use the Contentstack Java SDK to your existing project, perform the steps giv
 <dependency>
   <groupId>com.contentstack.sdk</groupId>
   <artifactId>java</artifactId>
-  <version>1.3.2</version>
+  <version>1.3.3</version>
 </dependency>
 ```
 
 2. **Gradle**
 ```
-implementation 'com.contentstack.sdk:java:1.3.2'
+implementation 'com.contentstack.sdk:java:1.3.3'
 ```
 
 ### Key Concepts for using Contentstack
