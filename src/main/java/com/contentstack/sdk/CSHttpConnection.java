@@ -242,12 +242,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
     @Override
     public void send() {
 
-        String url                            = null;
-        String httpsORhttp                    = CSAppConstants.URLSCHEMA_HTTPS;
-        int requestId                         = getRequestId(requestMethod);
-        final LinkedHashMap<String, String> headers     = new LinkedHashMap<>();
-        int count                             = this.headers.size();
-
+        String url = null;
         if(requestMethod == CSAppConstants.RequestMethod.GET){
             String  params = setFormParamsGET(formParams);
             if( params != null) {
@@ -260,139 +255,53 @@ public class CSHttpConnection implements IURLRequestHTTP{
             url = urlPath;
         }
 
-        if(url.contains(CSAppConstants.URLSCHEMA_HTTPS)){
-            httpsORhttp = CSAppConstants.URLSCHEMA_HTTPS;
-        }
-
-        for (Map.Entry<String, Object> entry : this.headers.entrySet())
-        {
-            String key = entry.getKey();
-            String value = (String) entry.getValue();
-            headers.put(key, value);
-        }
-
-        headers.put("Content-Type", "application/json");
-        headers.put("User-Agent", defaultUserAgent()+"/"+ CSAppConstants.SDK_VERSION);
-
         try {
-            requestJSON.put("_method",getRequestMethod().toString());
-            this.callNetworkRequest(url, getRequestMethod().toString(), requestJSON, headers);
-
-        } catch (IOException | JSONException e) {
-            Stack.log(TAG,"Localized Message : "+e.getLocalizedMessage());
+            sendGET(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
 
 
-    private String getRequest( String urlString, String requestMethod ) {
+    private void sendGET(String GET_URL) throws IOException, JSONException {
 
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod(requestMethod);
-            conn.setRequestProperty("Accept", "application/json");
+        URL obj = new URL(GET_URL);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
 
-            conn.connect();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    conn.getInputStream(), "UTF-8"));
-
-            StringBuilder sb = new StringBuilder(2048);
-            for (String line; (line = br.readLine()) != null; ) {
-                sb.append(line);
-            }
-            conn.disconnect();
-
-            return sb.toString();
-
-        } catch (IOException ex) {
-            Logger.getLogger(CSHttpConnection.class.getName()).log(Level.SEVERE, null, ex);
-            return ex.toString();
+        if (this.headers.containsKey("api_key")){
+            con.setRequestProperty("api_key", headers.get("api_key").toString());
         }
-    }
-
-
-
-    private void callNetworkRequest(String url, String requestMethod, JSONObject jsonParam, Map<String, String> reqHeaders) throws IOException {
-
-        URL objURL = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) objURL.openConnection();
-        con.setRequestMethod(requestMethod);
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (Map.Entry<String, String> entry : reqHeaders.entrySet())
-        {
-            String key = entry.getKey();
-            String value = String.valueOf(entry.getValue());
-            con.setRequestProperty(key, value);
-            stringBuilder.append(key+":"+value+",");
+        if (this.headers.containsKey("access_token")){
+            con.setRequestProperty("access_token", headers.get("access_token").toString());
         }
-
-        con.setDoOutput(true);
-        con.setDoInput(true);
-
-        OutputStream outputStream = con.getOutputStream();
-        String paramString = jsonParam.toString().trim();
-
-        if (!paramString.isEmpty())
-        {
-            byte[] postParams = paramString.getBytes("UTF-8");
-            outputStream.write(postParams);
+        if (this.headers.containsKey("environment")){
+            con.setRequestProperty("environment", headers.get("environment").toString());
         }
-
-        outputStream.flush();
-        outputStream.close();
+        con.setRequestProperty("X-User-Agent", defaultUserAgent()+"/"+ CSAppConstants.SDK_VERSION);
+        con.setRequestProperty("Content-Type", "application/json");
         int responseCode = con.getResponseCode();
 
-        if (responseCode == HttpURLConnection.HTTP_OK)
-        {
-            BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        if (responseCode == HttpURLConnection.HTTP_OK) { // success
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
             StringBuffer response = new StringBuffer();
-            while ((inputLine = inputStreamReader.readLine()) != null) {
+            while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
+            in.close();
 
-            inputStreamReader.close();
-
-            try {
-                responseJSON = new JSONObject(response.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            if (responseJSON != null) {
-                connectionRequest.onRequestFinished(CSHttpConnection.this);
-            }
-
+            responseJSON = new JSONObject(response.toString());
+            connectionRequest.onRequestFinished(CSHttpConnection.this);
         } else {
+            Stack.log("CSHttpConnection", "GET request not worked");
             generateBuiltError(con);
         }
 
-
     }
-
-
-
-    private int getRequestId(CSAppConstants.RequestMethod requestMethod) {
-
-        switch (requestMethod){
-            case GET:
-                return 0;
-            case POST:
-                return 1;
-            case PUT:
-                return 2;
-            case DELETE:
-                return 3;
-            default:
-                return 1;
-        }
-    }
-
 
     private String defaultUserAgent() {
         String agent = System.getProperty("http.agent");
@@ -412,13 +321,10 @@ public class CSHttpConnection implements IURLRequestHTTP{
                 String responseMessage = connection.getResponseMessage();
                 statusCode = connection.getResponseCode();
 
-
                 try {
 
                     if (connection.getResponseMessage() == null && connection.getResponseMessage().equalsIgnoreCase("")) {
                         statusCode  = connection.getResponseCode();
-                        //String responseBody = new String(error.networkResponse.data, "utf-8");
-                        //responseJSON = responseBody != null ? new JSONObject(responseBody) : new JSONObject();
                         responseJSON.put("error_message", CSAppConstants.ErrorMessage_Default);
 
                     }else{
@@ -448,15 +354,12 @@ public class CSHttpConnection implements IURLRequestHTTP{
                             responseJSON.put("error_message", CSAppConstants.ErrorMessage_VolleyServerError);
 
                         } else {
-                            if (responseMessage != null) {
-                                responseJSON.put("error_message", responseMessage);
-                            }
+                            responseJSON.put("error_message", responseMessage);
                         }
 
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("errors", responseMessage.toString());
                         responseJSON.put("errors", jsonObject);
-
                     }
                     connectionRequest.onRequestFailed(responseJSON, statusCode, callBackObject);
 
