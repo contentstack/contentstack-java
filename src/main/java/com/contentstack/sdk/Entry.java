@@ -1265,4 +1265,15 @@ public class Entry {
     }
 
 
+
+    public Entry includeReferenceContentTypeUID(){
+        try {
+            otherPostJSON.put("include_reference_content_type_uid", "true");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
+
+
 }
