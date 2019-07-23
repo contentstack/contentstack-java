@@ -5,6 +5,7 @@ import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSAppUtils;
 import com.contentstack.sdk.utility.CSController;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -1840,6 +1841,15 @@ public class Query implements INotifyClass{
     }
 
 
+
+    public Query includeReferenceContentTypUid(){
+        try {
+            urlQueries.put("include_reference_content_type_uid", "true");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
 
 }
 
