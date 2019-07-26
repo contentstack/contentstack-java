@@ -31,10 +31,7 @@ import java.net.URLConnection;
 
 public class CSAppConstants {
 
-    public static final String REQUEST_URL = "";
-    public static String URLSCHEMA_HTTPS = "https://";
-    public static final String SDK_VERSION = "1.3.2";
-    public final static int NONETWORKCONNECTION = 408;
+    public static final String SDK_VERSION = "1.4.0";
 
     public static enum RequestMethod
     {
