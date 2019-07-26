@@ -1300,6 +1300,29 @@ public class Entry {
 
 
 
+    /**
+     * This method also includes the content type UIDs of the referenced entries returned in the response
+     * @return {@link Entry}
+     *
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     * //'blt5d4sample2633b' is a dummy Stack API key
+     * //'blt6d0240b5sample254090d' is dummy access token.
+     * {@code
+     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762"); <br>
+     * entry.includeReferenceContentTypeUID; <br>
+     * entry.fetch(new BuiltResultCallBack() {
+     * <br>&#64;
+     * Override
+     * public void onCompletion(ResponseType responseType, BuiltError builtError) {
+     *  }<br>
+     * });<br>
+     *  }
+     * </pre>
+     *
+     *
+     */
     public Entry includeReferenceContentTypeUID(){
         try {
             otherPostJSON.put("include_reference_content_type_uid", "true");

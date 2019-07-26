@@ -1846,6 +1846,26 @@ public class Query implements INotifyClass{
 
 
 
+    /**
+     * This method also includes the content type UIDs of the referenced entries returned in the response
+     * @return {@link Query}
+     *
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *      //'blt5d4sample2633b' is a dummy Stack API key
+     *      //'blt6d0240b5sample254090d' is dummy access token.
+     *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *      Query csQuery = stack.contentType("contentType_name").query();<br>
+     *      csQuery.includeReferenceContentTypUid();
+     *      csQuery.findOne(new QueryResultsCallBack() {<br>
+     *          &#64;Override
+     *          public void onCompletion(ResponseType responseType, ENTRY entry, Error error) {<br>
+     *          }
+     *      });<br>
+     * </pre>
+     *
+     *
+     */
     public Query includeReferenceContentTypUid(){
         try {
             urlQueries.put("include_reference_content_type_uid", "true");
