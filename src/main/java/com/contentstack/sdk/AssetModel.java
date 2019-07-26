@@ -7,6 +7,8 @@ import java.util.WeakHashMap;
 
 
 /**
+ * @Author Shailesh Mishra
+ *
  * MIT License
  *
  * Copyright (c) 2012 - 2019 Contentstack

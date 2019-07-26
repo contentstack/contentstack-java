@@ -53,6 +53,7 @@ public class Entry {
     protected String ownerUid                    = null;
     protected String title                       = null;
     protected String url                         = null;
+    protected String language                    = null;
 
     private JSONArray referenceArray;
     private JSONObject otherPostJSON;
@@ -80,6 +81,7 @@ public class Entry {
         this.ownerUid     	   = model.ownerUid;
         this.title             = model.title;
         this.url               = model.url;
+        this.language          = model.language;
         if(model.ownerMap != null) {
             this.owner = new HashMap<>(model.ownerMap);
         }
@@ -234,6 +236,7 @@ public class Entry {
      *
      */
 
+    @Deprecated
     public Language getLanguage(){
         String localeCode = null;
 
@@ -252,6 +255,37 @@ public class Entry {
             return language[localeValue];
         }
         return null;
+    }
+
+
+
+    /**
+     *
+     *
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     * Entry entry = entry.setLanguage();
+     * </pre>
+     *
+     */
+
+    public Entry setLocale(String locale){
+
+        if (locale !=null){
+            try {
+                otherPostJSON.put("locale", locale);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return this;
+    }
+
+
+
+    public String getLocale(){
+        return this.language;
     }
 
 
