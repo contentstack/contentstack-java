@@ -43,6 +43,7 @@ class EntryModel {
     protected String title                     = null;
     protected String url                       = null;
     protected String[] tags					   = null;
+    protected String language                  = null;
     protected Map<String, Object> ownerMap = null;
     protected Map<String, Object> _metadata= null;
     private JSONArray tagsArray = null;
@@ -74,6 +75,10 @@ class EntryModel {
 
             if(jsonObject != null && jsonObject.has("title")){
                 this.title = (String) (jsonObject.isNull("title") ? " " : jsonObject.opt("title"));
+            }
+
+            if(jsonObject != null && jsonObject.has("locale")){
+                this.language = (String) (jsonObject.isNull("locale") ? " " : jsonObject.opt("locale"));
             }
 
             if(jsonObject != null && jsonObject.has("url")){

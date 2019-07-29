@@ -5,6 +5,7 @@ import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSAppUtils;
 import com.contentstack.sdk.utility.CSController;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -1073,32 +1074,6 @@ public class Query implements INotifyClass{
 
 
 
-    /**
-     * Include schemas of all returned objects along with objects themselves.
-     * @return {@link Query} object, so you can chain this call.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *     //'blt5d4sample2633b' is a dummy Stack API key
-     *     //'blt6d0240b5sample254090d' is dummy access token.
-     *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *     Query csQuery = stack.contentType("contentType_name").query();<br>
-     *     csQuery.includeSchema();
-     * </pre>
-     */
-    @Deprecated
-    public Query includeSchema(){
-        try {
-            if (!urlQueries.has("include_content_type")){
-                urlQueries.put("include_schema",true);
-            }
-        } catch (Exception e) {
-            throwException("includeSchema", CSAppConstants.ErrorMessage_QueryFilterException, e);
-        }
-        return this;
-    }
-
-
-
 
 
 
@@ -1386,6 +1361,7 @@ public class Query implements INotifyClass{
      *      csQuery.language(Language.ENGLISH_UNITED_STATES);
      * </pre>
      */
+    @Deprecated
     public Query language(Language language){
 
         if(language != null){
@@ -1405,6 +1381,35 @@ public class Query implements INotifyClass{
             }
         }else{
             throwException("language", CSAppConstants.ErrorMessage_QueryFilterException, null);
+        }
+
+        return this;
+    }
+
+
+
+
+    /**
+     * Set {@link Language} instance.
+     * @param locale {@link String} value
+     * @return {@link Query} object, so you can chain this call
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *      //'blt5d4sample2633b' is a dummy Stack API key
+     *      //'blt6d0240b5sample254090d' is dummy access token.
+     *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *      Query csQuery = stack.contentType("contentType_name").query();<br>
+     *      csQuery.language(Language.ENGLISH_UNITED_STATES);
+     * </pre>
+     */
+    public Query locale(String locale){
+
+        if(locale != null && urlQueries != null) {
+                try {
+                    urlQueries.put("locale", locale);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+            }
         }
 
         return this;
@@ -1840,6 +1845,35 @@ public class Query implements INotifyClass{
     }
 
 
+
+    /**
+     * This method also includes the content type UIDs of the referenced entries returned in the response
+     * @return {@link Query}
+     *
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *      //'blt5d4sample2633b' is a dummy Stack API key
+     *      //'blt6d0240b5sample254090d' is dummy access token.
+     *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *      Query csQuery = stack.contentType("contentType_name").query();<br>
+     *      csQuery.includeReferenceContentTypUid();
+     *      csQuery.findOne(new QueryResultsCallBack() {<br>
+     *          &#64;Override
+     *          public void onCompletion(ResponseType responseType, ENTRY entry, Error error) {<br>
+     *          }
+     *      });<br>
+     * </pre>
+     *
+     *
+     */
+    public Query includeReferenceContentTypUid(){
+        try {
+            urlQueries.put("include_reference_content_type_uid", "true");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
 
 }
 

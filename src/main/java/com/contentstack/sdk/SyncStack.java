@@ -1,12 +1,10 @@
 package com.contentstack.sdk;
-
-import com.contentstack.sdk.utility.CSAppConstants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * @Author Contentstack
+ * @Author Shailesh Mishra
  *
  * MIT License
  *
@@ -34,6 +32,7 @@ import java.util.ArrayList;
 public class SyncStack {
 
     private final String TAG = SyncStack.class.getSimpleName();
+    public static final String REQUEST_URL = "";
     private JSONObject receiveJson;
     private int skip;
     private int limit;
@@ -75,7 +74,7 @@ public class SyncStack {
             try{
                 if(receiveJson != null){
 
-                    URL = CSAppConstants.REQUEST_URL;
+                    URL = REQUEST_URL;
 
                     if(receiveJson.has("items")) {
                         JSONArray jsonarray = receiveJson.getJSONArray("items");

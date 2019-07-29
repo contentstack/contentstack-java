@@ -53,6 +53,7 @@ public class Entry {
     protected String ownerUid                    = null;
     protected String title                       = null;
     protected String url                         = null;
+    protected String language                    = null;
 
     private JSONArray referenceArray;
     private JSONObject otherPostJSON;
@@ -80,6 +81,7 @@ public class Entry {
         this.ownerUid     	   = model.ownerUid;
         this.title             = model.title;
         this.url               = model.url;
+        this.language          = model.language;
         if(model.ownerMap != null) {
             this.owner = new HashMap<>(model.ownerMap);
         }
@@ -234,6 +236,7 @@ public class Entry {
      *
      */
 
+    @Deprecated
     public Language getLanguage(){
         String localeCode = null;
 
@@ -252,6 +255,37 @@ public class Entry {
             return language[localeValue];
         }
         return null;
+    }
+
+
+
+    /**
+     *
+     *
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     * Entry entry = entry.setLanguage();
+     * </pre>
+     *
+     */
+
+    public Entry setLocale(String locale){
+
+        if (locale !=null){
+            try {
+                otherPostJSON.put("locale", locale);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return this;
+    }
+
+
+
+    public String getLocale(){
+        return this.language;
     }
 
 
@@ -1261,6 +1295,40 @@ public class Entry {
                 }
         }
 
+        return this;
+    }
+
+
+
+    /**
+     * This method also includes the content type UIDs of the referenced entries returned in the response
+     * @return {@link Entry}
+     *
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     * //'blt5d4sample2633b' is a dummy Stack API key
+     * //'blt6d0240b5sample254090d' is dummy access token.
+     * {@code
+     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762"); <br>
+     * entry.includeReferenceContentTypeUID; <br>
+     * entry.fetch(new BuiltResultCallBack() {
+     * <br>&#64;
+     * Override
+     * public void onCompletion(ResponseType responseType, BuiltError builtError) {
+     *  }<br>
+     * });<br>
+     *  }
+     * </pre>
+     *
+     *
+     */
+    public Entry includeReferenceContentTypeUID(){
+        try {
+            otherPostJSON.put("include_reference_content_type_uid", "true");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return this;
     }
 
