@@ -1,7 +1,6 @@
 
 ## CHANGELOG
 
-
 ## Version 1.4.0
    ###### Date: 26-July-2019
    - [Entry] - Added support for includeReferenceContentTypeUid support in Entry.
@@ -76,6 +75,7 @@ Asset- added method 'addParam'
 ## Version 1.1.0 
 ###### Date: 10-Nov-2017  
 - New Features:
+
 ```  
 Stack- added method 'ImageTransform'  
 Query- added method 'includeContentType'  
