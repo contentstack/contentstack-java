@@ -1,31 +1,43 @@
 
 ## CHANGELOG
 
+## Version 1.4.0
+   ###### Date: 26-July-2019
+   - [Entry] - Added support for includeReferenceContentTypeUid support in Entry.
+   - [Query] - Added support for includeReferenceContentTypeUid support in Query.
+   - [Entry] - setLanguage and getLanguage Deprecated in Entry. 
+   - [Query] - language deprecated in Query
+   - [Entry] - Added method for getLocale and setLocale(String locale) in Entry
+   - [Query] - Added method for locale in Query.
+   - [Query] - Removed deprecated method for includeSchema in Query
+   
+------------------------------------------------
+
 
 ## Version 1.3.3
-   ### Date: 21-June-2019
-   Override response hot-fix
+   ###### Date: 21-June-2019
+   - Override response hot-fix
 
 ------------------------------------------------
 
 ## Version 1.3.2
    ### Date: 13-May-2019
-   Removed println
-   Added support for Logger
+   - Removed println
+   - Added support for Logger
 
 ------------------------------------------------
 
 ## Version 1.3.1
-  ### Date: May-02-2019
-  Change: include reference bug fixed
-  added testcase report for v1.3.1
+  ###### Date: May-02-2019
+  - Change: include reference bug fixed
+  - added testcase report for v1.3.1
 
 
 ------------------------------------------------
 
 
 ## Version 1.3.0  
-  ### Date: Apr-12-2019  
+  ###### Date: Apr-12-2019  
   Change: Added support of below methods in SDK   
   
 ```  
@@ -40,7 +52,7 @@ Below two support from the Config class has been removed permanently
 ------------------------------------------------  
 
 ## Version 1.2.1 
-### Date: 14-Mar-2019
+###### Date: 14-Mar-2019
 - Note: Bug Fixes and code clean up: 
    
 --------------------------------
@@ -51,7 +63,7 @@ Folder structure modified.
   
 ------------------------------------------------  
 ## Version 1.2.0 
-### Date: 15-Dec-2017  
+###### Date: 15-Dec-2017  
 - New Features:
 ```
 Entry- added method ‘addParam’  
@@ -61,8 +73,9 @@ Asset- added method 'addParam'
 ------------------------------------------------  
   
 ## Version 1.1.0 
-### Date: 10-Nov-2017  
+###### Date: 10-Nov-2017  
 - New Features:
+
 ```  
 Stack- added method 'ImageTransform'  
 Query- added method 'includeContentType'  
