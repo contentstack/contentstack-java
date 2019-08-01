@@ -17,7 +17,6 @@ import java.util.*;
 
 
 /**
- * @Author Contentstack
  *
  * MIT License
  *
@@ -233,7 +232,6 @@ public class Stack {
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
      * stack.getContentTypes(false, new ContentTypesCallback() {
-     * @Override
      * public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
      * Stack.log(TAG,"contentTypesModel: "+ contentTypesModel.getResponseJSON());
      * include_count = contentTypesModel.getCount();
@@ -556,11 +554,11 @@ public class Stack {
 
     /**
      *
-     * @param contentType
-     * @param from_date
-     * @param language
-     * @param type
-     * @param syncCallBack
+     * @param contentType your content type id
+     * @param from_date start date
+     * @param language language as {@link Language}
+     * @param type  type as PublishType
+     * @param syncCallBack Callback
      *
      * You can also initialize sync with entries that satisfy multiple parameters.
      * To do this, use syncWith and specify the parameters.

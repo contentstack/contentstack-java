@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 /**
- * @Author Contentstack
  *
  * MIT License
  *

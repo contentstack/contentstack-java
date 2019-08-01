@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import java.util.*;
 
 /**
- * @Author Contentstack
  *
  * MIT License
  *
@@ -261,12 +260,12 @@ public class Entry {
 
     /**
      *
-     *
+     * @param locale {@link String}
+     * @return Entry
      * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Entry entry = entry.setLanguage();
-     * </pre>
-     *
+     *   <pre class="prettyprint">
+     *   Entry entry = entry.setLanguage();
+     *  </pre>
      */
 
     public Entry setLocale(String locale){

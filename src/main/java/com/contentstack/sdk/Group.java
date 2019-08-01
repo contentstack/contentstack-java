@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @Author Contentstack
  *
  * MIT License
  *

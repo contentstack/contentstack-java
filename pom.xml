@@ -43,7 +43,7 @@
         <url>https://github.com/contentstack/contentstack-java/tree/master</url>
         <connection>scm:git:git://github.com/contentstack/contentstack-java.git</connection>
         <developerConnection>scm:git:ssh://github.com:contentstack/contentstack-java.git</developerConnection>
-        <tag>v1.2.1</tag>
+        <tag>v1.4.0</tag>
     </scm>
 
     <issueManagement>
@@ -121,18 +121,40 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <configuration>
-                    <additionalparam>-Xdoclint:none</additionalparam>
-                </configuration>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <use>false</use>
+                            <use>false</use>
+                            <source>1.8</source>
+                                <links><link>http://docs.oracle.com/javase/7/docs/api/</link>		                             <link>http://docs.oracle.com/javase/7/docs/api/</link></links>
+                            <doclint>none</doclint>
+                        </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <configuration>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <additionalparam>${javadoc.opts}</additionalparam>
+                            </configuration>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
             </plugin>
 
             <plugin>
