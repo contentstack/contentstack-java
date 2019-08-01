@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profilesXml xmlns="http://maven.apache.org/PROFILES/1.0.0"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://maven.apache.org/PROFILES/1.0.0 http://maven.apache.org/xsd/profiles-1.0.0.xsd">
+<profiles>
+    <profile>
+        <id>77b9c8fd28426a</id>
+        <!--<id>B16B07F68332BB77</id>-->
+        <activation>
+            <property>
+                <name>performRelease</name>
+                <value>true</value>
+            </property>
+        </activation>
+    </profile>
+
+    <profile>
+        <id>java8-doclint-disabled</id>
+        <activation>
+            <jdk>[1.8,)</jdk>
+        </activation>
+        <properties>
+            <javadoc.opts>-Xdoclint:none</javadoc.opts>
+        </properties>
+    </profile>
+
+</profiles>
+</profilesXml>
