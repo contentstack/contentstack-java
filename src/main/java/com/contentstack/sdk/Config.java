@@ -30,13 +30,40 @@ public class Config {
     protected String URL            = "cdn.contentstack.io";
     protected String VERSION        = "v3";
     protected String environment    = null;
+    protected ContentstackRegion region = ContentstackRegion.US;
+
+    public enum ContentstackRegion { US, EU }
+
+    public ContentstackRegion getRegion() { return this.region; }
 
     /**
-     * BuiltConfig constructor
+     * Sets region allow you to set your region for the Contentstack server.
+     *
+     * @param region
+     * host name.
+     *
+     * <p>
+     * <b>Note:</b> Default region sets to us </a>
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     * BuiltConfig config = new BuiltConfig();
+     * config.setRegion(ContentstackRegion.US);
+     * </pre>
+     */
+
+    public ContentstackRegion setRegion(ContentstackRegion region) {
+        this.region = region;
+        return this.region;
+    }
+
+
+
+    /**
+     * Config constructor
+     *
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     * Config config = new Config();
      * </pre>
      */
 
@@ -93,8 +120,7 @@ public class Config {
     /**
      * Changes the Contentstack version to be used in the final URL.
      *
-     * @param version
-     *                  version string.
+     * @param version version string.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
