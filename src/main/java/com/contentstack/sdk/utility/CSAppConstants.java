@@ -31,7 +31,7 @@ import java.net.URLConnection;
 
 public class CSAppConstants {
 
-    public static final String SDK_VERSION = "1.4.0";
+    public static final String SDK_VERSION = "1.4.1";
 
     public static enum RequestMethod
     {
@@ -51,20 +51,6 @@ public class CSAppConstants {
         ASSETLIBRARY
     }
 
-
-
-    public static boolean isNetworkAvailable() {
-        try {
-            final URL url = new URL("http://www.google.com");
-            final URLConnection conn = url.openConnection();
-            conn.connect();
-            return true;
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            return false;
-        }
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public final static String ErrorMessage_JsonNotProper 			 = "Please provide valid JSON.";
