@@ -100,6 +100,13 @@ public class Stack {
             setHeader("environment", config.environment);
         }
 
+        if (!config.region.name().isEmpty()){
+            String region = config.region.name().toLowerCase();
+            if (!region.equalsIgnoreCase("us")){
+                URL = region+"-"+URL;
+            }
+        }
+
     }
 
 
