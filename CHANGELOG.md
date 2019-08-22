@@ -1,8 +1,14 @@
 
 ## CHANGELOG
 
-## Version 1.4.1
+## Version 1.4.2
    ###### Date: 23-August-2019
+   - [Config] - Added support for ContentstackRegion in Config class
+   
+------------------------------------------------
+
+## Version 1.4.1
+   ###### Date: 21-August-2019
    - [Query] - Added support for whereIn(String key) and whereNotIn(String key) methods
    - [CSAppConstants] - Removed google internet connection check from CSAppConstants
    
