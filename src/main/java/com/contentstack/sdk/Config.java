@@ -31,12 +31,14 @@ public class Config {
     protected String VERSION        = "v3";
     protected String environment    = null;
 
+
+
     /**
-     * BuiltConfig constructor
+     * Config constructor
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     * BuiltConfig config = new BuiltConfig();
+     * Config config = new Config();
      * </pre>
      */
 
@@ -93,8 +95,7 @@ public class Config {
     /**
      * Changes the Contentstack version to be used in the final URL.
      *
-     * @param version
-     *                  version string.
+     * @param version version string.
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">

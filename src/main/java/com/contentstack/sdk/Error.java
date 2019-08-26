@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @Author Contentstack
  *
  * MIT License
  *

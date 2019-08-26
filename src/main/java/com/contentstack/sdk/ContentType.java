@@ -10,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @Author Contentstack
  *
  * MIT License
  *
@@ -168,15 +167,13 @@ public class ContentType {
 
     /**
      *
-     *
-     * @return callback ContentTypesCallback
      * This call returns information of a specific content type. It returns the content type schema, but does not include its entries.
-     *
+     * @param callback {@link ContentTypesCallback}
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
      * ContentType  contentType = stack.contentType("content_type_uid");
      * contentType.fetch(new ContentTypesCallback() {
-     * @Override
+     *
      * public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
      * if (error==null){
      *
