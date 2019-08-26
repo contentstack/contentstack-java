@@ -1,6 +1,16 @@
 
 ## CHANGELOG
 
+------------------------------------------------
+
+## Version 1.4.1
+   ###### Date: 21-August-2019
+   - [Query] - Added support for whereIn(String key) and whereNotIn(String key) methods
+   - [CSAppConstants] - Removed google internet connection check from CSAppConstants
+   
+------------------------------------------------
+
+
 ## Version 1.4.0
    ###### Date: 26-July-2019
    - [Entry] - Added support for includeReferenceContentTypeUid support in Entry.

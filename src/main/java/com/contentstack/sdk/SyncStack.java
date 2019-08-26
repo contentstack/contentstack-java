@@ -4,7 +4,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * @Author Shailesh Mishra
  *
  * MIT License
  *

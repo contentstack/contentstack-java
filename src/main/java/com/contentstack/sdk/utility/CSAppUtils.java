@@ -160,53 +160,16 @@ public class CSAppUtils {
 
 
     /**
-     * Converts the given date to user&#39;s timezone.
-     * @param date date in ISO format.
-     * @return {@link Calendar} object.
-     * @throws ParseException
-     *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *   CSAppUtils.parseDate(dateString, TimeZone.getDefault());
-     * </pre>
-     *
-     */
-    public static Calendar parseDate(String date, TimeZone timeZone) throws ParseException {
-        ArrayList<String> knownPatterns = new ArrayList<String>();
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm:ssZ");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm.ss'Z'");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mmZ");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm'Z'");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm'Z'");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm:ss");
-        knownPatterns.add("yyyy-MM-dd' 'HH:mm:ss");
-        knownPatterns.add("yyyy-MM-dd");
-        knownPatterns.add("HH:mm:ssZ");
-        knownPatterns.add("HH:mm:ss'Z'");
-
-        for (String formatString : knownPatterns){
-            try {
-
-                return parseDate(date, formatString, timeZone);
-
-            }catch (ParseException e) {}
-        }
-
-        return null;
-    }
-
-
-    /**
      * Converts the given date to the user&#39;s timezone.
-     * @param date date in string format.
-     * @param dateFormat date format.
-     * @return {@link Calendar} object.
+     * @param date {@link String}
+     * @param dateFormat {@link String}
+     * @param timeZone String
+     * @return Calendar
      * @throws ParseException
      *
      * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *   CSAppUtils.parseDate(dateString, "yyyy-MM-dd'T'HH:mm:ssZ", TimeZone.getTimeZone("GMT"));
+     *      <pre class="prettyprint">
+     *        CSAppUtils.parseDate(dateString, "yyyy-MM-dd'T'HH:mm:ssZ", TimeZone.getTimeZone("GMT"));
      * </pre>
      */
     public static Calendar parseDate(String date, String dateFormat, TimeZone timeZone) throws ParseException {

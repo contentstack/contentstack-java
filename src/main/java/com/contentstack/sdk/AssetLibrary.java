@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import java.util.*;
 
 /**
- * @Author Shailesh Mishra
  *
  * MIT License
  *
