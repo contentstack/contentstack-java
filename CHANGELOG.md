@@ -1,10 +1,6 @@
 
 ## CHANGELOG
 
-## Version 1.4.2
-   ###### Date: 23-August-2019
-   - [Config] - Added support for ContentstackRegion in Config class
-   
 ------------------------------------------------
 
 ## Version 1.4.1
