@@ -3,6 +3,12 @@
 
 ------------------------------------------------
 
+## Version 1.4.2
+   ###### Date: 03-Sept-2019
+   - [Config] - Added support for Region in Config.   
+
+------------------------------------------------
+
 ## Version 1.4.1
    ###### Date: 21-August-2019
    - [Query] - Added support for whereIn(String key) and whereNotIn(String key) methods
