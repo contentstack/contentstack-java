@@ -100,6 +100,16 @@ public class Stack {
             setHeader("environment", config.environment);
         }
 
+        if (!config.region.name().isEmpty()){
+            String region = config.region.name().toLowerCase();
+            if (!region.equalsIgnoreCase("us")){
+                if(URL.equalsIgnoreCase("cdn.contentstack.io")) {
+                    URL=URL.replace("io", "com");
+                }
+                URL = region + "-" + URL;
+            }
+        }
+
     }
 
 
@@ -231,7 +241,7 @@ public class Stack {
      *
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
-     * stack.getContentTypes(false, new ContentTypesCallback() {
+     * stack.getContentTypes(new ContentTypesCallback() {
      * public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
      * Stack.log(TAG,"contentTypesModel: "+ contentTypesModel.getResponseJSON());
      * include_count = contentTypesModel.getCount();
