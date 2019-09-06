@@ -2,7 +2,6 @@ package com.contentstack.sdk;
 
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -106,7 +105,7 @@ public class Stack {
                 if(URL.equalsIgnoreCase("cdn.contentstack.io")) {
                     URL = "cdn.contentstack.com";
                 }
-                URL = "eu-"+URL;
+                URL = region+"-"+URL;
             }
         }
 
