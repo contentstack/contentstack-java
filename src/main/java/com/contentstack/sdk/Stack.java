@@ -1,5 +1,4 @@
 package com.contentstack.sdk;
-
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
 import org.apache.log4j.Level;
@@ -7,7 +6,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
@@ -235,33 +233,49 @@ public class Stack {
 
 
     /**
+     * @param params query parameters
      * @param callback ContentTypesCallback
      * This call returns comprehensive information of all the content types available in a particular stack in your account.
      *
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
+     *
+     * JSONObject params = new JSONObject();
+     * params.put("include_snippet_schema", true);
+     * params.put("limit", 3);
      * stack.getContentTypes(new ContentTypesCallback() {
      * public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
-     * Stack.log(TAG,"contentTypesModel: "+ contentTypesModel.getResponseJSON());
-     * include_count = contentTypesModel.getCount();
-     *
+     *  if (error == null){
+     *     // do your stuff.
+     *  }
      * }
      * });
      *</pre>
      */
 
-    public void getContentTypes( final ContentTypesCallback callback) {
+    public void getContentTypes(JSONObject params, final ContentTypesCallback callback) {
 
         try {
-            String URL = "/" + this.VERSION + "/content_types/";
+            String URL = "/" + this.VERSION + "/content_types";
             HashMap<String, Object> headers = getHeader(localHeader);
-            JSONObject content_type_param = new JSONObject();
-            if (headers.containsKey("environment")) {
-                content_type_param.put("environment", headers.get("environment"));
-                content_type_param.put("include_count", true);
+            if (params == null){ params = new JSONObject(); }
+
+            Iterator keys = params.keys();
+            while(keys.hasNext()) {
+                // loop to get the dynamic key
+                String key = (String)keys.next();
+                // get the value of the dynamic key
+                Object value = params.opt(key);
+                // do something here with the value...
+                params.put(key, value);
             }
 
-            fetchContentTypes(URL, content_type_param, headers, callback );
+            if (headers.containsKey("environment")) {
+                params.put("environment", headers.get("environment"));
+                params.put("include_count", true);
+            }
+
+            fetchContentTypes(URL, params, headers, callback );
 
         }catch (Exception e){
 

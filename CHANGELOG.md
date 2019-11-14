@@ -3,6 +3,14 @@
 
 ------------------------------------------------
 
+## Version 1.5.0
+   ###### Date: 13-Sept-2019
+   - [Stack] - Added support for getContentTypes in Stack with Query parameters.
+   - [ContentType] - Added support for getContentType in ContentType with Query parameters.
+
+
+------------------------------------------------
+
 ## Version 1.4.2
    ###### Date: 03-Sept-2019
    - [Config] - Added support for Region in Config.   
