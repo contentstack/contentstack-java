@@ -168,11 +168,15 @@ public class ContentType {
     /**
      *
      * This call returns information of a specific content type. It returns the content type schema, but does not include its entries.
+     * @param params query parameters
      * @param callback {@link ContentTypesCallback}
      *  <br><br><b>Example :</b><br>
      *  <pre class="prettyprint">
      * ContentType  contentType = stack.contentType("content_type_uid");
-     * contentType.fetch(new ContentTypesCallback() {
+     * JSONObject params = new JSONObject();
+     * params.put("include_snippet_schema", true);
+     * params.put("limit", 3);
+     * contentType.fetch(params, new ContentTypesCallback() {
      *
      * public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
      * if (error==null){
@@ -186,19 +190,30 @@ public class ContentType {
      */
 
 
-    public void fetch(final ContentTypesCallback callback) {
+    public void fetch(JSONObject params, final ContentTypesCallback callback) {
 
         try {
 
             String URL = "/" + stackInstance.VERSION + "/content_types/"+contentTypeName;
             HashMap<String, Object> headers = getHeader(localHeader);
-            JSONObject param = new JSONObject();
-            if (headers.containsKey("environment")) {
-                param.put("environment", headers.get("environment"));
+            if (params == null){ params = new JSONObject(); }
+
+            Iterator keys = params.keys();
+            while(keys.hasNext()) {
+                // loop to get the dynamic key
+                String key = (String)keys.next();
+                // get the value of the dynamic key
+                Object value = params.opt(key);
+                // do something here with the value...
+                params.put(key, value);
             }
 
-            if (contentTypeName!=null) {
-                fetchContentTypes(URL, param, headers, callback );
+            if (headers.containsKey("environment")) {
+                params.put("environment", headers.get("environment"));
+            }
+
+            if (contentTypeName!=null && !contentTypeName.isEmpty()) {
+                fetchContentTypes(URL, params, headers, callback );
             }else {
                 Error error = new Error();
                 error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);

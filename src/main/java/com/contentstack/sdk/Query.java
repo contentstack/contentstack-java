@@ -1093,6 +1093,7 @@ public class Query implements INotifyClass{
                 urlQueries.remove("include_schema");
             }
             urlQueries.put("include_content_type",true);
+            urlQueries.put("include_global_field_schema",true);
         } catch (Exception e) {
             throwException("include_content_type", CSAppConstants.ErrorMessage_QueryFilterException, e);
         }
