@@ -20,7 +20,7 @@ To use the Contentstack Java SDK to your existing project, perform the steps giv
 <dependency>
   <groupId>com.contentstack.sdk</groupId>
   <artifactId>java</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.5.0</version>
 </dependency>
 ```
 
