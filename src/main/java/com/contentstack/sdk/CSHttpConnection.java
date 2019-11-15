@@ -255,9 +255,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
 
         try {
             sendGET(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }
@@ -286,9 +284,9 @@ public class CSHttpConnection implements IURLRequestHTTP{
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                StringBuilder append = response.append(inputLine);
             }
             in.close();
 
