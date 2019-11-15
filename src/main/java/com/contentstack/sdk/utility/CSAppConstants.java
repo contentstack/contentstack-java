@@ -31,7 +31,7 @@ import java.net.URLConnection;
 
 public class CSAppConstants {
 
-    public static final String SDK_VERSION = "1.4.2";
+    public static final String SDK_VERSION = "1.5.0";
 
     public static enum RequestMethod
     {

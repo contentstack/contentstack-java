@@ -3,6 +3,15 @@
 
 ------------------------------------------------
 
+## Version 1.5.0
+   ###### Date: 15-Nov-2019
+   - [Stack]: Added support for function getContentType()
+   - [ContentType]: updated function fetch()
+   - [Query]: Updated support of whereIn(String KEY, Query queryObject)
+   - [Query]: Updated support of whereNotIn(String KEY, Query queryObject)
+
+------------------------------------------------
+
 ## Version 1.4.2
    ###### Date: 03-Sept-2019
    - [Config] - Added support for Region in Config.   
