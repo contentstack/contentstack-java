@@ -38,16 +38,18 @@ public class Config {
 
     /**
      * Sets region allow you to set your region for the Contentstack server.
-     *
-     * @param region
+     * @param region type {@link ContentstackRegion}
+     * @return ContentstackRegion
      *
      * <p>
-     * <b>Note:</b> Default region sets to us </a>
+     * <b>Note:</b>
+     * Default region sets to us
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * config.setRegion(ContentstackRegion.US);
      * </pre>
+
      */
 
     public ContentstackRegion setRegion(ContentstackRegion region) {

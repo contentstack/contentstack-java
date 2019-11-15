@@ -1876,9 +1876,12 @@ public class Query implements INotifyClass{
 
 
     /**
-     * Get entries having values based on referenced fields. This query retrieves all entries that satisfy the query conditions made on referenced fields.
+     *
+     * Get entries having values based on referenced fields.
+     * This query retrieves all entries that satisfy the query conditions made on referenced fields.
      * @param key The key to be constrained
-     * @return {@link Query} object, so you can chain this call.
+     * @param queryObject {@link Query} object, so you can chain this call
+     * @return {@link Query} object, so you can chain this call
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -1886,18 +1889,19 @@ public class Query implements INotifyClass{
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();
-     *     csQuery.whereIn("due_date");
+     *     csQuery.whereIn("due_date", csQuery);
      * </pre>
+
+
      */
-    public Query whereIn(String key){
+    public Query whereIn(String key, Query queryObject){
 
         if(key != null){
 
             try{
 
                 JSONObject inQueryObj = new JSONObject();
-                inQueryObj.put("$in_query", queryValueJSON);
-                queryValueJSON = new JSONObject();
+                inQueryObj.put("$in_query", queryObject.queryValueJSON.toString());
                 queryValueJSON.put(key, inQueryObj);
             }catch(Exception e){
                 throwException("in_query",CSAppConstants.ErrorMessage_QueryFilterException, e);
@@ -1913,7 +1917,8 @@ public class Query implements INotifyClass{
     /**
      * Get entries having values based on referenced fields. This query works the opposite of $in_query and retrieves all entries that does not satisfy query conditions made on referenced fields.
      * @param key The key to be constrained
-     * @return {@link Query} object, so you can chain this call.
+     * @param queryObject {@link Query} object, so you can chain this call
+     * @return {@link Query} object, so you can chain this call
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -1921,17 +1926,15 @@ public class Query implements INotifyClass{
      *     //'blt6d0240b5sample254090d' is dummy access token.
      *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Query csQuery = stack.contentType("contentType_name").query();
-     *     csQuery.whereNotIn("due_date");
+     *     csQuery.whereNotIn("due_date", csQuery);
      * </pre>
      */
-    public Query whereNotIn(String key){
+    public Query whereNotIn(String key, Query queryObject){
 
         if(key != null){
-
             try{
                 JSONObject inQueryObj = new JSONObject();
-                inQueryObj.put("$nin_query", queryValueJSON);
-                queryValueJSON = new JSONObject();
+                inQueryObj.put("$nin_query", queryObject.queryValueJSON.toString());
                 queryValueJSON.put(key, inQueryObj);
             }catch(Exception e){
                 throwException("nin_query",CSAppConstants.ErrorMessage_QueryFilterException, e);
