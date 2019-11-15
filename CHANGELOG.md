@@ -4,10 +4,11 @@
 ------------------------------------------------
 
 ## Version 1.5.0
-   ###### Date: 13-Sept-2019
-   - [Stack] - Added support for getContentTypes in Stack with Query parameters.
-   - [ContentType] - Added support for getContentType in ContentType with Query parameters.
-
+   ###### Date: 15-Nov-2019
+   - [Stack]: Added support for function getContentType()
+   - [ContentType]: updated function fetch()
+   - [Query]: Updated support of whereIn(String KEY, Query queryObject)
+   - [Query]: Updated support of whereNotIn(String KEY, Query queryObject)
 
 ------------------------------------------------
 
