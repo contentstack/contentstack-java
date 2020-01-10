@@ -1,9 +1,4 @@
 package com.contentstack.sdk.utility;
-
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import java.io.*;
 import java.security.MessageDigest;

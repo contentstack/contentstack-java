@@ -1,17 +1,16 @@
 package com.contentstack.sdk;
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 
 /**
  *
@@ -42,9 +41,6 @@ import java.util.*;
 public class Stack {
 
     private static final String TAG = "Stack";
-    public static Level loggerLevel = Level.DEBUG;
-    public static boolean LOG_TAKE_OFF_STACKTRACE = true;
-
     private String stackApiKey = null;
     protected LinkedHashMap<String, Object> localHeader = null;
     private String imageTransformationUrl;
@@ -66,6 +62,7 @@ public class Stack {
     protected String start_from_date;
     private  SyncResultCallBack syncCallBack;
     protected HashMap<String, Object> headerGroup_app;
+    final Logger logger = LogManager.getLogger(Stack.class.getName());
 
     private Stack(){ }
 
@@ -681,7 +678,7 @@ public class Stack {
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    Stack.log(TAG,"------setQueryJson"+e.toString());
+                    logger.debug(TAG,"Error: "+e.toString());
                 }
             }
 
@@ -710,26 +707,16 @@ public class Stack {
                         classHeaders.put(key, entry.getValue());
                     }
                 }
-
                 return classHeaders;
-
             }else{
                 return localHeader;
             }
-
         }else{
             return headerGroup_app;
         }
-
     }
 
 
-    public static void log(String TAG, String logMsg) {
-
-        Logger logger = LogManager.getLogger(TAG);
-        logger.setLevel(loggerLevel);
-        if (LOG_TAKE_OFF_STACKTRACE){ logger.debug(logMsg); }
-    }
 
 }
 
