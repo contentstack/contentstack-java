@@ -1,10 +1,10 @@
 package com.contentstack.sdk;
 
 import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSAppUtils;
 import com.contentstack.sdk.utility.CSController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
-
 import java.util.*;
 
 /**
@@ -36,7 +36,7 @@ import java.util.*;
 
 class CSConnectionRequest implements IRequestModelHTTP{
 
-    private static final String TAG = "CSConnectionRequest";
+    private final Logger logger = LogManager.getLogger(CSConnectionRequest.class.getName());
     private String urlToCall;
     private CSAppConstants.RequestMethod method;
     private String controller;
@@ -175,7 +175,7 @@ class CSConnectionRequest implements IRequestModelHTTP{
             }
 
         } catch (Exception e) {
-            Stack.log(TAG, "------------------catch 210 urlReq---|" + e);
+            logger.debug("------------------catch 210 urlReq---|" + e);
             errorMessage = e.getLocalizedMessage();
         }
         if(errorMessage == null || (! (errorMessage.length() > 0))){

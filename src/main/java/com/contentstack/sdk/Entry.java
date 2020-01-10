@@ -1,13 +1,13 @@
 package com.contentstack.sdk;
 
 import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSAppUtils;
 import com.contentstack.sdk.utility.CSController;
 import com.contentstack.sdk.utility.ContentstackUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.*;
 
 /**
@@ -37,7 +37,7 @@ import java.util.*;
 
 public class Entry {
 
-    private static final String TAG              = "Entry";
+    private final Logger logger = LogManager.getLogger(Entry.class.getName());
     private String contentTypeName               = null;
     private LinkedHashMap<String, Object> localHeader      = null;
     protected LinkedHashMap<String, Object> formHeader     = null;
@@ -330,7 +330,7 @@ public class Entry {
                 return null;
             }
         }catch (Exception e) {
-            Stack.log(TAG,  e.getLocalizedMessage());
+            logger.debug( e.getLocalizedMessage());
             return null;
         }
     }
@@ -568,7 +568,7 @@ public class Entry {
             String value = getString(key);
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            Stack.log(TAG, e.getLocalizedMessage());
+            logger.debug(e.getLocalizedMessage());
         }
         return null;
     }
@@ -590,7 +590,7 @@ public class Entry {
             String value = getString("created_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            Stack.log(TAG,  e.getLocalizedMessage());
+            logger.debug( e.getLocalizedMessage());
         }
         return null;
     }
@@ -626,7 +626,7 @@ public class Entry {
             String value = getString("updated_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            Stack.log(TAG,  e.getLocalizedMessage());
+            logger.debug( e.getLocalizedMessage());
         }
         return null;
     }
@@ -662,7 +662,7 @@ public class Entry {
             String value = getString("deleted_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            Stack.log(TAG,  e.getLocalizedMessage());
+            logger.debug( e.getLocalizedMessage());
         }
         return null;
     }
@@ -826,7 +826,7 @@ public class Entry {
                             entryInstance = contentTypeInstance.stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            Stack.log("BuiltObject", "---------getAllEntries" + e.toString());
+                            logger.debug("BuiltObject", "---------getAllEntries" + e.toString());
                         }
                         entryInstance.setUid(model.entryUid);
                         entryInstance.ownerEmailId = model.ownerEmailId;
@@ -846,7 +846,7 @@ public class Entry {
                 }
             }
         } catch (Exception e) {
-            Stack.log(TAG, "-----------------get|" + e);
+            logger.debug("-----------------get|" + e);
             return null;
         }
 
@@ -885,7 +885,7 @@ public class Entry {
                 }
             }
         }catch(Exception e) {
-            Stack.log(TAG, "--except-catch|" + e);
+            logger.debug("--except-catch|" + e);
         }
         return this;
     }
@@ -916,7 +916,7 @@ public class Entry {
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
-            Stack.log(TAG, "--include Reference-catch|" + e);
+            logger.debug("--include Reference-catch|" + e);
         }
         return this;
     }
@@ -950,7 +950,7 @@ public class Entry {
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
-            Stack.log(TAG, "--include Reference-catch|" + e);
+            logger.debug("--include Reference-catch|" + e);
         }
         return this;
     }
@@ -986,7 +986,7 @@ public class Entry {
                 }
             }
         }catch(Exception e) {
-            Stack.log(TAG, "--include Reference-catch|" + e);
+            logger.debug("--include Reference-catch|" + e);
         }
         return this;
     }
@@ -1030,7 +1030,7 @@ public class Entry {
                 includeReference(referenceFieldUid);
             }
         }catch(Exception e) {
-            Stack.log(TAG, "--onlyWithReferenceUid-catch|" + e);
+            logger.debug("--onlyWithReferenceUid-catch|" + e);
         }
         return this;
     }
@@ -1072,7 +1072,7 @@ public class Entry {
                 includeReference(referenceFieldUid);
             }
         }catch(Exception e) {
-            Stack.log(TAG, "--exceptWithReferenceUid-catch|" + e);
+            logger.debug("--exceptWithReferenceUid-catch|" + e);
         }
         return this;
     }
@@ -1169,7 +1169,7 @@ public class Entry {
                     Object value = queryJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    Stack.log(TAG, "----------------setQueryJson"+e.toString());
+                    logger.debug("----------------setQueryJson"+e.toString());
                 }
             }
             return hashMap;

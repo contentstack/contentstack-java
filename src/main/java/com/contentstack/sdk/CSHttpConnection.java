@@ -1,12 +1,21 @@
 package com.contentstack.sdk;
 
 import com.contentstack.sdk.utility.CSAppConstants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @Author Contentstack
@@ -36,7 +45,7 @@ import java.util.*;
 
 public class CSHttpConnection implements IURLRequestHTTP{
 
-    private static final String TAG = "CSHttpConnection";
+    private final Logger logger = LogManager.getLogger(CSHttpConnection.class.getName());
     private String urlPath;
     private String controller;
     private LinkedHashMap<String, Object> headers;
@@ -293,7 +302,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
             responseJSON = new JSONObject(response.toString());
             connectionRequest.onRequestFinished(CSHttpConnection.this);
         } else {
-            Stack.log("CSHttpConnection", "GET request not worked");
+            logger.debug("GET request not worked");
             generateBuiltError(con);
         }
 

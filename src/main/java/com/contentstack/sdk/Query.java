@@ -1,32 +1,26 @@
 package com.contentstack.sdk;
-
-
 import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSAppUtils;
 import com.contentstack.sdk.utility.CSController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.*;
 
 
 /**
  *
  * MIT License
- *
  * Copyright (c) 2012 - 2019 Contentstack
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -39,7 +33,7 @@ import java.util.*;
 
 public class Query implements INotifyClass{
 
-    private static final String TAG  = Query.class.getSimpleName();
+    private Logger logger = LogManager.getLogger(Query.class.getName());
     private JSONObject mainJSON                  = null;
     private String formName                      = null;
     protected ContentType contentTypeInstance    = null;
@@ -1483,21 +1477,21 @@ public class Query implements INotifyClass{
 
                     execQuery(null, callback, false);
                 }else{
-                    //TODO ERROR HANDLE
+
                     throwException("find", CSAppConstants.ErrorMessage_FormName, null);
                     error = new Error();
                     error.setErrorMessage(errorString);
                     error.setErrors(errorHashMap);
                 }
             }else{
-                //TODO ERROR HANDLE
+
                 error = new Error();
                 error.setErrorMessage(errorString);
                 error.setErrors(errorHashMap);
             }
         }catch (Exception e) {
             e.printStackTrace();
-            //TODO ERROR HANDLE
+
             throwException("find", CSAppConstants.ErrorMessage_JsonNotProper, null);
             error = new Error();
             error.setErrorMessage(errorString);
@@ -1555,20 +1549,20 @@ public class Query implements INotifyClass{
                     }
 
                 }else{
-                    //TODO ERROR HANDLE
+
                     throwException("find", CSAppConstants.ErrorMessage_FormName, null);
                     error = new Error();
                     error.setErrorMessage(errorString);
                     error.setErrors(errorHashMap);
                 }
             }else{
-                //TODO ERROR HANDLE
+
                 error = new Error();
                 error.setErrorMessage(errorString);
                 error.setErrors(errorHashMap);
             }
         }catch (Exception e) {
-            //TODO ERROR HANDLE
+
             throwException("find", CSAppConstants.ErrorMessage_JsonNotProper, null);
             error = new Error();
             error.setErrorMessage(errorString);
@@ -1637,7 +1631,6 @@ public class Query implements INotifyClass{
             }
 
         }catch (Exception e) {
-            //TODO ERROR HANDLER
             throwException("find", CSAppConstants.ErrorMessage_QueryFilterException, e);
         }
     }
@@ -1653,10 +1646,8 @@ public class Query implements INotifyClass{
             queryResultCallback = callback;
             singleQueryResultCallback = callBack;
             setQueryJson(callback);
-            //TODO Delta is not yet added
             LinkedHashMap<String, Object> headers = getHeader(localHeader);
             if (headers.size() < 1) {
-                //TODO HANDLE HEADER NOT PRESENT ERROR
                 throwException("find", CSAppConstants.ErrorMessage_CalledDefaultMethod, null);
             } else {
                 if (headers.containsKey("environment")) {
@@ -1669,7 +1660,6 @@ public class Query implements INotifyClass{
 
 
         } catch (Exception e) {
-            //TODO HANDLE EXCEPTION
             e.printStackTrace();
             throwException("find", CSAppConstants.ErrorMessage_QueryFilterException, e);
         }
@@ -1704,7 +1694,7 @@ public class Query implements INotifyClass{
                     Object value = queryJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    Stack.log(TAG, "----------------setQueryJson"+e.getLocalizedMessage());
+                    logger.debug(e.getLocalizedMessage());
                 }
             }
 
