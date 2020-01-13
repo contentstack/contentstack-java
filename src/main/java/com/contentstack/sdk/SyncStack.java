@@ -1,4 +1,6 @@
 package com.contentstack.sdk;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 
 public class SyncStack {
 
-    private final String TAG = SyncStack.class.getSimpleName();
+    private final Logger logger = LogManager.getLogger(SyncStack.class.getName());
     public static final String REQUEST_URL = "";
     private JSONObject receiveJson;
     private int skip;
@@ -97,7 +99,7 @@ public class SyncStack {
                     if (receiveJson.has("pagination_token")){
                         this.pagination_token = receiveJson.optString("pagination_token");
                     }else {
-                        this.sync_token = null;
+                        this.pagination_token = null;
                     }
                     if (receiveJson.has("sync_token")){
                         this.sync_token = receiveJson.optString("sync_token");
@@ -106,7 +108,7 @@ public class SyncStack {
                     }
                 }
             }catch(Exception e){
-                Stack.log(TAG,"QueryResult--setJSON--"+e.toString());
+                logger.debug("QueryResult--setJSON--"+e.toString());
             }
 
         }

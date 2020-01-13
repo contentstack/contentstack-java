@@ -1,7 +1,8 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.utility.CSAppUtils;
 import com.contentstack.sdk.utility.ContentstackUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ import java.util.List;
 
 public class Group {
 
-    private static final String TAG = "Group";
+    private final Logger logger = LogManager.getLogger(Group.class.getName());
     private JSONObject resultJson;
     private Stack stackInstance;
 
@@ -80,7 +81,7 @@ public class Group {
                 return null;
             }
         }catch (Exception e) {
-            Stack.log(TAG,  e.getLocalizedMessage());
+            logger.debug( e.getLocalizedMessage());
             return null;
         }
     }
@@ -358,7 +359,7 @@ public class Group {
             String value = getString(key);
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            Stack.log(TAG, "-----------------getDate|" + e.getLocalizedMessage());
+            logger.debug("-----------------getDate|" + e.getLocalizedMessage());
         }
         return null;
     }
@@ -500,7 +501,7 @@ public class Group {
                             entryInstance = stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            Stack.log(TAG, "----------------getAllEntries" + e.toString());
+                            logger.debug("----------------getAllEntries" + e.toString());
                         }
                         entryInstance.setUid(model.entryUid);
                         entryInstance.ownerEmailId = model.ownerEmailId;
@@ -518,7 +519,7 @@ public class Group {
                 }
             }
         } catch (Exception e) {
-            Stack.log(TAG, "-----------------get|" + e.getLocalizedMessage());
+            logger.debug("-----------------get|" + e.getLocalizedMessage());
             return null;
         }
         return null;

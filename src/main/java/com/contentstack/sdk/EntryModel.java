@@ -1,5 +1,7 @@
 package com.contentstack.sdk;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -47,6 +49,7 @@ class EntryModel {
     protected Map<String, Object> ownerMap = null;
     protected Map<String, Object> _metadata= null;
     private JSONArray tagsArray = null;
+    private final Logger logger = LogManager.getLogger(EntriesModel.class.getName());
 
     public EntryModel(JSONObject jsonObj, String entryUid, boolean isFromObjectsModel ,boolean isFromCache, boolean isFromDeltaResponse) {
 
@@ -145,7 +148,7 @@ class EntryModel {
 
         }catch (Exception e) {
             e.printStackTrace();
-            Stack.log("EntryModel", e.getLocalizedMessage());
+            logger.debug(e.getLocalizedMessage());
         }
 
     }
