@@ -10,24 +10,8 @@ import java.util.*;
 
 
 /**
- *
- * MIT License
- * Copyright (c) 2012 - 2019 Contentstack
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * Contentstack provides certain queries that you can use to fetch
+ * filtered results. You can use queries for Entries and Assets API requests.
  */
 
 
@@ -1066,9 +1050,6 @@ public class Query implements INotifyClass{
 
 
 
-
-
-
     /**
      * Include Content Type of all returned objects along with objects themselves.
      * @return {@link Query} object, so you can chain this call.
@@ -1392,7 +1373,7 @@ public class Query implements INotifyClass{
      *      //'blt6d0240b5sample254090d' is dummy access token.
      *      Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
-     *      csQuery.language(Language.ENGLISH_UNITED_STATES);
+     *      csQuery.locale("en-us");
      * </pre>
      */
     public Query locale(String locale){
