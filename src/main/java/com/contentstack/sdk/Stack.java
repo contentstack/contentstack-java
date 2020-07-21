@@ -12,6 +12,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * A stack is a repository or a container that holds all the content/assets of your site.
+ * It allows multiple users to create, edit, approve, and publish their content within a single space.
+ */
 
 public class Stack {
 
