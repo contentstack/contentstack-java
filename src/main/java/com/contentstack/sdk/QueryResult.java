@@ -7,6 +7,9 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+/**
+ *It results the query response
+ */
 
 public class QueryResult {
 
