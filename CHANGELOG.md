@@ -4,7 +4,7 @@
 ------------------------------------------------
 
 ## Version 1.5.2
-   ###### Date: 21-July-2020
+   ###### Date: 23-July-2020
    - [Bump Issue] : Bump Issue: log4j-core from 2.5 to 2.13.2    
    - [Query] : Query.locale() documentation
    - [ CSHttpConnection ] : StandardCharsets.UTF_8 Support Added
