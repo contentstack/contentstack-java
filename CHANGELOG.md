@@ -3,6 +3,21 @@
 
 ------------------------------------------------
 
+## Version 1.5.2
+   ###### Date: 23-July-2020
+   - [Bump Issue] : Bump Issue: log4j-core from 2.5 to 2.13.2    
+   - [Query] : Query.locale() documentation
+   - [ CSHttpConnection ] : StandardCharsets.UTF_8 Support Added
+
+
+------------------------------------------------
+
+## Version 1.5.1
+   ###### Date: 13-Jan-2020
+   - [ dependency vulnerability ] : Java Github reported vulnerable issue on dependency logj    
+   
+------------------------------------------------
+
 ## Version 1.5.0
    ###### Date: 15-Nov-2019
    - [Stack]: Added support for function getContentType()

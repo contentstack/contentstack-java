@@ -1,8 +1,6 @@
 package com.contentstack.sdk;
 
 
-
-
 public enum Language {
 
     AFRIKAANS_SOUTH_AFRICA,
