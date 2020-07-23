@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>contentstack-java</name>
@@ -111,10 +111,14 @@
 
     <build>
         <plugins>
-                 
+
+<!--       https://maven.apache.org/surefire/maven-surefire-report-plugin/examples/changing-report-name.html-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
+                <configuration>
+                    <outputName>contentstack-java-test-report</outputName>
+                </configuration>
                 <version>2.22.0</version>
             </plugin>
 
