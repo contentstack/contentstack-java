@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.3</version>
     <packaging>jar</packaging>
 
     <name>contentstack-java</name>
@@ -43,7 +43,7 @@
         <url>https://github.com/contentstack/contentstack-java/tree/master</url>
         <connection>scm:git:git://github.com/contentstack/contentstack-java.git</connection>
         <developerConnection>scm:git:ssh://github.com:contentstack/contentstack-java.git</developerConnection>
-        <tag>v1.5.0</tag>
+        <tag>v1.5.3</tag>
     </scm>
 
     <issueManagement>
