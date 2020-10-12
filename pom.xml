@@ -6,126 +6,136 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.5.3</version>
+    <version>1.5.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>contentstack-java</name>
-    <description>Java SDK for Contentstack Content Delivery API, Contentstack is a headless CMS with an API-first approach</description>
+    <description>Java SDK for Contentstack Content Delivery API, Contentstack is a headless CMS with an API-first approach
+    </description>
     <url>https://github.com/contentstack/contentstack-java/</url>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
-        </license>
-    </licenses>
-
-    <developers>
-
-        <developer>
-            <name>Shailesh Mishra</name>
-            <email>mshaileshr@gmail.com</email>
-            <organization>Contentstack</organization>
-            <organizationUrl>https://www.contentstack.com/</organizationUrl>
-        </developer>
-
-        <developer>
-            <name>Contentstacksdk</name>
-            <email>mobile@contentstack.com</email>
-            <organization>Contentstack</organization>
-            <organizationUrl>https://www.contentstack.com/</organizationUrl>
-        </developer>
-
-    </developers>
-
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
     <scm>
-        <url>https://github.com/contentstack/contentstack-java/tree/master</url>
+        <url>https://github.com/contentstack/contentstack-java</url>
         <connection>scm:git:git://github.com/contentstack/contentstack-java.git</connection>
         <developerConnection>scm:git:ssh://github.com:contentstack/contentstack-java.git</developerConnection>
-        <tag>v1.5.3</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/contentstack/contentstack-java/issues</url>
+        <url>http://github.com/contentstack/contentstack-java/issues</url>
     </issueManagement>
 
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
 
     <organization>
-        <name>Contentstack</name>
-        <url>https://www.contentstack.com</url>
+        <name>Contentstack.</name>
+        <url>http://contentstack.com</url>
     </organization>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.sourceEncoding>UTF-8</project.reporting.sourceEncoding>
+        <!-- Compilation -->
+        <java.version>1.8</java.version>
+        <!-- Build Dependencies -->
+        <build-helper.version>3.0.0</build-helper.version>
+        <surefire-report-plugin.version>2.22.0</surefire-report-plugin.version>
+        <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
+    </properties>
+
+    <developers>
+        <developer>
+            <name>shaileshmishra</name>
+            <email>shailesh.mishra@contentstack.com</email>
+            <organization>contentstack</organization>
+            <organizationUrl>https://www.contentstack.com/</organizationUrl>
+        </developer>
+
+        <developer>
+            <name>contentstack</name>
+            <email>mobile@contentstack.com</email>
+            <organization>Contentstack</organization>
+            <organizationUrl>https://www.contentstack.com/</organizationUrl>
+        </developer>
+    </developers>
 
     <distributionManagement>
-
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
-
         <repository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-
     </distributionManagement>
 
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
-
     <dependencies>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20190722</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.13.0</version>
-        </dependency>
-
     </dependencies>
+
 
     <build>
         <plugins>
 
-<!--       https://maven.apache.org/surefire/maven-surefire-report-plugin/examples/changing-report-name.html-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <configuration>
-                    <outputName>contentstack-java-test-report</outputName>
-                </configuration>
-                <version>2.22.0</version>
-            </plugin>
+            <!--
+            # Run tests and generate .xml reports
+            mvn test
+
+            # Convert .xml reports into .html report, but without the CSS or images
+            mvn surefire-report:report-only
+
+            # Put the CSS and images where they need to be without the rest of the
+            # time-consuming stuff
+            mvn surefire-report:report site -DgenerateReports=false
+            -->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${surefire-report-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report-only</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+            The Source Plugin creates a jar archive of the source files of
+            the current project. The jar file is, by default, created in the project's target directory.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>${maven-source-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -136,10 +146,11 @@
                 </executions>
             </plugin>
 
+            <!--The Javadoc Plugin uses the Javadoc tool to generate javadocs for the specified project-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>${maven-javadoc-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -147,35 +158,48 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                            <additionalOptions>-Xdoclint:none</additionalOptions>
+<!--                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>-->
                             <use>false</use>
                             <use>false</use>
                             <source>1.8</source>
-                            <links><link>http://docs.oracle.com/javase/7/docs/api/</link>		                             <link>http://docs.oracle.com/javase/7/docs/api/</link></links>
+                            <links>
+                                <link>http://docs.oracle.com/javase/7/docs/api/</link>
+                                <link>http://docs.oracle.com/javase/7/docs/api/</link>
+                            </links>
                             <doclint>none</doclint>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
+            <!--
+            The Site Plugin is used to generate a site for the project.
+            The generated site also includes the project's reports that were configured in the POM.
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.3</version>
-                <configuration>
-                    <reportPlugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <configuration>
-                                <!--suppress UnresolvedMavenProperty -->
-                                <additionalparam>${javadoc.opts}</additionalparam>
-                            </configuration>
-                        </plugin>
-                    </reportPlugins>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <reportPlugins>-->
+<!--                        <plugin>-->
+<!--                            <groupId>org.apache.maven.plugins</groupId>-->
+<!--                            <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--                            <configuration>-->
+<!--                                &lt;!&ndash;suppress UnresolvedMavenProperty &ndash;&gt;-->
+<!--                                <additionalparam>${javadoc.opts}</additionalparam>-->
+<!--                            </configuration>-->
+<!--                        </plugin>-->
+<!--                    </reportPlugins>-->
+<!--                </configuration>-->
             </plugin>
 
+            <!--
+            Signs all of a project's attached artifacts with GnuPG.
+            You need to have previously configured the default key.
+            gpg also needs to be on the search path.
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -191,16 +215,27 @@
                 </executions>
             </plugin>
 
+            <!--
+            Sometimes when you may need to compile a certain project to a different
+            version than what you are currently using. The javac can accept such command
+            using -source and -target. The Compiler Plugin can also be configured to
+            provide these options during compilation
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <compilerArgument>-Xlint:all</compilerArgument>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
+
             </plugin>
 
+            <!--Provides support to access staging functionality in a remote Nexus Professional server.-->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -213,6 +248,10 @@
                 </configuration>
             </plugin>
 
+            <!--
+            This plugin is used to release a project with Maven, saving a lot of repetitive, manual work.
+            Releasing a project is made in two steps: prepare and perform.
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -223,6 +262,27 @@
                     <releaseProfiles>release</releaseProfiles>
                     <goals>deploy</goals>
                 </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

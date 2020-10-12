@@ -1,8 +1,6 @@
 package com.contentstack.sdk;
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,7 +39,6 @@ public class Stack {
     protected String start_from_date;
     private  SyncResultCallBack syncCallBack;
     protected HashMap<String, Object> headerGroup_app;
-    final Logger logger = LogManager.getLogger(Stack.class.getName());
 
     private Stack(){ }
 
@@ -657,7 +654,7 @@ public class Stack {
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    logger.debug(TAG,"Error: "+e.toString());
+                    e.printStackTrace();
                 }
             }
 

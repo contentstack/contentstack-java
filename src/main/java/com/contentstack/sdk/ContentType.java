@@ -1,8 +1,6 @@
 package com.contentstack.sdk;
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +20,6 @@ public class ContentType {
     protected Stack stackInstance = null;
     private LinkedHashMap<String, Object> localHeader = null;
     private LinkedHashMap<String, Object> stackHeader = null;
-    private final Logger logger = LogManager.getLogger(ContentType.class.getName());
 
     private ContentType(){}
 
@@ -269,7 +266,7 @@ public class ContentType {
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    logger.debug(e.getLocalizedMessage());
+                    e.printStackTrace();
                 }
             }
 

@@ -57,7 +57,6 @@ public class ContentstackUtil {
      * @param dateFormat date format.
      * @param timeZone TimeZone.
      * @return {@link Calendar} object.
-     * @return timeZone time zone
      * @throws ParseException
      *
      * <br><br><b>Example :</b><br>

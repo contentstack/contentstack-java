@@ -1,83 +1,91 @@
 
 ## CHANGELOG
 
+------------------------------------------------
+
+## Version 1.5.4
+   ###### Date: 20-Oct-2020
+   - **Asset**   includeFallback support added
+   - **AssetQuery**   includeFallback support added
+   - **Entry**   includeFallback support added
+   - **Query**   includeFallback support added
 
 ------------------------------------------------
 
 ## Version 1.5.3
    ###### Date: 28-July-2020
-   - [Build Issue] :  Build update issue fixed 
+   - **Build Issue**   Build update issue fixed 
 
 ------------------------------------------------
 
 ## Version 1.5.2
    ###### Date: 23-July-2020
-   - [Bump Issue] : Bump Issue: log4j-core from 2.5 to 2.13.2    
-   - [Query] : Query.locale() documentation
-   - [ CSHttpConnection ] : StandardCharsets.UTF_8 Support Added
+   - **Bump Issue** : Bump Issue: log4j-core from 2.5 to 2.13.2    
+   - **Query** : Query.locale() documentation
+   - **CSHttpConnection** : StandardCharsets.UTF_8 Support Added
 
 
 ------------------------------------------------
 
 ## Version 1.5.1
    ###### Date: 13-Jan-2020
-   - [ dependency vulnerability ] : Java Github reported vulnerable issue on dependency logj    
+   - **Dependency Vulnerability**  Java Github reported vulnerable issue on dependency logj    
    
 ------------------------------------------------
 
 ## Version 1.5.0
    ###### Date: 15-Nov-2019
-   - [Stack]: Added support for function getContentType()
-   - [ContentType]: updated function fetch()
-   - [Query]: Updated support of whereIn(String KEY, Query queryObject)
-   - [Query]: Updated support of whereNotIn(String KEY, Query queryObject)
+   - **Stack**: Added support for function getContentType()
+   - **ContentType**: updated function fetch()
+   - **Query**: Updated support of whereIn(String KEY, Query queryObject)
+   - **Query**: Updated support of whereNotIn(String KEY, Query queryObject)
 
 ------------------------------------------------
 
 ## Version 1.4.2
    ###### Date: 03-Sept-2019
-   - [Config] - Added support for Region in Config.   
+   - **Config** - Added support for Region in Config.   
 
 ------------------------------------------------
 
 ## Version 1.4.1
    ###### Date: 21-August-2019
-   - [Query] - Added support for whereIn(String key) and whereNotIn(String key) methods
-   - [CSAppConstants] - Removed google internet connection check from CSAppConstants
+   - **Query** - Added support for whereIn(String key) and whereNotIn(String key) methods
+   - **CSAppConstants** - Removed google internet connection check from CSAppConstants
    
 ------------------------------------------------
 
 
 ## Version 1.4.0
    ###### Date: 26-July-2019
-   - [Entry] - Added support for includeReferenceContentTypeUid support in Entry.
-   - [Query] - Added support for includeReferenceContentTypeUid support in Query.
-   - [Entry] - setLanguage and getLanguage Deprecated in Entry. 
-   - [Query] - language deprecated in Query
-   - [Entry] - Added method for getLocale and setLocale(String locale) in Entry
-   - [Query] - Added method for locale in Query.
-   - [Query] - Removed deprecated method for includeSchema in Query
+   - **Entry** - Added support for includeReferenceContentTypeUid support in Entry.
+   - **Query** - Added support for includeReferenceContentTypeUid support in Query.
+   - **Entry** - setLanguage and getLanguage Deprecated in Entry. 
+   - **Query** - language deprecated in Query
+   - **Entry** - Added method for getLocale and setLocale(String locale) in Entry
+   - **Query** - Added method for locale in Query.
+   - **Query** - Removed deprecated method for includeSchema in Query
    
 ------------------------------------------------
 
 
 ## Version 1.3.3
    ###### Date: 21-June-2019
-   - Override response hot-fix
+   - **HOTFIX**: Override response hot-fix
 
 ------------------------------------------------
 
 ## Version 1.3.2
    ### Date: 13-May-2019
-   - Removed println
-   - Added support for Logger
+   - **Code Improvement** Removed println
+   - **Code Improvement** Added support for Logger
 
 ------------------------------------------------
 
 ## Version 1.3.1
   ###### Date: May-02-2019
-  - Change: include reference bug fixed
-  - added testcase report for v1.3.1
+  - **Change**: include reference bug fixed
+  - **Added testcase** report for v1.3.1
 
 
 ------------------------------------------------

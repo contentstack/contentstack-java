@@ -1,6 +1,4 @@
 package com.contentstack.sdk;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -11,7 +9,6 @@ class EntriesModel {
     protected JSONObject jsonObject;
     protected String formName;
     protected List<Object> objectList;
-    private Logger logger = LogManager.getLogger(EntriesModel.class.getName());
     protected EntriesModel(JSONObject responseJSON, String formName, boolean isFromCache) {
 
         try {
@@ -22,7 +19,7 @@ class EntriesModel {
             }
 
             this.formName   = formName;
-            objectList      = new ArrayList<Object>();
+            objectList      = new ArrayList<>();
             JSONArray entriesArray =  jsonObject.opt("entries") == null ? null : jsonObject.optJSONArray("entries");
 
             if(entriesArray != null && entriesArray.length() > 0){
@@ -35,7 +32,7 @@ class EntriesModel {
                 }
             }
         }catch (Exception localException){
-            logger.debug(localException.getLocalizedMessage());
+            localException.printStackTrace();
         }
 
     }

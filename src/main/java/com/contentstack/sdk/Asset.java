@@ -1,10 +1,8 @@
 package com.contentstack.sdk;
-
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
 import com.contentstack.sdk.utility.ContentstackUtil;
 import org.json.JSONObject;
-
 import java.util.*;
 
 
@@ -51,7 +49,7 @@ public class Asset {
      * @param jsonObject json object of particular file attached in the built object.<br>
      * {@link Asset} can be generate using of data filled {@link Entry}
      * and
-     * {@link #configure(JSONObject)}.<br>
+     * {@link JSONObject}.<br>
      *
      * <br><br><b>Example :</b><br>
      * <br>1. Single Attachment :-<br>
@@ -136,11 +134,8 @@ public class Asset {
 
     public void removeHeader(String key){
         if(headerGroup_local != null){
-
             if(!key.isEmpty()){
-                if(headerGroup_local.containsKey(key)){
-                    headerGroup_local.remove(key);
-                }
+                headerGroup_local.remove(key);
             }
         }
     }
@@ -485,8 +480,7 @@ public class Asset {
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *  final Asset asset = stack.asset("blt5312f71416d6e2c8");
-        asset.addParam("key", "some_value");
-
+     *  asset.addParam("key", "some_value");
      *  asset.fetch(new FetchResultCallback() {
      *    &#64;Override
      *    public void onCompletion(ResponseType responseType, Error error) {
@@ -507,8 +501,23 @@ public class Asset {
        if(key != null && value != null){
            headerGroup_local.put(key, value);
        }
-
        return this;
    }
+
+
+    /**
+     * Include the fallback locale publish content, if specified locale content is not publish.
+     * @return {@link Asset} object, so you can chain this call.
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *     Stack stack = Contentstack.stack(context, "ApiKey", "deliveryToken", "environment");
+     *     final Asset asset = stack.asset("asset_uid");
+     *     asset.includeFallback();
+     * </pre>
+     */
+    public Asset includeFallback(){
+        headerGroup_local.put("include_fallback", true);
+        return this;
+    }
 
 }
