@@ -1,8 +1,6 @@
 package com.contentstack.sdk;
 
 import com.contentstack.sdk.utility.ContentstackUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -13,7 +11,6 @@ import java.util.List;
 
 public class Group {
 
-    private final Logger logger = LogManager.getLogger(Group.class.getName());
     private JSONObject resultJson;
     private Stack stackInstance;
 
@@ -56,7 +53,7 @@ public class Group {
                 return null;
             }
         }catch (Exception e) {
-            logger.debug( e.getLocalizedMessage());
+            e.printStackTrace();
             return null;
         }
     }
@@ -334,7 +331,7 @@ public class Group {
             String value = getString(key);
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            logger.debug("-----------------getDate|" + e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -476,7 +473,7 @@ public class Group {
                             entryInstance = stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            logger.debug("----------------getAllEntries" + e.toString());
+                            e.printStackTrace();
                         }
                         entryInstance.setUid(model.entryUid);
                         entryInstance.ownerEmailId = model.ownerEmailId;
@@ -494,7 +491,7 @@ public class Group {
                 }
             }
         } catch (Exception e) {
-            logger.debug("-----------------get|" + e.getLocalizedMessage());
+            e.printStackTrace();
             return null;
         }
         return null;

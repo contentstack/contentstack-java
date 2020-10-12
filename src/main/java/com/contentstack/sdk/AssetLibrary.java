@@ -183,9 +183,7 @@ public class AssetLibrary implements INotifyClass{
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *    //'blt5d4sample2633b' is a dummy Stack API key
-     *    //'bltdtsample_accessToken767vv' is dummy access token.
-     *    AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     *   AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
      *   assetLibObject.fetchAll(new FetchAssetsCallback() {
      *   {@code public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) }{
      *      if (error == null) {
@@ -327,6 +325,23 @@ public class AssetLibrary implements INotifyClass{
         if(assetsCallback != null) {
             assetsCallback.onRequestFinish(ResponseType.NETWORK, assets);
         }
+    }
+
+
+
+    /**
+     * Include the fallback locale publish content, if specified locale content is not publish.
+     * @return {@link AssetLibrary} object, so you can chain this call.
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *     Stack stack = Contentstack.stack(context, "ApiKey", "deliveryToken",  environment_name);
+     *     AssetLibrary assetLibObject = stack.assetLibrary();
+     *     assetLibObject.includeFallback();
+     * </pre>
+     */
+    public AssetLibrary includeFallback(){
+        urlQueries.put("include_fallback", true);
+        return this;
     }
 
 }

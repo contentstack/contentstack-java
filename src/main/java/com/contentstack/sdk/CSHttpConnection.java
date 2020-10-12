@@ -1,8 +1,5 @@
 package com.contentstack.sdk;
-
 import com.contentstack.sdk.utility.CSAppConstants;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,41 +15,14 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * @Author Contentstack
- *
- * MIT License
- *
- * Copyright (c) 2012 - 2019 Contentstack
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 public class CSHttpConnection implements IURLRequestHTTP{
 
-    private final Logger logger = LogManager.getLogger(CSHttpConnection.class.getName());
-    private String urlPath;
+    private final String urlPath;
     private String controller;
     private LinkedHashMap<String, Object> headers;
     private String info;
     private JSONObject requestJSON;
-    private IRequestModelHTTP connectionRequest;
+    private final IRequestModelHTTP connectionRequest;
     private ResultCallBack callBackObject;
     private CSAppConstants.RequestMethod requestMethod;
     private JSONObject responseJSON;
@@ -207,7 +177,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
                     Iterator<String> iter = onlyJSON.keys();
                     while (iter.hasNext()) {
                         String innerKey = iter.next();
-                        JSONArray array = (JSONArray) onlyJSON.optJSONArray(innerKey);
+                        JSONArray array = onlyJSON.optJSONArray(innerKey);
                         innerKey = URLEncoder.encode("only["+innerKey+"][]", "UTF-8");
                         for (int i = 0; i < array.length(); i++) {
                             urlParams += urlParams.equals("?") ? innerKey + "=" + array.opt(i) : "&" + innerKey + "=" + array.opt(i);
@@ -220,7 +190,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
                     Iterator<String> iter = onlyJSON.keys();
                     while (iter.hasNext()) {
                         String innerKey = iter.next();
-                        JSONArray array = (JSONArray) onlyJSON.optJSONArray(innerKey);
+                        JSONArray array = onlyJSON.optJSONArray(innerKey);
                         innerKey = URLEncoder.encode("except["+innerKey+"][]", "UTF-8");
                         for (int i = 0; i < array.length(); i++) {
                             urlParams += urlParams.equals("?") ? innerKey + "=" + array.opt(i) : "&" + innerKey + "=" + array.opt(i);
@@ -303,7 +273,6 @@ public class CSHttpConnection implements IURLRequestHTTP{
             responseJSON = new JSONObject(response.toString());
             connectionRequest.onRequestFinished(CSHttpConnection.this);
         } else {
-            logger.debug("GET request not worked");
             generateBuiltError(con);
         }
 
@@ -335,27 +304,27 @@ public class CSHttpConnection implements IURLRequestHTTP{
 
                     }else{
 
-                        if(responseMessage.toString().equalsIgnoreCase("NoConnectionError")){
+                        if(responseMessage.equalsIgnoreCase("NoConnectionError")){
 
                             responseJSON.put("error_message", CSAppConstants.ErrorMessage_VolleyNoConnectionError);
 
-                        }else if(responseMessage.toString().equalsIgnoreCase("AuthFailureError")){
+                        }else if(responseMessage.equalsIgnoreCase("AuthFailureError")){
 
                             responseJSON.put("error_message", CSAppConstants.ErrorMessage_VolleyAuthFailureError);
 
-                        }else if(responseMessage.toString().equalsIgnoreCase("NetworkError")){
+                        }else if(responseMessage.equalsIgnoreCase("NetworkError")){
 
                             responseJSON.put("error_message", CSAppConstants.ErrorMessage_NoNetwork);
 
-                        }else if(responseMessage.toString().equalsIgnoreCase("ParseError")){
+                        }else if(responseMessage.equalsIgnoreCase("ParseError")){
 
                             responseJSON.put("error_message", CSAppConstants.ErrorMessage_VolleyParseError);
 
-                        }else if(responseMessage.toString().equalsIgnoreCase("ServerError")){
+                        }else if(responseMessage.equalsIgnoreCase("ServerError")){
 
                             responseJSON.put("error_message", CSAppConstants.ErrorMessage_VolleyServerError);
 
-                        }else if(responseMessage.toString().equalsIgnoreCase("TimeoutError")){
+                        }else if(responseMessage.equalsIgnoreCase("TimeoutError")){
 
                             responseJSON.put("error_message", CSAppConstants.ErrorMessage_VolleyServerError);
 
@@ -364,7 +333,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
                         }
 
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("errors", responseMessage.toString());
+                        jsonObject.put("errors", responseMessage);
                         responseJSON.put("errors", jsonObject);
                     }
                     connectionRequest.onRequestFailed(responseJSON, statusCode, callBackObject);

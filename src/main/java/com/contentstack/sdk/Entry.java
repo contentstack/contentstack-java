@@ -3,21 +3,18 @@ package com.contentstack.sdk;
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
 import com.contentstack.sdk.utility.ContentstackUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.*;
 
 /**
- *An entry is an actual piece of content that you want to publish.
+ * An entry is an actual piece of content that you want to publish.
  * You can create entries only for content types that have already been created.
  */
 
 public class Entry {
 
-    private final Logger logger = LogManager.getLogger(Entry.class.getName());
     private String contentTypeName               = null;
     private LinkedHashMap<String, Object> localHeader      = null;
     protected LinkedHashMap<String, Object> formHeader     = null;
@@ -41,6 +38,8 @@ public class Entry {
     private JSONObject onlyJsonObject;
     private JSONObject exceptJsonObject;
 
+    private String rteContent = null;
+
     private Entry(){}
 
     protected Entry(String contentTypeName) {
@@ -61,6 +60,7 @@ public class Entry {
         this.title             = model.title;
         this.url               = model.url;
         this.language          = model.language;
+        this.rteContent        = model.rteContent;
         if(model.ownerMap != null) {
             this.owner = new HashMap<>(model.ownerMap);
         }
@@ -310,7 +310,7 @@ public class Entry {
                 return null;
             }
         }catch (Exception e) {
-            logger.debug( e.getLocalizedMessage());
+            e.printStackTrace();
             return null;
         }
     }
@@ -548,7 +548,7 @@ public class Entry {
             String value = getString(key);
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            logger.debug(e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -570,7 +570,7 @@ public class Entry {
             String value = getString("created_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            logger.debug( e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -606,7 +606,7 @@ public class Entry {
             String value = getString("updated_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            logger.debug( e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -622,7 +622,6 @@ public class Entry {
      * </pre>
      */
     public String getUpdatedBy(){
-
         return getString("updated_by");
     }
 
@@ -642,7 +641,7 @@ public class Entry {
             String value = getString("deleted_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            logger.debug( e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -806,7 +805,7 @@ public class Entry {
                             entryInstance = contentTypeInstance.stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            logger.debug("BuiltObject", "---------getAllEntries" + e.toString());
+                            e.printStackTrace();
                         }
                         entryInstance.setUid(model.entryUid);
                         entryInstance.ownerEmailId = model.ownerEmailId;
@@ -826,7 +825,7 @@ public class Entry {
                 }
             }
         } catch (Exception e) {
-            logger.debug("-----------------get|" + e);
+            e.printStackTrace();
             return null;
         }
 
@@ -865,7 +864,7 @@ public class Entry {
                 }
             }
         }catch(Exception e) {
-            logger.debug("--except-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -896,7 +895,7 @@ public class Entry {
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
-            logger.debug("--include Reference-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -930,7 +929,7 @@ public class Entry {
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
-            logger.debug("--include Reference-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -966,7 +965,7 @@ public class Entry {
                 }
             }
         }catch(Exception e) {
-            logger.debug("--include Reference-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -1010,7 +1009,7 @@ public class Entry {
                 includeReference(referenceFieldUid);
             }
         }catch(Exception e) {
-            logger.debug("--onlyWithReferenceUid-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -1051,7 +1050,7 @@ public class Entry {
                 includeReference(referenceFieldUid);
             }
         }catch(Exception e) {
-            logger.debug("--exceptWithReferenceUid-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -1148,7 +1147,7 @@ public class Entry {
                     Object value = queryJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    logger.debug("----------------setQueryJson"+e.toString());
+                    e.printStackTrace();
                 }
             }
             return hashMap;
@@ -1247,7 +1246,7 @@ public class Entry {
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
      * {@code
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      * final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762"); <br>
      * entry.addParam("include_dimensions", "true"); <br>
      * entry.fetch(new BuiltResultCallBack() {
@@ -1286,7 +1285,7 @@ public class Entry {
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
      * {@code
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      * final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762"); <br>
      * entry.includeReferenceContentTypeUID; <br>
      * entry.fetch(new BuiltResultCallBack() {
@@ -1317,7 +1316,7 @@ public class Entry {
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
-     *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      *     final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762");
      *     entry.includeContentType();
      * </pre>
@@ -1332,6 +1331,22 @@ public class Entry {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return this;
+    }
+
+
+    /**
+     * Include the fallback locale publish content, if specified locale content is not publish.
+     * @return {@link Entry} object, so you can chain this call.
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *     Stack stack = Contentstack.stack(context, "ApiKey", "deliveryToken", "environment");
+     *     final Entry entry = stack.contentType("user").entry("entryUid");
+     *     entry.includeFallback();
+     * </pre>
+     */
+    public Entry includeFallback(){
+        otherPostJSON.put("include_fallback", true);
         return this;
     }
 
