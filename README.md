@@ -26,7 +26,7 @@ To use the Contentstack Java SDK to your existing project, perform the steps giv
 
 2. **Gradle**
 ```
-implementation 'com.contentstack.sdk:java:1.5.3'
+implementation 'com.contentstack.sdk:java:1.5.4'
 ```
 
 ### Key Concepts for using Contentstack
