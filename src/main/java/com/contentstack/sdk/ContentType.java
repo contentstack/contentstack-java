@@ -46,7 +46,7 @@ public class ContentType {
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      * ContentType contentType = stack.contentType("form_name");<br>
      * contentType.setHeader("custom_key", "custom_value");
      * </pre>
@@ -67,7 +67,7 @@ public class ContentType {
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
-     *  Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *  Stack stack = Contentstack.stack( "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *  ContentType contentType = stack.contentType("form_name");<br>
      *  contentType.removeHeader("custom_header_key");
      * </pre>
@@ -92,7 +92,7 @@ public class ContentType {
      *  <pre class="prettyprint">
      *  //'blt5d4sample2633b' is a dummy Stack API key
      *  //'blt6d0240b5sample254090d' is dummy access token.
-     *  Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *  Stack stack = Contentstack.stack( "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *  ContentType contentType = stack.contentType("form_name");<br>
      *  // setUid will identify the object, and calling save will update it
      *  ENTRY entry = contentType.entry("bltf4fbbc94e8c851db");
@@ -128,7 +128,7 @@ public class ContentType {
      *  <pre class="prettyprint">
      *  //'blt5d4sample2633b' is a dummy Stack API key
      *  //'blt6d0240b5sample254090d' is dummy access token.
-     *  Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *  Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *  ContentType contentType = stack.contentType("form_name");<br>
      *  Query csQuery = contentType.query();
      *  </pre>
