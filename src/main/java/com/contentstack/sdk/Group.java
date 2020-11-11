@@ -437,15 +437,15 @@ public class Group {
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
      *  {@code
-     *  Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *  Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *  Query csQuery = stack.contentType("contentType_name").query();
      *  csQuery.includeReference("for_bug");
      *  csQuery.find(new QueryResultsCallBack() {<br>
-     *          &#64;
-     *     Override
+     *  &#64;
+     *  @Override
      *  public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {<br>
      *     if(error == null){
-     *     List&#60;Entry&#62; list = builtqueryresult.getResultObjects();
+     *     List&#60;Entry&#62; list = queryResult.getResultObjects();
      *      for (int i = 0; i < list.queueSize(); i++) {
      *           Entry   entry   = list.get(i);
      *           Group   group   = entry.getGroup("fieldUid");

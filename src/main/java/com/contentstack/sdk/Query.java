@@ -59,7 +59,7 @@ public class Query implements INotifyClass {
      * @param value header value against given header name.
      *              <br><br><b>Example :</b><br>
      *              <pre class="prettyprint">
-     *               Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *               Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *               Query csQuery = stack.contentType("contentType_name").query();<br>
      *               csQuery.setHeader("custom_key", "custom_value");
      *               </pre>
@@ -77,7 +77,7 @@ public class Query implements INotifyClass {
      * @param key {@link String}
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *             Stack stack = Contentstack..stack(context, "APIKey", "deliveryToken", "environment_name");
+     *             Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
      *             Query csQuery = stack.contentType("contentType_name").query();<br>
      *             csQuery.removeHeader("custom_key");
      *            </pre>
@@ -103,7 +103,7 @@ public class Query implements INotifyClass {
      * <b>Note :</b> for group field provide key in a &#34;key.groupFieldUid&#34; format.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *    Stack stack = Contentstack..stack(context, "APIKey", "deliveryToken", "environment_name");
+     *    Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
      *    Query csQuery = stack.contentType("contentType_name").query();
      *    csQuery.where("uid", "bltf4fbsample851db");
      * </pre>
@@ -133,7 +133,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *   Stack stack = Contentstack..stack(context, "APIKey", "deliveryToken", "environment_name");
+     *   Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
      *   Query csQuery = stack.contentType("contentType_name").query();
      *   csQuery.addQuery("query_param_key", "query_param_value");
      * </pre>
@@ -183,7 +183,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example ;</b><br>
      * <pre class="prettyprint">
-     *    Stack stack = Contentstack..stack(context, "APIKey", "deliveryToken", "environment_name");
+     *    Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
      *    Query csQuery = stack.contentType("contentType_name").query();
      *
      *    Query query = projectClass.query();
@@ -228,7 +228,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *
      *     Query query = projectClass.query();
@@ -274,7 +274,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.lessThan("due_date", "2013-06-25T00:00:00+05:30");
      * </pre>
@@ -312,7 +312,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.lessThanOrEqualTo("due_date", "2013-06-25T00:00:00+05:30");
      * </pre>
@@ -351,7 +351,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.greaterThan("due_date", "2013-06-25T00:00:00+05:30");
      * </pre>
@@ -389,7 +389,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.greaterThanOrEqualTo("due_date", "2013-06-25T00:00:00+05:30");
      * </pre>
@@ -428,7 +428,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example ;</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.notEqualTo("due_date", "2013-06-25T00:00:00+05:30");
      * </pre>
@@ -469,7 +469,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.containedIn("severity", new Object[]{"Show Stopper", "Critical"});
      * </pre>
@@ -514,7 +514,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.notContainedIn("severity", new Object[]{"Show Stopper", "Critical"});
      * </pre>
@@ -557,7 +557,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.exists("status");
      * </pre>
@@ -593,7 +593,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.notExists("status");
      * </pre>
@@ -633,7 +633,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.includeReference("for_bug");
      * </pre>
@@ -654,7 +654,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.tags(new String[]{"tag1","tag2"});
      * </pre>
@@ -688,7 +688,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.ascending("name");
      * </pre>
@@ -718,7 +718,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.descending("name");
      * </pre>
@@ -745,7 +745,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
      *     ArrayList&#60;String&#62; array = new ArrayList&#60;String&#62;();
      *     array.add("name");
@@ -780,7 +780,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *  Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *  Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *  Query csQuery = stack.contentType("contentType_name").query();<br>
      *  csQuery.except(new String[]{"name", "description"});
      * </pre>
@@ -812,7 +812,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
      *     csQuery.only(new String[]{"name"});
      * </pre>
@@ -845,7 +845,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
      *     ArrayList&#60;String&#62; array = new ArrayList&#60;String&#62;();
      *     array.add("description");
@@ -889,7 +889,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
      *     ArrayList&#60;String&#62; array = new ArrayList&#60;String&#62;();
      *     array.add("description");
@@ -931,7 +931,7 @@ public class Query implements INotifyClass {
      * Call {@link QueryResult#getCount()} method in the success to get count of objects.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
      *     csQuery.count();
      * </pre>
@@ -954,7 +954,7 @@ public class Query implements INotifyClass {
      * Call {@link QueryResult#getCount()} method in the success to get count of  objects.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
      *     csQuery.includeCount();
      * </pre>
@@ -975,7 +975,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
      *     csQuery.includeContentType();
      * </pre>
@@ -1000,7 +1000,7 @@ public class Query implements INotifyClass {
      * @return {@linkplain Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();<br>
      *     csQuery.includeOwner();
      * </pre>
@@ -1023,7 +1023,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *   Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *   Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *   Query csQuery = stack.contentType("contentType_name").query();<br>
      *   //'blt0ae4df463e93f6f5' is dummy uid
      *   csQuery.beforeUid("blt0ae4df463e93f6f5");
@@ -1050,7 +1050,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      //'blt0ae4df463e93f6f5' is dummy uid
      *      csQuery.afterUid("blt0ae4df463e93f6f5");
@@ -1080,7 +1080,7 @@ public class Query implements INotifyClass {
      * The skip parameter can be used for pagination, &#34;skip&#34; specifies the number of objects to skip in the response.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.skip(2);
      * </pre>
@@ -1105,7 +1105,7 @@ public class Query implements INotifyClass {
      * limit&#34; specifies the number of objects to limit to in the response.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.limit(2);
      * </pre>
@@ -1129,7 +1129,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.regex("name", "^browser");
      * </pre>
@@ -1173,7 +1173,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.regex("name", "^browser", "i");
      * </pre>
@@ -1218,7 +1218,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.language(Language.ENGLISH_UNITED_STATES);
      * </pre>
@@ -1256,7 +1256,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.locale("en-us");
      * </pre>
@@ -1282,7 +1282,7 @@ public class Query implements INotifyClass {
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.search("header");
      * </pre>
@@ -1313,7 +1313,7 @@ public class Query implements INotifyClass {
      * @return {@linkplain Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.find(new QueryResultsCallBack() {<br>
      *          &#64;Override
@@ -1368,7 +1368,7 @@ public class Query implements INotifyClass {
      * @return {@linkplain Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.findOne(new QueryResultsCallBack() {<br>
      *          &#64;Override
@@ -1637,7 +1637,7 @@ public class Query implements INotifyClass {
      * @return {@link Query}
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.addParam("key", "some_value");
      *      csQuery.findOne(new QueryResultsCallBack() {<br>
@@ -1669,7 +1669,7 @@ public class Query implements INotifyClass {
      * <pre class="prettyprint">
      *      //'blt5d4sample2633b' is a dummy Stack API key
      *      //'blt6d0240b5sample254090d' is dummy access token.
-     *      Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.includeReferenceContentTypUid();
      *      csQuery.findOne(new QueryResultsCallBack() {<br>
@@ -1699,7 +1699,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.whereIn("due_date", csQuery);
      * </pre>
@@ -1732,7 +1732,7 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "APIKey", "deliveryToken", "environment_name");
+     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.whereNotIn("due_date", csQuery);
      * </pre>
@@ -1755,11 +1755,11 @@ public class Query implements INotifyClass {
 
 
     /**
-     * Include the fallback locale publish content, if specified locale content is not publish.
+     * Retrieve the published content of the fallback locale if an entry is not localized in specified locale
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "ApiKey", "deliveryToken",  environment_name);
+     *     Stack stack = Contentstack.stack( "ApiKey", "deliveryToken",  environment_name);
      *     Query csQuery = stack.contentType("contentType_name").query();
      *     csQuery.includeFallback();
      * </pre>

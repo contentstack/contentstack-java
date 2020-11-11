@@ -157,7 +157,7 @@ public class Stack {
      *  <pre class="prettyprint">
      *  //'blt5d4sample2633b' is a dummy Stack API key
      *  //'blt6d0240b5sample254090d' is dummy access token.
-     *  Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);<br>
+     *  Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);<br>
      *  // resize the image by specifying width and height
      *  LinkedHashMap imageParams = new LinkedHashMap();
      *  imageParams.put("width", 100);

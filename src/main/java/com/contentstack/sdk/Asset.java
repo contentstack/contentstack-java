@@ -55,7 +55,7 @@ public class Asset {
      * <br>1. Single Attachment :-<br>
      * <pre class="prettyprint linenums:1">
      *  //'blt5d4sample2633b' is a dummy Application API key
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config);
+     * Stack stack = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config);
      * Asset assetObject = stack.asset("assetUid");<br>
      * assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));</pre>
      *
@@ -105,7 +105,7 @@ public class Asset {
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
-     * Asset assetObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
+     * Asset assetObject = Contentstack.stack( "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
      * assetObject.setHeader("custom_header_key", "custom_header_value");
      * </pre>
      */
@@ -127,7 +127,7 @@ public class Asset {
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
-     * Asset assetObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
+     * Asset assetObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
      * assetObject.removeHeader("custom_header_key");
      * </pre>
      */
@@ -149,7 +149,7 @@ public class Asset {
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
-     * Asset assetObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
+     * Asset assetObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
      * assetObject.setUid("upload_uid");
      * </pre>
      *
@@ -506,11 +506,11 @@ public class Asset {
 
 
     /**
-     * Include the fallback locale publish content, if specified locale content is not publish.
+     * Retrieve the published content of the fallback locale if an entry is not localized in specified locale
      * @return {@link Asset} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack(context, "ApiKey", "deliveryToken", "environment");
+     *     Stack stack = Contentstack.stack("ApiKey", "deliveryToken", "environment");
      *     final Asset asset = stack.asset("asset_uid");
      *     asset.includeFallback();
      * </pre>
