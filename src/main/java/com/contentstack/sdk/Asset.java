@@ -20,7 +20,7 @@ public class Asset {
     protected String uploadUrl    = null;
     protected JSONObject json 	  = null;
     protected String[] tagsArray  = null;
-
+    JSONObject urlQueries = new JSONObject();
     protected LinkedHashMap<String, Object> headerGroup_app;
     protected LinkedHashMap<String, Object> headerGroup_local;
     protected com.contentstack.sdk.Stack stackInstance;
@@ -28,6 +28,7 @@ public class Asset {
     protected Asset(){
         this.headerGroup_local = new LinkedHashMap<>();
         this.headerGroup_app = new LinkedHashMap<>();
+
     }
 
     protected Asset(String assetUid){
@@ -40,7 +41,6 @@ public class Asset {
         this.stackInstance = stack;
         this.headerGroup_app = stack.localHeader;
     }
-
 
 
     /**
@@ -71,11 +71,8 @@ public class Asset {
      */
 
     public Asset configure(JSONObject jsonObject){
-
         AssetModel model = null;
-
         model = new AssetModel(jsonObject, true, false);
-
         this.contentType  = model.contentType;
         this.fileSize     = model.fileSize;
         this.uploadUrl    = model.uploadUrl;
@@ -83,12 +80,9 @@ public class Asset {
         this.json         = model.json;
         this.assetUid = model.uploadedUid;
         this.setTags(model.tags);
-
         model = null;
-
         return this;
     }
-
 
 
     protected Asset setTags(String[] tags){
@@ -109,9 +103,7 @@ public class Asset {
      * assetObject.setHeader("custom_header_key", "custom_header_value");
      * </pre>
      */
-
     public void setHeader(String key, String value){
-
         if(!key.isEmpty() && !value.isEmpty()){
             removeHeader(key);
             headerGroup_local.put(key, value);
@@ -131,7 +123,6 @@ public class Asset {
      * assetObject.removeHeader("custom_header_key");
      * </pre>
      */
-
     public void removeHeader(String key){
         if(headerGroup_local != null){
             if(!key.isEmpty()){
@@ -360,6 +351,15 @@ public class Asset {
     }
 
 
+    /**
+     * Include the dimensions (height and width) of the image in the response.
+     * Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD
+     * @return Asset
+     */
+    public Asset includeDimension(){
+        urlQueries.put("include_dimension", true);
+        return this;
+    }
 
 
     /**
@@ -383,19 +383,13 @@ public class Asset {
      */
 
     public void fetch(FetchResultCallback callback){
-
         try {
-
             String URL = "/" + stackInstance.VERSION + "/assets/" + assetUid;
             LinkedHashMap<String, Object> headers = getHeader(headerGroup_local);
-            JSONObject urlQueries = new JSONObject();
             if (headers.containsKey("environment")) {
                 urlQueries.put("environment", headers.get("environment"));
             }
-
             fetchFromNetwork(URL, urlQueries, headers, callback);
-
-
         }catch (Exception e){
             Error error = new Error();
             error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
@@ -417,9 +411,7 @@ public class Asset {
 
 
     private HashMap<String, Object> getUrlParams(JSONObject urlQueriesJSON) {
-
         HashMap<String, Object> hashMap = new HashMap<>();
-
         if(urlQueriesJSON != null && urlQueriesJSON.length() > 0){
             Iterator<String> iter = urlQueriesJSON.keys();
             while (iter.hasNext()) {
@@ -431,10 +423,8 @@ public class Asset {
                     e.printStackTrace();
                 }
             }
-
             return hashMap;
         }
-
         return null;
     }
 
@@ -458,13 +448,10 @@ public class Asset {
                         classHeaders.put(key, entry.getValue());
                     }
                 }
-
                 return classHeaders;
-
             }else{
                 return localHeader;
             }
-
         }else{
             return headerGroup_app;
         }
@@ -497,9 +484,9 @@ public class Asset {
      */
 
    public Asset addParam(String key, String value){
-
        if(key != null && value != null){
-           headerGroup_local.put(key, value);
+           //headerGroup_local.put(key, value);
+           urlQueries.put(key, value);
        }
        return this;
    }
