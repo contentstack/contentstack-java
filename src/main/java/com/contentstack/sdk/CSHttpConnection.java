@@ -118,11 +118,9 @@ public class CSHttpConnection implements IURLRequestHTTP{
     public String setFormParamsGET(HashMap<String, java.lang.Object> params){
         if(params != null && params.size() > 0){
             String urlParams = null;
-
             urlParams = info.equalsIgnoreCase(CSAppConstants.callController.QUERY.name()) || info.equalsIgnoreCase(CSAppConstants.callController.ENTRY.name()) ? getParams(params) : null;
             if(urlParams==null) {
                 for (Map.Entry<String, Object> e : params.entrySet()) {
-
                     if (urlParams == null) {
                         urlParams = "?" + e.getKey() + "=" + e.getValue();
                     } else {
@@ -243,7 +241,6 @@ public class CSHttpConnection implements IURLRequestHTTP{
 
 
     private void sendGET(String GET_URL) throws IOException, JSONException {
-
         URL obj = new URL(GET_URL);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
@@ -260,7 +257,6 @@ public class CSHttpConnection implements IURLRequestHTTP{
         con.setRequestProperty("X-User-Agent", defaultUserAgent()+"/"+ CSAppConstants.SDK_VERSION);
         con.setRequestProperty("Content-Type", "application/json");
         int responseCode = con.getResponseCode();
-
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
             String inputLine;
