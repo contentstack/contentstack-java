@@ -29,7 +29,7 @@ public class Contentstack {
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
+     * Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      * </pre>
      */
 
@@ -77,7 +77,7 @@ public class Contentstack {
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
+     * Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      * </pre>
      */
 
@@ -127,7 +127,7 @@ public class Contentstack {
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
+     * Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      * </pre>
      */
 

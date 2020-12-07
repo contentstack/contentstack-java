@@ -1,23 +1,19 @@
 package com.contentstack.sdk;
-
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
 import com.contentstack.sdk.utility.ContentstackUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.*;
 
 /**
- *An entry is an actual piece of content that you want to publish.
+ * An entry is an actual piece of content that you want to publish.
  * You can create entries only for content types that have already been created.
  */
 
 public class Entry {
 
-    private final Logger logger = LogManager.getLogger(Entry.class.getName());
     private String contentTypeName               = null;
     private LinkedHashMap<String, Object> localHeader      = null;
     protected LinkedHashMap<String, Object> formHeader     = null;
@@ -35,11 +31,13 @@ public class Entry {
     protected String language                    = null;
 
     private JSONArray referenceArray;
-    private JSONObject otherPostJSON;
+    public JSONObject otherPostJSON;
     private JSONArray objectUidForOnly;
     private JSONArray objectUidForExcept;
     private JSONObject onlyJsonObject;
     private JSONObject exceptJsonObject;
+
+    private String rteContent = null;
 
     private Entry(){}
 
@@ -61,6 +59,7 @@ public class Entry {
         this.title             = model.title;
         this.url               = model.url;
         this.language          = model.language;
+        this.rteContent        = model.rteContent;
         if(model.ownerMap != null) {
             this.owner = new HashMap<>(model.ownerMap);
         }
@@ -87,7 +86,7 @@ public class Entry {
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * Stack stack = Contentstack.stack( "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      * Entry entry = stack.contentType("form_name").entry("entry_uid");
      * entry.setHeader("custom_header_key", "custom_header_value");
      * </pre>
@@ -109,7 +108,7 @@ public class Entry {
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      * Entry entry = stack.contentType("form_name").entry("entry_uid");
      * entry.removeHeader("custom_header_key");
      * </pre>
@@ -198,7 +197,6 @@ public class Entry {
      * HashMap<String, Object> metaData = entry.getMetadata();
      * </pre>
      */
-
     private HashMap<String, Object> getMetadata() {
         return _metadata;
     }
@@ -214,7 +212,6 @@ public class Entry {
      * </pre>
      *
      */
-
     @Deprecated
     public Language getLanguage(){
         String localeCode = null;
@@ -249,7 +246,6 @@ public class Entry {
      */
 
     public Entry setLocale(String locale){
-
         if (locale !=null){
             try {
                 otherPostJSON.put("locale", locale);
@@ -310,7 +306,7 @@ public class Entry {
                 return null;
             }
         }catch (Exception e) {
-            logger.debug( e.getLocalizedMessage());
+            e.printStackTrace();
             return null;
         }
     }
@@ -548,7 +544,7 @@ public class Entry {
             String value = getString(key);
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            logger.debug(e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -570,7 +566,7 @@ public class Entry {
             String value = getString("created_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            logger.debug( e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -606,7 +602,7 @@ public class Entry {
             String value = getString("updated_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            logger.debug( e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -622,7 +618,6 @@ public class Entry {
      * </pre>
      */
     public String getUpdatedBy(){
-
         return getString("updated_by");
     }
 
@@ -642,7 +637,7 @@ public class Entry {
             String value = getString("deleted_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            logger.debug( e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -772,7 +767,7 @@ public class Entry {
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
      * {@code
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * Stack stack = Contentstack.stack( "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      * Query csQuery = stack.contentType("contentType_name").query();
      * csQuery.includeReference("for_bug");
      * csQuery.find(new QueryResultsCallBack() {<br>
@@ -806,7 +801,7 @@ public class Entry {
                             entryInstance = contentTypeInstance.stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            logger.debug("BuiltObject", "---------getAllEntries" + e.toString());
+                            e.printStackTrace();
                         }
                         entryInstance.setUid(model.entryUid);
                         entryInstance.ownerEmailId = model.ownerEmailId;
@@ -826,7 +821,7 @@ public class Entry {
                 }
             }
         } catch (Exception e) {
-            logger.debug("-----------------get|" + e);
+            e.printStackTrace();
             return null;
         }
 
@@ -845,7 +840,7 @@ public class Entry {
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
-     *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *     Stack stack = Contentstack.stack( "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *     Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
      *     entry.except(new String[]{"name", "description"});
      * </pre>
@@ -865,7 +860,7 @@ public class Entry {
                 }
             }
         }catch(Exception e) {
-            logger.debug("--except-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -881,7 +876,7 @@ public class Entry {
      * <pre class="prettyprint">
      *    //'blt5d4sample2633b' is a dummy Stack API key
      *    //'blt6d0240b5sample254090d' is dummy access token.
-     *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *    Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *    Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
      *    entry.includeReference("referenceUid");
      * </pre>
@@ -896,7 +891,7 @@ public class Entry {
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
-            logger.debug("--include Reference-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -913,7 +908,7 @@ public class Entry {
      * <pre class="prettyprint">
      *    //'blt5d4sample2633b' is a dummy Stack API key
      *    //'blt6d0240b5sample254090d' is dummy access token.
-     *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *    Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *    Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
      *    entry.includeReference(new String[]{"referenceUid_A", "referenceUid_B"});
      * </pre>
@@ -930,7 +925,7 @@ public class Entry {
                 otherPostJSON.put("include[]", referenceArray);
             }
         } catch (Exception e) {
-            logger.debug("--include Reference-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -948,7 +943,7 @@ public class Entry {
      * <pre class="prettyprint">
      *    //'blt5d4sample2633b' is a dummy Stack API key
      *    //'blt6d0240b5sample254090d' is dummy access token.
-     *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *    Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *    Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
      *    entry.only(new String[]{"name", "description"});
      * </pre>
@@ -966,7 +961,7 @@ public class Entry {
                 }
             }
         }catch(Exception e) {
-            logger.debug("--include Reference-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -985,7 +980,7 @@ public class Entry {
      * <pre class="prettyprint">
      *    //'blt5d4sample2633b' is a dummy Stack API key
      *    //'blt6d0240b5sample254090d' is dummy access token.
-     *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *    Stack stack = Contentstack.stack( "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *    Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
      *    ArrayList&#60;String&#62; array = new ArrayList&#60;String&#62;();
      *    array.add("description");
@@ -1010,7 +1005,7 @@ public class Entry {
                 includeReference(referenceFieldUid);
             }
         }catch(Exception e) {
-            logger.debug("--onlyWithReferenceUid-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -1027,7 +1022,7 @@ public class Entry {
      * <pre class="prettyprint">
      *    //'blt5d4sample2633b' is a dummy Stack API key
      *    //'blt6d0240b5sample254090d' is dummy access token.
-     *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *    Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *    Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
      *    ArrayList&#60;String&#62; array = new ArrayList&#60;String&#62;();
      *    array.add("description");
@@ -1051,7 +1046,7 @@ public class Entry {
                 includeReference(referenceFieldUid);
             }
         }catch(Exception e) {
-            logger.debug("--exceptWithReferenceUid-catch|" + e);
+            e.printStackTrace();
         }
         return this;
     }
@@ -1078,11 +1073,11 @@ public class Entry {
      *    //'blt5d4sample2633b' is a dummy Stack API key
      *    //'blt6d0240b5sample254090d' is dummy access token.
      *    {@code
-     *    Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *    Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
      *    Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
-     *    entry.fetch(new BuiltResultCallBack() {<br>
+     *    entry.fetch(new EntryResultCallBack() {<br>
      *           &#64;Override
-     *           public void onCompletion(ResponseType responseType, BuiltError builtError) {
+     *           public void onCompletion(ResponseType responseType, Error error) {
      *           }<br>
      *    });<br>
      *      }
@@ -1092,17 +1087,14 @@ public class Entry {
     public void fetch(EntryResultCallBack callBack){
         try {
             if (!uid.isEmpty()) {
-
                 String URL = "/" + contentTypeInstance.stackInstance.VERSION + "/content_types/" + contentTypeName + "/entries/" + uid;
                 LinkedHashMap<String, Object> headers  = getHeader(localHeader);
                 LinkedHashMap<String, String> headerAll = new LinkedHashMap<String, String>();
                 JSONObject urlQueries= new JSONObject();
-
                 if (headers != null && headers.size() > 0) {
                     for (Map.Entry<String, Object> entry : headers.entrySet()) {
                         headerAll.put(entry.getKey(), (String)entry.getValue());
                     }
-
                     if(headers.containsKey("environment")){
                         urlQueries.put("environment", headers.get("environment"));
                     }
@@ -1120,12 +1112,10 @@ public class Entry {
         try{
 
             JSONObject mainJson = new JSONObject();
-
             setIncludeJSON(urlQueries, callBack);
             mainJson.put("query", urlQueries);
             mainJson.put("_method", CSAppConstants.RequestMethod.GET.toString());
             HashMap<String, Object> urlParams = getUrlParams(mainJson);
-
             new CSBackgroundTask(this, contentTypeInstance.stackInstance, CSController.FETCHENTRY, URL, getHeader(localHeader), urlParams, new JSONObject(), CSAppConstants.callController.ENTRY.toString(), false, CSAppConstants.RequestMethod.GET, callBack);
 
         }catch(Exception e){
@@ -1148,7 +1138,7 @@ public class Entry {
                     Object value = queryJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    logger.debug("----------------setQueryJson"+e.toString());
+                    e.printStackTrace();
                 }
             }
             return hashMap;
@@ -1206,30 +1196,24 @@ public class Entry {
     }
 
     private LinkedHashMap<String, Object> getHeader(LinkedHashMap<String, Object> localHeader) {
-
         LinkedHashMap<String, Object> mainHeader = formHeader;
         LinkedHashMap<String, Object> classHeaders = new LinkedHashMap<>();
-
         if(localHeader != null && localHeader.size() > 0){
             if(mainHeader != null && mainHeader.size() > 0) {
                 for (Map.Entry<String, Object> entry : localHeader.entrySet()) {
                     String key = entry.getKey();
                     classHeaders.put(key, entry.getValue());
                 }
-
                 for (Map.Entry<String, Object> entry : mainHeader.entrySet()) {
                     String key = entry.getKey();
                     if(!classHeaders.containsKey(key)) {
                         classHeaders.put(key, entry.getValue());
                     }
                 }
-
                 return classHeaders;
-
             }else{
                 return localHeader;
             }
-
         }else{
             return formHeader;
         }
@@ -1247,13 +1231,13 @@ public class Entry {
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
      * {@code
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      * final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762"); <br>
      * entry.addParam("include_dimensions", "true"); <br>
-     * entry.fetch(new BuiltResultCallBack() {
+     * entry.fetch(new ResultCallBack() {
      * <br>&#64;
      * Override
-     * public void onCompletion(ResponseType responseType, BuiltError builtError) {
+     * public void onCompletion(ResponseType responseType, Error error) {
      *  }<br>
      * });<br>
      *  }
@@ -1286,13 +1270,13 @@ public class Entry {
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'blt6d0240b5sample254090d' is dummy access token.
      * {@code
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     * Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      * final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762"); <br>
      * entry.includeReferenceContentTypeUID; <br>
-     * entry.fetch(new BuiltResultCallBack() {
+     * entry.fetch(new EntryResultCallBack() {
      * <br>&#64;
      * Override
-     * public void onCompletion(ResponseType responseType, BuiltError builtError) {
+     * public void onCompletion(ResponseType responseType, Error error) {
      *  }<br>
      * });<br>
      *  }
@@ -1317,7 +1301,7 @@ public class Entry {
      * <pre class="prettyprint">
      *     //'blt5d4sample2633b' is a dummy Stack API key
      *     //'blt6d0240b5sample254090d' is dummy access token.
-     *     Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *     Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      *     final Entry entry = stack.contentType("user").entry("blt3b0aaebf6f1c3762");
      *     entry.includeContentType();
      * </pre>
@@ -1332,6 +1316,22 @@ public class Entry {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return this;
+    }
+
+
+    /**
+     * Retrieve the published content of the fallback locale if an entry is not localized in specified locale
+     * @return {@link Entry} object, so you can chain this call.
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *     Stack stack = Contentstack.stack( "ApiKey", "deliveryToken", "environment");
+     *     final Entry entry = stack.contentType("user").entry("entryUid");
+     *     entry.includeFallback();
+     * </pre>
+     */
+    public Entry includeFallback(){
+        otherPostJSON.put("include_fallback", true);
         return this;
     }
 

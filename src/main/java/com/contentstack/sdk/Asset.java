@@ -1,10 +1,8 @@
 package com.contentstack.sdk;
-
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
 import com.contentstack.sdk.utility.ContentstackUtil;
 import org.json.JSONObject;
-
 import java.util.*;
 
 
@@ -22,7 +20,7 @@ public class Asset {
     protected String uploadUrl    = null;
     protected JSONObject json 	  = null;
     protected String[] tagsArray  = null;
-
+    public JSONObject urlQueries = new JSONObject();
     protected LinkedHashMap<String, Object> headerGroup_app;
     protected LinkedHashMap<String, Object> headerGroup_local;
     protected com.contentstack.sdk.Stack stackInstance;
@@ -30,6 +28,7 @@ public class Asset {
     protected Asset(){
         this.headerGroup_local = new LinkedHashMap<>();
         this.headerGroup_app = new LinkedHashMap<>();
+
     }
 
     protected Asset(String assetUid){
@@ -44,20 +43,19 @@ public class Asset {
     }
 
 
-
     /**
      * Creates new instance of {@link Asset} from valid {@link JSONObject}.
      * If JSON object is not appropriate then it will return null.
      * @param jsonObject json object of particular file attached in the built object.<br>
      * {@link Asset} can be generate using of data filled {@link Entry}
      * and
-     * {@link #configure(JSONObject)}.<br>
+     * {@link JSONObject}.<br>
      *
      * <br><br><b>Example :</b><br>
      * <br>1. Single Attachment :-<br>
      * <pre class="prettyprint linenums:1">
      *  //'blt5d4sample2633b' is a dummy Application API key
-     * Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config);
+     * Stack stack = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config);
      * Asset assetObject = stack.asset("assetUid");<br>
      * assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));</pre>
      *
@@ -73,11 +71,8 @@ public class Asset {
      */
 
     public Asset configure(JSONObject jsonObject){
-
         AssetModel model = null;
-
         model = new AssetModel(jsonObject, true, false);
-
         this.contentType  = model.contentType;
         this.fileSize     = model.fileSize;
         this.uploadUrl    = model.uploadUrl;
@@ -85,12 +80,9 @@ public class Asset {
         this.json         = model.json;
         this.assetUid = model.uploadedUid;
         this.setTags(model.tags);
-
         model = null;
-
         return this;
     }
-
 
 
     protected Asset setTags(String[] tags){
@@ -107,13 +99,11 @@ public class Asset {
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
-     * Asset assetObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
+     * Asset assetObject = Contentstack.stack( "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
      * assetObject.setHeader("custom_header_key", "custom_header_value");
      * </pre>
      */
-
     public void setHeader(String key, String value){
-
         if(!key.isEmpty() && !value.isEmpty()){
             removeHeader(key);
             headerGroup_local.put(key, value);
@@ -129,18 +119,14 @@ public class Asset {
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
-     * Asset assetObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
+     * Asset assetObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
      * assetObject.removeHeader("custom_header_key");
      * </pre>
      */
-
     public void removeHeader(String key){
         if(headerGroup_local != null){
-
             if(!key.isEmpty()){
-                if(headerGroup_local.containsKey(key)){
-                    headerGroup_local.remove(key);
-                }
+                headerGroup_local.remove(key);
             }
         }
     }
@@ -154,7 +140,7 @@ public class Asset {
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
-     * Asset assetObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
+     * Asset assetObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
      * assetObject.setUid("upload_uid");
      * </pre>
      *
@@ -324,7 +310,6 @@ public class Asset {
      * Calendar updatedAt = entry.getUpdateAt("key");
      * </pre>
      */
-
     public Calendar getDeleteAt(){
 
         try {
@@ -359,12 +344,20 @@ public class Asset {
      * String[] tags = assetObject.getURL();
      * </pre>
      */
-
     public String[] getTags() {
         return tagsArray;
     }
 
 
+    /**
+     * Include the dimensions (height and width) of the image in the response.
+     * Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD
+     * @return Asset
+     */
+    public Asset includeDimension(){
+        urlQueries.put("include_dimension", true);
+        return this;
+    }
 
 
     /**
@@ -388,19 +381,13 @@ public class Asset {
      */
 
     public void fetch(FetchResultCallback callback){
-
         try {
-
             String URL = "/" + stackInstance.VERSION + "/assets/" + assetUid;
             LinkedHashMap<String, Object> headers = getHeader(headerGroup_local);
-            JSONObject urlQueries = new JSONObject();
             if (headers.containsKey("environment")) {
                 urlQueries.put("environment", headers.get("environment"));
             }
-
             fetchFromNetwork(URL, urlQueries, headers, callback);
-
-
         }catch (Exception e){
             Error error = new Error();
             error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
@@ -422,9 +409,7 @@ public class Asset {
 
 
     private HashMap<String, Object> getUrlParams(JSONObject urlQueriesJSON) {
-
         HashMap<String, Object> hashMap = new HashMap<>();
-
         if(urlQueriesJSON != null && urlQueriesJSON.length() > 0){
             Iterator<String> iter = urlQueriesJSON.keys();
             while (iter.hasNext()) {
@@ -436,10 +421,8 @@ public class Asset {
                     e.printStackTrace();
                 }
             }
-
             return hashMap;
         }
-
         return null;
     }
 
@@ -463,13 +446,10 @@ public class Asset {
                         classHeaders.put(key, entry.getValue());
                     }
                 }
-
                 return classHeaders;
-
             }else{
                 return localHeader;
             }
-
         }else{
             return headerGroup_app;
         }
@@ -485,8 +465,7 @@ public class Asset {
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *  final Asset asset = stack.asset("blt5312f71416d6e2c8");
-        asset.addParam("key", "some_value");
-
+     *  asset.addParam("key", "some_value");
      *  asset.fetch(new FetchResultCallback() {
      *    &#64;Override
      *    public void onCompletion(ResponseType responseType, Error error) {
@@ -501,14 +480,27 @@ public class Asset {
      *
      *
      */
-
    public Asset addParam(String key, String value){
-
        if(key != null && value != null){
-           headerGroup_local.put(key, value);
+           urlQueries.put(key, value);
        }
-
        return this;
    }
+
+
+    /**
+     * Retrieve the published content of the fallback locale if an entry is not localized in specified locale
+     * @return {@link Asset} object, so you can chain this call.
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *     Stack stack = Contentstack.stack("ApiKey", "deliveryToken", "environment");
+     *     final Asset asset = stack.asset("asset_uid");
+     *     asset.includeFallback();
+     * </pre>
+     */
+    public Asset includeFallback(){
+        urlQueries.put("include_fallback", true);
+        return this;
+    }
 
 }

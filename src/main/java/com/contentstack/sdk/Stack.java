@@ -1,8 +1,6 @@
 package com.contentstack.sdk;
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,7 +39,6 @@ public class Stack {
     protected String start_from_date;
     private  SyncResultCallBack syncCallBack;
     protected HashMap<String, Object> headerGroup_app;
-    final Logger logger = LogManager.getLogger(Stack.class.getName());
 
     private Stack(){ }
 
@@ -99,7 +96,6 @@ public class Stack {
     public Asset asset(String uid){
         Asset asset = new Asset(uid);
         asset.setStackInstance(this);
-
         return asset;
     }
 
@@ -160,7 +156,7 @@ public class Stack {
      *  <pre class="prettyprint">
      *  //'blt5d4sample2633b' is a dummy Stack API key
      *  //'blt6d0240b5sample254090d' is dummy access token.
-     *  Stack stack = Contentstack.stack(context, "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);<br>
+     *  Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);<br>
      *  // resize the image by specifying width and height
      *  LinkedHashMap imageParams = new LinkedHashMap();
      *  imageParams.put("width", 100);
@@ -657,7 +653,7 @@ public class Stack {
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    logger.debug(TAG,"Error: "+e.toString());
+                    e.printStackTrace();
                 }
             }
 
