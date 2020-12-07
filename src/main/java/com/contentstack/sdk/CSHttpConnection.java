@@ -244,7 +244,6 @@ public class CSHttpConnection implements IURLRequestHTTP{
         URL obj = new URL(GET_URL);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
-
         if (this.headers.containsKey("api_key")){
             con.setRequestProperty("api_key", headers.get("api_key").toString());
         }
@@ -265,7 +264,6 @@ public class CSHttpConnection implements IURLRequestHTTP{
                 StringBuilder append = response.append(inputLine);
             }
             in.close();
-
             responseJSON = new JSONObject(response.toString());
             connectionRequest.onRequestFinished(CSHttpConnection.this);
         } else {

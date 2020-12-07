@@ -1327,26 +1327,21 @@ public class Query implements INotifyClass {
         Error error = null;
         try {
             if (isJsonProper) {
-
                 if (!formName.isEmpty()) {
-
                     execQuery(null, callback, false);
                 } else {
-
                     throwException("find", CSAppConstants.ErrorMessage_FormName, null);
                     error = new Error();
                     error.setErrorMessage(errorString);
                     error.setErrors(errorHashMap);
                 }
             } else {
-
                 error = new Error();
                 error.setErrorMessage(errorString);
                 error.setErrors(errorHashMap);
             }
         } catch (Exception e) {
             e.printStackTrace();
-
             throwException("find", CSAppConstants.ErrorMessage_JsonNotProper, null);
             error = new Error();
             error.setErrorMessage(errorString);
@@ -1356,7 +1351,6 @@ public class Query implements INotifyClass {
         if (error != null && callback != null) {
             callback.onRequestFail(ResponseType.UNKNOWN, error);
         }
-
         return this;
     }
 
@@ -1548,11 +1542,8 @@ public class Query implements INotifyClass {
 
     @Override
     public void getResultObject(List<Object> objects, JSONObject jsonObject, boolean isSingleEntry) {
-
-
         List<Entry> objectList = new ArrayList<>();
         int countObject = objects.size();
-
         for (int i = 0; i < countObject; i++) {
             Entry entry = null;
             try {
@@ -1573,8 +1564,6 @@ public class Query implements INotifyClass {
             if (((EntryModel) objects.get(i))._metadata != null) {
                 entry._metadata = new HashMap<>(((EntryModel) objects.get(i))._metadata);
             }
-
-
             entry.setTags(((EntryModel) objects.get(i)).tags);
             objectList.add(entry);
         }
@@ -1584,15 +1573,12 @@ public class Query implements INotifyClass {
             if (objectList != null && objectList.size() > 0) {
                 entry = objectList.get(0);
             }
-
             if (singleQueryResultCallback != null) {
                 singleQueryResultCallback.onRequestFinish(ResponseType.NETWORK, entry);
             }
-
         } else {
             QueryResult queryResultObject = new QueryResult();
             queryResultObject.setJSON(jsonObject, objectList);
-
             if (queryResultCallback != null) {
                 queryResultCallback.onRequestFinish(ResponseType.NETWORK, queryResultObject);
             }
@@ -1650,7 +1636,6 @@ public class Query implements INotifyClass {
     public Query addParam(String key, String value) {
         try {
             if (key != null && value != null) {
-
                 urlQueries.put(key, value);
             } else {
                 throwException("and", CSAppConstants.ErrorMessage_QueryFilterException, null);
@@ -1693,10 +1678,9 @@ public class Query implements INotifyClass {
      * Get entries having values based on referenced fields.
      * This query retrieves all entries that satisfy the query conditions made on referenced fields.
      *
-     * @param key         The key to be constrained
+     * @param key  The key to be constrained
      * @param queryObject {@link Query} object, so you can chain this call
      * @return {@link Query} object, so you can chain this call
-     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
@@ -1705,11 +1689,8 @@ public class Query implements INotifyClass {
      * </pre>
      */
     public Query whereIn(String key, Query queryObject) {
-
         if (key != null) {
-
             try {
-
                 JSONObject inQueryObj = new JSONObject();
                 inQueryObj.put("$in_query", queryObject.queryValueJSON.toString());
                 queryValueJSON.put(key, inQueryObj);
@@ -1765,7 +1746,7 @@ public class Query implements INotifyClass {
      * </pre>
      */
     public Query includeFallback() {
-        mainJSON.put("include_fallback", true);
+        urlQueries.put("include_fallback", true);
         return this;
     }
 

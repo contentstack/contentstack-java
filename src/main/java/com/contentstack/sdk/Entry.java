@@ -31,7 +31,7 @@ public class Entry {
     protected String language                    = null;
 
     private JSONArray referenceArray;
-    private JSONObject otherPostJSON;
+    public JSONObject otherPostJSON;
     private JSONArray objectUidForOnly;
     private JSONArray objectUidForExcept;
     private JSONObject onlyJsonObject;
@@ -197,7 +197,6 @@ public class Entry {
      * HashMap<String, Object> metaData = entry.getMetadata();
      * </pre>
      */
-
     private HashMap<String, Object> getMetadata() {
         return _metadata;
     }
@@ -213,7 +212,6 @@ public class Entry {
      * </pre>
      *
      */
-
     @Deprecated
     public Language getLanguage(){
         String localeCode = null;
@@ -248,7 +246,6 @@ public class Entry {
      */
 
     public Entry setLocale(String locale){
-
         if (locale !=null){
             try {
                 otherPostJSON.put("locale", locale);
@@ -1090,17 +1087,14 @@ public class Entry {
     public void fetch(EntryResultCallBack callBack){
         try {
             if (!uid.isEmpty()) {
-
                 String URL = "/" + contentTypeInstance.stackInstance.VERSION + "/content_types/" + contentTypeName + "/entries/" + uid;
                 LinkedHashMap<String, Object> headers  = getHeader(localHeader);
                 LinkedHashMap<String, String> headerAll = new LinkedHashMap<String, String>();
                 JSONObject urlQueries= new JSONObject();
-
                 if (headers != null && headers.size() > 0) {
                     for (Map.Entry<String, Object> entry : headers.entrySet()) {
                         headerAll.put(entry.getKey(), (String)entry.getValue());
                     }
-
                     if(headers.containsKey("environment")){
                         urlQueries.put("environment", headers.get("environment"));
                     }
@@ -1118,12 +1112,10 @@ public class Entry {
         try{
 
             JSONObject mainJson = new JSONObject();
-
             setIncludeJSON(urlQueries, callBack);
             mainJson.put("query", urlQueries);
             mainJson.put("_method", CSAppConstants.RequestMethod.GET.toString());
             HashMap<String, Object> urlParams = getUrlParams(mainJson);
-
             new CSBackgroundTask(this, contentTypeInstance.stackInstance, CSController.FETCHENTRY, URL, getHeader(localHeader), urlParams, new JSONObject(), CSAppConstants.callController.ENTRY.toString(), false, CSAppConstants.RequestMethod.GET, callBack);
 
         }catch(Exception e){

@@ -96,7 +96,6 @@ public class Stack {
     public Asset asset(String uid){
         Asset asset = new Asset(uid);
         asset.setStackInstance(this);
-
         return asset;
     }
 

@@ -19,7 +19,7 @@ public class AssetLibrary implements INotifyClass{
     private com.contentstack.sdk.Stack stackInstance;
     private LinkedHashMap<String, Object> stackHeader;
     private LinkedHashMap<String, Object> localHeader;
-    private JSONObject urlQueries;
+    public JSONObject urlQueries;
     private FetchAssetsCallback assetsCallback;
     private int count;
 
