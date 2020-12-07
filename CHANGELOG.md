@@ -4,11 +4,13 @@
 ------------------------------------------------
 
 ## Version 1.5.4
-   ###### Date: 20-Oct-2020
-   - **Asset**   includeFallback support added
-   - **AssetQuery**   includeFallback support added
-   - **Entry**   includeFallback support added
-   - **Query**   includeFallback support added
+###### Date: 08-DEC-2020
+Publish content fallback
+New Features:
+• [Entry] - Publish fallback method added
+• [Query] - Publish fallback method added
+• [Asset] - Publish fallback method added, includeDimension method added
+• [Assets] - Publish fallback method added
 
 ------------------------------------------------
 

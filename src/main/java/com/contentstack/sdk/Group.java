@@ -59,57 +59,6 @@ public class Group {
     }
 
 
-
-    /**
-     * Get html text for markdown data type
-     * @param markdownKey field_uid as key.
-     * @return html text in string format.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String htmlText = group.getHtmlText("markdownKey");
-     * </pre>
-     */
-   /* public String getHtmlText(String markdownKey){
-        try{
-            return Processor.process(getString(markdownKey), Configuration.builder().forceExtentedProfile().build());
-        }catch(Exception e){
-            CSAppUtils.showLog(TAG, "-----------------getHtmlText|" + e);
-            return null;
-        }
-    }*/
-
-
-
-
-    /**
-     * Get html text for markdown data type which is multiple true
-     * @param markdownKey field_uid as key.
-     * @return html text in string format.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * ArrayList&#60;String&#62; htmlTexts = group.getMultipleHtmlText("markdownKey");
-     * </pre>
-     */
-
-/*    public ArrayList<String> getMultipleHtmlText(String markdownKey){
-        try{
-            ArrayList<String> multipleHtmlStrings = new ArrayList<>();
-            JSONArray jsonArray = getJSONArray(markdownKey);
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                multipleHtmlStrings.add(Processor.process(jsonArray.getString(i), Configuration.builder().forceExtentedProfile().build()));
-            }
-
-            return multipleHtmlStrings;
-        }catch(Exception e){
-            CSAppUtils.showLog(TAG, "-----------------getHtmlText|" + e);
-            return null;
-        }
-    }*/
-
-
-
-
     /**
      * Get string value for key.
      * @param key field_uid as key.
@@ -432,30 +381,6 @@ public class Group {
      * @param refContentType class uid.
      * @return {@link ArrayList} of {@link Entry} instances.
      * Also specified contentType value will be set as class uid for all {@link Entry} instance.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Stack API key
-     * //'blt6d0240b5sample254090d' is dummy access token.
-     *  {@code
-     *  Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *  Query csQuery = stack.contentType("contentType_name").query();
-     *  csQuery.includeReference("for_bug");
-     *  csQuery.find(new QueryResultsCallBack() {<br>
-     *  &#64;
-     *  @Override
-     *  public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {<br>
-     *     if(error == null){
-     *     List&#60;Entry&#62; list = queryResult.getResultObjects();
-     *      for (int i = 0; i < list.queueSize(); i++) {
-     *           Entry   entry   = list.get(i);
-     *           Group   group   = entry.getGroup("fieldUid");
-     *           Entry taskEntry = entry.getAllEntries("for_task", "task");
-     *           }
-     *         }
-     *       }
-     *      });<br>
-     * }
-     * </pre>
      */
     public ArrayList<Entry> getAllEntries(String refKey, String refContentType) {
         try {

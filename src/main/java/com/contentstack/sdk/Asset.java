@@ -20,7 +20,7 @@ public class Asset {
     protected String uploadUrl    = null;
     protected JSONObject json 	  = null;
     protected String[] tagsArray  = null;
-    JSONObject urlQueries = new JSONObject();
+    public JSONObject urlQueries = new JSONObject();
     protected LinkedHashMap<String, Object> headerGroup_app;
     protected LinkedHashMap<String, Object> headerGroup_local;
     protected com.contentstack.sdk.Stack stackInstance;
@@ -310,7 +310,6 @@ public class Asset {
      * Calendar updatedAt = entry.getUpdateAt("key");
      * </pre>
      */
-
     public Calendar getDeleteAt(){
 
         try {
@@ -345,7 +344,6 @@ public class Asset {
      * String[] tags = assetObject.getURL();
      * </pre>
      */
-
     public String[] getTags() {
         return tagsArray;
     }
@@ -482,10 +480,8 @@ public class Asset {
      *
      *
      */
-
    public Asset addParam(String key, String value){
        if(key != null && value != null){
-           //headerGroup_local.put(key, value);
            urlQueries.put(key, value);
        }
        return this;
@@ -503,7 +499,7 @@ public class Asset {
      * </pre>
      */
     public Asset includeFallback(){
-        headerGroup_local.put("include_fallback", true);
+        urlQueries.put("include_fallback", true);
         return this;
     }
 
