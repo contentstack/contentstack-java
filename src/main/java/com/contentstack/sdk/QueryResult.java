@@ -1,7 +1,4 @@
 package com.contentstack.sdk;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,7 +11,6 @@ import java.util.List;
 public class QueryResult {
 
 
-    private final Logger logger = LogManager.getLogger(QueryResult.class);
     protected JSONObject receiveJson;
     protected JSONArray schemaArray;
     protected JSONObject contentObject;
@@ -114,7 +110,7 @@ public class QueryResult {
             }
 
         }catch(Exception e){
-            logger.debug("-QueryResult--setJSON--"+e.getLocalizedMessage());
+            e.printStackTrace();
         }
     }
 

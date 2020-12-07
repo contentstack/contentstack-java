@@ -19,7 +19,7 @@ public class AssetLibrary implements INotifyClass{
     private com.contentstack.sdk.Stack stackInstance;
     private LinkedHashMap<String, Object> stackHeader;
     private LinkedHashMap<String, Object> localHeader;
-    private JSONObject urlQueries;
+    public JSONObject urlQueries;
     private FetchAssetsCallback assetsCallback;
     private int count;
 
@@ -57,7 +57,7 @@ public class AssetLibrary implements INotifyClass{
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
-     * AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     * AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
      * assetLibObject.setHeader("custom_header_key", "custom_header_value");
      * </pre>
      */
@@ -77,7 +77,7 @@ public class AssetLibrary implements INotifyClass{
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
-     * AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     * AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
      *
      * assetLibObject.removeHeader("custom_header_key");
      * </pre>
@@ -100,7 +100,7 @@ public class AssetLibrary implements INotifyClass{
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Application API key
-     * AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     * AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
      * assetLibObject.sort("fieldUid", AssetLibrary.ORDERBY.ASCENDING);
      * </pre>
      *
@@ -131,7 +131,7 @@ public class AssetLibrary implements INotifyClass{
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'bltdtsample_accessToken767vv' is dummy access token.
-     * AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     * AssetLibrary assetLibObject = Contentstack.stack( "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
      * assetLibObject.includeCount();
      * </pre>
      */
@@ -153,7 +153,7 @@ public class AssetLibrary implements INotifyClass{
      * <pre class="prettyprint">
      * //'blt5d4sample2633b' is a dummy Stack API key
      * //'bltdtsample_accessToken767vv' is dummy access token.
-     * AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     * AssetLibrary assetLibObject = Contentstack.stack( "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
      * assetLibObject.includeRelativeUrl();
      * </pre>
      */
@@ -183,9 +183,7 @@ public class AssetLibrary implements INotifyClass{
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *    //'blt5d4sample2633b' is a dummy Stack API key
-     *    //'bltdtsample_accessToken767vv' is dummy access token.
-     *    AssetLibrary assetLibObject = Contentstack.stack(context, "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     *   AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
      *   assetLibObject.fetchAll(new FetchAssetsCallback() {
      *   {@code public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) }{
      *      if (error == null) {
@@ -256,7 +254,7 @@ public class AssetLibrary implements INotifyClass{
 
 
     /**
-     * @param tag String to which  Class Context belong
+     * @param tag String to which  Class belong
      * @param messageString takes as Message
      * @param e Exception
      */
@@ -327,6 +325,23 @@ public class AssetLibrary implements INotifyClass{
         if(assetsCallback != null) {
             assetsCallback.onRequestFinish(ResponseType.NETWORK, assets);
         }
+    }
+
+
+
+    /**
+     * Retrieve the published content of the fallback locale if an entry is not localized in specified locale
+     * @return {@link AssetLibrary} object, so you can chain this call.
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     *     Stack stack = Contentstack.stack( "ApiKey", "deliveryToken",  environment_name);
+     *     AssetLibrary assetLibObject = stack.assetLibrary();
+     *     assetLibObject.includeFallback();
+     * </pre>
+     */
+    public AssetLibrary includeFallback(){
+        urlQueries.put("include_fallback", true);
+        return this;
     }
 
 }

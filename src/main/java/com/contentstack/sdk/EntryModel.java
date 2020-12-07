@@ -1,7 +1,4 @@
 package com.contentstack.sdk;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -20,10 +17,10 @@ class EntryModel {
     protected String url                       = null;
     protected String[] tags					   = null;
     protected String language                  = null;
+    protected String rteContent                = null;
     protected Map<String, Object> ownerMap = null;
     protected Map<String, Object> _metadata= null;
     private JSONArray tagsArray = null;
-    private final Logger logger = LogManager.getLogger(EntriesModel.class.getName());
 
     public EntryModel(JSONObject jsonObj, String entryUid, boolean isFromObjectsModel ,boolean isFromCache, boolean isFromDeltaResponse) {
 
@@ -118,11 +115,15 @@ class EntryModel {
                 }
             }
 
+            if(jsonObject != null && jsonObject.has("rich_text_editor")){
+                this.rteContent = (String) (jsonObject.isNull("rich_text_editor") ? " " : jsonObject.opt("rich_text_editor"));
 
+                //do rich_text_editor utility stuff
+
+            }
 
         }catch (Exception e) {
             e.printStackTrace();
-            logger.debug(e.getLocalizedMessage());
         }
 
     }
