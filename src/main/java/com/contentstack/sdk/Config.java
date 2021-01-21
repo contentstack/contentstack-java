@@ -109,11 +109,9 @@ public class Config {
      * </pre>
      */
     private void setVersion(String version){
-
         if(version != null && !version.isEmpty()) {
             VERSION = version;
         }
-
     }
 
     /**

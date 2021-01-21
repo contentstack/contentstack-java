@@ -76,14 +76,12 @@ class CSConnectionRequest implements IRequestModelHTTP{
         paramsJSON        = (JSONObject) objects[3];
         this.header       = (LinkedHashMap<String, Object>) objects[4];
 
-
         if(objects[5]!= null){
             requestInfo   = (String) objects[5];
         }
         if(objects[6]!= null){
             callBackObject = (ResultCallBack) objects[6];
         }
-
         sendRequest();
     }
 
@@ -99,7 +97,6 @@ class CSConnectionRequest implements IRequestModelHTTP{
         connection.setFormParamsPOST(paramsJSON);
         connection.setCallBackObject(callBackObject);
 
-
         if(urlQueries != null && urlQueries.size() > 0){
             connection.setFormParams(urlQueries);
         }
@@ -114,47 +111,23 @@ class CSConnectionRequest implements IRequestModelHTTP{
     @Override
     public void onRequestFailed(JSONObject error, int statusCode, ResultCallBack callBackObject) {
 
-        String errorMessage = null;
-        int errorCode       = statusCode;
-        HashMap<String, Object> resultHashMap = null;
-
-        try {
-            errorJObject = error;
-
-            if(errorJObject != null){
-                errorMessage = (errorJObject).isNull("error_message") ? "" : (errorJObject).optString("error_message");
-
-                if((! errorJObject.isNull("error_code")) && (! errorJObject.optString("error_code").contains(" "))){
-                    errorCode = (Integer) errorJObject.opt("error_code");
-                }
-
-                if(! errorJObject.isNull("errors")){
-                    resultHashMap = new HashMap<String, Object>();
-                    if(errorJObject.opt("errors") instanceof JSONObject){
-                        JSONObject errorsJsonObj =  errorJObject.optJSONObject("errors");
-                        Iterator<String> iterator = errorsJsonObj.keys();
-                        while (iterator.hasNext()) {
-                            String key = iterator.next();
-                            Object value = errorsJsonObj.opt(key);
-                            resultHashMap.put(key, value);
-                        }
-                    }else{
-                        resultHashMap.put("errors", errorJObject.get("errors"));
-                    }
-                }
+        String errMsg = "";
+        int errCode = 0;
+        String errors = "";
+        if (error!=null && !error.isEmpty()){
+            if (error.has("error_message")){
+                errMsg = error.optString("error_message");
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            errorMessage = e.getLocalizedMessage();
+            if (error.has("error_code")){
+                errCode = error.optInt("error_code");
+            }
+            if (error.has("errors")){
+                errors = error.optString("errors");
+            }
         }
-        if(errorMessage == null || (! (errorMessage.length() > 0))){
-            errorMessage = CSAppConstants.ErrorMessage_Default;
-        }
-        errorObject.setErrorCode(errorCode);
-        errorObject.setErrorMessage(errorMessage);
-        errorObject.setErrors(resultHashMap);
-
+        errorObject.setErrorCode(errCode);
+        errorObject.setErrorMessage(errMsg);
+        errorObject.setErrors(errors);
         if(this.callBackObject != null){
             this.callBackObject.onRequestFail(ResponseType.NETWORK, errorObject);
         }
@@ -165,18 +138,13 @@ class CSConnectionRequest implements IRequestModelHTTP{
 
     @Override
     public void onRequestFinished(CSHttpConnection request) {
-
         responseJSON = request.getResponse();
-
         String controller = request.getController();
-
         if(controller.equalsIgnoreCase(CSController.QUERYOBJECT)){
-
             EntriesModel model = new EntriesModel(responseJSON, null,false);
             notifyClass.getResult(model.formName, null);
             notifyClass.getResultObject(model.objectList, responseJSON, false);
             model = null;
-
         }
         else if(controller.equalsIgnoreCase(CSController.SINGLEQUERYOBJECT)){
 

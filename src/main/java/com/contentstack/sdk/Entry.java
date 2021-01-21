@@ -66,11 +66,9 @@ public class Entry {
         if(model._metadata != null) {
             this._metadata = new HashMap<>(model._metadata);
         }
-
         this.uid		   		= model.entryUid;
         this.setTags(model.tags);
         model = null;
-
         return this;
     }
 

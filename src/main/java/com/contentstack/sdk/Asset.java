@@ -23,7 +23,7 @@ public class Asset {
     public JSONObject urlQueries = new JSONObject();
     protected LinkedHashMap<String, Object> headerGroup_app;
     protected LinkedHashMap<String, Object> headerGroup_local;
-    protected com.contentstack.sdk.Stack stackInstance;
+    protected Stack stackInstance;
 
     protected Asset(){
         this.headerGroup_local = new LinkedHashMap<>();
@@ -55,21 +55,20 @@ public class Asset {
      * <br>1. Single Attachment :-<br>
      * <pre class="prettyprint linenums:1">
      *  //'blt5d4sample2633b' is a dummy Application API key
-     * Stack stack = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config);
-     * Asset assetObject = stack.asset("assetUid");<br>
+     * Stack stack = Contentstack.stack("apiKey", "deliveryToken",  "environment");
+     * Asset assetObject = stack.asset("assetUid");
      * assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));</pre>
      *
      * <br>2. Multiple Attachment :-<br>
      * <pre class="prettyprint linenums:1">
      * JSONArray array = entryObject.getJSONArray(Attach_Image_Field_Uid);
-     * <br>{@code for (int i = 0; i < array.length(); i++)} {<br>
-     *  	  Asset assetObject = stack.asset("assetUid");<br>
-     *  	  assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));<br>
-     *    }<br>
+     * {@code for (int i = 0; i < array.length(); i++)} {
+     *  	  Asset assetObject = stack.asset("assetUid");
+     *  	  assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));
+     *    }
      * </pre>
      * @return {@link Asset} instance.
      */
-
     public Asset configure(JSONObject jsonObject){
         AssetModel model = null;
         model = new AssetModel(jsonObject, true, false);
@@ -98,7 +97,6 @@ public class Asset {
      * @param value header value against given header name.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Application API key
      * Asset assetObject = Contentstack.stack( "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
      * assetObject.setHeader("custom_header_key", "custom_header_value");
      * </pre>

@@ -1024,7 +1024,7 @@ public class Query implements INotifyClass {
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *   Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
-     *   Query csQuery = stack.contentType("contentType_name").query();<br>
+     *   Query csQuery = stack.contentType("content_type").query();<br>
      *   //'blt0ae4df463e93f6f5' is dummy uid
      *   csQuery.beforeUid("blt0ae4df463e93f6f5");
      * </pre>
@@ -1333,19 +1333,16 @@ public class Query implements INotifyClass {
                     throwException("find", CSAppConstants.ErrorMessage_FormName, null);
                     error = new Error();
                     error.setErrorMessage(errorString);
-                    error.setErrors(errorHashMap);
                 }
             } else {
                 error = new Error();
                 error.setErrorMessage(errorString);
-                error.setErrors(errorHashMap);
             }
         } catch (Exception e) {
             e.printStackTrace();
             throwException("find", CSAppConstants.ErrorMessage_JsonNotProper, null);
             error = new Error();
             error.setErrorMessage(errorString);
-            error.setErrors(errorHashMap);
         }
 
         if (error != null && callback != null) {
@@ -1395,20 +1392,17 @@ public class Query implements INotifyClass {
                     throwException("find", CSAppConstants.ErrorMessage_FormName, null);
                     error = new Error();
                     error.setErrorMessage(errorString);
-                    error.setErrors(errorHashMap);
                 }
             } else {
 
                 error = new Error();
                 error.setErrorMessage(errorString);
-                error.setErrors(errorHashMap);
             }
         } catch (Exception e) {
 
             throwException("find", CSAppConstants.ErrorMessage_JsonNotProper, null);
             error = new Error();
             error.setErrorMessage(errorString);
-            error.setErrors(errorHashMap);
         }
 
         if (error != null && callBack != null) {

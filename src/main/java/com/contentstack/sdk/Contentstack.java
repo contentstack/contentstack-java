@@ -27,8 +27,6 @@ public class Contentstack {
      * @throws Exception
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Stack API key
-     * //'blt6d0240b5sample254090d' is dummy access token.
      * Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      * </pre>
      */
@@ -41,7 +39,7 @@ public class Contentstack {
                         Config config = new Config();
                         config.setEnvironment(environment);
                         //Configurator.initialize(new DefaultConfiguration());
-                        return initializeStack( stackApiKey, accessToken, config);
+                        return initializeStack(stackApiKey, accessToken, config);
                     }else{
                         throw new Exception(CSAppConstants.ErrorMessage_Stack_Environment_IsNull);
                     }
@@ -75,8 +73,6 @@ public class Contentstack {
      * @throws Exception
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Stack API key
-     * //'blt6d0240b5sample254090d' is dummy access token.
      * Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
      * </pre>
      */

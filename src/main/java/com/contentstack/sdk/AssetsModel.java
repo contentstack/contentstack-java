@@ -2,7 +2,6 @@ package com.contentstack.sdk;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,6 @@ class AssetsModel {
         JSONArray jsonArray = jsonObject != null && jsonObject.has("assets") ? jsonObject.optJSONArray("assets") : null;
         if(jsonArray != null){
             for (int i = 0; i < jsonArray.length(); i++) {
-
                 AssetModel model = new AssetModel(jsonArray.optJSONObject(i), true, false);
                 objects.add(model);
                 model = null;

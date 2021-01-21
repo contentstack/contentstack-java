@@ -1,6 +1,13 @@
 
 ## CHANGELOG
 
+
+## Version 1.5.5
+###### Date: 22-Jan-2021
+Bug fix: Error details are not available
+New Features:
+• None
+
 ------------------------------------------------
 
 ## Version 1.5.4
