@@ -15,7 +15,6 @@ import java.util.*;
 
 public class AssetLibrary implements INotifyClass{
 
-    private final static String TAG = "AssetLibrary";
     private com.contentstack.sdk.Stack stackInstance;
     private LinkedHashMap<String, Object> stackHeader;
     private LinkedHashMap<String, Object> localHeader;

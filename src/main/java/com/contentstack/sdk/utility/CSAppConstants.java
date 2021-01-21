@@ -6,7 +6,7 @@ package com.contentstack.sdk.utility;
 
 public class CSAppConstants {
 
-    public static final String SDK_VERSION = "1.5.4";
+    public static final String SDK_VERSION = "1.5.5";
 
     public static enum RequestMethod
     {

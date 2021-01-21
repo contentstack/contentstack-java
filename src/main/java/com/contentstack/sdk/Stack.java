@@ -17,7 +17,6 @@ import java.util.*;
 
 public class Stack {
 
-    private static final String TAG = "Stack";
     private String stackApiKey = null;
     protected LinkedHashMap<String, Object> localHeader = null;
     private String imageTransformationUrl;
