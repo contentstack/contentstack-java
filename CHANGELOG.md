@@ -9,8 +9,10 @@ Bug fix: Error contains information like
 - Error code
 - Error Details
 
-Language class:
-GERMEN changed to GERMAN
+Language Enum:
+- GERMEN changed to GERMAN
+- Deprecated Language Enum
+- Deprecated LanguageCode Enum
 
 New Features:
 • None

@@ -1,9 +1,12 @@
 package com.contentstack.sdk;
 
 /**
- * @author Contentstack.com
- *
+ * LanguageCode
+ * @deprecated
+ * This Enum is no longer acceptable to apply {@link LanguageCode}.
+ * <p> Use {@link Entry entry.setLocale("en-us")} instead.
  */
+@Deprecated
 enum LanguageCode {
 
     af_za,
