@@ -3,6 +3,7 @@ package com.contentstack.sdk;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,15 +15,15 @@ public class Error {
 
     String errorMessage = null;
     int errorCode       = 0;
-    String errorDetails = null;
+    String errDetails = null;
 
     public Error() {
     }
 
-    public Error(String errorMessage, int errorCode, String errorHashMap) {
+    public Error(String errorMessage, int errorCode, String  errDetails) {
         this.errorMessage = errorMessage;
         this.errorCode = errorCode;
-        this.errorDetails = errorHashMap;
+        this.errDetails = errDetails;
     }
 
     /**
@@ -69,12 +70,12 @@ public class Error {
      *  HashMap&#60;String, Object&#62; errorHashMap = error.getErrors();
      * </pre>
      */
-    public String getErrors() {
-        return errorDetails;
+    public String getErrorDetail() {
+        return this.errDetails;
     }
 
-    protected void setErrors(String errorHashMap) {
-        this.errorDetails = errorHashMap;
+    protected void setErrorDetail(String errDetails) {
+        this.errDetails = errDetails;
     }
 
 }
