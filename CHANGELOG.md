@@ -4,7 +4,14 @@
 
 ## Version 1.5.5
 ###### Date: 22-Jan-2021
-Bug fix: Error details are not available
+Bug fix: Error contains information like 
+- Error message
+- Error code
+- Error Details
+
+Language class:
+GERMEN changed to GERMAN
+
 New Features:
 • None
 
