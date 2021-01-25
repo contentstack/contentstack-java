@@ -62,12 +62,11 @@ public class Error {
 
 
     /**
-     Returns error in {@linkplain HashMap}
-     format where error is key and its respective information as HashMap&#39;s value.
-     @return Map Error Hashmap
+     Returns error details in {@linkplain String}
+     @return String
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *  HashMap&#60;String, Object&#62; errorHashMap = error.getErrors();
+     * String error = error.getErrorDetail();
      * </pre>
      */
     public String getErrorDetail() {
