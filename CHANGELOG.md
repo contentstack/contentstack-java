@@ -1,6 +1,28 @@
 
 ## CHANGELOG
 
+## Version 1.5.6
+###### Date: 27-Jan-2021
+Document updated 
+
+New Features:
+• None
+
+## Version 1.5.5
+###### Date: 22-Jan-2021
+Bug fix: Error contains information like 
+- Error message
+- Error code
+- Error Details
+
+Language Enum:
+- GERMEN changed to GERMAN
+- Deprecated Language Enum
+- Deprecated LanguageCode Enum
+
+New Features:
+• None
+
 ------------------------------------------------
 
 ## Version 1.5.4
