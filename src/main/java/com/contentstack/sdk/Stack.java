@@ -60,10 +60,10 @@ public class Stack {
     }
 
     protected void setConfig(Config config){
-        this.config        = config;
-        URLSCHEMA          = config.URLSCHEMA;
-        URL                = config.URL;
-        VERSION            = config.VERSION;
+        this.config       = config;
+        URLSCHEMA    = config.URLSCHEMA;
+        URL               = config.URL;
+        VERSION         = config.VERSION;
 
         if(!config.environment.isEmpty()){
             setHeader("environment", config.environment);
@@ -90,8 +90,11 @@ public class Stack {
     }
 
 
-
-
+    /**
+     * Takes asset uid as a parameter and returns @{@link Asset} instance
+     * @param uid uid of {@link Asset}
+     * @return Asset instance
+     */
     public Asset asset(String uid){
         Asset asset = new Asset(uid);
         asset.setStackInstance(this);
@@ -106,25 +109,39 @@ public class Stack {
         return asset;
     }
 
-
-
+    /**
+     * assetLibrary returns AssetLibrary instance
+     * @return @{@link AssetLibrary}
+     */
     public AssetLibrary assetLibrary(){
         AssetLibrary library = new AssetLibrary();
         library.setStackInstance(this);
-
         return library;
     }
 
 
-
+    /**
+     * Returns apiKey of particular stack
+     * @return @{@link String} stack api key
+     */
     public String getApplicationKey(){ return stackApiKey;}
 
 
-
+    /**
+     * Returns accessToken of particular stack
+     * @return @{@link String} access token of particular stack
+     */
     public String getAccessToken(){ return localHeader != null ? (String)localHeader.get("access_token") : null;};
 
 
-
+    /**
+     * Removes Header by key
+     * @param key @{@link String} header key
+     * <br><br><b>Example :</b><br>
+     *  stack.removeHeader("delivery_token");
+     * <br><br>
+     * </p>
+     */
     public void removeHeader(String key){
         if(!key.isEmpty()){
             localHeader.remove(key);
@@ -132,7 +149,15 @@ public class Stack {
     }
 
 
-
+    /**
+     * Adds header to the stack by key and value
+     * @param key @{@link String} header key
+     * @param value @{@link String} header value
+     *  <p>
+     *              Example
+     *              stack.setHeader("delivery_token","blt843748744");
+     *  </p>
+     */
     public void setHeader(String key, String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
             localHeader.put(key, value);
