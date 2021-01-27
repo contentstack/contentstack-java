@@ -1,8 +1,10 @@
 package com.contentstack.sdk;
+
 import com.contentstack.sdk.utility.CSAppConstants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,10 +35,8 @@ public class CSHttpConnection implements IURLRequestHTTP{
     public void setFormParams(HashMap<String, Object> formParams) {
         this.formParams = formParams;
     }
-
     private HashMap<String, Object> formParams;
     private boolean treatDuplicateKeysAsArrayItems;
-
 
     public CSHttpConnection(String urlToCall, IRequestModelHTTP csConnectionRequest) {
         this.urlPath = urlToCall;
@@ -54,7 +54,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
     }
 
     @Override
-    public void setHeaders(LinkedHashMap headers) {
+    public void setHeaders(LinkedHashMap<String, Object> headers) {
         this.headers = headers;
     }
 
@@ -113,8 +113,6 @@ public class CSHttpConnection implements IURLRequestHTTP{
         return responseJSON;
     }
 
-
-
     public String setFormParamsGET(HashMap<String, java.lang.Object> params){
         if(params != null && params.size() > 0){
             String urlParams = null;
@@ -135,43 +133,32 @@ public class CSHttpConnection implements IURLRequestHTTP{
 
 
 
-
-
-
     private String getParams(HashMap<String, Object> params) {
         String urlParams = "?";
         for (Map.Entry<String, Object> e : params.entrySet()) {
-
             String key   = e.getKey();
             Object value = e.getValue();
-
             try {
-
                 if (key.equalsIgnoreCase("include[]")) {
                     key = URLEncoder.encode(key, "UTF-8");
                     JSONArray array = (JSONArray) value;
-
                     for (int i = 0; i < array.length(); i++) {
                         urlParams += urlParams.equals("?") ?  key + "=" + array.opt(i) : "&" + key + "=" + array.opt(i);
                     }
-
                 } else if(key.equalsIgnoreCase("only[BASE][]")){
                     key = URLEncoder.encode(key, "UTF-8");
                     JSONArray array = (JSONArray) value;
-
                     for (int i = 0; i < array.length(); i++) {
                         urlParams += urlParams.equals("?") ? key + "=" + array.opt(i) : "&" + key + "=" + array.opt(i);
                     }
                 } else if(key.equalsIgnoreCase("except[BASE][]")){
                     key = URLEncoder.encode(key, "UTF-8");
                     JSONArray array = (JSONArray) value;
-
                     for (int i = 0; i < array.length(); i++) {
                         urlParams += urlParams.equals("?") ? key + "=" + array.opt(i) : "&" + key + "=" + array.opt(i);
                     }
                 } else if(key.equalsIgnoreCase("only")){
                     JSONObject onlyJSON = (JSONObject) value;
-
                     Iterator<String> iter = onlyJSON.keys();
                     while (iter.hasNext()) {
                         String innerKey = iter.next();
@@ -181,10 +168,8 @@ public class CSHttpConnection implements IURLRequestHTTP{
                             urlParams += urlParams.equals("?") ? innerKey + "=" + array.opt(i) : "&" + innerKey + "=" + array.opt(i);
                         }
                     }
-
                 } else if(key.equalsIgnoreCase("except")){
                     JSONObject onlyJSON = (JSONObject) value;
-
                     Iterator<String> iter = onlyJSON.keys();
                     while (iter.hasNext()) {
                         String innerKey = iter.next();
@@ -194,21 +179,16 @@ public class CSHttpConnection implements IURLRequestHTTP{
                             urlParams += urlParams.equals("?") ? innerKey + "=" + array.opt(i) : "&" + innerKey + "=" + array.opt(i);
                         }
                     }
-
                 } else if(key.equalsIgnoreCase("query")){
                     JSONObject queryJSON      = (JSONObject) value;
-
                     urlParams += urlParams.equals("?") ? key + "=" + URLEncoder.encode(queryJSON.toString(), "UTF-8") : "&" + key + "=" + URLEncoder.encode(queryJSON.toString(), "UTF-8");
-
                 }else{
                     urlParams += urlParams.equals("?") ? key + "=" + value : "&" + key + "=" + value;
                 }
-
             }catch (Exception e1){
                 e1.printStackTrace();
             }
         }
-
         return urlParams;
     }
 
@@ -230,13 +210,13 @@ public class CSHttpConnection implements IURLRequestHTTP{
         }else{
             url = urlPath;
         }
-
         try {
             sendGET(url);
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }
+
 
 
 
@@ -267,81 +247,32 @@ public class CSHttpConnection implements IURLRequestHTTP{
             responseJSON = new JSONObject(response.toString());
             connectionRequest.onRequestFinished(CSHttpConnection.this);
         } else {
-            generateBuiltError(con);
+            // Setting up error details, like error_message, error_code, error_details
+            settingErrorInfo(con);
         }
 
+    }
+
+    private void settingErrorInfo(HttpURLConnection con) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getErrorStream(), StandardCharsets.UTF_8));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) { response.append(inputLine); }
+        in.close();
+        responseJSON = new JSONObject(response.toString());
+        String errorMsg = responseJSON.optString("error_message");
+        String errorCode = responseJSON.optString("error_code");
+        String errorDetails = responseJSON.optString("errors");
+        responseJSON.put("error_message", errorMsg);
+        responseJSON.put("error_code", errorCode);
+        responseJSON.put("errors", errorDetails);
+        int errorCodeInt = Integer.parseInt(errorCode);
+        connectionRequest.onRequestFailed(responseJSON, errorCodeInt, callBackObject);
     }
 
     private String defaultUserAgent() {
         String agent = System.getProperty("http.agent");
         return agent != null ? agent : ("Java" + System.getProperty("java.version"));
     }
-
-
-
-    private void generateBuiltError(HttpURLConnection connection){
-        try {
-            int statusCode = 0;
-            responseJSON = new JSONObject();
-            responseJSON.put("error_message", CSAppConstants.ErrorMessage_Default);
-
-            if(connection != null){
-
-                String responseMessage = connection.getResponseMessage();
-                statusCode = connection.getResponseCode();
-
-                try {
-
-                    if (connection.getResponseMessage() == null && connection.getResponseMessage().equalsIgnoreCase("")) {
-                        statusCode  = connection.getResponseCode();
-                        responseJSON.put("error_message", CSAppConstants.ErrorMessage_Default);
-
-                    }else{
-
-                        if(responseMessage.equalsIgnoreCase("NoConnectionError")){
-
-                            responseJSON.put("error_message", CSAppConstants.ErrorMessage_VolleyNoConnectionError);
-
-                        }else if(responseMessage.equalsIgnoreCase("AuthFailureError")){
-
-                            responseJSON.put("error_message", CSAppConstants.ErrorMessage_VolleyAuthFailureError);
-
-                        }else if(responseMessage.equalsIgnoreCase("NetworkError")){
-
-                            responseJSON.put("error_message", CSAppConstants.ErrorMessage_NoNetwork);
-
-                        }else if(responseMessage.equalsIgnoreCase("ParseError")){
-
-                            responseJSON.put("error_message", CSAppConstants.ErrorMessage_VolleyParseError);
-
-                        }else if(responseMessage.equalsIgnoreCase("ServerError")){
-
-                            responseJSON.put("error_message", CSAppConstants.ErrorMessage_VolleyServerError);
-
-                        }else if(responseMessage.equalsIgnoreCase("TimeoutError")){
-
-                            responseJSON.put("error_message", CSAppConstants.ErrorMessage_VolleyServerError);
-
-                        } else {
-                            responseJSON.put("error_message", responseMessage);
-                        }
-
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("errors", responseMessage);
-                        responseJSON.put("errors", jsonObject);
-                    }
-                    connectionRequest.onRequestFailed(responseJSON, statusCode, callBackObject);
-
-                }catch(Exception e){
-                    connectionRequest.onRequestFailed(responseJSON, 0, callBackObject);
-                }
-            } else {
-                connectionRequest.onRequestFailed(responseJSON, 0, callBackObject);
-            }
-        }catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
 
 }

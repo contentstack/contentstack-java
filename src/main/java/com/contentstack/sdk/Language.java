@@ -1,6 +1,13 @@
 package com.contentstack.sdk;
 
 
+/**
+ * Language
+ * @deprecated
+ * This Enum is no longer acceptable to apply language.
+ * <p> Use {@link Entry entry.setLocale("en-us")} instead.
+ */
+@Deprecated
 public enum Language {
 
     AFRIKAANS_SOUTH_AFRICA,
@@ -129,15 +136,15 @@ public enum Language {
 
     GEORGIAN_GEORGIA,
 
-    GERMEN_AUSTRIA,
+    GERMAN_AUSTRIA,
 
-    GERMEN_GERMANY,
+    GERMAN_GERMANY,
 
-    GERMEN_LIENCHTENSTEIN,
+    GERMAN_LIENCHTENSTEIN,
 
-    GERMEN_LUXEMBOURG,
+    GERMAN_LUXEMBOURG,
 
-    GERMEN_SWITZERLAND,
+    GERMAN_SWITZERLAND,
 
     GREEK_GREECE,
 

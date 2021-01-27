@@ -12,10 +12,8 @@ import java.util.*;
  These files can be used in multiple entries.
  Read more about [Assets](https://www.contentstack.com/docs/guide/content-management#working-with-assets)
  */
-
 public class AssetLibrary implements INotifyClass{
 
-    private final static String TAG = "AssetLibrary";
     private com.contentstack.sdk.Stack stackInstance;
     private LinkedHashMap<String, Object> stackHeader;
     private LinkedHashMap<String, Object> localHeader;
@@ -28,7 +26,6 @@ public class AssetLibrary implements INotifyClass{
      * Sorting order enum for {@link AssetLibrary}.
      * @author Contentstack.com, Inc
      */
-
     public enum ORDERBY
     {
         ASCENDING,
@@ -61,7 +58,6 @@ public class AssetLibrary implements INotifyClass{
      * assetLibObject.setHeader("custom_header_key", "custom_header_value");
      * </pre>
      */
-
     public void setHeader(String key, String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
             localHeader.put(key, value);
