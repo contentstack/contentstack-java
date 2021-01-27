@@ -1,6 +1,12 @@
 
 ## CHANGELOG
 
+## Version 1.5.6
+###### Date: 27-Jan-2021
+Document updated 
+
+New Features:
+• None
 
 ## Version 1.5.5
 ###### Date: 22-Jan-2021
