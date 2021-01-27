@@ -1,5 +1,4 @@
 package com.contentstack.sdk;
-
 import com.contentstack.sdk.utility.CSAppConstants;
 import org.json.JSONObject;
 import java.util.LinkedHashMap;
@@ -8,9 +7,9 @@ public interface IURLRequestHTTP {
 
     public void send();
 
-    public void setHeaders(LinkedHashMap headers);
+    public void setHeaders(LinkedHashMap<String, Object> headers);
 
-    public LinkedHashMap getHeaders();
+    public LinkedHashMap<String, String> getHeaders();
 
     public void setRequestMethod(CSAppConstants.RequestMethod requestMethod);
 
