@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class AssetLibrary implements INotifyClass{
 
-    private com.contentstack.sdk.Stack stackInstance;
+    private Stack stackInstance;
     private LinkedHashMap<String, Object> stackHeader;
     private LinkedHashMap<String, Object> localHeader;
     public JSONObject urlQueries;

@@ -9,6 +9,8 @@ factoryConfiguration.json
 
 ### Eclipse ###
 .metadata
+.env
+.env/
 bin/
 tmp/
 *.tmp
