@@ -3,6 +3,7 @@
 # src/test/java/com/contentstack/test/SyncTestCase.java
 # Language Support for Java(TM) by Red Hat extension for Visual Studio Code - https://marketplace.visualstudio.com/items?itemName=redhat.java
 
+.idea
 .project
 .classpath
 factoryConfiguration.json
@@ -262,3 +263,4 @@ gradle-app.setting
 .idea/vcs.xml
 java.iml
 src/main/resources/
+/.idea/
