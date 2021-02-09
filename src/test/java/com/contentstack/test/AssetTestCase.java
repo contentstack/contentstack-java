@@ -212,7 +212,7 @@ public class AssetTestCase {
 
     @Test
     public void test_H_Asset_Include_Dimension() {
-        final Asset asset = stack.asset("uid838473434");
+        final Asset asset = stack.asset(ASSET_UID);
         asset.includeDimension();
         asset.fetch(new FetchResultCallback() {
             @Override
@@ -230,7 +230,7 @@ public class AssetTestCase {
 
     @Test
     public void test_I_Asset_Include_Dimension_using_addParams() {
-        final Asset asset = stack.asset("assetUid87e9823e787");
+        final Asset asset = stack.asset(ASSET_UID);
         asset.addParam("include_dimension", "true");
         asset.fetch(new FetchResultCallback() {
             @Override

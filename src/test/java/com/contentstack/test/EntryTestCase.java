@@ -51,6 +51,14 @@ public class EntryTestCase {
         logger.info("When all the test cases of class finishes...");
     }
 
+    @BeforeClass
+    public static void beforeClass() {
+        // one-time cleanup code
+
+
+        logger.info("When all the test cases of class finishes...");
+    }
+
 
     /**
      * Tears down the test fixture.
@@ -252,7 +260,7 @@ public class EntryTestCase {
 
     @Test
     public void test_13_entry_include_fallback() {
-        final Entry entry = stack.contentType("categories").entry("blte4fcbfd0dc6bfc09").setLocale("hi-in");
+        final Entry entry = stack.contentType("categories").entry(entryUID).setLocale("hi-in");
         entry.setLocale("");
         entry.includeFallback().fetch(new EntryResultCallBack() {
             @Override
