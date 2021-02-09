@@ -46,9 +46,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.sourceEncoding>UTF-8</project.reporting.sourceEncoding>
-        <!-- Compilation -->
         <java.version>1.8</java.version>
-        <!-- Build Dependencies -->
         <build-helper.version>3.0.0</build-helper.version>
         <surefire-report-plugin.version>2.22.0</surefire-report-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -174,7 +172,6 @@
                         </goals>
                         <configuration>
                             <additionalOptions>-Xdoclint:none</additionalOptions>
-                            <!--                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>-->
                             <use>false</use>
                             <use>false</use>
                             <source>1.8</source>
@@ -196,18 +193,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.3</version>
-                <!--                <configuration>-->
-                <!--                    <reportPlugins>-->
-                <!--                        <plugin>-->
-                <!--                            <groupId>org.apache.maven.plugins</groupId>-->
-                <!--                            <artifactId>maven-javadoc-plugin</artifactId>-->
-                <!--                            <configuration>-->
-                <!--                                &lt;!&ndash;suppress UnresolvedMavenProperty &ndash;&gt;-->
-                <!--                                <additionalparam>${javadoc.opts}</additionalparam>-->
-                <!--                            </configuration>-->
-                <!--                        </plugin>-->
-                <!--                    </reportPlugins>-->
-                <!--                </configuration>-->
             </plugin>
 
             <!--
