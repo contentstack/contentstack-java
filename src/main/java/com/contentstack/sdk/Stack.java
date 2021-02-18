@@ -111,7 +111,7 @@ public class Stack {
 
     /**
      * assetLibrary returns AssetLibrary instance
-     * @return @{@link AssetLibrary}
+     * @return AssetLibrary
      */
     public AssetLibrary assetLibrary(){
         AssetLibrary library = new AssetLibrary();
@@ -122,21 +122,21 @@ public class Stack {
 
     /**
      * Returns apiKey of particular stack
-     * @return @{@link String} stack api key
+     * @return stack api key
      */
     public String getApplicationKey(){ return stackApiKey;}
 
 
     /**
      * Returns accessToken of particular stack
-     * @return @{@link String} access token of particular stack
+     * @return  access token of particular stack
      */
     public String getAccessToken(){ return localHeader != null ? (String)localHeader.get("access_token") : null;};
 
 
     /**
      * Removes Header by key
-     * @param key @{@link String} header key
+     * @param key header key
      * <br><br><b>Example :</b><br>
      *  stack.removeHeader("delivery_token");
      * <br><br>
@@ -151,11 +151,11 @@ public class Stack {
 
     /**
      * Adds header to the stack by key and value
-     * @param key @{@link String} header key
-     * @param value @{@link String} header value
+     * @param key header key
+     * @param value header value
      *  <p>
-     *              Example
-     *              stack.setHeader("delivery_token","blt843748744");
+     *       Example
+     *       stack.setHeader("delivery_token","blt843748744");
      *  </p>
      */
     public void setHeader(String key, String value) {

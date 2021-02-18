@@ -222,22 +222,22 @@ public class CSHttpConnection implements IURLRequestHTTP{
 
     private void sendGET(String GET_URL) throws IOException, JSONException {
         URL obj = new URL(GET_URL);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
+        HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+        conn.setRequestMethod("GET");
         if (this.headers.containsKey("api_key")){
-            con.setRequestProperty("api_key", headers.get("api_key").toString());
+            conn.setRequestProperty("api_key", headers.get("api_key").toString());
         }
         if (this.headers.containsKey("access_token")){
-            con.setRequestProperty("access_token", headers.get("access_token").toString());
+            conn.setRequestProperty("access_token", headers.get("access_token").toString());
         }
         if (this.headers.containsKey("environment")){
-            con.setRequestProperty("environment", headers.get("environment").toString());
+            conn.setRequestProperty("environment", headers.get("environment").toString());
         }
-        con.setRequestProperty("X-User-Agent", defaultUserAgent()+"/"+ CSAppConstants.SDK_VERSION);
-        con.setRequestProperty("Content-Type", "application/json");
-        int responseCode = con.getResponseCode();
+        conn.setRequestProperty("X-User-Agent", defaultUserAgent()+"/"+ CSAppConstants.SDK_VERSION);
+        conn.setRequestProperty("Content-Type", "application/json");
+        int responseCode = conn.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
             String inputLine;
             StringBuilder response = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
@@ -248,7 +248,7 @@ public class CSHttpConnection implements IURLRequestHTTP{
             connectionRequest.onRequestFinished(CSHttpConnection.this);
         } else {
             // Setting up error details, like error_message, error_code, error_details
-            settingErrorInfo(con);
+            settingErrorInfo(conn);
         }
 
     }
