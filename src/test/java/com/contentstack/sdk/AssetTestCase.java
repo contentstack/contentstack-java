@@ -1,13 +1,10 @@
-package com.contentstack.test;
+package com.contentstack.sdk;
 
-import com.contentstack.sdk.Error;
-import com.contentstack.sdk.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
