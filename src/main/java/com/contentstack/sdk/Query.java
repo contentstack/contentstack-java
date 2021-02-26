@@ -19,7 +19,7 @@ public class Query implements INotifyClass {
     protected LinkedHashMap<String, Object> formHeader = null;
     private JSONObject mainJSON = null;
     private String formName = null;
-    private JSONObject urlQueries = null;
+    protected JSONObject urlQueries = null;
     private LinkedHashMap<String, Object> localHeader = null;
     private QueryResultsCallBack queryResultCallback;
     private SingleQueryResultCallback singleQueryResultCallback;
@@ -1521,7 +1521,6 @@ public class Query implements INotifyClass {
                     e.printStackTrace();
                 }
             }
-
             return hashMap;
         }
 
@@ -1611,26 +1610,28 @@ public class Query implements INotifyClass {
 
     /**
      * This method adds key and value to an Entry.
+     * Parameters:
      *
-     * @param key   The key as string which needs to be added to the Query
-     * @param value The value as string which needs to be added to the Query
-     * @return {@link Query}
+     * @param key: The key as string which needs to be added to the Query
+     * @param value: The value as string which needs to be added to the Query
+     * @return - Query
+     *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
      *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
-     *      Query csQuery = stack.contentType("contentType_name").query();<br>
+     *      Query csQuery = stack.contentType("contentType_name").query();
      *      csQuery.addParam("key", "some_value");
-     *      csQuery.findOne(new QueryResultsCallBack() {<br>
+     *      csQuery.findOne(new QueryResultsCallBack() {
      *          &#64;Override
-     *          public void onCompletion(ResponseType responseType, ENTRY entry, Error error) {<br>
+     *          public void onCompletion(ResponseType responseType, ENTRY entry, Error error) {
      *          }
-     *      });<br>
+     *      });
      * </pre>
      */
     public Query addParam(String key, String value) {
         try {
-            if (key != null && value != null) {
-                urlQueries.put(key, value);
+            if (key != null) {
+                urlQueries.put(key, value == null ? JSONObject.NULL : value);
             } else {
                 throwException("and", CSAppConstants.ErrorMessage_QueryFilterException, null);
             }
