@@ -20,13 +20,13 @@ To use the Contentstack Java SDK to your existing project, perform the steps giv
 <dependency>
   <groupId>com.contentstack.sdk</groupId>
   <artifactId>java</artifactId>
-  <version>1.5.6</version>
+  <version>1.5.7</version>
 </dependency>
 ```
 
 2. **Gradle**
 ```java
-implementation 'com.contentstack.sdk:java:1.5.6'
+implementation 'com.contentstack.sdk:java:1.5.7'
 ```
 
 ### Key Concepts for using Contentstack
@@ -59,7 +59,7 @@ A publishing environment corresponds to one or more deployment servers or a cont
 
 To initialize the SDK, specify application  API key, access token, and environment name of the stack as shown in the snippet given below:
 ```java
-Stack stack = Contentstack.stack( "apiKey", "accessToken", "environment_name");
+Stack stack = Contentstack.stack( "APIKey", "accessToken", "environment_name");
 ```
 To get the API credentials mentioned above, log in to your Contentstack account and then in your top panel navigation, go to Settings &gt; Stack to view the API Key and Access Token.
 
@@ -73,13 +73,13 @@ To retrieve a single entry from a content type use the code snippet given below:
 ContentType contentType = stack.contentType("content_type_uid");
 Entry blogEntry = contentType.entry("entry_uid");
 blogEntry.fetch(new EntryResultCallBack() {
-@Override
-public void onCompletion(ResponseType responseType, Error error) {
-    if (error == null) {
-         [Success block]
-    } else {
-         [Error block]
-    }}
+    @Override
+    public void onCompletion(ResponseType responseType, Error error) {
+        if (error == null) {
+           //Success block
+        } else {
+           //Error block
+        }}
  });
   ```
 ##### Get Multiple Entries
@@ -90,13 +90,14 @@ To retrieve multiple entries of a particular content type, use the code snippet 
 //stack is an instance of Stack class
 Query blogQuery = stack.contentType("content_type_uid").query();
 blogQuery.find(new QueryResultsCallBack() {
-@Override
-publicvoidonCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
-    if(error == null){
-       [Success block]
-    }else{
-       [Error block]
-    }}});
+    @Override
+    public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+        if(error == null){
+           //Success block
+        }else{
+           //Error block
+    }}
+});
   ```
 
 

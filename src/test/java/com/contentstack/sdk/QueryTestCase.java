@@ -1,7 +1,5 @@
-package com.contentstack.test;
+package com.contentstack.sdk;
 
-import com.contentstack.sdk.Error;
-import com.contentstack.sdk.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,7 +11,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static junit.framework.Assert.assertNull;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 
 public class QueryTestCase {
@@ -721,13 +721,15 @@ public class QueryTestCase {
 
     @Test
     public void test_40_addParams() {
-        query.addParam("someKey", "someObject");
+        query.addParam("keyWithNull", null);
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    JSONObject entries = queryresult.getContentType();
-                    logger.fine(entries.toString());
+                    boolean result = query.urlQueries.has("keyWithNull");
+                    logger.info("result Key With Null exists: "+result);
+                    Object nullObject = query.urlQueries.opt("keyWithNull");
+                    assertEquals("null", nullObject.toString());
                 }
             }
         });

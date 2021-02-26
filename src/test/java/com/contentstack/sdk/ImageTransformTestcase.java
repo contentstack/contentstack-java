@@ -1,7 +1,4 @@
-package com.contentstack.test;
-import com.contentstack.sdk.Config;
-import com.contentstack.sdk.Contentstack;
-import com.contentstack.sdk.Stack;
+package com.contentstack.sdk;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.*;
 import org.junit.runner.JUnitCore;

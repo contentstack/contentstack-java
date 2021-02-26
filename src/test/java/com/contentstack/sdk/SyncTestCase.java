@@ -1,7 +1,5 @@
-package com.contentstack.test;
+package com.contentstack.sdk;
 
-import com.contentstack.sdk.Error;
-import com.contentstack.sdk.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
