@@ -1,5 +1,11 @@
+# CHANGELOG
 
-## CHANGELOG
+## Version 1.5.7
+###### Date: 20-Feb-2021
+Document updated
+
+#23 Fixed Issue: Querying content with `null` field
+• Query: query content by specifying fields as null
 
 ## Version 1.5.6
 ###### Date: 27-Jan-2021
