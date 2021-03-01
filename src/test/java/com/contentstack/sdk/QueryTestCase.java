@@ -3,7 +3,10 @@ package com.contentstack.sdk;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,9 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static junit.framework.Assert.assertNull;
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
 
 
 public class QueryTestCase {
@@ -26,10 +27,10 @@ public class QueryTestCase {
     public static void oneTimeSetUp() throws Exception {
         logger.setLevel(Level.FINE);
         Dotenv dotenv = Dotenv.load();
-        String DEFAULT_API_KEY = dotenv.get("api_key");
-        String DEFAULT_DELIVERY_TOKEN = dotenv.get("delivery_token");
-        String DEFAULT_ENV = dotenv.get("environment");
-        String DEFAULT_HOST = dotenv.get("host");
+        String DEFAULT_API_KEY = dotenv.get("API_KEY");
+        String DEFAULT_DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
+        String DEFAULT_ENV = dotenv.get("ENVIRONMENT");
+        String DEFAULT_HOST = dotenv.get("HOST");
         Config config = new Config();
         config.setHost(DEFAULT_HOST);
         assert DEFAULT_API_KEY != null;

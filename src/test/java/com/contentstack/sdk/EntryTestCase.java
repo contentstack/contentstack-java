@@ -21,7 +21,7 @@ public class EntryTestCase {
 
     private static final Logger logger = Logger.getLogger(EntryTestCase.class.getName());
     private static String entryUID = null;
-    private static String CONTENT_TYPE = null;
+    private static final String CONTENT_TYPE = "product";
     private static Stack stack;
 
 
@@ -29,11 +29,10 @@ public class EntryTestCase {
     public static void oneTimeSetUp() throws Exception {
         // Loading credentials
         Dotenv dotenv = Dotenv.load();
-        String DEFAULT_API_KEY = dotenv.get("api_key");
-        String DEFAULT_DELIVERY_TOKEN = dotenv.get("delivery_token");
-        String DEFAULT_ENV = dotenv.get("environment");
-        String DEFAULT_HOST = dotenv.get("host");
-        CONTENT_TYPE = dotenv.get("content_type");
+        String DEFAULT_API_KEY = dotenv.get("API_KEY");
+        String DEFAULT_DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
+        String DEFAULT_ENV = dotenv.get("ENVIRONMENT");
+        String DEFAULT_HOST = dotenv.get("HOST");
         Config config = new Config();
         config.setHost(DEFAULT_HOST);
 
