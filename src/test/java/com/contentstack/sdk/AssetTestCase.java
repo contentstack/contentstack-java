@@ -37,7 +37,6 @@ public class AssetTestCase {
         logger.info("Asset TestCase started...");
     }
 
-
     /**
      * Sets up the test fixture.
      * (Called before every test case method.)
