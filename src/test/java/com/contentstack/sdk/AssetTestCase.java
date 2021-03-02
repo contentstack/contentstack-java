@@ -26,17 +26,16 @@ public class AssetTestCase {
     public static void oneTimeSetUp() throws Exception {
         logger.setLevel(Level.FINE);
         Dotenv dotenv = Dotenv.load();
-        String DEFAULT_API_KEY = dotenv.get("api_key");
-        String DEFAULT_DELIVERY_TOKEN = dotenv.get("delivery_token");
-        String DEFAULT_ENV = dotenv.get("environment");
-        DEFAULT_HOST = dotenv.get("host");
+        String DEFAULT_API_KEY = dotenv.get("API_KEY");
+        String DEFAULT_DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
+        String DEFAULT_ENV = dotenv.get("ENVIRONMENT");
+        DEFAULT_HOST = dotenv.get("HOST");
         Config config = new Config();
         config.setHost(DEFAULT_HOST);
         assert DEFAULT_API_KEY != null;
         stack = Contentstack.stack(DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV, config);
         logger.info("Asset TestCase started...");
     }
-
 
     /**
      * Sets up the test fixture.
