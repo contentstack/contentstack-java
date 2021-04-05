@@ -1,11 +1,17 @@
 # CHANGELOG
 
+## Version 1.6.0
+###### Date: 05-APR-2021
+- **Query** : query.includeEmbeddedItems() method support added
+- **Entry** :  entry.includeEmbeddedItems() method support added
+
+------------------------------------------------
+
 ## Version 1.5.7
 ###### Date: 20-Feb-2021
 Document updated
 
-#23 Fixed Issue: Querying content with `null` field
-• Query: query content by specifying fields as null
+------------------------------------------------
 
 ## Version 1.5.6
 ###### Date: 27-Jan-2021
@@ -13,6 +19,8 @@ Document updated
 
 New Features:
 • None
+
+------------------------------------------------
 
 ## Version 1.5.5
 ###### Date: 22-Jan-2021
