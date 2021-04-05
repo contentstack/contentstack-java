@@ -1333,4 +1333,19 @@ public class Entry {
         return this;
     }
 
+
+    /**
+     *  includeEmbeddedItems instance of Entry
+     *  Include Embedded Objects (Entries and Assets) along with entry/entries details.<br>
+     *  Stack stack = Contentstack.stack( "ApiKey", "deliveryToken", "environment");
+     *  final Entry entry = stack.contentType("user").entry("entryUid");
+     *  entry = entry.includeEmbeddedObjects()
+     *  entry.fetch()
+     * @return {@link Entry}
+     */
+    public Entry includeEmbeddedItems() {
+        otherPostJSON.put("include_embedded_items" , "BASE");
+        return this;
+    }
+
 }
