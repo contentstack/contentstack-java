@@ -1344,7 +1344,7 @@ public class Entry {
      * @return {@link Entry}
      */
     public Entry includeEmbeddedItems() {
-        otherPostJSON.put("include_embedded_items" , "BASE");
+        otherPostJSON.put("include_embedded_items" , "[\"BASE\"]");
         return this;
     }
 
