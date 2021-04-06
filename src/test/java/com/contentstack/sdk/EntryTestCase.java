@@ -253,4 +253,19 @@ public class EntryTestCase {
         });
     }
 
+    @Test
+    public void test_14_entry_include_embedded_items() throws Exception {
+        final Entry entry = stack.contentType("categories").entry(entryUID);
+        entry.includeEmbeddedItems().fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                if (error == null) {
+                    boolean _embedded_items = entry.toJSON().has("_embedded_items");
+                    TestCase.assertTrue(_embedded_items);
+                }
+                TestCase.assertTrue(entry.otherPostJSON.has("include_embedded_items[]"));
+            }
+        });
+    }
+
 }

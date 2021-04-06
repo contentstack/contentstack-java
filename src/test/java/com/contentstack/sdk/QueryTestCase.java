@@ -1,6 +1,7 @@
 package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import junit.framework.TestCase;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.After;
@@ -766,6 +767,24 @@ public class QueryTestCase {
                     assertEquals(0, queryresult.getResultObjects().size());
                     logger.fine("total count: " + queryresult.getResultObjects().size());
                 }
+            }
+        });
+    }
+
+    @Test
+    public void test_43_entry_include_embedded_items() {
+        final Query query = stack.contentType("categories").query();
+        query.includeEmbeddedItems().find(new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
+                if (error == null) {
+                    List<Entry> arryResult = queryresult.getResultObjects();
+                    for (Entry entry : arryResult) {
+                        boolean _embedded_items = entry.toJSON().has("_embedded_items");
+                        //TestCase.assertTrue(_embedded_items);
+                    }
+                }
+                TestCase.assertTrue(query.urlQueries.has("include_embedded_items[]"));
             }
         });
     }

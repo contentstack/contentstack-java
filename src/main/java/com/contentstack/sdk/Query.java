@@ -1754,7 +1754,7 @@ public class Query implements INotifyClass {
      * @return {@link Query}
      */
     public Query includeEmbeddedItems() {
-        urlQueries.put("include_embedded_items" , "[\"BASE\"]");
+        urlQueries.put("include_embedded_items[]", "BASE");
         return this;
     }
 
