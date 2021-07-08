@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.*;
+import java.util.logging.Logger;
 
 
 /**
@@ -15,6 +16,7 @@ import java.util.*;
 
 public class Query implements INotifyClass {
 
+    private static final Logger logger = Logger.getLogger(Query.class.getSimpleName());
     protected ContentType contentTypeInstance = null;
     protected LinkedHashMap<String, Object> formHeader = null;
     private JSONObject mainJSON = null;
@@ -57,12 +59,12 @@ public class Query implements INotifyClass {
      *
      * @param key   header name.
      * @param value header value against given header name.
-     *              <br><br><b>Example :</b><br>
-     *              <pre class="prettyprint">
-     *               Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
-     *               Query csQuery = stack.contentType("contentType_name").query();<br>
-     *               csQuery.setHeader("custom_key", "custom_value");
-     *               </pre>
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     * Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
+     * Query csQuery = stack.contentType("contentType_name").query();<br>
+     * csQuery.setHeader("custom_key", "custom_value");
+     * </pre>
      */
     public void setHeader(String key, String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
@@ -75,12 +77,12 @@ public class Query implements INotifyClass {
      * Remove header key @param key custom_header_key
      *
      * @param key {@link String}
-     *            <br><br><b>Example :</b><br>
-     *            <pre class="prettyprint">
-     *             Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
-     *             Query csQuery = stack.contentType("contentType_name").query();<br>
-     *             csQuery.removeHeader("custom_key");
-     *            </pre>
+     * <br><br><b>Example :</b><br>
+     * <pre class="prettyprint">
+     * Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
+     * Query csQuery = stack.contentType("contentType_name").query();<br>
+     * csQuery.removeHeader("custom_key");
+     * </pre>
      */
     public void removeHeader(String key) {
         if (!key.isEmpty()) {
@@ -103,9 +105,9 @@ public class Query implements INotifyClass {
      * <b>Note :</b> for group field provide key in a &#34;key.groupFieldUid&#34; format.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *    Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
-     *    Query csQuery = stack.contentType("contentType_name").query();
-     *    csQuery.where("uid", "bltf4fbsample851db");
+     * Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
+     * Query csQuery = stack.contentType("contentType_name").query();
+     * csQuery.where("uid", "bltf4fbsample851db");
      * </pre>
      */
 
@@ -133,9 +135,9 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *   Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
-     *   Query csQuery = stack.contentType("contentType_name").query();
-     *   csQuery.addQuery("query_param_key", "query_param_value");
+     * Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
+     * Query csQuery = stack.contentType("contentType_name").query();
+     * csQuery.addQuery("query_param_key", "query_param_value");
      * </pre>
      */
     public Query addQuery(String key, String value) {
@@ -160,7 +162,7 @@ public class Query implements INotifyClass {
      * @return {@linkplain Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
-     *      projectQuery.removeQuery("Query_Key");
+     * projectQuery.removeQuery("Query_Key");
      * </pre>
      */
     public Query removeQuery(String key) {
@@ -183,19 +185,19 @@ public class Query implements INotifyClass {
      *
      * <br><br><b>Example ;</b><br>
      * <pre class="prettyprint">
-     *    Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
-     *    Query csQuery = stack.contentType("contentType_name").query();
+     * Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
+     * Query csQuery = stack.contentType("contentType_name").query();
      *
-     *    Query query = projectClass.query();
-     *    query.where('username','something');
+     * Query query = projectClass.query();
+     * query.where('username','something');
      *
-     *    Query subQuery = projectClass.query();
-     *    subQuery.where('email_address','something@email.com');
+     * Query subQuery = projectClass.query();
+     * subQuery.where('email_address','something@email.com');
      *
-     *    ArrayList&#60;Query&#62; array = new ArrayList&#60;Query&#62;();<br>
-     *    array.add(query);
-     *    array.add(subQuery);<br>
-     *    projectQuery.and(array);
+     * ArrayList&#60;Query&#62; array = new ArrayList&#60;Query&#62;();<br>
+     * array.add(query);
+     * array.add(subQuery);<br>
+     * projectQuery.and(array);
      * </pre>
      */
     public Query and(ArrayList<Query> queryObjects) {
@@ -1267,7 +1269,7 @@ public class Query implements INotifyClass {
             try {
                 urlQueries.put("locale", locale);
             } catch (JSONException e) {
-                e.printStackTrace();
+                logger.severe(e.getLocalizedMessage());
             }
         }
 
@@ -1339,7 +1341,7 @@ public class Query implements INotifyClass {
                 error.setErrorMessage(errorString);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
             throwException("find", CSAppConstants.ErrorMessage_JsonNotProper, null);
             error = new Error();
             error.setErrorMessage(errorString);
@@ -1488,7 +1490,7 @@ public class Query implements INotifyClass {
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
             throwException("find", CSAppConstants.ErrorMessage_QueryFilterException, e);
         }
 
@@ -1518,7 +1520,7 @@ public class Query implements INotifyClass {
                     Object value = queryJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.severe(e.getLocalizedMessage());
                 }
             }
             return hashMap;
@@ -1663,7 +1665,7 @@ public class Query implements INotifyClass {
         try {
             urlQueries.put("include_reference_content_type_uid", "true");
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
         return this;
     }

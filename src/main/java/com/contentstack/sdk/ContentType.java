@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,6 +17,7 @@ import java.util.Map;
 
 public class ContentType {
 
+    private static final Logger logger = Logger.getLogger(ContentType.class.getSimpleName());
     protected String contentTypeName = null;
     protected Stack stackInstance = null;
     private LinkedHashMap<String, Object> localHeader = null;
@@ -266,7 +268,7 @@ public class ContentType {
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.severe(e.getLocalizedMessage());
                 }
             }
 

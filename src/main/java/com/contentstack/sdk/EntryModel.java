@@ -4,11 +4,13 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Logger;
 
 
 class EntryModel {
 
 
+    private static final Logger logger = Logger.getLogger(EntryModel.class.getSimpleName());
     protected JSONObject jsonObject            = null;
     protected String entryUid                  = null;
     protected String ownerEmailId 			   = null;
@@ -123,7 +125,7 @@ class EntryModel {
             }
 
         }catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
 
     }

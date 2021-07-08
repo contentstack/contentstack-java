@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * A stack is a repository or a container that holds all the content/assets of your site.
@@ -17,6 +18,7 @@ import java.util.*;
 
 public class Stack {
 
+    private static final Logger logger = Logger.getLogger(Stack.class.getSimpleName());
     private String stackApiKey = null;
     protected LinkedHashMap<String, Object> localHeader = null;
     private String imageTransformationUrl;
@@ -216,7 +218,7 @@ public class Stack {
                 }
 
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                logger.severe(e.getLocalizedMessage());
             }
         });
 
@@ -309,7 +311,7 @@ public class Stack {
         try {
             syncParams.put("init", true);
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
 
         this.requestSync(syncCallBack);
@@ -350,7 +352,7 @@ public class Stack {
             syncParams.put("init", true);
             syncParams.put("pagination_token", pagination_token);
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
 
         this.requestSync(syncCallBack);
@@ -386,7 +388,7 @@ public class Stack {
             syncParams.put("init", true);
             syncParams.put("sync_token", sync_token);
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
 
         this.requestSync(syncCallBack);
@@ -425,7 +427,7 @@ public class Stack {
             syncParams.put("init", true);
             syncParams.put("start_from", start_from_date);
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
         this.requestSync(syncCallBack);
     }
@@ -471,7 +473,7 @@ public class Stack {
             syncParams.put("init", true);
             syncParams.put("content_type_uid", contentType);
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
 
         this.requestSync(syncCallBack);
@@ -507,7 +509,7 @@ public class Stack {
             syncParams.put("init", true);
             syncParams.put("locale", localeCode);
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
 
 
@@ -563,7 +565,7 @@ public class Stack {
             syncParams.put("init", true);
             syncParams.put("type", publishType);
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
 
         this.requestSync(syncCallBack);
@@ -608,7 +610,7 @@ public class Stack {
             syncParams.put("type", publishType);
             syncParams.put("locale", this.localeCode);
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
 
         this.requestSync(syncCallBack);
@@ -677,7 +679,7 @@ public class Stack {
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.severe(e.getLocalizedMessage());
                 }
             }
 

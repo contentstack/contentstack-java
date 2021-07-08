@@ -4,6 +4,7 @@ import com.contentstack.sdk.utility.CSController;
 import com.contentstack.sdk.utility.ContentstackUtil;
 import org.json.JSONObject;
 import java.util.*;
+import java.util.logging.Logger;
 
 
 /**
@@ -13,6 +14,7 @@ import java.util.*;
 
 public class Asset {
 
+    private static final Logger logger = Logger.getLogger(Asset.class.getSimpleName());
     protected String assetUid     = null;
     protected String contentType  = null;
     protected String fileSize     = null;
@@ -251,7 +253,7 @@ public class Asset {
             String value = json.optString("created_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
         return null;
     }
@@ -277,7 +279,7 @@ public class Asset {
             String value = json.optString("updated_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
         return null;
     }
@@ -314,7 +316,7 @@ public class Asset {
             String value = json.optString("deleted_at");
             return ContentstackUtil.parseDate(value, null);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
         return null;
     }
@@ -416,7 +418,7 @@ public class Asset {
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.severe(e.getLocalizedMessage());
                 }
             }
             return hashMap;
