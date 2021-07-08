@@ -1,7 +1,10 @@
 package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.util.List;
@@ -50,7 +53,7 @@ public class AssetTestCase {
             public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {
                 if (error == null) {
                     assets.stream().iterator().forEachRemaining(asset -> {
-                        if (asset.getFileName().equalsIgnoreCase("phoenix2.jpg")){
+                        if (asset.getFileName().equalsIgnoreCase("phoenix2.jpg")) {
                             ASSET_UID = asset.getAssetUid();
                         }
                     });
@@ -76,7 +79,6 @@ public class AssetTestCase {
             }
         });
     }
-
 
 
     @Test
@@ -201,7 +203,7 @@ public class AssetTestCase {
                 } else {
                     assertEquals("Not Found", error.getErrorMessage());
                 }
-                assertTrue( asset.urlQueries.has("include_fallback"));
+                assertTrue(asset.urlQueries.has("include_fallback"));
             }
         });
     }
@@ -215,7 +217,7 @@ public class AssetTestCase {
             public void onCompletion(ResponseType responseType, Error error) {
                 if (error == null) {
                     logger.warning(asset.toJSON().optString("include_dimension"));
-                }else {
+                } else {
                     logger.warning(error.getErrorDetail());
                     assertEquals(error.getErrorDetail(), "{\"uid\":[\"is not valid.\"]}");
                 }
@@ -233,7 +235,7 @@ public class AssetTestCase {
             public void onCompletion(ResponseType responseType, Error error) {
                 if (error == null) {
                     logger.warning(asset.toJSON().optString("include_dimension"));
-                   // assertEquals(assetUid, asset.getAssetUid());
+                    // assertEquals(assetUid, asset.getAssetUid());
                 }
             }
         });

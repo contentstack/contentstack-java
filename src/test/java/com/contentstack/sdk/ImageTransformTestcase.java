@@ -1,7 +1,12 @@
 package com.contentstack.sdk;
+
 import io.github.cdimascio.dotenv.Dotenv;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.JUnitCore;
+
 import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;

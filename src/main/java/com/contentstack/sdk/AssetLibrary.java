@@ -6,6 +6,7 @@ import com.contentstack.sdk.utility.CSController;
 import org.json.JSONObject;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  Assets refer to all the media files (images, videos, PDFs, audio files, and so on) uploaded to Contentstack.
@@ -14,6 +15,7 @@ import java.util.*;
  */
 public class AssetLibrary implements INotifyClass{
 
+    private static final Logger logger = Logger.getLogger(AssetLibrary.class.getSimpleName());
     private Stack stackInstance;
     private LinkedHashMap<String, Object> stackHeader;
     private LinkedHashMap<String, Object> localHeader;
@@ -205,7 +207,7 @@ public class AssetLibrary implements INotifyClass{
             fetchFromNetwork(URL, urlQueries, headers,  assetsCallback);
 
         } catch (Exception e){
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
 
     }
@@ -238,7 +240,7 @@ public class AssetLibrary implements INotifyClass{
                     Object value = urlQueriesJSON.opt(key);
                     hashMap.put(key, value);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.severe(e.getLocalizedMessage());
                 }
             }
 

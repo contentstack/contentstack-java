@@ -729,7 +729,7 @@ public class QueryTestCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     boolean result = query.urlQueries.has("keyWithNull");
-                    logger.info("result Key With Null exists: "+result);
+                    logger.info("result Key With Null exists: " + result);
                     Object nullObject = query.urlQueries.opt("keyWithNull");
                     assertEquals("null", nullObject.toString());
                 }

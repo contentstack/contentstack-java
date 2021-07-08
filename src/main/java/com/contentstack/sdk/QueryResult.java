@@ -1,16 +1,19 @@
 package com.contentstack.sdk;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
- *It results the query response
+ * It results the query response
  */
 
 public class QueryResult {
 
 
+    private static final Logger logger = Logger.getLogger(QueryResult.class.getSimpleName());
     protected JSONObject receiveJson;
     protected JSONArray schemaArray;
     protected JSONObject contentObject;
@@ -30,12 +33,12 @@ public class QueryResult {
     }
 
 
-
     /**
      * Returns count of objects available.<br>
      * <b>Note : </b>
      * To retrieve this data, {@link Query#includeCount()} or {@link Query#count()}
      * should be added in {@link Query} while querying.
+     *
      * @return int count
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -50,6 +53,7 @@ public class QueryResult {
 
     /**
      * Returns class&#39;s schema if call to fetch schema executed successfully.
+     *
      * @return JSONArray schema Array
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -63,6 +67,7 @@ public class QueryResult {
 
     /**
      * Returns class&#39;s content type if call to fetch contentType executed successfully.
+     *
      * @return JSONObject contentObject
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -74,43 +79,42 @@ public class QueryResult {
     }
 
 
-
     protected void setJSON(JSONObject jsonobject, List<Entry> objectList) {
         receiveJson = jsonobject;
         resultObjects = objectList;
 
-        try{
-            if(receiveJson != null){
-                if(receiveJson.has("schema")){
+        try {
+            if (receiveJson != null) {
+                if (receiveJson.has("schema")) {
 
                     JSONArray jsonarray = new JSONArray();
-                    jsonarray  = receiveJson.getJSONArray("schema");
-                    if(jsonarray != null){
+                    jsonarray = receiveJson.getJSONArray("schema");
+                    if (jsonarray != null) {
                         schemaArray = jsonarray;
                     }
                 }
 
-                if(receiveJson.has("content_type")){
+                if (receiveJson.has("content_type")) {
 
-                    JSONObject jsonObject  = receiveJson.getJSONObject("content_type");
-                    if(jsonObject != null){
+                    JSONObject jsonObject = receiveJson.getJSONObject("content_type");
+                    if (jsonObject != null) {
                         contentObject = jsonObject;
                     }
                 }
 
-                if(receiveJson.has("count")){
+                if (receiveJson.has("count")) {
                     count = receiveJson.optInt("count");
                 }
 
-                if(count <= 0){
-                    if(receiveJson.has("entries")){
+                if (count <= 0) {
+                    if (receiveJson.has("entries")) {
                         count = receiveJson.optInt("entries");
                     }
                 }
             }
 
-        }catch(Exception e){
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.severe(e.getLocalizedMessage());
         }
     }
 

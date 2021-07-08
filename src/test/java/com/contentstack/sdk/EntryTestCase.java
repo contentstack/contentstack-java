@@ -5,7 +5,9 @@ import junit.framework.TestCase;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.util.ArrayList;
@@ -20,8 +22,8 @@ import static org.junit.Assert.assertTrue;
 public class EntryTestCase {
 
     private static final Logger logger = Logger.getLogger(EntryTestCase.class.getName());
-    private static String entryUID = null;
     private static final String CONTENT_TYPE = "product";
+    private static String entryUID = null;
     private static Stack stack;
 
 
@@ -97,7 +99,7 @@ public class EntryTestCase {
     @Test
     public void test_04_includeReference_fetch() {
         final Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUID);
-        entry.includeReference(new String[]{"brand","categories"});
+        entry.includeReference(new String[]{"brand", "categories"});
         entry.fetch(new EntryResultCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
@@ -146,7 +148,7 @@ public class EntryTestCase {
 
 
     @Test
-    public void test_07_getMarkdown_fetch()  {
+    public void test_07_getMarkdown_fetch() {
         final Entry entry = stack.contentType("user").entry(entryUID);
         entry.fetch(new EntryResultCallBack() {
             @Override
@@ -183,7 +185,7 @@ public class EntryTestCase {
 
 
     @Test
-    public void test_10_IncludeReferenceContentTypeUID()  {
+    public void test_10_IncludeReferenceContentTypeUID() {
         final Entry entry = stack.contentType("user").entry(entryUID);
         entry.includeReferenceContentTypeUID();
         entry.fetch(new EntryResultCallBack() {
@@ -207,7 +209,7 @@ public class EntryTestCase {
 
 
     @Test
-    public void test_11_Locale()  {
+    public void test_11_Locale() {
         final Entry entry = stack.contentType("user").entry(entryUID);
         entry.fetch(new EntryResultCallBack() {
             @Override
@@ -221,7 +223,7 @@ public class EntryTestCase {
     }
 
     @Test
-    public void test_12_entry_except()  {
+    public void test_12_entry_except() {
         final Entry entry = stack.contentType("user").entry(entryUID);
         String[] allValues = {"color", "price_in_usd"};
         entry.except(allValues);
