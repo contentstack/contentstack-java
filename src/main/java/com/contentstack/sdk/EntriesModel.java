@@ -3,9 +3,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 class EntriesModel {
 
+    private static final Logger logger = Logger.getLogger(EntriesModel.class.getSimpleName());
     protected JSONObject jsonObject;
     protected String formName;
     protected List<Object> objectList;
@@ -31,8 +33,8 @@ class EntriesModel {
                     }
                 }
             }
-        }catch (Exception localException){
-            localException.printStackTrace();
+        }catch (Exception e){
+            logger.severe(e.getLocalizedMessage());
         }
 
     }

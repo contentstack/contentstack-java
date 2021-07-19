@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Version 1.7.0
+###### Date: 12-JUL-2021
+- Added support for utils function gql.jsonToHtml()
+- Bug #32 issue resolved removed e.printStackTrace()
+- Instead stacktrace used logger.error()
+
+------------------------------------------------
+
 ## Version 1.6.0
 ###### Date: 05-APR-2021
 - **Query** : query.includeEmbeddedItems() method support added
