@@ -18,6 +18,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
+/**
+ * The type Entry test case.
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EntryTestCase {
 
@@ -27,6 +30,11 @@ public class EntryTestCase {
     private static Stack stack;
 
 
+    /**
+     * One time set up.
+     *
+     * @throws Exception the exception
+     */
     @BeforeClass
     public static void oneTimeSetUp() throws Exception {
         // Loading credentials
@@ -53,6 +61,9 @@ public class EntryTestCase {
     }
 
 
+    /**
+     * Test 01 find all entries.
+     */
     @Test
     public void test_01_findAllEntries() {
         final Query query = stack.contentType(CONTENT_TYPE).query();
@@ -66,6 +77,9 @@ public class EntryTestCase {
         });
     }
 
+    /**
+     * Test 02 only fetch.
+     */
     @Test
     public void test_02_only_fetch() {
         final Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUID);
@@ -80,6 +94,9 @@ public class EntryTestCase {
         });
     }
 
+    /**
+     * Test 03 except fetch.
+     */
     @Test
     public void test_03_except_fetch() {
         final Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUID);
@@ -96,6 +113,9 @@ public class EntryTestCase {
         });
     }
 
+    /**
+     * Test 04 include reference fetch.
+     */
     @Test
     public void test_04_includeReference_fetch() {
         final Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUID);
@@ -111,6 +131,9 @@ public class EntryTestCase {
         });
     }
 
+    /**
+     * Test 05 include reference only fetch.
+     */
     @Test
     public void test_05_includeReferenceOnly_fetch() {
         final Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUID);
@@ -131,6 +154,9 @@ public class EntryTestCase {
     }
 
 
+    /**
+     * Test 06 include reference except fetch.
+     */
     @Test
     public void test_06_includeReferenceExcept_fetch() {
         final Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUID);
@@ -147,6 +173,9 @@ public class EntryTestCase {
     }
 
 
+    /**
+     * Test 07 get markdown fetch.
+     */
     @Test
     public void test_07_getMarkdown_fetch() {
         final Entry entry = stack.contentType("user").entry(entryUID);
@@ -159,6 +188,9 @@ public class EntryTestCase {
     }
 
 
+    /**
+     * Test 08 get.
+     */
     @Test
     public void test_08_get() {
         final Entry entry = stack.contentType("user").entry(entryUID);
@@ -171,6 +203,9 @@ public class EntryTestCase {
     }
 
 
+    /**
+     * Test 09 get param.
+     */
     @Test
     public void test_09_getParam() {
         final Entry entry = stack.contentType("user").entry(entryUID);
@@ -184,6 +219,9 @@ public class EntryTestCase {
     }
 
 
+    /**
+     * Test 10 include reference content type uid.
+     */
     @Test
     public void test_10_IncludeReferenceContentTypeUID() {
         final Entry entry = stack.contentType("user").entry(entryUID);
@@ -208,6 +246,9 @@ public class EntryTestCase {
     }
 
 
+    /**
+     * Test 11 locale.
+     */
     @Test
     public void test_11_Locale() {
         final Entry entry = stack.contentType("user").entry(entryUID);
@@ -222,6 +263,9 @@ public class EntryTestCase {
         });
     }
 
+    /**
+     * Test 12 entry except.
+     */
     @Test
     public void test_12_entry_except() {
         final Entry entry = stack.contentType("user").entry(entryUID);
@@ -239,6 +283,9 @@ public class EntryTestCase {
     }
 
 
+    /**
+     * Test 13 entry include fallback.
+     */
     @Test
     public void test_13_entry_include_fallback() {
         final Entry entry = stack.contentType("categories").entry(entryUID).setLocale("hi-in");
@@ -255,6 +302,11 @@ public class EntryTestCase {
         });
     }
 
+    /**
+     * Test 14 entry include embedded items.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void test_14_entry_include_embedded_items() throws Exception {
         final Entry entry = stack.contentType("categories").entry(entryUID);
