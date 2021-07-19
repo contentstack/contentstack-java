@@ -91,7 +91,7 @@ public class ContentstackUtil {
             cal.setTimeZone(TimeZone.getDefault());
         }
 
-        cal.set(Integer.valueOf(year), Integer.valueOf(month)-1, Integer.valueOf(day), Integer.valueOf(hourOfDay), Integer.valueOf(min), Integer.valueOf(sec));
+        cal.set(Integer.parseInt(year), Integer.parseInt(month)-1, Integer.parseInt(day), Integer.parseInt(hourOfDay), Integer.parseInt(min), Integer.parseInt(sec));
 
         month     = null;
         day       = null;

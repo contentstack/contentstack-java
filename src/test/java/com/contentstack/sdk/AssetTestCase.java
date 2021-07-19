@@ -1,7 +1,10 @@
 package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.util.List;
@@ -12,6 +15,9 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 
+/**
+ * The type Asset test case.
+ */
 // Run testcase for the particular class
 // run mvn -Dtest=TestAssetTestCase test
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -22,6 +28,11 @@ public class AssetTestCase {
     private static Stack stack;
     private static String DEFAULT_HOST;
 
+    /**
+     * One time set up.
+     *
+     * @throws Exception the exception
+     */
     @BeforeClass
     public static void oneTimeSetUp() throws Exception {
         logger.setLevel(Level.FINE);
@@ -50,7 +61,7 @@ public class AssetTestCase {
             public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {
                 if (error == null) {
                     assets.stream().iterator().forEachRemaining(asset -> {
-                        if (asset.getFileName().equalsIgnoreCase("phoenix2.jpg")){
+                        if (asset.getFileName().equalsIgnoreCase("phoenix2.jpg")) {
                             ASSET_UID = asset.getAssetUid();
                         }
                     });
@@ -59,11 +70,17 @@ public class AssetTestCase {
         });
     }
 
+    /**
+     * After class.
+     */
     @AfterClass
     public static void afterClass() {
         logger.info("Ran all asset testcases");
     }
 
+    /**
+     * Test a get all assets to set asset uid.
+     */
     @Test()
     public void test_A_getAllAssetsToSetAssetUID() {
         final AssetLibrary assetLibrary = stack.assetLibrary();
@@ -78,7 +95,9 @@ public class AssetTestCase {
     }
 
 
-
+    /**
+     * Test b verify asset uid.
+     */
     @Test
     public void test_B_VerifyAssetUID() {
 
@@ -95,6 +114,9 @@ public class AssetTestCase {
         });
     }
 
+    /**
+     * Test c asset fetch.
+     */
     @Test
     public void test_C_Asset_fetch() {
         final Asset asset = stack.asset(ASSET_UID);
@@ -118,6 +140,9 @@ public class AssetTestCase {
         });
     }
 
+    /**
+     * Test d asset library fetch.
+     */
     @Test
     public void test_D_AssetLibrary_fetch() {
         final AssetLibrary assetLibrary = stack.assetLibrary();
@@ -140,6 +165,9 @@ public class AssetTestCase {
         });
     }
 
+    /**
+     * Test e asset library include count fetch.
+     */
     @Test
     public void test_E_AssetLibrary_includeCount_fetch() {
         final AssetLibrary assetLibrary = stack.assetLibrary();
@@ -159,6 +187,9 @@ public class AssetTestCase {
         });
     }
 
+    /**
+     * Test f asset library include relative url fetch.
+     */
     @Test
     public void test_F_AssetLibrary_includeRelativeUrl_fetch() {
         final AssetLibrary assetLibrary = stack.assetLibrary();
@@ -172,6 +203,9 @@ public class AssetTestCase {
         });
     }
 
+    /**
+     * Test g stack get params.
+     */
     @Test
     public void test_G_StackGetParams() {
         final Asset asset = stack.asset(ASSET_UID);
@@ -189,6 +223,9 @@ public class AssetTestCase {
         });
     }
 
+    /**
+     * Test h asset locale include fallback.
+     */
     @Test
     public void test_H_Asset_Locale_Include_Fallback() {
         final Asset asset = stack.asset(ASSET_UID);
@@ -201,11 +238,14 @@ public class AssetTestCase {
                 } else {
                     assertEquals("Not Found", error.getErrorMessage());
                 }
-                assertTrue( asset.urlQueries.has("include_fallback"));
+                assertTrue(asset.urlQueries.has("include_fallback"));
             }
         });
     }
 
+    /**
+     * Test h asset include dimension.
+     */
     @Test
     public void test_H_Asset_Include_Dimension() {
         final Asset asset = stack.asset(ASSET_UID);
@@ -215,7 +255,7 @@ public class AssetTestCase {
             public void onCompletion(ResponseType responseType, Error error) {
                 if (error == null) {
                     logger.warning(asset.toJSON().optString("include_dimension"));
-                }else {
+                } else {
                     logger.warning(error.getErrorDetail());
                     assertEquals(error.getErrorDetail(), "{\"uid\":[\"is not valid.\"]}");
                 }
@@ -224,6 +264,9 @@ public class AssetTestCase {
     }
 
 
+    /**
+     * Test i asset include dimension using add params.
+     */
     @Test
     public void test_I_Asset_Include_Dimension_using_addParams() {
         final Asset asset = stack.asset(ASSET_UID);
@@ -233,12 +276,15 @@ public class AssetTestCase {
             public void onCompletion(ResponseType responseType, Error error) {
                 if (error == null) {
                     logger.warning(asset.toJSON().optString("include_dimension"));
-                   // assertEquals(assetUid, asset.getAssetUid());
+                    // assertEquals(assetUid, asset.getAssetUid());
                 }
             }
         });
     }
 
+    /**
+     * Test j include fallback.
+     */
     @Test()
     public void test_J_include_fallback() {
         final AssetLibrary assetLibrary = stack.assetLibrary();
