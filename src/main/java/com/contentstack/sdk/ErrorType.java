@@ -143,7 +143,8 @@ public class ErrorType {
 
     /**
      * HTTP Status-Code 500: Internal Server Error.
-     * @deprecated   it is misplaced and shouldn't have existed.
+     *
+     * @deprecated it is misplaced and shouldn't have existed.
      */
     @Deprecated
     public static final int HTTP_SERVER_ERROR = 500;

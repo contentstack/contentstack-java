@@ -82,12 +82,12 @@ public class Entry {
      * @param value custom_header_value
      *              <br><br><b>Example :</b><br>
      *              <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Stack API key
-     * //'blt6d0240b5sample254090d' is dummy access token.
-     * Stack stack = Contentstack.stack( "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     * Entry entry = stack.contentType("form_name").entry("entry_uid");
-     * entry.setHeader("custom_header_key", "custom_header_value");
-     * </pre>
+     *              //'blt5d4sample2633b' is a dummy Stack API key
+     *              //'blt6d0240b5sample254090d' is dummy access token.
+     *              Stack stack = Contentstack.stack( "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *              Entry entry = stack.contentType("form_name").entry("entry_uid");
+     *              entry.setHeader("custom_header_key", "custom_header_value");
+     *              </pre>
      */
 
     public void setHeader(String key, String value) {
@@ -103,12 +103,12 @@ public class Entry {
      * @param key custom_header_key
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *  //'blt5d4sample2633b' is a dummy Stack API key
-     *  //'blt6d0240b5sample254090d' is dummy access token.
-     *  Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *  Entry entry = stack.contentType("form_name").entry("entry_uid");
-     *  entry.removeHeader("custom_header_key");
-     *  </pre>
+     *             //'blt5d4sample2633b' is a dummy Stack API key
+     *             //'blt6d0240b5sample254090d' is dummy access token.
+     *             Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *             Entry entry = stack.contentType("form_name").entry("entry_uid");
+     *             entry.removeHeader("custom_header_key");
+     *             </pre>
      */
 
     public void removeHeader(String key) {
@@ -287,8 +287,8 @@ public class Entry {
      * @param key field_uid as key.
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *                                  Object obj = entry.get("key");
-     *                                  </pre>
+     *                                             Object obj = entry.get("key");
+     *                                             </pre>
      * @return Object @resultJson
      */
     public Object get(String key) {
@@ -310,8 +310,8 @@ public class Entry {
      * @param key field_uid as key.
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *                                  String value = entry.getString("key");
-     *                                  </pre>
+     *                                             String value = entry.getString("key");
+     *                                             </pre>
      * @return String @getString
      */
 
@@ -331,8 +331,8 @@ public class Entry {
      * @param key field_uid as key.
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *                                  Boolean value = entry.getBoolean("key");
-     *                                  </pre>
+     *                                             Boolean value = entry.getBoolean("key");
+     *                                             </pre>
      * @return boolean @getBoolean
      */
 
@@ -352,8 +352,8 @@ public class Entry {
      * @param key field_uid as key.
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *                                  JSONArray value = entry.getJSONArray("key");
-     *                                  </pre>
+     *                                             JSONArray value = entry.getJSONArray("key");
+     *                                             </pre>
      * @return JSONArray @getJSONArray
      */
 
@@ -373,8 +373,8 @@ public class Entry {
      * @param key field_uid as key.
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *                                  JSONObject value = entry.getJSONObject("key");
-     *                                  </pre>
+     *                                             JSONObject value = entry.getJSONObject("key");
+     *                                             </pre>
      * @return JSONObject @getJSONObject
      */
     public JSONObject getJSONObject(String key) {
@@ -393,8 +393,8 @@ public class Entry {
      * @param key field_uid as key.
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *                                  JSONObject value = entry.getJSONObject("key");
-     *                                  </pre>
+     *                                             JSONObject value = entry.getJSONObject("key");
+     *                                             </pre>
      * @return Number @getNumber
      */
 
@@ -414,8 +414,8 @@ public class Entry {
      * @param key field_uid as key.
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *  int value = entry.getInt("key");
-     *  </pre>
+     *             int value = entry.getInt("key");
+     *             </pre>
      * @return int @getInt
      */
 
@@ -471,8 +471,8 @@ public class Entry {
      * @param key field_uid as key.
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *                                  long value = entry.getLong("key");
-     *                                  </pre>
+     *                                             long value = entry.getLong("key");
+     *                                             </pre>
      * @return long @getLong
      */
 
@@ -491,8 +491,8 @@ public class Entry {
      *
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *                                  short value = entry.getShort("key");
-     *                                  </pre>
+     *                                             short value = entry.getShort("key");
+     *                                             </pre>
      * @return short @getShort
      */
     public short getShort(String key) {
@@ -509,8 +509,8 @@ public class Entry {
      * @param key field_uid as key.
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *                                  Calendar value = entry.getDate("key");
-     *                                  </pre>
+     *                                             Calendar value = entry.getDate("key");
+     *                                             </pre>
      * @return Calendar @getDate
      */
 
@@ -676,9 +676,9 @@ public class Entry {
      * @param key field_uid as key.
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *                                  Group innerGroup = entry.getGroup("key");
-     *                                  @return null
-     *                                  </pre>
+     *                                             Group innerGroup = entry.getGroup("key");
+     *                                             @return null
+     *                                             </pre>
      */
     public Group getGroup(String key) {
 
@@ -1003,18 +1003,18 @@ public class Entry {
      * @param callBack {@link EntryResultCallBack} object to notify the application when the request has completed.
      *                 <br><br><b>Example :</b><br>
      *                 <pre class="prettyprint">
-     *                                                    //'blt5d4sample2633b' is a dummy Stack API key
-     *                                                    //'blt6d0240b5sample254090d' is dummy access token.
-     *                                                    {@code
-     *                                                    Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *                                                    Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
-     *                                                    entry.fetch(new EntryResultCallBack() {<br>
-     *                                                           &#64;Override
-     *                                                           public void onCompletion(ResponseType responseType, Error error) {
-     *                                                           }<br>
-     *                                                    });<br>
-     *                                                      }
-     *                                                   </pre>
+     *                                                                    //'blt5d4sample2633b' is a dummy Stack API key
+     *                                                                    //'blt6d0240b5sample254090d' is dummy access token.
+     *                                                                    {@code
+     *                                                                    Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
+     *                                                                    Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
+     *                                                                    entry.fetch(new EntryResultCallBack() {<br>
+     *                                                                           &#64;Override
+     *                                                                           public void onCompletion(ResponseType responseType, Error error) {
+     *                                                                           }<br>
+     *                                                                    });<br>
+     *                                                                      }
+     *                                                                   </pre>
      */
 
     public void fetch(EntryResultCallBack callBack) {

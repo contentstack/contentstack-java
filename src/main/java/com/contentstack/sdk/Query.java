@@ -1,9 +1,11 @@
 package com.contentstack.sdk;
+
 import com.contentstack.sdk.utility.CSAppConstants;
 import com.contentstack.sdk.utility.CSController;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -19,9 +21,9 @@ public class Query implements INotifyClass {
     private static final Logger logger = Logger.getLogger(Query.class.getSimpleName());
     protected ContentType contentTypeInstance = null;
     protected LinkedHashMap<String, Object> formHeader = null;
+    protected JSONObject urlQueries = null;
     private JSONObject mainJSON = null;
     private String formName = null;
-    protected JSONObject urlQueries = null;
     private LinkedHashMap<String, Object> localHeader = null;
     private QueryResultsCallBack queryResultCallback;
     private SingleQueryResultCallback singleQueryResultCallback;
@@ -59,12 +61,12 @@ public class Query implements INotifyClass {
      *
      * @param key   header name.
      * @param value header value against given header name.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
-     * Query csQuery = stack.contentType("contentType_name").query();<br>
-     * csQuery.setHeader("custom_key", "custom_value");
-     * </pre>
+     *              <br><br><b>Example :</b><br>
+     *              <pre class="prettyprint">
+     *              Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
+     *              Query csQuery = stack.contentType("contentType_name").query();<br>
+     *              csQuery.setHeader("custom_key", "custom_value");
+     *              </pre>
      */
     public void setHeader(String key, String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
@@ -77,12 +79,12 @@ public class Query implements INotifyClass {
      * Remove header key @param key custom_header_key
      *
      * @param key {@link String}
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
-     * Query csQuery = stack.contentType("contentType_name").query();<br>
-     * csQuery.removeHeader("custom_key");
-     * </pre>
+     *            <br><br><b>Example :</b><br>
+     *            <pre class="prettyprint">
+     *            Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
+     *            Query csQuery = stack.contentType("contentType_name").query();<br>
+     *            csQuery.removeHeader("custom_key");
+     *            </pre>
      */
     public void removeHeader(String key) {
         if (!key.isEmpty()) {
@@ -1614,7 +1616,7 @@ public class Query implements INotifyClass {
      * This method adds key and value to an Entry.
      * Parameters:
      *
-     * @param key: The key as string which needs to be added to the Query
+     * @param key:   The key as string which needs to be added to the Query
      * @param value: The value as string which needs to be added to the Query
      * @return - Query
      *
@@ -1646,6 +1648,7 @@ public class Query implements INotifyClass {
 
     /**
      * This method also includes the content type UIDs of the referenced entries returned in the response
+     *
      * @return {@link Query}
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -1675,7 +1678,7 @@ public class Query implements INotifyClass {
      * Get entries having values based on referenced fields.
      * This query retrieves all entries that satisfy the query conditions made on referenced fields.
      *
-     * @param key  The key to be constrained
+     * @param key         The key to be constrained
      * @param queryObject {@link Query} object, so you can chain this call
      * @return {@link Query} object, so you can chain this call
      * <br><br><b>Example :</b><br>
@@ -1734,6 +1737,7 @@ public class Query implements INotifyClass {
 
     /**
      * Retrieve the published content of the fallback locale if an entry is not localized in specified locale
+     *
      * @return {@link Query} object, so you can chain this call.
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -1748,11 +1752,12 @@ public class Query implements INotifyClass {
     }
 
     /**
-     *  includeEmbeddedItems instance of Query
-     *  Include Embedded Objects (Entries and Assets) along with entry/entries details.<br>
-     *  Stack stack = Contentstack.stack( "ApiKey", "deliveryToken", "environment");
-     *  final Query query = stack.contentType("user").query();
-     *  query = query.includeEmbeddedObjects()
+     * includeEmbeddedItems instance of Query
+     * Include Embedded Objects (Entries and Assets) along with entry/entries details.<br>
+     * Stack stack = Contentstack.stack( "ApiKey", "deliveryToken", "environment");
+     * final Query query = stack.contentType("user").query();
+     * query = query.includeEmbeddedObjects()
+     *
      * @return {@link Query}
      */
     public Query includeEmbeddedItems() {
