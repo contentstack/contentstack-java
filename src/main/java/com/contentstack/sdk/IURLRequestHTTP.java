@@ -1,37 +1,39 @@
 package com.contentstack.sdk;
+
 import com.contentstack.sdk.utility.CSAppConstants;
 import org.json.JSONObject;
+
 import java.util.LinkedHashMap;
 
 public interface IURLRequestHTTP {
 
     public void send();
 
-    public void setHeaders(LinkedHashMap<String, Object> headers);
-
     public LinkedHashMap<String, String> getHeaders();
 
-    public void setRequestMethod(CSAppConstants.RequestMethod requestMethod);
+    public void setHeaders(LinkedHashMap<String, Object> headers);
 
     public CSAppConstants.RequestMethod getRequestMethod();
 
-    public JSONObject getResponse();
+    public void setRequestMethod(CSAppConstants.RequestMethod requestMethod);
 
-    public void setInfo(String info);
+    public JSONObject getResponse();
 
     public String getInfo();
 
-    public void setController(String controller);
+    public void setInfo(String info);
 
     public String getController();
 
-    public void setCallBackObject(ResultCallBack builtResultCallBackObject);
+    public void setController(String controller);
 
     public ResultCallBack getCallBackObject();
 
-    public void setTreatDuplicateKeysAsArrayItems(boolean treatDuplicateKeysAsArrayItems);
+    public void setCallBackObject(ResultCallBack builtResultCallBackObject);
 
     public boolean getTreatDuplicateKeysAsArrayItems();
+
+    public void setTreatDuplicateKeysAsArrayItems(boolean treatDuplicateKeysAsArrayItems);
 
 
 }

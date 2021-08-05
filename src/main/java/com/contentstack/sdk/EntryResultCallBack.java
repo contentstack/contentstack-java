@@ -1,15 +1,16 @@
 package com.contentstack.sdk;
 
-public abstract class EntryResultCallBack extends ResultCallBack{
+public abstract class EntryResultCallBack extends ResultCallBack {
 
     /**
      * Triggered after call execution complete.
+     *
      * @param responseType call response from cache or network.
-     * @param error {@link Error} instance if call failed else null.
+     * @param error        {@link Error} instance if call failed else null.
      */
     public abstract void onCompletion(ResponseType responseType, Error error);
 
-    void onRequestFinish(ResponseType responseType){
+    void onRequestFinish(ResponseType responseType) {
         onCompletion(responseType, null);
     }
 
@@ -19,5 +20,6 @@ public abstract class EntryResultCallBack extends ResultCallBack{
     }
 
     @Override
-    public void always() { }
+    public void always() {
+    }
 }

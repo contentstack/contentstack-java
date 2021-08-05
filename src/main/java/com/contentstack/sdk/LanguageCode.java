@@ -2,8 +2,8 @@ package com.contentstack.sdk;
 
 /**
  * LanguageCode
- * @deprecated
- * This Enum is no longer acceptable to apply {@link LanguageCode}.
+ *
+ * @deprecated This Enum is no longer acceptable to apply {@link LanguageCode}.
  * <p> Use {@link Entry entry.setLocale("en-us")} instead.
  */
 @Deprecated
