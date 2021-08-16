@@ -44,10 +44,10 @@ public class AssetLibrary implements INotifyClass {
      *
      *              <br><br><b>Example :</b><br>
      *              <pre class="prettyprint">
-     *              //'blt5d4sample2633b' is a dummy Application API key
-     *              AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     *              assetLibObject.setHeader("custom_header_key", "custom_header_value");
-     *              </pre>
+     *                                                                  //'blt5d4sample2633b' is a dummy Application API key
+     *                                                                  AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     *                                                                  assetLibObject.setHeader("custom_header_key", "custom_header_value");
+     *                                                                  </pre>
      */
     public void setHeader(String key, String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
@@ -63,11 +63,11 @@ public class AssetLibrary implements INotifyClass {
      * @param key header key.
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *            //'blt5d4sample2633b' is a dummy Application API key
-     *            AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     *                                                        //'blt5d4sample2633b' is a dummy Application API key
+     *                                                        AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
      *
-     *            assetLibObject.removeHeader("custom_header_key");
-     *            </pre>
+     *                                                        assetLibObject.removeHeader("custom_header_key");
+     *                                                        </pre>
      */
     public void removeHeader(String key) {
         if (!key.isEmpty()) {
@@ -165,18 +165,18 @@ public class AssetLibrary implements INotifyClass {
      *
      *                       <br><br><b>Example :</b><br>
      *                       <pre class="prettyprint">
-     *                         AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     *                         assetLibObject.fetchAll(new FetchAssetsCallback() {
-     *                         {@code public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) }{
-     *                            if (error == null) {
-     *                               //Success Block.
-     *                            } else {
-     *                               //Error Block.
-     *                            }
-     *                         }
-     *                        });
+     *                                                                                                                 AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     *                                                                                                                 assetLibObject.fetchAll(new FetchAssetsCallback() {
+     *                                                                                                                 {@code public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) }{
+     *                                                                                                                    if (error == null) {
+     *                                                                                                                       //Success Block.
+     *                                                                                                                    } else {
+     *                                                                                                                       //Error Block.
+     *                                                                                                                    }
+     *                                                                                                                 }
+     *                                                                                                                });
      *
-     *                       </pre>
+     *                                                                                                               </pre>
      */
     public void fetchAll(FetchAssetsCallback assetsCallback) {
         try {

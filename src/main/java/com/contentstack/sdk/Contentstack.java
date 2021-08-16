@@ -64,8 +64,8 @@ public class Contentstack {
      * @return {@link Stack} instance.
      * @throws Exception <br><br><b>Example :</b><br>
      *                   <pre class="prettyprint">
-     *                   Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
-     *                   </pre>
+     *                                     Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
+     *                                     </pre>
      */
 
     public static Stack stack(String stackApiKey, String accessToken, String environment, Config config) throws Exception {
@@ -105,10 +105,10 @@ public class Contentstack {
      * @return {@link Stack} instance.
      * @throws Exception <br><br><b>Example :</b><br>
      *                   <pre class="prettyprint">
-     *                   //'blt5d4sample2633b' is a dummy Stack API key
-     *                   //'blt6d0240b5sample254090d' is dummy access token.
-     *                   Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
-     *                   </pre>
+     *                                     //'blt5d4sample2633b' is a dummy Stack API key
+     *                                     //'blt6d0240b5sample254090d' is dummy access token.
+     *                                     Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
+     *                                     </pre>
      */
 
     private static Stack initializeStack(String stackApiKey, String accessToken, Config config) {

@@ -207,6 +207,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
         } else {
             url = urlPath;
         }
+
         try {
             sendGET(url);
         } catch (IOException | JSONException e) {
