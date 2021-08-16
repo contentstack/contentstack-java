@@ -63,10 +63,10 @@ public class Query implements INotifyClass {
      * @param value header value against given header name.
      *              <br><br><b>Example :</b><br>
      *              <pre class="prettyprint">
-     *              Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
-     *              Query csQuery = stack.contentType("contentType_name").query();<br>
-     *              csQuery.setHeader("custom_key", "custom_value");
-     *              </pre>
+     *                                                     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
+     *                                                     Query csQuery = stack.contentType("contentType_name").query();<br>
+     *                                                     csQuery.setHeader("custom_key", "custom_value");
+     *                                                     </pre>
      */
     public void setHeader(String key, String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
@@ -81,10 +81,10 @@ public class Query implements INotifyClass {
      * @param key {@link String}
      *            <br><br><b>Example :</b><br>
      *            <pre class="prettyprint">
-     *            Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
-     *            Query csQuery = stack.contentType("contentType_name").query();<br>
-     *            csQuery.removeHeader("custom_key");
-     *            </pre>
+     *                                             Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
+     *                                             Query csQuery = stack.contentType("contentType_name").query();<br>
+     *                                             csQuery.removeHeader("custom_key");
+     *                                             </pre>
      */
     public void removeHeader(String key) {
         if (!key.isEmpty()) {
@@ -1327,7 +1327,6 @@ public class Query implements INotifyClass {
      * </pre>
      */
     public Query find(QueryResultsCallBack callback) {
-
         Error error = null;
         try {
             if (isJsonProper) {
@@ -1384,9 +1383,7 @@ public class Query implements INotifyClass {
                         limit = (int) urlQueries.get("limit");
                     }
                     urlQueries.put("limit", 1);
-
                     execQuery(callBack, null, false);
-
                     if (limit != -1) {
                         urlQueries.put("limit", limit);
                     }
@@ -1435,16 +1432,12 @@ public class Query implements INotifyClass {
             }
 
             if (objectUidForExcept != null && objectUidForExcept.length() > 0) {
-                //JSONObject exceptValueJson = new JSONObject();
-                //exceptValueJson.put("BASE", objectUidForExcept);
                 urlQueries.put("except[BASE][]", objectUidForExcept);
                 objectUidForExcept = null;
 
             }
 
             if (objectUidForOnly != null && objectUidForOnly.length() > 0) {
-                //JSONObject onlyValueJson = new JSONObject();
-                //onlyValueJson.put("BASE", objectUidForOnly);
                 urlQueries.put("only[BASE][]", objectUidForOnly);
                 objectUidForOnly = null;
 
@@ -1473,7 +1466,6 @@ public class Query implements INotifyClass {
 
     protected void execQuery(SingleQueryResultCallback callBack, QueryResultsCallBack callback, boolean isFromLocal) {
         try {
-
             String URL = "/" + contentTypeInstance.stackInstance.VERSION + "/content_types/" + formName + "/entries";
             queryResultCallback = callback;
             singleQueryResultCallback = callBack;
@@ -1485,6 +1477,9 @@ public class Query implements INotifyClass {
                 if (headers.containsKey("environment")) {
                     urlQueries.put("environment", headers.get("environment"));
                 }
+
+                checkLivePreview(headers);
+
                 mainJSON.put("query", urlQueries);
                 mainJSON.put("_method", CSAppConstants.RequestMethod.GET.toString());
                 fetchFromNetwork(URL, headers, mainJSON, callback, callBack);
@@ -1494,6 +1489,28 @@ public class Query implements INotifyClass {
         } catch (Exception e) {
             logger.severe(e.getLocalizedMessage());
             throwException("find", CSAppConstants.ErrorMessage_QueryFilterException, e);
+        }
+
+    }
+
+    private void checkLivePreview(LinkedHashMap<String, Object> headers) {
+        // Step 1: check live preview enabled
+        Config configInstance = contentTypeInstance.stackInstance.config;
+        if (configInstance.enableLivePreview) {
+            // Step 2: check and compare content type
+            if (configInstance.livePreviewContentType.equalsIgnoreCase(formName)) {
+                // Step 3: check host and replace with new host
+                if (configInstance.livePreviewHost != null) {
+                    configInstance.setHost(configInstance.livePreviewHost);
+                }
+                // Step 4: Remove access_token from header
+                headers.remove("access_token");
+                // Remove environment from  urlQueries
+                urlQueries.remove("environment");
+                // Add Management token to the Authorization
+                headers.remove("environment");
+                headers.put("authorization", configInstance.managementToken);
+            }
         }
 
     }

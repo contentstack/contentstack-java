@@ -6,11 +6,16 @@ package com.contentstack.sdk;
 
 public class Config {
 
+    public String livePreviewHash = null;
+    public String livePreviewContentType = null;
     protected String URL_SCHEMA = "https://";
     protected String URL = "cdn.contentstack.io";
     protected String VERSION = "v3";
     protected String environment = null;
+    protected boolean enableLivePreview = false;
+    protected String livePreviewHost;
     protected ContentstackRegion region = ContentstackRegion.US;
+    protected String managementToken;
 
     /**
      * Config constructor
@@ -65,13 +70,13 @@ public class Config {
      *
      * @param hostName host name.
      *
-     *                 <p>
-     *                 <b>Note:</b> Default hostname sets to <a href ="https://cdn.contentstack.io"> cdn.contentstack.io </a>
-     *                 and default protocol is HTTPS.
-     *                 <br><br><b>Example :</b><br>
-     *                 <pre class="prettyprint">
-     *                 config.setHost("cdn.contentstack.io");
-     *                 </pre>
+     *<p>
+     *<b>Note:</b> Default hostname sets to <a href ="https://cdn.contentstack.io"> cdn.contentstack.io </a>
+     *and default protocol is HTTPS.
+     *<br><br><b>Example :</b><br>
+     *<pre class="prettyprint">
+     *config.setHost("cdn.contentstack.io");
+     *</pre>
      */
 
     public void setHost(String hostName) {
@@ -98,10 +103,10 @@ public class Config {
      *
      * @param version version string.
      *
-     *                <br><br><b>Example :</b><br>
-     *                <pre class="prettyprint">
-     *                     config.setVersion("v3");
-     *                </pre>
+     *<br><br><b>Example :</b><br>
+     *<pre class="prettyprint">
+     *config.setVersion("v3");
+     *</pre>
      */
     private void setVersion(String version) {
         if (version != null && !version.isEmpty()) {
@@ -125,12 +130,12 @@ public class Config {
     /**
      * set environment.
      *
-     * @param environment uid/name
+     *@param environment uid/name
      *
-     *                    <br><br><b>Example :</b><br>
-     *                    <pre class="prettyprint">
-     *                     config.setEnvironment("stag", false);
-     *                    </pre>
+     *<br><br><b>Example :</b><br>
+     *<pre class="prettyprint">
+     *config.setEnvironment("stag", false);
+     *</pre>
      */
     protected void setEnvironment(String environment) {
         if (environment != null && !environment.isEmpty()) {
@@ -138,6 +143,36 @@ public class Config {
         }
 
     }
+
+    // Live preview enabler
+    public Config enableLivePreview(boolean enableLivePreview) {
+        // If enabled true and contentType
+        this.enableLivePreview = enableLivePreview;
+        return this;
+    }
+
+    /**
+     * Sets live preview host.
+     *
+     * @param livePreviewHost the live preview host
+     * @return the live preview host
+     */
+    public Config setLivePreviewHost(String livePreviewHost) {
+        this.livePreviewHost = livePreviewHost;
+        return this;
+    }
+
+    /**
+     * Sets authorization.
+     *
+     * @param managementToken the management token
+     * @return the authorization
+     */
+    public Config setAuthorization(String managementToken) {
+        this.managementToken = managementToken;
+        return this;
+    }
+
 
     public enum ContentstackRegion {US, EU}
 
