@@ -1505,10 +1505,13 @@ public class Query implements INotifyClass {
                 }
                 // Step 4: Remove access_token from header
                 headers.remove("access_token");
-                // Remove environment from  urlQueries
                 urlQueries.remove("environment");
-                // Add Management token to the Authorization
                 headers.remove("environment");
+
+                if (configInstance.livePreviewHash == null || configInstance.livePreviewHash.isEmpty()) {
+                    configInstance.livePreviewHash = "init";
+                }
+                headers.put("hash", configInstance.livePreviewHash);
                 headers.put("authorization", configInstance.managementToken);
             }
         }

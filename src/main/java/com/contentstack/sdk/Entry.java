@@ -1082,8 +1082,16 @@ public class Entry {
                     headers.remove("environment");
                     headerAll.remove("environment");
                 }
+
+                if (configInstance.livePreviewHash == null || configInstance.livePreviewHash.isEmpty()) {
+                    configInstance.livePreviewHash = "init";
+                }
+                headers.put("hash", configInstance.livePreviewHash);
                 headers.put("authorization", configInstance.managementToken);
+
                 headerAll.put("authorization", configInstance.managementToken);
+                headerAll.put("hash", configInstance.managementToken);
+
                 urlQueries.remove("environment");
             }
         }

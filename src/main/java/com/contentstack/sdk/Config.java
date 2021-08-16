@@ -6,8 +6,8 @@ package com.contentstack.sdk;
 
 public class Config {
 
-    public String livePreviewHash = null;
-    public String livePreviewContentType = null;
+    protected String livePreviewHash = null;
+    protected String livePreviewContentType = null;
     protected String URL_SCHEMA = "https://";
     protected String URL = "cdn.contentstack.io";
     protected String VERSION = "v3";
