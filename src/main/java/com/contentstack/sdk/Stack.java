@@ -60,7 +60,7 @@ public class Stack {
         // str will contain content type and #hash
         // send management token and hash to the header to the request with access_token and env
         if (this.config.enableLivePreview) {
-            config.livePreviewHash = query.get("hash");
+            config.livePreviewHash = query.get("live_preview");
             config.livePreviewContentType = query.get("content_type_uid");
         }
         return this;
