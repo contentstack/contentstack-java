@@ -1500,9 +1500,7 @@ public class Query implements INotifyClass {
             // Step 2: check and compare content type
             if (configInstance.livePreviewContentType.equalsIgnoreCase(formName)) {
                 // Step 3: check host and replace with new host
-                if (configInstance.livePreviewHost != null) {
-                    configInstance.setHost(configInstance.livePreviewHost);
-                }
+                configInstance.setHost(configInstance.livePreviewHost);
                 // Step 4: Remove access_token from header
                 headers.remove("access_token");
                 urlQueries.remove("environment");
@@ -1511,7 +1509,7 @@ public class Query implements INotifyClass {
                 if (configInstance.livePreviewHash == null || configInstance.livePreviewHash.isEmpty()) {
                     configInstance.livePreviewHash = "init";
                 }
-                headers.put("hash", configInstance.livePreviewHash);
+                headers.put("live_preview", configInstance.livePreviewHash);
                 headers.put("authorization", configInstance.managementToken);
             }
         }
