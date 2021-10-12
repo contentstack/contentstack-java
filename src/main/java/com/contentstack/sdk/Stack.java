@@ -13,14 +13,13 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /**
- * A stack is a repository or a container that holds all the content/assets of your site.
- * It allows multiple users to create, edit, approve,
- * and publish their content within a single space.
+ * A stack is a repository or a container that holds all the content/assets of your site. It allows multiple users to
+ * create, edit, approve, and publish their content within a single space.
  */
 
 public class Stack {
 
-    private static final Logger logger = Logger.getLogger(Stack.class.getSimpleName());
+    private final Logger logger = Logger.getLogger(Stack.class.getSimpleName());
     protected LinkedHashMap<String, Object> localHeader = null;
     protected String URL_SCHEMA = "https://";
     protected String URL = "cdn.contentstack.io";
@@ -35,8 +34,8 @@ public class Stack {
     protected PublishType publishType;
     protected String start_from_date;
     protected HashMap<String, Object> headerGroup_app;
-    protected String livePreviewHash;
-    protected String livePreviewContentType;
+    //    protected String livePreviewHash;
+//    protected String livePreviewContentType;
     private String stackApiKey = null;
     private String imageTransformationUrl;
     private LinkedHashMap<String, Object> imageParams = new LinkedHashMap<>();
@@ -52,7 +51,8 @@ public class Stack {
     }
 
     /**
-     * @param query : HashMap contains query information
+     * @param query
+     *         : HashMap contains query information
      * @return Stack
      */
     public Stack livePreviewQuery(HashMap<String, String> query) {
@@ -86,6 +86,23 @@ public class Stack {
             }
         }
 
+        try {
+            if (config.enableLivePreview) { // enables the livePreview functionality
+                // Validate all others required params are available
+                if (config.managementToken == null || config.managementToken.isEmpty()) {
+                    throw new IllegalAccessException("managementToken is required");
+                }
+                if (config.livePreviewHost == null || config.livePreviewHost.isEmpty()) {
+                    throw new IllegalAccessException("host is required");
+                }
+            }
+        } catch (Exception e) {
+            String info = "To enable live preview, managementToken and host are required";
+            logger.warning(info);
+            throw new IllegalArgumentException(e.getLocalizedMessage());
+        }
+
+
     }
 
     public ContentType contentType(String contentTypeName) {
@@ -98,7 +115,8 @@ public class Stack {
     /**
      * Takes asset uid as a parameter and returns @{@link Asset} instance
      *
-     * @param uid uid of {@link Asset}
+     * @param uid
+     *         uid of {@link Asset}
      * @return Asset instance
      */
     public Asset asset(String uid) {
@@ -145,11 +163,12 @@ public class Stack {
     /**
      * Removes Header by key
      *
-     * @param key header key
-     *            <br><br><b>Example :</b><br>
-     *            stack.removeHeader("delivery_token");
-     *            <br><br>
-     *            </p>
+     * @param key
+     *         header key
+     *         <br><br><b>Example :</b><br>
+     *         stack.removeHeader("delivery_token");
+     *         <br><br>
+     *         </p>
      */
     public void removeHeader(String key) {
         if (!key.isEmpty()) {
@@ -162,12 +181,13 @@ public class Stack {
     /**
      * Adds header to the stack by key and value
      *
-     * @param key   header key
-     * @param value header value
-     *              <p>
-     *              Example
-     *              stack.setHeader("delivery_token","blt843748744");
-     *              </p>
+     * @param key
+     *         header key
+     * @param value
+     *         header value
+     *         <p>
+     *         Example stack.setHeader("delivery_token","blt843748744");
+     *         </p>
      */
     public void setHeader(String key, String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
@@ -176,12 +196,14 @@ public class Stack {
     }
 
     /**
-     * @param image_url  on which we want to manipulate.
-     * @param parameters It is an second parameter in which we want to place different manipulation key and value in array form
+     * @param image_url
+     *         on which we want to manipulate.
+     * @param parameters
+     *         It is an second parameter in which we want to place different manipulation key and value in array form
      * @return String
      * <p>
-     * ImageTransform function is define for image manipulation with different
-     * parameters in second parameter in array form
+     * ImageTransform function is define for image manipulation with different parameters in second parameter in array
+     * form
      *
      * <br><br><b>Example :</b><br>
      * <pre class="prettyprint">
@@ -228,25 +250,26 @@ public class Stack {
     }
 
     /**
-     * @param params   query parameters
-     * @param callback ContentTypesCallback
-     * This call returns comprehensive information of all the content
-     *                 types available in a particular stack in your account.
+     * @param params
+     *         query parameters
+     * @param callback
+     *         ContentTypesCallback This call returns comprehensive information of all the content types available in a
+     *         particular stack in your account.
      *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
+     *         <br><br><b>Example :</b><br>
+     *         <pre class="prettyprint">
      *
-     * JSONObject params = new JSONObject();
-     * params.put("include_snippet_schema", true);
-     * params.put("limit", 3);
-     * stack.getContentTypes(new ContentTypesCallback() {
-     * public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
-     *   if (error == null){
-     *    // do your stuff.
-     * }
-     * }
-     *});
-     *</pre>
+     *         JSONObject params = new JSONObject();
+     *         params.put("include_snippet_schema", true);
+     *         params.put("limit", 3);
+     *         stack.getContentTypes(new ContentTypesCallback() {
+     *         public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
+     *           if (error == null){
+     *            // do your stuff.
+     *         }
+     *         }
+     *         });
+     *         </pre>
      */
 
     public void getContentTypes(JSONObject params, final ContentTypesCallback callback) {
@@ -284,17 +307,16 @@ public class Stack {
     }
 
     /**
-     * @param syncCallBack returns callback for sync result.
-     * The Sync request performs a complete sync of your app data.
-     * It returns all the published entries and assets of the specified stack in response.
-     * The response also contains a sync token, which you need to store,
-     * since this token is used to get subsequent delta updates later.
+     * @param syncCallBack
+     *         returns callback for sync result. The Sync request performs a complete sync of your app data. It returns
+     *         all the published entries and assets of the specified stack in response. The response also contains a
+     *         sync token, which you need to store, since this token is used to get subsequent delta updates later.
      *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
+     *         <br><br><b>Example :</b><br>
+     *         <pre class="prettyprint">
      *
-     * stack.sync(SyncResultCallBack syncCallBack){  }
-     * </pre>
+     *                                                                                 stack.sync(SyncResultCallBack syncCallBack){  }
+     *                                                                                 </pre>
      */
 
     public void sync(SyncResultCallBack syncCallBack) {
@@ -313,20 +335,21 @@ public class Stack {
     }
 
     /**
-     * @param pagination_token If the response is paginated, use the pagination token under this parameter.
-     * @param syncCallBack returns callback for sync result
-     * <p>
-     * If the result of the initial sync (or subsequent sync) contains more than 100 records,
-     * the response would be paginated. It provides pagination token in the response. However,
-     * you do not have to use the pagination token manually to get the next batch,
-     * the SDK does that automatically until the sync is complete.
-     * Pagination token can be used in case you want to fetch only selected batches.
-     * It is especially useful if the sync process is interrupted midway (due to network issues, etc.).
-     * In such cases, this token can be used to restart the sync process from where it was interrupted.
+     * @param pagination_token
+     *         If the response is paginated, use the pagination token under this parameter.
+     * @param syncCallBack
+     *         returns callback for sync result
+     *         <p>
+     *         If the result of the initial sync (or subsequent sync) contains more than 100 records, the response would
+     *         be paginated. It provides pagination token in the response. However, you do not have to use the
+     *         pagination token manually to get the next batch, the SDK does that automatically until the sync is
+     *         complete. Pagination token can be used in case you want to fetch only selected batches. It is especially
+     *         useful if the sync process is interrupted midway (due to network issues, etc.). In such cases, this token
+     *         can be used to restart the sync process from where it was interrupted.
      *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *                                                                                                                         </pre>
+     *         <br><br><b>Example :</b><br>
+     *         <pre class="prettyprint">
+     *                                                                                                                                 </pre>
      */
     public void syncPaginationToken(String pagination_token, SyncResultCallBack syncCallBack) {
         this.pagination_token = pagination_token;
@@ -345,20 +368,22 @@ public class Stack {
     }
 
     /**
-     * @param sync_token   Use the sync token that you received in the previous/initial sync under this parameter.
-     * @param syncCallBack returns callback for sync result
-     * <p>
-     * You can use the sync token (that you receive after initial sync) to get the updated content next time.
-     * The sync token fetches only the content that was added after your last sync,
-     * and the details of the content that was deleted or updated.
+     * @param sync_token
+     *         Use the sync token that you received in the previous/initial sync under this parameter.
+     * @param syncCallBack
+     *         returns callback for sync result
+     *         <p>
+     *         You can use the sync token (that you receive after initial sync) to get the updated content next time.
+     *         The sync token fetches only the content that was added after your last sync, and the details of the
+     *         content that was deleted or updated.
      *
      *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
+     *         <br><br><b>Example :</b><br>
+     *         <pre class="prettyprint">
      *
-     * //dummy sync_token = "blt28937206743728463";
-     * stack.syncToken(sync_token, new SyncResultCallBack() ){ }
-     * </pre>
+     *         //dummy sync_token = "blt28937206743728463";
+     *         stack.syncToken(sync_token, new SyncResultCallBack() ){ }
+     *         </pre>
      */
     public void syncToken(String sync_token, SyncResultCallBack syncCallBack) {
 
@@ -377,18 +402,20 @@ public class Stack {
     }
 
     /**
-     * @param from_date    Enter the start date for initial sync.
-     * @param syncCallBack Returns callback for sync result.
-     *  <p>
-     * You can also initialize sync with entries published after a specific date. To do this, use syncWithDate
-     * and specify the start date as its value.
+     * @param from_date
+     *         Enter the start date for initial sync.
+     * @param syncCallBack
+     *         Returns callback for sync result.
+     *         <p>
+     *         You can also initialize sync with entries published after a specific date. To do this, use syncWithDate
+     *         and specify the start date as its value.
      *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
+     *         <br><br><b>Example :</b><br>
+     *         <pre class="prettyprint">
      *
-     * // dummy date final Date start_date = sdf.parse("2018-10-07");
-     * stack.syncFromDate(start_date, new SyncResultCallBack()) { }
-     * </pre>
+     *         // dummy date final Date start_date = sdf.parse("2018-10-07");
+     *         stack.syncFromDate(start_date, new SyncResultCallBack()) { }
+     *         </pre>
      */
     public void syncFromDate(Date from_date, SyncResultCallBack syncCallBack) {
         start_from_date = convertUTCToISO(from_date);
@@ -414,20 +441,22 @@ public class Stack {
     }
 
     /**
-     * @param content_type Provide uid of your content_type
-     * @param syncCallBack Returns callback for sync result.
-     *                     <p>
-     *                     You can also initialize sync with entries of only specific content_type.
-     *                     To do this, use syncContentType and specify the content type uid as its value.
-     *                     However, if you do this, the subsequent syncs will only include the entries of the specified content_type.
+     * @param content_type
+     *         Provide uid of your content_type
+     * @param syncCallBack
+     *         Returns callback for sync result.
      *
-     *                     <br><br><b>Example :</b><br>
-     *                     <pre class="prettyprint">
+     *         <p>You can also initialize sync with entries of only specific content_type.
+     *         To do this, use syncContentType and specify the content type uid as its value. However, if you do this,
+     *         the subsequent syncs will only include the entries of the specified content_type.
      *
-     *                                                                                                     // dummy content_type like "session"
-     *                                                                                                     stack.syncContentType(String content_type, new SyncResultCallBack()){  }
+     *         <br><br><b>Example :</b><br>
+     *         <pre class="prettyprint">
      *
-     *                                                                                                      </pre>
+     *         // dummy content_type like "session"
+     *         <pre>
+     *         stack.syncContentType(String content_type, new SyncResultCallBack()){  }
+     *         </pre>
      */
     public void syncContentType(String content_type, SyncResultCallBack syncCallBack) {
 
@@ -446,20 +475,20 @@ public class Stack {
     }
 
     /**
-     * @param language     Select the required locale from the Language class.
-     * @param syncCallBack Returns callback for sync result.
-     *                     <p>
-     *                     You can also initialize sync with entries of only specific locales.
-     *                     To do this, use syncLocale and specify the locale code as its value.
-     *                     However, if you do this, the subsequent syncs will only include the entries of the specified locales.
+     * @param language
+     *         Select the required locale from the Language class.
+     * @param syncCallBack
+     *         Returns callback for sync result.
+     *         <p>You can also initialize sync with entries of only specific locales.
+     *         To do this, use syncLocale and specify the locale code as its value. However, if you do this, the
+     *         subsequent syncs will only include the entries of the specified locales.
      *
-     *                     <br><br><b>Example :</b><br>
-     *                     <pre class="prettyprint">
+     *         <br><br><b>Example :</b><br>
+     *         <pre class="prettyprint">
      *
-     *                                                                                                     // dummy language- Language.ENGLISH_UNITED_STATES
-     *                                                                                                     stackInstance.syncLocale(Language.ENGLISH_UNITED_STATES, new SyncResultCallBack() ) { }
-     *
-     *                                                                                                     </pre>
+     *         // dummy language- Language.ENGLISH_UNITED_STATES
+     *         stackInstance.syncLocale(Language.ENGLISH_UNITED_STATES, new SyncResultCallBack() ) { }
+     *         </pre>
      */
     public void syncLocale(Language language, SyncResultCallBack syncCallBack) {
         this.localeCode = getLanguageCode(language);
@@ -494,20 +523,22 @@ public class Stack {
     }
 
     /**
-     * @param type         - Use the type parameter to get a specific type of content
-     *                     like  ( asset_published, entry_published, asset_unpublished, asset_deleted, entry_unpublished, entry_deleted, content_type_deleted.)
-     * @param syncCallBack returns callback for sync result.
-     *                     <p>
-     *                     Use the type parameter to get a specific type of content. You can pass one of the following values:
-     *                     asset_published, entry_published, asset_unpublished, asset_deleted, entry_unpublished, entry_deleted,  content_type_deleted.
-     *                     If you do not specify any value, it will bring all published entries and published assets.
+     * @param type
+     *         Use the type parameter to get a specific type of content like
+     *         <p>(asset_published, entry_published, asset_unpublished,
+     *         asset_deleted, entry_unpublished, entry_deleted, content_type_deleted.)
+     * @param syncCallBack
+     *         returns callback for sync result.
+     *         <p>
+     *         Use the type parameter to get a specific type of content. You can pass one of the following values:
+     *         asset_published, entry_published, asset_unpublished, asset_deleted, entry_unpublished, entry_deleted,
+     *         content_type_deleted. If you do not specify any value, it will bring all published entries and published
+     *         assets.
      *
-     *                     <br><br><b>Example :</b><br>
-     *                     <pre class="prettyprint">
-     *
-     *                                                                                                       stackInstance.syncPublishType(Stack.PublishType.entry_published, new SyncResultCallBack()) { }
-     *
-     *                                                                                                      </pre>
+     *         <br><br><b>Example :</b><br>
+     *         <pre class="prettyprint">
+     *           stackInstance.syncPublishType(Stack.PublishType.entry_published, new SyncResultCallBack()) { }
+     *           </pre>
      */
 
     public void syncPublishType(PublishType type, SyncResultCallBack syncCallBack) {
@@ -527,23 +558,28 @@ public class Stack {
     }
 
     /**
-     * @param contentType  your content type id
-     * @param from_date    start date
-     * @param language     language as {@link Language}
-     * @param type         type as PublishType
-     * @param syncCallBack Callback
-     *                     <p>
-     *                     You can also initialize sync with entries that satisfy multiple parameters.
-     *                     To do this, use syncWith and specify the parameters.
-     *                     However, if you do this, the subsequent syncs will only include the entries of the specified parameters
+     * @param contentType
+     *         your content type id
+     * @param from_date
+     *         start date
+     * @param language
+     *         language as {@link Language}
+     * @param type
+     *         type as PublishType
+     * @param syncCallBack
+     *         Callback
+     *         <p>
+     *         You can also initialize sync with entries that satisfy multiple parameters. To do this, use syncWith and
+     *         specify the parameters. However, if you do this, the subsequent syncs will only include the entries of
+     *         the specified parameters
      *
-     *                     <br><br><b>Example :</b><br>
-     *                     <pre class="prettyprint">
+     *         <br><br><b>Example :</b><br>
+     *         <pre class="prettyprint">
      *
-     *                                                                                                      stackInstance.sync(String contentType, Date from_date, Language language, PublishType type,  SyncResultCallBack syncCallBack) { }
+     *                                                                                                              stackInstance.sync(String contentType, Date from_date, Language language, PublishType type,  SyncResultCallBack syncCallBack) { }
      *
      *
-     *                                                                                                     </pre>
+     *                                                                                                             </pre>
      */
 
     public void sync(String contentType, Date from_date, Language language, PublishType type, SyncResultCallBack syncCallBack) {

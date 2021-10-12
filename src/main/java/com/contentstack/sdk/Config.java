@@ -1,5 +1,7 @@
 package com.contentstack.sdk;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Configuration Support for contentstack
  */
@@ -146,7 +148,7 @@ public class Config {
 
     // Live preview enabler
     public Config enableLivePreview(boolean enableLivePreview) {
-        // If enabled true and contentType
+        // It enables the livePreview
         this.enableLivePreview = enableLivePreview;
         return this;
     }
@@ -157,7 +159,8 @@ public class Config {
      * @param livePreviewHost the live preview host
      * @return the live preview host
      */
-    public Config setLivePreviewHost(String livePreviewHost) {
+    public Config setLivePreviewHost(@NotNull String livePreviewHost) {
+        // It sets the host for the livePreview
         this.livePreviewHost = livePreviewHost;
         return this;
     }
@@ -168,7 +171,8 @@ public class Config {
      * @param managementToken the management token
      * @return the authorization
      */
-    public Config setAuthorization(String managementToken) {
+    public Config setManagementToken(@NotNull String managementToken) {
+        // It sets Management Token for the livePreview
         this.managementToken = managementToken;
         return this;
     }
