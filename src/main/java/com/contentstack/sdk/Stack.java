@@ -95,6 +95,8 @@ public class Stack {
                 if (config.livePreviewHost == null || config.livePreviewHost.isEmpty()) {
                     throw new IllegalAccessException("host is required");
                 }
+
+                URL = config.livePreviewHost;
             }
         } catch (Exception e) {
             String info = "To enable live preview, managementToken and host are required";
