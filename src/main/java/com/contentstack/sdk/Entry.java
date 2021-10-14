@@ -1105,7 +1105,6 @@ public class Entry {
                     headers.remove("environment");
                     headerAll.remove("environment");
                 }
-
                 if (configInstance.livePreviewHash == null || configInstance.livePreviewHash.isEmpty()) {
                     configInstance.livePreviewHash = "init";
                 }
