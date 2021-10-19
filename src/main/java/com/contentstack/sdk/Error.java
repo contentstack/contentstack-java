@@ -1,12 +1,5 @@
 package com.contentstack.sdk;
 
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * If there is something wrong with the API request, Contentstack returns an error.
  */
