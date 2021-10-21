@@ -1,6 +1,5 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.utility.CSAppConstants;
 import org.json.JSONObject;
 
 import java.util.LinkedHashMap;
@@ -13,9 +12,9 @@ public interface IURLRequestHTTP {
 
     public void setHeaders(LinkedHashMap<String, Object> headers);
 
-    public CSAppConstants.RequestMethod getRequestMethod();
+    public Constants.REQUEST_METHOD getRequestMethod();
 
-    public void setRequestMethod(CSAppConstants.RequestMethod requestMethod);
+    public void setRequestMethod(Constants.REQUEST_METHOD requestMethod);
 
     public JSONObject getResponse();
 

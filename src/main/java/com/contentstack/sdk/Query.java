@@ -1,7 +1,5 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSController;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -118,10 +116,10 @@ public class Query implements INotifyClass {
             if (key != null && value != null) {
                 queryValueJSON.put(key, value);
             } else {
-                throwException("where", CSAppConstants.ErrorMessage_QueryFilterException, null);
+                throwException("where", Constants.QUERY_EXCEPTION, null);
             }
         } catch (Exception e) {
-            throwException("where", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("where", Constants.QUERY_EXCEPTION, e);
         }
 
         return this;
@@ -148,10 +146,10 @@ public class Query implements INotifyClass {
 
                 urlQueries.put(key, value);
             } else {
-                throwException("and", CSAppConstants.ErrorMessage_QueryFilterException, null);
+                throwException("and", Constants.QUERY_EXCEPTION, null);
             }
         } catch (Exception e) {
-            throwException("and", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("and", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -173,7 +171,7 @@ public class Query implements INotifyClass {
                 urlQueries.remove(key);
             }
         } catch (Exception e) {
-            throwException("and", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("and", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -214,10 +212,10 @@ public class Query implements INotifyClass {
                 queryValueJSON.put("$and", orValueJson);
 
             } catch (Exception e) {
-                throwException("and", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("and", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("and", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("and", Constants.QUERY_EXCEPTION, null);
         }
 
         return this;
@@ -260,10 +258,10 @@ public class Query implements INotifyClass {
                 queryValueJSON.put("$or", orValueJson);
 
             } catch (Exception e) {
-                throwException("or", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("or", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("or", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("or", Constants.QUERY_EXCEPTION, null);
         }
 
         return this;
@@ -297,10 +295,10 @@ public class Query implements INotifyClass {
                     queryValueJSON.put(key, queryValue);
                 }
             } catch (Exception e) {
-                throwException("lessThan", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("lessThan", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("lessThan", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("lessThan", Constants.QUERY_EXCEPTION, null);
         }
 
         return this;
@@ -337,10 +335,10 @@ public class Query implements INotifyClass {
                     queryValueJSON.put(key, queryValue);
                 }
             } catch (Exception e) {
-                throwException("lessThanOrEqualTo", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("lessThanOrEqualTo", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("lessThanOrEqualTo", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("lessThanOrEqualTo", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -375,10 +373,10 @@ public class Query implements INotifyClass {
                     queryValueJSON.put(key, queryValue);
                 }
             } catch (Exception e) {
-                throwException("greaterThan", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("greaterThan", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("greaterThan", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("greaterThan", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -413,10 +411,10 @@ public class Query implements INotifyClass {
                     queryValueJSON.put(key, queryValue);
                 }
             } catch (Exception e) {
-                throwException("greaterThanOrEqualTo", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("greaterThanOrEqualTo", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("greaterThanOrEqualTo", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("greaterThanOrEqualTo", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -457,7 +455,7 @@ public class Query implements INotifyClass {
             }
 
         } else {
-            throwException("notEqualTo", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("notEqualTo", Constants.QUERY_EXCEPTION, null);
         }
 
         return this;
@@ -498,10 +496,10 @@ public class Query implements INotifyClass {
                     queryValueJSON.put(key, queryValue);
                 }
             } catch (Exception e) {
-                throwException("containedIn", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("containedIn", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("containedIn", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("containedIn", Constants.QUERY_EXCEPTION, null);
         }
 
         return this;
@@ -543,10 +541,10 @@ public class Query implements INotifyClass {
                     queryValueJSON.put(key, queryValue);
                 }
             } catch (Exception e) {
-                throwException("containedIn", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("containedIn", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("containedIn", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("containedIn", Constants.QUERY_EXCEPTION, null);
         }
 
         return this;
@@ -581,10 +579,10 @@ public class Query implements INotifyClass {
                     queryValueJSON.put(key, queryValue);
                 }
             } catch (Exception e) {
-                throwException("exists", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("exists", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("exists", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("exists", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -619,10 +617,10 @@ public class Query implements INotifyClass {
                     queryValueJSON.put(key, queryValue);
                 }
             } catch (Exception e) {
-                throwException("notExists", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("notExists", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("notExists", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("notExists", Constants.QUERY_EXCEPTION, null);
         }
 
         return this;
@@ -674,10 +672,10 @@ public class Query implements INotifyClass {
                 }
                 urlQueries.put("tags", tagsvalue);
             } else {
-                throwException("tags", CSAppConstants.ErrorMessage_QueryFilterException, null);
+                throwException("tags", Constants.QUERY_EXCEPTION, null);
             }
         } catch (Exception e) {
-            throwException("tags", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("tags", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -704,10 +702,10 @@ public class Query implements INotifyClass {
             try {
                 urlQueries.put("asc", key);
             } catch (Exception e) {
-                throwException("ascending", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("ascending", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("ascending", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("ascending", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -732,10 +730,10 @@ public class Query implements INotifyClass {
             try {
                 urlQueries.put("desc", key);
             } catch (Exception e) {
-                throwException("descending", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("descending", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("descending", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("descending", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -768,10 +766,10 @@ public class Query implements INotifyClass {
                     objectUidForExcept.put(fieldUid.get(i));
                 }
             } else {
-                throwException("except", CSAppConstants.ErrorMessage_QueryFilterException, null);
+                throwException("except", Constants.QUERY_EXCEPTION, null);
             }
         } catch (Exception e) {
-            throwException("except", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("except", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -800,10 +798,10 @@ public class Query implements INotifyClass {
                     objectUidForExcept.put(fieldUids[i]);
                 }
             } else {
-                throwException("except", CSAppConstants.ErrorMessage_QueryFilterException, null);
+                throwException("except", Constants.QUERY_EXCEPTION, null);
             }
         } catch (Exception e) {
-            throwException("except", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("except", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -832,10 +830,10 @@ public class Query implements INotifyClass {
                     objectUidForOnly.put(fieldUid[i]);
                 }
             } else {
-                throwException("only", CSAppConstants.ErrorMessage_QueryFilterException, null);
+                throwException("only", Constants.QUERY_EXCEPTION, null);
             }
         } catch (Exception e) {
-            throwException("only", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("only", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -876,10 +874,10 @@ public class Query implements INotifyClass {
                 objectUidForInclude.put(referenceFieldUid);
 
             } else {
-                throwException("onlyWithReferenceUid", CSAppConstants.ErrorMessage_QueryFilterException, null);
+                throwException("onlyWithReferenceUid", Constants.QUERY_EXCEPTION, null);
             }
         } catch (Exception e) {
-            throwException("onlyWithReferenceUid", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("onlyWithReferenceUid", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -918,10 +916,10 @@ public class Query implements INotifyClass {
                 }
                 objectUidForInclude.put(referenceFieldUid);
             } else {
-                throwException("exceptWithReferenceUid", CSAppConstants.ErrorMessage_QueryFilterException, null);
+                throwException("exceptWithReferenceUid", Constants.QUERY_EXCEPTION, null);
             }
         } catch (Exception e) {
-            throwException("exceptWithReferenceUid", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("exceptWithReferenceUid", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -944,7 +942,7 @@ public class Query implements INotifyClass {
         try {
             urlQueries.put("count", "true");
         } catch (Exception e) {
-            throwException("count", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("count", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -967,7 +965,7 @@ public class Query implements INotifyClass {
         try {
             urlQueries.put("include_count", "true");
         } catch (Exception e) {
-            throwException("includeCount", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("includeCount", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -992,7 +990,7 @@ public class Query implements INotifyClass {
             urlQueries.put("include_content_type", true);
             urlQueries.put("include_global_field_schema", true);
         } catch (Exception e) {
-            throwException("include_content_type", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("include_content_type", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -1013,7 +1011,7 @@ public class Query implements INotifyClass {
         try {
             urlQueries.put("include_owner", true);
         } catch (Exception e) {
-            throwException("includeUser", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("includeUser", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -1038,10 +1036,10 @@ public class Query implements INotifyClass {
             try {
                 urlQueries.put("before_uid", uid);
             } catch (Exception e) {
-                throwException("beforeUid", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("beforeUid", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("beforeUid", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("beforeUid", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -1065,10 +1063,10 @@ public class Query implements INotifyClass {
             try {
                 urlQueries.put("after_uid", uid);
             } catch (Exception e) {
-                throwException("afterUid", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("afterUid", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("afterUid", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("afterUid", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -1093,7 +1091,7 @@ public class Query implements INotifyClass {
         try {
             urlQueries.put("skip", number);
         } catch (Exception e) {
-            throwException("skip", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("skip", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -1118,7 +1116,7 @@ public class Query implements INotifyClass {
         try {
             urlQueries.put("limit", number);
         } catch (Exception e) {
-            throwException("limit", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("limit", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -1155,10 +1153,10 @@ public class Query implements INotifyClass {
                     queryValueJSON.put(key, queryValue);
                 }
             } catch (Exception e) {
-                throwException("matches", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("matches", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("matches", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("matches", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -1206,10 +1204,10 @@ public class Query implements INotifyClass {
                     queryValueJSON.put(key, queryValue);
                 }
             } catch (Exception e) {
-                throwException("matches", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("matches", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("matches", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("matches", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -1243,10 +1241,10 @@ public class Query implements INotifyClass {
                 }
 
             } catch (Exception e) {
-                throwException("language", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("language", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("language", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("language", Constants.QUERY_EXCEPTION, null);
         }
 
         return this;
@@ -1300,10 +1298,10 @@ public class Query implements INotifyClass {
                     urlQueries.put("typeahead", value);
                 }
             } catch (Exception e) {
-                throwException("value", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("value", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("value", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("value", Constants.QUERY_EXCEPTION, null);
         }
 
         return this;
@@ -1333,7 +1331,7 @@ public class Query implements INotifyClass {
                 if (!formName.isEmpty()) {
                     execQuery(null, callback, false);
                 } else {
-                    throwException("find", CSAppConstants.ErrorMessage_FormName, null);
+                    throwException("find", Constants.CONTENT_TYPE_NAME, null);
                     error = new Error();
                     error.setErrorMessage(errorString);
                 }
@@ -1343,7 +1341,7 @@ public class Query implements INotifyClass {
             }
         } catch (Exception e) {
             logger.severe(e.getLocalizedMessage());
-            throwException("find", CSAppConstants.ErrorMessage_JsonNotProper, null);
+            throwException("find", Constants.JSON_NOT_PROPER, null);
             error = new Error();
             error.setErrorMessage(errorString);
         }
@@ -1390,7 +1388,7 @@ public class Query implements INotifyClass {
 
                 } else {
 
-                    throwException("find", CSAppConstants.ErrorMessage_FormName, null);
+                    throwException("find", Constants.CONTENT_TYPE_NAME, null);
                     error = new Error();
                     error.setErrorMessage(errorString);
                 }
@@ -1401,7 +1399,7 @@ public class Query implements INotifyClass {
             }
         } catch (Exception e) {
 
-            throwException("find", CSAppConstants.ErrorMessage_JsonNotProper, null);
+            throwException("find", Constants.JSON_NOT_PROPER, null);
             error = new Error();
             error.setErrorMessage(errorString);
         }
@@ -1459,7 +1457,7 @@ public class Query implements INotifyClass {
             }
 
         } catch (Exception e) {
-            throwException("find", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("find", Constants.QUERY_EXCEPTION, e);
         }
     }
 
@@ -1472,7 +1470,7 @@ public class Query implements INotifyClass {
             setQueryJson(callback);
             LinkedHashMap<String, Object> headers = getHeader(localHeader);
             if (headers.size() < 1) {
-                throwException("find", CSAppConstants.ErrorMessage_CalledDefaultMethod, null);
+                throwException("find", Constants.CALL_STACK, null);
             } else {
                 if (headers.containsKey("environment")) {
                     urlQueries.put("environment", headers.get("environment"));
@@ -1481,14 +1479,14 @@ public class Query implements INotifyClass {
                 checkLivePreview(headers);
 
                 mainJSON.put("query", urlQueries);
-                mainJSON.put("_method", CSAppConstants.RequestMethod.GET.toString());
+                mainJSON.put("_method", Constants.REQUEST_METHOD.GET.toString());
                 fetchFromNetwork(URL, headers, mainJSON, callback, callBack);
             }
 
 
         } catch (Exception e) {
             logger.severe(e.getLocalizedMessage());
-            throwException("find", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("find", Constants.QUERY_EXCEPTION, e);
         }
 
     }
@@ -1521,9 +1519,9 @@ public class Query implements INotifyClass {
     private void fetchFromNetwork(String URL, LinkedHashMap<String, Object> headers, JSONObject jsonMain, ResultCallBack callback, SingleQueryResultCallback resultCallback) {
         LinkedHashMap<String, Object> urlParams = getUrlParams(jsonMain);
         if (resultCallback != null) {
-            new CSBackgroundTask(this, contentTypeInstance.stackInstance, CSController.SINGLEQUERYOBJECT, URL, headers, urlParams, new JSONObject(), CSAppConstants.callController.QUERY.toString(), CSAppConstants.RequestMethod.GET, resultCallback);
+            new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.SINGLEQUERYOBJECT, URL, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.QUERY.toString(), Constants.REQUEST_METHOD.GET, resultCallback);
         } else {
-            new CSBackgroundTask(this, contentTypeInstance.stackInstance, CSController.QUERYOBJECT, URL, headers, urlParams, new JSONObject(), CSAppConstants.callController.QUERY.toString(), CSAppConstants.RequestMethod.GET, callback);
+            new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.QUERYOBJECT, URL, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.QUERY.toString(), Constants.REQUEST_METHOD.GET, callback);
         }
     }
 
@@ -1655,10 +1653,10 @@ public class Query implements INotifyClass {
             if (key != null) {
                 urlQueries.put(key, value == null ? JSONObject.NULL : value);
             } else {
-                throwException("and", CSAppConstants.ErrorMessage_QueryFilterException, null);
+                throwException("and", Constants.QUERY_EXCEPTION, null);
             }
         } catch (Exception e) {
-            throwException("and", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("and", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -1713,10 +1711,10 @@ public class Query implements INotifyClass {
                 inQueryObj.put("$in_query", queryObject.queryValueJSON.toString());
                 queryValueJSON.put(key, inQueryObj);
             } catch (Exception e) {
-                throwException("in_query", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("in_query", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("in_query", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("in_query", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -1744,10 +1742,10 @@ public class Query implements INotifyClass {
                 inQueryObj.put("$nin_query", queryObject.queryValueJSON.toString());
                 queryValueJSON.put(key, inQueryObj);
             } catch (Exception e) {
-                throwException("nin_query", CSAppConstants.ErrorMessage_QueryFilterException, e);
+                throwException("nin_query", Constants.QUERY_EXCEPTION, e);
             }
         } else {
-            throwException("nin_query", CSAppConstants.ErrorMessage_QueryFilterException, null);
+            throwException("nin_query", Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }

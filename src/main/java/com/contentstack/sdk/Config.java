@@ -13,7 +13,6 @@ public class Config {
     protected String URL_SCHEMA = "https://";
     protected String URL = "cdn.contentstack.io";
     protected String VERSION = "v3";
-    protected String environment = null;
     protected boolean enableLivePreview = false;
     protected String livePreviewHost;
     protected ContentstackRegion region = ContentstackRegion.US;
@@ -116,35 +115,6 @@ public class Config {
         }
     }
 
-    /**
-     * Get environment.
-     *
-     * @return param environment string
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *  String environment = config.getEnvironment();
-     * </pre>
-     */
-    public String getEnvironment() {
-        return environment;
-    }
-
-    /**
-     * set environment.
-     *
-     *@param environment uid/name
-     *
-     *<br><br><b>Example :</b><br>
-     *<pre class="prettyprint">
-     *config.setEnvironment("stag", false);
-     *</pre>
-     */
-    protected void setEnvironment(String environment) {
-        if (environment != null && !environment.isEmpty()) {
-            this.environment = environment;
-        }
-
-    }
 
     // Live preview enabler
     public Config enableLivePreview(boolean enableLivePreview) {

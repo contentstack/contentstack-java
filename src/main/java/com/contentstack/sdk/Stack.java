@@ -1,7 +1,5 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSController;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +9,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
+
+import static com.contentstack.sdk.Constants.CONTENT_TYPE_UID;
 
 /**
  * A stack is a repository or a container that holds all the content/assets of your site. It allows multiple users to
@@ -34,8 +34,6 @@ public class Stack {
     protected PublishType publishType;
     protected String start_from_date;
     protected HashMap<String, Object> headerGroup_app;
-    //    protected String livePreviewHash;
-//    protected String livePreviewContentType;
     private String stackApiKey = null;
     private String imageTransformationUrl;
     private LinkedHashMap<String, Object> imageParams = new LinkedHashMap<>();
@@ -55,13 +53,13 @@ public class Stack {
      *         : HashMap contains query information
      * @return Stack
      */
-    public Stack livePreviewQuery(HashMap<String, String> query) {
+    public Stack livePreviewQuery(Map<String, String> query) {
         // split requestStr to strings
         // str will contain content type and #hash
         // send management token and hash to the header to the request with access_token and env
         if (this.config.enableLivePreview) {
             config.livePreviewHash = query.get("live_preview");
-            config.livePreviewContentType = query.get("content_type_uid");
+            config.livePreviewContentType = query.get(CONTENT_TYPE_UID);
         }
         return this;
     }
@@ -71,11 +69,6 @@ public class Stack {
         URL_SCHEMA = config.URL_SCHEMA;
         URL = config.URL;
         VERSION = config.VERSION;
-
-        if (!config.environment.isEmpty()) {
-            setHeader("environment", config.environment);
-        }
-
         if (!config.region.name().isEmpty()) {
             String region = config.region.name().toLowerCase();
             if (!region.equalsIgnoreCase("us")) {
@@ -303,7 +296,7 @@ public class Stack {
         } catch (Exception e) {
 
             Error error = new Error();
-            error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
+            error.setErrorMessage(Constants.JSON_NOT_PROPER);
             callback.onRequestFail(ResponseType.UNKNOWN, error);
         }
     }
@@ -468,7 +461,7 @@ public class Stack {
         }
         try {
             syncParams.put("init", true);
-            syncParams.put("content_type_uid", contentType);
+            syncParams.put(CONTENT_TYPE_UID, contentType);
         } catch (JSONException e) {
             logger.severe(e.getLocalizedMessage());
         }
@@ -562,7 +555,7 @@ public class Stack {
     /**
      * @param contentType
      *         your content type id
-     * @param from_date
+     * @param fromDate
      *         start date
      * @param language
      *         language as {@link Language}
@@ -584,8 +577,8 @@ public class Stack {
      *                                                                                                             </pre>
      */
 
-    public void sync(String contentType, Date from_date, Language language, PublishType type, SyncResultCallBack syncCallBack) {
-        start_from_date = convertUTCToISO(from_date);
+    public void sync(String contentType, Date fromDate, Language language, PublishType type, SyncResultCallBack syncCallBack) {
+        start_from_date = convertUTCToISO(fromDate);
         this.contentType = contentType;
         this.publishType = type;
         this.localeCode = getLanguageCode(language);
@@ -596,7 +589,7 @@ public class Stack {
         try {
             syncParams.put("init", true);
             syncParams.put("start_from", this.start_from_date);
-            syncParams.put("content_type_uid", this.contentType);
+            syncParams.put(CONTENT_TYPE_UID, this.contentType);
             syncParams.put("type", publishType);
             syncParams.put("locale", this.localeCode);
         } catch (JSONException e) {
@@ -620,7 +613,7 @@ public class Stack {
 
         } catch (Exception e) {
             Error error = new Error();
-            error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
+            error.setErrorMessage(Constants.JSON_NOT_PROPER);
             callback.onRequestFail(ResponseType.UNKNOWN, error);
         }
     }
@@ -629,7 +622,7 @@ public class Stack {
 
         if (callback != null) {
             HashMap<String, Object> urlParams = getUrlParams(content_type_param);
-            new CSBackgroundTask(this, CSController.FETCHCONTENTTYPES, urlString, headers, urlParams, new JSONObject(), CSAppConstants.callController.CONTENTTYPES.toString(), false, CSAppConstants.RequestMethod.GET, callback);
+            new CSBackgroundTask(this, Constants.FETCHCONTENTTYPES, urlString, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.CONTENTTYPES.toString(), false, Constants.REQUEST_METHOD.GET, callback);
         }
     }
 
@@ -638,7 +631,7 @@ public class Stack {
         if (callback != null) {
 
             HashMap<String, Object> urlParams = getUrlParams(urlQueries);
-            new CSBackgroundTask(this, CSController.FETCHSYNC, urlString, headers, urlParams, new JSONObject(), CSAppConstants.callController.SYNC.toString(), false, CSAppConstants.RequestMethod.GET, callback);
+            new CSBackgroundTask(this, Constants.FETCHSYNC, urlString, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.SYNC.toString(), false, Constants.REQUEST_METHOD.GET, callback);
         }
     }
 
@@ -692,14 +685,14 @@ public class Stack {
     }
 
 
-    public static enum PublishType {
-        entry_published,
-        entry_unpublished,
-        entry_deleted,
+    public enum PublishType {
+        asset_deleted,
         asset_published,
         asset_unpublished,
-        asset_deleted,
-        content_type_deleted
+        content_type_deleted,
+        entry_deleted,
+        entry_published,
+        entry_unpublished
     }
 
 

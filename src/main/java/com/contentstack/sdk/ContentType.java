@@ -1,7 +1,5 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSController;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -194,7 +192,7 @@ public class ContentType {
                 fetchContentTypes(URL, params, headers, callback);
             } else {
                 Error error = new Error();
-                error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
+                error.setErrorMessage(Constants.JSON_NOT_PROPER);
                 callback.onRequestFail(ResponseType.UNKNOWN, error);
             }
 
@@ -202,7 +200,7 @@ public class ContentType {
         } catch (Exception e) {
 
             Error error = new Error();
-            error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
+            error.setErrorMessage(Constants.JSON_NOT_PROPER);
             callback.onRequestFail(ResponseType.UNKNOWN, error);
         }
 
@@ -214,7 +212,7 @@ public class ContentType {
         if (callback != null) {
 
             HashMap<String, Object> urlParams = getUrlParams(content_type_param);
-            new CSBackgroundTask(this, stackInstance, CSController.FETCHCONTENTTYPES, urlString, headers, urlParams, new JSONObject(), CSAppConstants.callController.CONTENTTYPES.toString(), false, CSAppConstants.RequestMethod.GET, callback);
+            new CSBackgroundTask(this, stackInstance, Constants.FETCHCONTENTTYPES, urlString, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.CONTENTTYPES.toString(), false, Constants.REQUEST_METHOD.GET, callback);
         }
     }
 

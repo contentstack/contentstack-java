@@ -1,6 +1,5 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.utility.CSAppConstants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +25,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
     private String info;
     private JSONObject requestJSON;
     private ResultCallBack callBackObject;
-    private CSAppConstants.RequestMethod requestMethod;
+    private Constants.REQUEST_METHOD requestMethod;
     private JSONObject responseJSON;
     private HashMap<String, Object> formParams;
     private boolean treatDuplicateKeysAsArrayItems;
@@ -100,12 +99,12 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     @Override
-    public CSAppConstants.RequestMethod getRequestMethod() {
+    public Constants.REQUEST_METHOD getRequestMethod() {
         return requestMethod;
     }
 
     @Override
-    public void setRequestMethod(CSAppConstants.RequestMethod requestMethod) {
+    public void setRequestMethod(Constants.REQUEST_METHOD requestMethod) {
         this.requestMethod = requestMethod;
     }
 
@@ -117,7 +116,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
     public String setFormParamsGET(HashMap<String, java.lang.Object> params) {
         if (params != null && params.size() > 0) {
             String urlParams = null;
-            urlParams = info.equalsIgnoreCase(CSAppConstants.callController.QUERY.name()) || info.equalsIgnoreCase(CSAppConstants.callController.ENTRY.name()) ? getParams(params) : null;
+            urlParams = info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.QUERY.name()) || info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.ENTRY.name()) ? getParams(params) : null;
             if (urlParams == null) {
                 for (Map.Entry<String, Object> e : params.entrySet()) {
                     if (urlParams == null) {
@@ -197,7 +196,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
     public void send() {
 
         String url = null;
-        if (requestMethod == CSAppConstants.RequestMethod.GET) {
+        if (requestMethod == Constants.REQUEST_METHOD.GET) {
             String params = setFormParamsGET(formParams);
             if (params != null) {
                 url = urlPath + params;
@@ -229,7 +228,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
         if (this.headers.containsKey("environment")) {
             conn.setRequestProperty("environment", headers.get("environment").toString());
         }
-        conn.setRequestProperty("X-User-Agent", defaultUserAgent() + "/" + CSAppConstants.SDK_VERSION);
+        conn.setRequestProperty("X-User-Agent", defaultUserAgent() + "/" + Constants.SDK_VERSION);
         conn.setRequestProperty("Content-Type", "application/json");
         int responseCode = conn.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) { // success

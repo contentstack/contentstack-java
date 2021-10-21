@@ -1,5 +1,4 @@
-package com.contentstack.sdk.utility;
-
+package com.contentstack.sdk;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,11 +7,46 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-/**
- * Used for the contentstack Utility
- */
+public class Constants {
 
-public class ContentstackUtil {
+    public static final String SDK_VERSION = "1.8.0";
+    public static final String ENVIRONMENT = "environment";
+    public static final String CONTENT_TYPE_UID = "content_type_uid";
+
+
+    // REQUEST  METHOD
+    public enum REQUEST_METHOD {GET}
+
+    // REQUEST_CONTROLLER
+    public enum REQUEST_CONTROLLER {
+        QUERY,
+        ENTRY,
+        ASSET,
+        SYNC,
+        CONTENTTYPES,
+        ASSETLIBRARY
+    }
+
+
+    // GET REQUEST TYPE
+    public static final String QUERYOBJECT = "getQueryEntries";
+    public static final String SINGLEQUERYOBJECT = "getSingleQueryEntries";
+    public static final String FETCHENTRY = "getEntry";
+    public static final String FETCHALLASSETS = "getAllAssets";
+    public static final String FETCHASSETS = "getAssets";
+    public static final String FETCHSYNC = "getSync";
+    public static final String FETCHCONTENTTYPES = "getContentTypes";
+
+
+    // ERROR MESSAGE BLOCK
+    public static final String JSON_NOT_PROPER = "Please provide valid JSON.";
+    public static final String API_KEY_IS_NULL = "Stack api key can not be null.";
+    public static final String CONTENT_TYPE_NAME = "Please set contentType name.";
+    public static final String ACCESS_TOKEN_IS_NULL = "Access token can not be null.";
+    public static final String ENVIRONMENT_IS_NULL = "Environment can not be null.";
+    public static final String CALL_STACK = "You must called Contentstack.stack() first";
+    public static final String QUERY_EXCEPTION = "Please provide valid params.";
+
 
     /**
      * Converts the given date to user&#39;s timezone.
@@ -103,5 +137,5 @@ public class ContentstackUtil {
 
         return cal;
     }
-
 }
+

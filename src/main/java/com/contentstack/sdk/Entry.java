@@ -1,8 +1,5 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSController;
-import com.contentstack.sdk.utility.ContentstackUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -534,7 +531,7 @@ public class Entry {
     public Calendar getDate(String key) {
         try {
             String value = getString(key);
-            return ContentstackUtil.parseDate(value, null);
+            return Constants.parseDate(value, null);
         } catch (Exception e) {
             logger.severe(e.getLocalizedMessage());
         }
@@ -555,7 +552,7 @@ public class Entry {
 
         try {
             String value = getString("created_at");
-            return ContentstackUtil.parseDate(value, null);
+            return Constants.parseDate(value, null);
         } catch (Exception e) {
             logger.severe(e.getLocalizedMessage());
         }
@@ -589,7 +586,7 @@ public class Entry {
 
         try {
             String value = getString("updated_at");
-            return ContentstackUtil.parseDate(value, null);
+            return Constants.parseDate(value, null);
         } catch (Exception e) {
             logger.severe(e.getLocalizedMessage());
         }
@@ -623,7 +620,7 @@ public class Entry {
 
         try {
             String value = getString("deleted_at");
-            return ContentstackUtil.parseDate(value, null);
+            return Constants.parseDate(value, null);
         } catch (Exception e) {
             logger.severe(e.getLocalizedMessage());
         }
@@ -1080,9 +1077,9 @@ public class Entry {
             JSONObject mainJson = new JSONObject();
             setIncludeJSON(urlQueries, callBack);
             mainJson.put("query", urlQueries);
-            mainJson.put("_method", CSAppConstants.RequestMethod.GET.toString());
+            mainJson.put("_method", Constants.REQUEST_METHOD.GET.toString());
             HashMap<String, Object> urlParams = getUrlParams(mainJson);
-            new CSBackgroundTask(this, contentTypeInstance.stackInstance, CSController.FETCHENTRY, URL, getHeader(localHeader), urlParams, new JSONObject(), CSAppConstants.callController.ENTRY.toString(), false, CSAppConstants.RequestMethod.GET, callBack);
+            new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.FETCHENTRY, URL, getHeader(localHeader), urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.ENTRY.toString(), false, Constants.REQUEST_METHOD.GET, callBack);
 
         } catch (Exception e) {
             throwException(null, e, callBack);

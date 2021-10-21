@@ -1,8 +1,6 @@
 package com.contentstack.sdk;
 
 
-import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSController;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -25,7 +23,7 @@ public class AssetLibrary implements INotifyClass {
 
 
     protected AssetLibrary() {
-        this.localHeader = new LinkedHashMap<String, Object>();
+        this.localHeader = new LinkedHashMap<>();
         this.urlQueries = new JSONObject();
     }
 
@@ -100,7 +98,7 @@ public class AssetLibrary implements INotifyClass {
                     break;
             }
         } catch (Exception e) {
-            throwException("sort", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("sort", Constants.QUERY_EXCEPTION, e);
         }
 
         return this;
@@ -123,7 +121,7 @@ public class AssetLibrary implements INotifyClass {
         try {
             urlQueries.put("include_count", "true");
         } catch (Exception e) {
-            throwException("includeCount", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("includeCount", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -144,7 +142,7 @@ public class AssetLibrary implements INotifyClass {
         try {
             urlQueries.put("relative_urls", "true");
         } catch (Exception e) {
-            throwException("relative_urls", CSAppConstants.ErrorMessage_QueryFilterException, e);
+            throwException("relative_urls", Constants.QUERY_EXCEPTION, e);
         }
         return this;
     }
@@ -165,26 +163,15 @@ public class AssetLibrary implements INotifyClass {
      *
      *                       <br><br><b>Example :</b><br>
      *                       <pre class="prettyprint">
-     *                                                                                                                 AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     *                                                                                                                 assetLibObject.fetchAll(new FetchAssetsCallback() {
-     *                                                                                                                 {@code public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) }{
-     *                                                                                                                    if (error == null) {
-     *                                                                                                                       //Success Block.
-     *                                                                                                                    } else {
-     *                                                                                                                       //Error Block.
-     *                                                                                                                    }
-     *                                                                                                                 }
-     *                                                                                                                });
-     *
-     *                                                                                                               </pre>
+     *                                                                                                                 AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();     </pre>
      */
     public void fetchAll(FetchAssetsCallback assetsCallback) {
         try {
             this.assetsCallback = assetsCallback;
             String URL = "/" + stackInstance.VERSION + "/assets";
             LinkedHashMap<String, Object> headers = getHeader(localHeader);
-            if (headers.containsKey("environment")) {
-                urlQueries.put("environment", headers.get("environment"));
+            if (headers.containsKey(Constants.ENVIRONMENT)) {
+                urlQueries.put(Constants.ENVIRONMENT, headers.get(Constants.ENVIRONMENT));
             }
 
             fetchFromNetwork(URL, urlQueries, headers, assetsCallback);
@@ -198,7 +185,7 @@ public class AssetLibrary implements INotifyClass {
     private void fetchFromNetwork(String URL, JSONObject urlQueries, LinkedHashMap<String, Object> headers, FetchAssetsCallback assetsCallback) {
         if (assetsCallback != null) {
             HashMap<String, Object> urlParams = getUrlParams(urlQueries);
-            new CSBackgroundTask(this, stackInstance, CSController.FETCHALLASSETS, URL, headers, urlParams, new JSONObject(), CSAppConstants.callController.ASSETLIBRARY.toString(), false, CSAppConstants.RequestMethod.GET, assetsCallback);
+            new CSBackgroundTask(this, stackInstance, Constants.FETCHALLASSETS, URL, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.ASSETLIBRARY.toString(), false, Constants.REQUEST_METHOD.GET, assetsCallback);
         }
     }
 
