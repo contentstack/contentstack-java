@@ -1,11 +1,8 @@
 package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -15,12 +12,6 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 
-/**
- * The type Asset test case.
- */
-// Run testcase for the particular class
-// run mvn -Dtest=TestAssetTestCase test
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AssetTestCase {
 
     private static final Logger logger = Logger.getLogger(AssetTestCase.class.getName());
@@ -28,11 +19,6 @@ public class AssetTestCase {
     private static Stack stack;
     private static String DEFAULT_HOST;
 
-    /**
-     * One time set up.
-     *
-     * @throws Exception the exception
-     */
     @BeforeClass
     public static void oneTimeSetUp() throws Exception {
         logger.setLevel(Level.FINE);
@@ -45,13 +31,8 @@ public class AssetTestCase {
         config.setHost(DEFAULT_HOST);
         assert DEFAULT_API_KEY != null;
         stack = Contentstack.stack(DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV, config);
-        logger.info("Asset TestCase started...");
     }
 
-    /**
-     * Sets up the test fixture.
-     * (Called before every test case method.)
-     */
     @BeforeClass
     public static void beforeClass() {
         // Get all the assets available
@@ -70,19 +51,9 @@ public class AssetTestCase {
         });
     }
 
-    /**
-     * After class.
-     */
-    @AfterClass
-    public static void afterClass() {
-        logger.info("Ran all asset testcases");
-    }
 
-    /**
-     * Test a get all assets to set asset uid.
-     */
     @Test()
-    public void test_A_getAllAssetsToSetAssetUID() {
+    public void testGetAllAssetsToSetAssetUID() {
         final AssetLibrary assetLibrary = stack.assetLibrary();
         assetLibrary.fetchAll(new FetchAssetsCallback() {
             public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {
@@ -95,11 +66,8 @@ public class AssetTestCase {
     }
 
 
-    /**
-     * Test b verify asset uid.
-     */
     @Test
-    public void test_B_VerifyAssetUID() {
+    public void testVerifyAssetUID() {
 
         final Asset asset = stack.asset(ASSET_UID);
         asset.fetch(new FetchResultCallback() {
@@ -114,11 +82,8 @@ public class AssetTestCase {
         });
     }
 
-    /**
-     * Test c asset fetch.
-     */
     @Test
-    public void test_C_Asset_fetch() {
+    public void testAssetFetch() {
         final Asset asset = stack.asset(ASSET_UID);
         asset.fetch(new FetchResultCallback() {
             @Override
@@ -140,11 +105,8 @@ public class AssetTestCase {
         });
     }
 
-    /**
-     * Test d asset library fetch.
-     */
     @Test
-    public void test_D_AssetLibrary_fetch() {
+    public void testAssetLibrary_fetch() {
         final AssetLibrary assetLibrary = stack.assetLibrary();
         assetLibrary.fetchAll(new FetchAssetsCallback() {
             @Override
@@ -165,11 +127,8 @@ public class AssetTestCase {
         });
     }
 
-    /**
-     * Test e asset library include count fetch.
-     */
     @Test
-    public void test_E_AssetLibrary_includeCount_fetch() {
+    public void testAssetLibraryIncludeCount() {
         final AssetLibrary assetLibrary = stack.assetLibrary();
         assetLibrary.includeCount();
 
@@ -187,11 +146,8 @@ public class AssetTestCase {
         });
     }
 
-    /**
-     * Test f asset library include relative url fetch.
-     */
     @Test
-    public void test_F_AssetLibrary_includeRelativeUrl_fetch() {
+    public void testAssetLibraryIncludeRelativeUrl() {
         final AssetLibrary assetLibrary = stack.assetLibrary();
         assetLibrary.includeRelativeUrl();
         assetLibrary.fetchAll(new FetchAssetsCallback() {
@@ -203,11 +159,8 @@ public class AssetTestCase {
         });
     }
 
-    /**
-     * Test g stack get params.
-     */
     @Test
-    public void test_G_StackGetParams() {
+    public void testStackGetParams() {
         final Asset asset = stack.asset(ASSET_UID);
         asset.addParam("key", "some_value");
         asset.fetch(new FetchResultCallback() {
@@ -223,11 +176,8 @@ public class AssetTestCase {
         });
     }
 
-    /**
-     * Test h asset locale include fallback.
-     */
     @Test
-    public void test_H_Asset_Locale_Include_Fallback() {
+    public void testAssetLocaleIncludeFallback() {
         final Asset asset = stack.asset(ASSET_UID);
         asset.includeFallback();
         asset.fetch(new FetchResultCallback() {
@@ -243,18 +193,15 @@ public class AssetTestCase {
         });
     }
 
-    /**
-     * Test h asset include dimension.
-     */
     @Test
-    public void test_H_Asset_Include_Dimension() {
+    public void testAssetIncludeDimension() {
         final Asset asset = stack.asset(ASSET_UID);
         asset.includeDimension();
         asset.fetch(new FetchResultCallback() {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
                 if (error == null) {
-                    logger.warning(asset.toJSON().optString("include_dimension"));
+                    logger.warning(asset.toJSON().get("include_dimension").toString());
                 } else {
                     logger.warning(error.getErrorDetail());
                     assertEquals(error.getErrorDetail(), "{\"uid\":[\"is not valid.\"]}");
@@ -264,29 +211,23 @@ public class AssetTestCase {
     }
 
 
-    /**
-     * Test i asset include dimension using add params.
-     */
     @Test
-    public void test_I_Asset_Include_Dimension_using_addParams() {
+    public void testAssetIncludeDimensionUsingAddParams() {
         final Asset asset = stack.asset(ASSET_UID);
         asset.addParam("include_dimension", "true");
         asset.fetch(new FetchResultCallback() {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
                 if (error == null) {
-                    logger.warning(asset.toJSON().optString("include_dimension"));
+                    logger.warning(asset.toJSON().get("include_dimension").toString());
                     // assertEquals(assetUid, asset.getAssetUid());
                 }
             }
         });
     }
 
-    /**
-     * Test j include fallback.
-     */
     @Test()
-    public void test_J_include_fallback() {
+    public void testIncludeFallback() {
         final AssetLibrary assetLibrary = stack.assetLibrary();
         assetLibrary.includeFallback().fetchAll(new FetchAssetsCallback() {
             public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {

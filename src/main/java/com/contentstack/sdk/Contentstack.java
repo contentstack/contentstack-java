@@ -1,121 +1,90 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.utility.CSAppConstants;
+import java.util.Objects;
 
-/**
- * Contentstack class that exposes Stack instance
- */
 
 public class Contentstack {
 
 
-    private Contentstack() {
+    // Modifier Protected
+    protected Contentstack() throws IllegalAccessException {
+        throw new IllegalAccessException("Can Not Access Private Modifier");
     }
 
 
     /**
      * Authenticates the stack api key of your stack.
-     * This must be called before your stack uses Contentstack sdk.
      * <br>
-     * You can find your stack api key from web.
+     * Find Your Stack Credentials from Contentstack .
      *
-     * @param stackApiKey application api Key of your application on Contentstack.
-     * @param accessToken access token
-     * @param environment environment name
-     * @return {@link Stack} instance.
-     * @throws Exception <br><br><b>Example :</b><br>
-     *                   <pre class="prettyprint">
-     *                   Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
-     *                   </pre>
+     * @param stackApiKey
+     *         the stack api key
+     * @param deliveryToken
+     *         the delivery token
+     * @param environment
+     *         the environment
+     * @return the stack
+     * @throws IllegalAccessException
+     *         the illegal access exception
      */
-
-    public static Stack stack(String stackApiKey, String accessToken, String environment) throws Exception {
-
-        if (!stackApiKey.isEmpty()) {
-            if (!accessToken.isEmpty()) {
-                if (!environment.isEmpty()) {
-                    Config config = new Config();
-                    config.setEnvironment(environment);
-                    //Configurator.initialize(new DefaultConfiguration());
-                    return initializeStack(stackApiKey, accessToken, config);
-                } else {
-                    throw new Exception(CSAppConstants.ErrorMessage_Stack_Environment_IsNull);
-                }
-            } else {
-                throw new Exception(CSAppConstants.ErrorMessage_Stack_AccessToken_IsNull);
-            }
-        } else {
-            throw new Exception(CSAppConstants.ErrorMessage_StackApiKeyIsNull);
-        }
-
+    public static Stack stack(String stackApiKey,
+                              String deliveryToken,
+                              String environment) throws IllegalAccessException {
+        validateCredentials(stackApiKey, deliveryToken, environment);
+        Config config = new Config();
+        return initializeStack(stackApiKey, deliveryToken, environment, config);
     }
 
 
     /**
      * Authenticates the stack api key of your stack.
-     * This must be called before your stack uses  Contentstack sdk.
      * <br>
      * You can find your stack api key from web.
      *
-     * @param stackApiKey application api Key of your application on  Contentstack.
-     * @param accessToken access token
-     * @param environment environment name
-     * @param config      {@link Config} instance to set environment and other configuration details.
-     * @return {@link Stack} instance.
-     * @throws Exception <br><br><b>Example :</b><br>
-     *                   <pre class="prettyprint">
-     *                                     Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
-     *                                     </pre>
+     * @param stackApiKey
+     *         the stack api key
+     * @param deliveryToken
+     *         the delivery token
+     * @param environment
+     *         the environment
+     * @param config
+     *         the config
+     * @return the stack
+     * @throws IllegalAccessException
+     *         the illegal access exception
      */
+    public static Stack stack(String stackApiKey,
+                              String deliveryToken,
+                              String environment,
+                              Config config) throws IllegalAccessException {
+        validateCredentials(stackApiKey, deliveryToken, environment);
+        return initializeStack(stackApiKey, deliveryToken, environment, config);
+    }
 
-    public static Stack stack(String stackApiKey, String accessToken, String environment, Config config) throws Exception {
+    private static void validateCredentials(String stackApiKey,
+                                            String deliveryToken,
+                                            String environment) throws IllegalAccessException {
+        Objects.requireNonNull(stackApiKey, "API Key can not be null");
+        Objects.requireNonNull(deliveryToken, "Delivery Token can not be null");
+        Objects.requireNonNull(environment, "Environment can not be null");
 
-        if (!stackApiKey.isEmpty()) {
-            if (!accessToken.isEmpty()) {
-                if (!environment.isEmpty()) {
-                    if (config != null) {
-                        config.setEnvironment(environment);
-                    } else {
-                        config = new Config();
-                        config.setEnvironment(environment);
-                    }
-                    //Configurator.initialize(new DefaultConfiguration());
-                    return initializeStack(stackApiKey, accessToken, config);
-                } else {
-                    throw new Exception(CSAppConstants.ErrorMessage_Stack_Environment_IsNull);
-                }
-            } else {
-                throw new Exception(CSAppConstants.ErrorMessage_Stack_AccessToken_IsNull);
-            }
-        } else {
-            throw new Exception(CSAppConstants.ErrorMessage_StackApiKeyIsNull);
+        if (stackApiKey.isEmpty()) {
+            throw new IllegalAccessException("API Key can not be empty");
+        }
+        if (deliveryToken.isEmpty()) {
+            throw new IllegalAccessException("Delivery Token can not be empty");
+        }
+        if (environment.isEmpty()) {
+            throw new IllegalAccessException("Environment can not be empty");
         }
     }
 
 
-    /**
-     * Initialise the stack api key of your stack.
-     * This must be called to initialise  Contentstack sdk.
-     * <br>
-     * You can find your stack api key from web.
-     *
-     * @param stackApiKey application api Key of your application on  Contentstack.
-     * @param accessToken access token
-     * @param config      {@link Config} instance to set environment and other configuration details.
-     * @return {@link Stack} instance.
-     * @throws Exception <br><br><b>Example :</b><br>
-     *                   <pre class="prettyprint">
-     *                                     //'blt5d4sample2633b' is a dummy Stack API key
-     *                                     //'blt6d0240b5sample254090d' is dummy access token.
-     *                                     Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag");
-     *                                     </pre>
-     */
-
-    private static Stack initializeStack(String stackApiKey, String accessToken, Config config) {
-
+    private static Stack initializeStack(String stackApiKey, String deliveryToken, String environment, Config config) {
         Stack stack = new Stack(stackApiKey.trim());
         stack.setHeader("api_key", stackApiKey);
-        stack.setHeader("access_token", accessToken);
+        stack.setHeader("access_token", deliveryToken);
+        stack.setHeader("environment", environment);
         stack.setConfig(config);
         return stack;
     }

@@ -1,7 +1,5 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSController;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -13,7 +11,7 @@ import java.util.List;
 class CSConnectionRequest implements IRequestModelHTTP {
 
     private String urlToCall;
-    private CSAppConstants.RequestMethod method;
+    private Constants.REQUEST_METHOD method;
     private String controller;
     private JSONObject paramsJSON;
     private LinkedHashMap<String, Object> header;
@@ -78,7 +76,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
 
 
         this.urlToCall = (String) objects[0];
-        this.method = (CSAppConstants.RequestMethod) objects[1];
+        this.method = (Constants.REQUEST_METHOD) objects[1];
         this.controller = (String) objects[2];
         paramsJSON = (JSONObject) objects[3];
         this.header = (LinkedHashMap<String, Object>) objects[4];
@@ -152,19 +150,19 @@ class CSConnectionRequest implements IRequestModelHTTP {
     public void onRequestFinished(CSHttpConnection request) {
         responseJSON = request.getResponse();
         String controller = request.getController();
-        if (controller.equalsIgnoreCase(CSController.QUERYOBJECT)) {
+        if (controller.equalsIgnoreCase(Constants.QUERYOBJECT)) {
             EntriesModel model = new EntriesModel(responseJSON, null, false);
             notifyClass.getResult(model.formName, null);
             notifyClass.getResultObject(model.objectList, responseJSON, false);
             model = null;
-        } else if (controller.equalsIgnoreCase(CSController.SINGLEQUERYOBJECT)) {
+        } else if (controller.equalsIgnoreCase(Constants.SINGLEQUERYOBJECT)) {
 
             EntriesModel model = new EntriesModel(responseJSON, null, false);
             notifyClass.getResult(model.formName, null);
             notifyClass.getResultObject(model.objectList, responseJSON, true);
             model = null;
 
-        } else if (controller.equalsIgnoreCase(CSController.FETCHENTRY)) {
+        } else if (controller.equalsIgnoreCase(Constants.FETCHENTRY)) {
 
             EntryModel model = new EntryModel(responseJSON, null, false, false, false);
             entryInstance.resultJson = model.jsonObject;
@@ -188,14 +186,14 @@ class CSConnectionRequest implements IRequestModelHTTP {
                 ((EntryResultCallBack) request.getCallBackObject()).onRequestFinish(ResponseType.NETWORK);
             }
 
-        } else if (controller.equalsIgnoreCase(CSController.FETCHALLASSETS)) {
+        } else if (controller.equalsIgnoreCase(Constants.FETCHALLASSETS)) {
             AssetsModel assetsModel = new AssetsModel(responseJSON, false);
             List<Object> objectList = assetsModel.objects;
             assetsModel = null;
 
             assetLibrary.getResultObject(objectList, responseJSON, false);
 
-        } else if (controller.equalsIgnoreCase(CSController.FETCHASSETS)) {
+        } else if (controller.equalsIgnoreCase(Constants.FETCHASSETS)) {
             AssetModel model = new AssetModel(responseJSON, false, false);
 
             assetInstance.contentType = model.contentType;
@@ -210,7 +208,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
             if (request.getCallBackObject() != null) {
                 ((FetchResultCallback) request.getCallBackObject()).onRequestFinish(ResponseType.NETWORK);
             }
-        } else if (controller.equalsIgnoreCase(CSController.FETCHSYNC)) {
+        } else if (controller.equalsIgnoreCase(Constants.FETCHSYNC)) {
 
             SyncStack model = new SyncStack();
             model.setJSON(responseJSON);
@@ -218,7 +216,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
                 ((SyncResultCallBack) request.getCallBackObject()).onRequestFinish(model);
             }
 
-        } else if (controller.equalsIgnoreCase(CSController.FETCHCONTENTTYPES)) {
+        } else if (controller.equalsIgnoreCase(Constants.FETCHCONTENTTYPES)) {
 
             ContentTypesModel model = new ContentTypesModel();
             model.setJSON(responseJSON);

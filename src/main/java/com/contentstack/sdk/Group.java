@@ -1,6 +1,5 @@
 package com.contentstack.sdk;
 
-import com.contentstack.sdk.utility.ContentstackUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -272,7 +271,7 @@ public class Group {
 
         try {
             String value = getString(key);
-            return ContentstackUtil.parseDate(value, null);
+            return Constants.parseDate(value, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
