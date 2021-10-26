@@ -2,123 +2,98 @@ package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Configuration Support for contentstack
- */
 
+/**
+ * The type Config. enables optional parameters while passing from stack
+ */
 public class Config {
 
     protected String livePreviewHash = null;
     protected String livePreviewContentType = null;
-    protected String URL_SCHEMA = "https://";
-    protected String URL = "cdn.contentstack.io";
+    protected String HOST = "cdn.contentstack.io";
     protected String VERSION = "v3";
+    protected String SCHEME = "https://";
+    protected String ENDPOINT;
     protected boolean enableLivePreview = false;
     protected String livePreviewHost;
     protected ContentstackRegion region = ContentstackRegion.US;
     protected String managementToken;
 
     /**
-     * Config constructor
-     *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Config config = new Config();
-     * </pre>
+     * Instantiates a new Config.
      */
-
     public Config() {
     }
 
+    /**
+     * Gets region.
+     *
+     * @return the region
+     */
     public ContentstackRegion getRegion() {
         return this.region;
     }
 
     /**
-     * Sets region allow you to set your region for the Contentstack server.
+     * Sets region.
      *
-     * @param region type {@link ContentstackRegion}
-     * @return ContentstackRegion
-     *
-     * <p>
-     * <b>Note:</b>
-     * Default region sets to us
-     *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * config.setRegion(ContentstackRegion.US);
-     * </pre>
+     * @param region
+     *         the region
+     * @return the region
      */
-
     public ContentstackRegion setRegion(ContentstackRegion region) {
         this.region = region;
         return this.region;
     }
 
-    /**
-     * @return URL String
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String url = config.getHost();
-     * </pre>
-     */
-    public String getHost() {
-        return URL;
+    protected String getEndpoint() {
+        return ENDPOINT+"/"+getVersion()+"/";
+    }
+
+    protected String setEndpoint(@NotNull String endpoint) {
+        ENDPOINT = endpoint;
+        return ENDPOINT;
     }
 
     /**
-     * Sets host name of the Contentstack server.
+     * Gets host.
      *
-     * @param hostName host name.
-     *
-     *<p>
-     *<b>Note:</b> Default hostname sets to <a href ="https://cdn.contentstack.io"> cdn.contentstack.io </a>
-     *and default protocol is HTTPS.
-     *<br><br><b>Example :</b><br>
-     *<pre class="prettyprint">
-     *config.setHost("cdn.contentstack.io");
-     *</pre>
+     * @return the host
      */
+    public String getHost() {
+        return HOST;
+    }
 
+    /**
+     * Sets host.
+     *
+     * @param hostName
+     *         the host name
+     */
     public void setHost(String hostName) {
         if (hostName != null && !hostName.isEmpty()) {
-            URL = hostName;
+            HOST = hostName;
         }
     }
 
     /**
-     * Get version of the Contentstack server.
+     * Gets version.
      *
-     * @return VERSION String
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String version = config.getVersion();
-     * </pre>
+     * @return the version
      */
     public String getVersion() {
         return VERSION;
     }
 
+
     /**
-     * Changes the Contentstack version to be used in the final URL.
+     * Enable live preview config.
      *
-     * @param version version string.
-     *
-     *<br><br><b>Example :</b><br>
-     *<pre class="prettyprint">
-     *config.setVersion("v3");
-     *</pre>
+     * @param enableLivePreview
+     *         to enable live preview
+     * @return the config
      */
-    private void setVersion(String version) {
-        if (version != null && !version.isEmpty()) {
-            VERSION = version;
-        }
-    }
-
-
-    // Live preview enabler
     public Config enableLivePreview(boolean enableLivePreview) {
-        // It enables the livePreview
         this.enableLivePreview = enableLivePreview;
         return this;
     }
@@ -126,28 +101,31 @@ public class Config {
     /**
      * Sets live preview host.
      *
-     * @param livePreviewHost the live preview host
+     * @param livePreviewHost
+     *         the live preview host
      * @return the live preview host
      */
     public Config setLivePreviewHost(@NotNull String livePreviewHost) {
-        // It sets the host for the livePreview
         this.livePreviewHost = livePreviewHost;
         return this;
     }
 
     /**
-     * Sets authorization.
+     * Sets management token.
      *
-     * @param managementToken the management token
-     * @return the authorization
+     * @param managementToken
+     *         the management token
+     * @return the management token
      */
     public Config setManagementToken(@NotNull String managementToken) {
-        // It sets Management Token for the livePreview
         this.managementToken = managementToken;
         return this;
     }
 
 
+    /**
+     * The enum Contentstack region.
+     */
     public enum ContentstackRegion {US, EU}
 
 }

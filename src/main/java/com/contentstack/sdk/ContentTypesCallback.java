@@ -1,6 +1,6 @@
 package com.contentstack.sdk;
 
-public abstract class ContentTypesCallback extends ResultCallBack {
+public abstract class ContentTypesCallback implements ResultCallBack {
 
     public abstract void onCompletion(ContentTypesModel contentTypesModel, Error error);
 
@@ -9,13 +9,7 @@ public abstract class ContentTypesCallback extends ResultCallBack {
     }
 
     @Override
-    void onRequestFail(ResponseType responseType, Error error) {
+    public void onRequestFail(ResponseType responseType, Error error) {
         onCompletion(null, error);
     }
-
-    @Override
-    public void always() {
-
-    }
-
 }

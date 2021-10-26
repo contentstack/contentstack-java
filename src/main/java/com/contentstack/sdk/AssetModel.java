@@ -3,14 +3,6 @@ package com.contentstack.sdk;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Iterator;
-import java.util.WeakHashMap;
-
-
-/**
- * @Author Shailesh Mishra
- * Asset Object Model
- */
 
 class AssetModel {
 
@@ -22,15 +14,9 @@ class AssetModel {
     String[] tags;
     JSONObject json;
     int count = 0;
-    private int totalCount = 0;
+    int totalCount = 0;
 
-    public AssetModel(JSONObject responseJSON, boolean isArray, boolean isFromCache) {
-
-        if (isFromCache) {
-            json = responseJSON.opt("response") == null ? responseJSON : responseJSON.optJSONObject("response");
-        } else {
-            json = responseJSON;
-        }
+    public AssetModel(JSONObject responseJSON, boolean isArray) {
 
         if (isArray) {
             json = responseJSON;
@@ -45,26 +31,16 @@ class AssetModel {
         uploadUrl = (String) json.opt("url");
 
         if (json.opt("tags") instanceof JSONArray) {
-            if ((json.has("tags")) && (json.opt("tags") != null) && (!(json.opt("tags").equals("")))) {
-
+            JSONArray tagArray = json.optJSONArray("tags");
+            if (tagArray != null && !tagArray.isEmpty()) {
                 JSONArray tagsArray = (JSONArray) json.opt("tags");
                 if (tagsArray.length() > 0) {
-                    int count = tagsArray.length();
-                    tags = new String[count];
-                    for (int i = 0; i < count; i++) {
+                    int counter = tagsArray.length();
+                    tags = new String[counter];
+                    for (int i = 0; i < counter; i++) {
                         tags[i] = (String) tagsArray.opt(i);
                     }
                 }
-            }
-        }
-
-        if (json != null && json.has("_metadata")) {
-            JSONObject _metadataJSON = json.optJSONObject("_metadata");
-            Iterator<String> iterator = _metadataJSON.keys();
-            WeakHashMap<String, Object> _metadata = new WeakHashMap<String, Object>();
-            while (iterator.hasNext()) {
-                String key = iterator.next();
-                _metadata.put(key, _metadataJSON.optString(key));
             }
         }
 

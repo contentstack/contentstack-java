@@ -4,16 +4,18 @@ import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.util.logging.Logger;
 
-public class TestContentstack {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class TestContentstack {
 
-    private static String API_KEY, DELIVERY_TOKEN, ENV;
+    private String API_KEY, DELIVERY_TOKEN, ENV;
     private final Logger logger = Logger.getLogger(TestContentstack.class.getName());
 
     @BeforeAll
-    public static void initBeforeTests() {
+    public void initBeforeTests() {
         Dotenv dotenv = Dotenv.load();
         API_KEY = dotenv.get("API_KEY");
         DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
@@ -94,8 +96,7 @@ public class TestContentstack {
             Contentstack.stack(API_KEY, DELIVERY_TOKEN, "");
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Environment can not be empty",
-                    e.getLocalizedMessage(), "Set Environment Null");
+            Assertions.assertEquals("Environment can not be empty", e.getLocalizedMessage(), "Set Environment Null");
         }
     }
 
@@ -110,7 +111,7 @@ public class TestContentstack {
     void initStackWithConfigs() throws IllegalAccessException {
         Config config = new Config();
         Stack stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
-        Assertions.assertEquals("cdn.contentstack.io", config.URL);
+        Assertions.assertEquals("cdn.contentstack.io", config.HOST);
         Assertions.assertNotNull(stack);
     }
 }

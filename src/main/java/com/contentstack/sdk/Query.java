@@ -1214,45 +1214,7 @@ public class Query implements INotifyClass {
 
 
     /**
-     * Set {@link Language} instance.
-     *
-     * @param language {@link Language} value
-     * @return {@link Query} object, so you can chain this call
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
-     *      Query csQuery = stack.contentType("contentType_name").query();<br>
-     *      csQuery.language(Language.ENGLISH_UNITED_STATES);
-     * </pre>
-     */
-    @Deprecated
-    public Query language(Language language) {
-
-        if (language != null) {
-            try {
-                Language languageName = Language.valueOf(language.name());
-                int localeValue = languageName.ordinal();
-                LanguageCode[] languageCodeValues = LanguageCode.values();
-                String localeCode = languageCodeValues[localeValue].name();
-                localeCode = localeCode.replace("_", "-");
-
-                if (urlQueries != null) {
-                    urlQueries.put("locale", localeCode);
-                }
-
-            } catch (Exception e) {
-                throwException("language", Constants.QUERY_EXCEPTION, e);
-            }
-        } else {
-            throwException("language", Constants.QUERY_EXCEPTION, null);
-        }
-
-        return this;
-    }
-
-
-    /**
-     * Set {@link Language} instance.
+     * set Language using locale code.
      *
      * @param locale {@link String} value
      * @return {@link Query} object, so you can chain this call
@@ -1387,7 +1349,6 @@ public class Query implements INotifyClass {
                     }
 
                 } else {
-
                     throwException("find", Constants.CONTENT_TYPE_NAME, null);
                     error = new Error();
                     error.setErrorMessage(errorString);
@@ -1464,13 +1425,13 @@ public class Query implements INotifyClass {
 
     protected void execQuery(SingleQueryResultCallback callBack, QueryResultsCallBack callback, boolean isFromLocal) {
         try {
-            String URL = "/" + contentTypeInstance.stackInstance.VERSION + "/content_types/" + formName + "/entries";
+            String URL =  "v3/content_types/" + formName + "/entries";
             queryResultCallback = callback;
             singleQueryResultCallback = callBack;
             setQueryJson(callback);
             LinkedHashMap<String, Object> headers = getHeader(localHeader);
             if (headers.size() < 1) {
-                throwException("find", Constants.CALL_STACK, null);
+                throwException("find", Constants.HEADER_IS_MISSING_TO_PROCESS_THE_DATA, null);
             } else {
                 if (headers.containsKey("environment")) {
                     urlQueries.put("environment", headers.get("environment"));

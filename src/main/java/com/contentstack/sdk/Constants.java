@@ -6,18 +6,33 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
+/**
+ * The type Constants.
+ */
 public class Constants {
 
-    public static final String SDK_VERSION = "1.8.0";
-    public static final String ENVIRONMENT = "environment";
-    public static final String CONTENT_TYPE_UID = "content_type_uid";
+
+    private static final Logger logger = Logger.getLogger(Constants.class.getSimpleName());
+    protected static final String SDK_VERSION = "1.8.0";
+    protected static final String ENVIRONMENT = "environment";
+    protected static final String CONTENT_TYPE_UID = "content_type_uid";
+    protected static final String ILLEGAL_ACCESS_MSG = "Can Not Access Private Modifier";
+    protected static final String CONTENT_TYPES = "content_types";
+    protected static final String SYNCHRONISATION = "stacks/sync";
 
 
-    // REQUEST  METHOD
+    /**
+     * The enum Request method.
+     */
+// REQUEST  METHOD
     public enum REQUEST_METHOD {GET}
 
-    // REQUEST_CONTROLLER
+    /**
+     * The enum Request controller.
+     */
+// REQUEST_CONTROLLER
     public enum REQUEST_CONTROLLER {
         QUERY,
         ENTRY,
@@ -40,29 +55,22 @@ public class Constants {
 
     // ERROR MESSAGE BLOCK
     public static final String JSON_NOT_PROPER = "Please provide valid JSON.";
-    public static final String API_KEY_IS_NULL = "Stack api key can not be null.";
     public static final String CONTENT_TYPE_NAME = "Please set contentType name.";
-    public static final String ACCESS_TOKEN_IS_NULL = "Access token can not be null.";
-    public static final String ENVIRONMENT_IS_NULL = "Environment can not be null.";
-    public static final String CALL_STACK = "You must called Contentstack.stack() first";
+    public static final String HEADER_IS_MISSING_TO_PROCESS_THE_DATA = "Header is missing to process the data";
     public static final String QUERY_EXCEPTION = "Please provide valid params.";
 
 
     /**
-     * Converts the given date to user&#39;s timezone.
-     * @param date date in ISO format.
-     * @param timeZone timezone selection
-     * @return {@link Calendar} object.
-     * @throws ParseException
+     * Parse date calendar.
      *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *   BuiltUtil.parseDate(dateString, TimeZone.getDefault());
-     * </pre>
-     *
+     * @param date
+     *         the date
+     * @param timeZone
+     *         the time zone
+     * @return the calendar
      */
-    public static Calendar parseDate(String date, TimeZone timeZone) throws ParseException {
-        ArrayList<String> knownPatterns = new ArrayList<String>();
+    public static Calendar parseDate(String date, TimeZone timeZone) {
+        ArrayList<String> knownPatterns = new ArrayList<>();
         knownPatterns.add("yyyy-MM-dd'T'HH:mm:ssZ");
         knownPatterns.add("yyyy-MM-dd'T'HH:mm:ss'Z'");
         knownPatterns.add("yyyy-MM-dd'T'HH:mm.ss'Z'");
@@ -75,66 +83,50 @@ public class Constants {
         knownPatterns.add("HH:mm:ssZ");
         knownPatterns.add("HH:mm:ss'Z'");
 
-        for (String formatString : knownPatterns){
+        for (String formatString : knownPatterns) {
             try {
                 return parseDate(date, formatString, timeZone);
-
-            }catch (ParseException e) {}
+            } catch (ParseException e) {
+                logger.warning(e.getLocalizedMessage());
+            }
         }
 
         return null;
     }
 
     /**
-     * Converts the given date to the user&#39;s timezone.
-     * @param date date in string format.
-     * @param dateFormat date format.
-     * @param timeZone TimeZone.
-     * @return {@link Calendar} object.
-     * @throws ParseException
+     * Parse date calendar.
      *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *   BuiltUtil.parseDate(dateString, "yyyy-MM-dd'T'HH:mm:ssZ", TimeZone.getTimeZone("GMT"));
-     * </pre>
+     * @param date
+     *         the date
+     * @param dateFormat
+     *         the date format
+     * @param timeZone
+     *         the time zone
+     * @return the calendar
+     * @throws ParseException
+     *         the parse exception
      */
-
     public static Calendar parseDate(String date, String dateFormat, TimeZone timeZone) throws ParseException {
-        Date dateObject   = null;
-        String month      = "";
-        String day        = "";
-        String year       = "";
-        String hourOfDay  = "";
-        String min        = "";
-        String sec        = "";
-        Calendar cal      = Calendar.getInstance();
-
+        Calendar cal = Calendar.getInstance();
         SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat);
-        dateObject = dateFormatter.parse(date);
+        Date dateObject = dateFormatter.parse(date);
+        String month = new SimpleDateFormat("MM").format(dateObject);
+        String day = new SimpleDateFormat("dd").format(dateObject);
+        String year = new SimpleDateFormat("yyyy").format(dateObject);
+        String hourOfDay = new SimpleDateFormat("HH").format(dateObject);
+        String min = new SimpleDateFormat("mm").format(dateObject);
+        String sec = new SimpleDateFormat("ss").format(dateObject);
 
-        month     = new SimpleDateFormat("MM").format(dateObject);
-        day       = new SimpleDateFormat("dd").format(dateObject);
-        year      = new SimpleDateFormat("yyyy").format(dateObject);
-        hourOfDay = new SimpleDateFormat("HH").format(dateObject);
-        min       = new SimpleDateFormat("mm").format(dateObject);
-        sec       = new SimpleDateFormat("ss").format(dateObject);
-
-        if(timeZone != null){
+        if (timeZone != null) {
             cal.setTimeZone(timeZone);
-        }else{
+        } else {
             cal.setTimeZone(TimeZone.getDefault());
         }
-
-        cal.set(Integer.parseInt(year), Integer.parseInt(month)-1, Integer.parseInt(day), Integer.parseInt(hourOfDay), Integer.parseInt(min), Integer.parseInt(sec));
-
-        month     = null;
-        day       = null;
-        year      = null;
-        hourOfDay = null;
-        min       = null;
-        sec       = null;
-        dateObject = null;
-
+        cal.set(Integer.parseInt(year),
+                Integer.parseInt(month) - 1, Integer.parseInt(day),
+                Integer.parseInt(hourOfDay), Integer.parseInt(min),
+                Integer.parseInt(sec));
         return cal;
     }
 }

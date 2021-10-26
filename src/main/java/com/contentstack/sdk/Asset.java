@@ -1,18 +1,23 @@
 package com.contentstack.sdk;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
 import static com.contentstack.sdk.Constants.ENVIRONMENT;
+import static com.contentstack.sdk.Constants.parseDate;
 
 
 public class Asset {
 
-    private static final Logger logger = Logger.getLogger(Asset.class.getSimpleName());
-    public JSONObject urlQueries = new JSONObject();
+    protected final Logger logger = Logger.getLogger(Asset.class.getSimpleName());
+    protected final JSONObject urlQueries = new JSONObject();
     protected String assetUid = null;
     protected String contentType = null;
     protected String fileSize = null;
@@ -20,31 +25,30 @@ public class Asset {
     protected String uploadUrl = null;
     protected JSONObject json = null;
     protected String[] tagsArray = null;
-    protected LinkedHashMap<String, Object> headerGroupApp;
-    protected LinkedHashMap<String, Object> headerGroupLocal;
+    //protected LinkedHashMap<String, Object> headerGroupApp;
+    protected LinkedHashMap<String, Object> headers;
     protected Stack stackInstance;
 
     protected Asset() {
-        this.headerGroupLocal = new LinkedHashMap<>();
-        this.headerGroupApp = new LinkedHashMap<>();
-
+        this.headers = new LinkedHashMap<>();
+        //this.headerGroupApp = new LinkedHashMap<>();
     }
 
-    protected Asset(String assetUid) {
+    protected Asset(@NotNull String assetUid) {
         this.assetUid = assetUid;
-        this.headerGroupLocal = new LinkedHashMap<>();
-        this.headerGroupApp = new LinkedHashMap<>();
+        this.headers = new LinkedHashMap<>();
+        //this.headerGroupApp = new LinkedHashMap<>();
     }
 
-    protected void setStackInstance(Stack stack) {
+    protected void setStackInstance(@NotNull Stack stack) {
         this.stackInstance = stack;
-        this.headerGroupApp = stack.localHeader;
+        this.headers = stack.headers;
     }
 
 
-    public Asset configure(JSONObject jsonObject) {
+    public Asset configure(@NotNull JSONObject jsonObject) {
         AssetModel model;
-        model = new AssetModel(jsonObject, true, false);
+        model = new AssetModel(jsonObject, true);
         this.contentType = model.contentType;
         this.fileSize = model.fileSize;
         this.uploadUrl = model.uploadUrl;
@@ -52,27 +56,20 @@ public class Asset {
         this.json = model.json;
         this.assetUid = model.uploadedUid;
         this.setTags(model.tags);
-        model = null;
         return this;
     }
 
-    public void setHeader(String key, String value) {
-        if (!key.isEmpty() && !value.isEmpty()) {
-            removeHeader(key);
-            headerGroupLocal.put(key, value);
-        }
+    public void setHeader(@NotNull String headerKey,
+                          @NotNull String headerValue) {
+        headers.put(headerKey, headerValue);
     }
 
-    public void removeHeader(String key) {
-        if (headerGroupLocal != null) {
-            if (!key.isEmpty()) {
-                headerGroupLocal.remove(key);
-            }
-        }
+    public void removeHeader(@NotNull String headerKey) {
+        headers.remove(headerKey);
     }
 
-    protected void setUid(String assetUid) {
-        if (!assetUid.isEmpty()) {
+    protected void setUid(@NotNull String assetUid) {
+        if (!assetUid.isBlank()) {
             this.assetUid = assetUid;
         }
     }
@@ -102,14 +99,7 @@ public class Asset {
     }
 
     public Calendar getCreateAt() {
-
-        try {
-            String value = json.optString("created_at");
-            return Constants.parseDate(value, null);
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
-        }
-        return null;
+        return parseDate(json.optString("created_at"), null);
     }
 
     public String getCreatedBy() {
@@ -117,14 +107,7 @@ public class Asset {
     }
 
     public Calendar getUpdateAt() {
-
-        try {
-            String value = json.optString("updated_at");
-            return Constants.parseDate(value, null);
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
-        }
-        return null;
+        return parseDate(json.optString("updated_at"), null);
     }
 
     public String getUpdatedBy() {
@@ -132,14 +115,7 @@ public class Asset {
     }
 
     public Calendar getDeleteAt() {
-
-        try {
-            String value = json.optString("deleted_at");
-            return Constants.parseDate(value, null);
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
-        }
-        return null;
+        return parseDate(json.optString("deleted_at"), null);
     }
 
     public String getDeletedBy() {
@@ -160,81 +136,9 @@ public class Asset {
         return this;
     }
 
-
-    public void fetch(FetchResultCallback callback) {
-        try {
-            String URL = "/" + stackInstance.VERSION + "/assets/" + assetUid;
-            LinkedHashMap<String, Object> headers = getHeader(headerGroupLocal);
-            if (headers.containsKey(ENVIRONMENT)) {
-                urlQueries.put(ENVIRONMENT, headers.get(ENVIRONMENT));
-            }
-            fetchFromNetwork(URL, urlQueries, headers, callback);
-        } catch (Exception e) {
-            Error error = new Error();
-            error.setErrorMessage(Constants.JSON_NOT_PROPER);
-            callback.onRequestFail(ResponseType.UNKNOWN, error);
-        }
-    }
-
-
-    private void fetchFromNetwork(String URL, JSONObject urlQueries, LinkedHashMap<String, Object> headers, FetchResultCallback callback) {
-        if (callback != null) {
-            HashMap<String, Object> urlParams = getUrlParams(urlQueries);
-            new CSBackgroundTask(this, stackInstance, Constants.FETCHASSETS, URL, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.ASSET.toString(), false, Constants.REQUEST_METHOD.GET, callback);
-        }
-    }
-
-
-    private HashMap<String, Object> getUrlParams(JSONObject urlQueriesJSON) {
-        HashMap<String, Object> hashMap = new HashMap<>();
-        if (urlQueriesJSON != null && urlQueriesJSON.length() > 0) {
-            Iterator<String> iter = urlQueriesJSON.keys();
-            while (iter.hasNext()) {
-                String key = iter.next();
-                try {
-                    Object value = urlQueriesJSON.opt(key);
-                    hashMap.put(key, value);
-                } catch (Exception e) {
-                    logger.severe(e.getLocalizedMessage());
-                }
-            }
-            return hashMap;
-        }
-        return null;
-    }
-
-
-    private LinkedHashMap<String, Object> getHeader(LinkedHashMap<String, Object> localHeader) {
-        LinkedHashMap<String, Object> mainHeader = headerGroupApp;
-        LinkedHashMap<String, Object> classHeaders = new LinkedHashMap<>();
-
-        if (localHeader != null && localHeader.size() > 0) {
-            if (mainHeader != null && mainHeader.size() > 0) {
-                for (Map.Entry<String, Object> entry : localHeader.entrySet()) {
-                    String key = entry.getKey();
-                    classHeaders.put(key, entry.getValue());
-                }
-
-                for (Map.Entry<String, Object> entry : mainHeader.entrySet()) {
-                    String key = entry.getKey();
-                    if (!classHeaders.containsKey(key)) {
-                        classHeaders.put(key, entry.getValue());
-                    }
-                }
-                return classHeaders;
-            } else {
-                return localHeader;
-            }
-        } else {
-            return headerGroupApp;
-        }
-    }
-
-
-    public Asset addParam(String key, String value) {
-        if (key != null && value != null) {
-            urlQueries.put(key, value);
-        }
+    public Asset addParam(@NotNull String paramKey,
+                          @NotNull String paramValue) {
+        urlQueries.put(paramKey, paramValue);
         return this;
     }
 
@@ -243,5 +147,61 @@ public class Asset {
         urlQueries.put("include_fallback", true);
         return this;
     }
+
+    public void fetch(FetchResultCallback callback) {
+        //LinkedHashMap<String, Object> headerMap = getHeader(this.headers);
+        if (this.headers.containsKey(ENVIRONMENT)) {
+            urlQueries.put(ENVIRONMENT, this.headers.get(ENVIRONMENT));
+        }
+        fetchFromNetwork("assets/" + assetUid, urlQueries, this.headers, callback);
+    }
+
+
+    private void fetchFromNetwork(String url, JSONObject urlQueries, LinkedHashMap<String, Object> headers, FetchResultCallback callback) {
+        if (callback != null) {
+            HashMap<String, Object> urlParams = getUrlParams(urlQueries);
+            new CSBackgroundTask(this, stackInstance, Constants.FETCHASSETS, url, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.ASSET.toString(), false, Constants.REQUEST_METHOD.GET, callback);
+        }
+    }
+
+
+    private HashMap<String, Object> getUrlParams(JSONObject urlQueriesJSON) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        if (urlQueriesJSON != null && urlQueriesJSON.length() > 0) {
+            Iterator<String> keyArrays = urlQueriesJSON.keys();
+            while (keyArrays.hasNext()) {
+                String key = keyArrays.next();
+                Object value = urlQueriesJSON.opt(key);
+                hashMap.put(key, value);
+            }
+            return hashMap;
+        }
+        return hashMap;
+    }
+
+
+//    private LinkedHashMap<String, Object> getHeader(@NotNull LinkedHashMap<String, Object> localHeader) {
+//        LinkedHashMap<String, Object> mainHeader = headerGroupApp;
+//        LinkedHashMap<String, Object> classHeaders = new LinkedHashMap<>();
+//
+//        if (localHeader.size() > 0) {
+//            if (mainHeader.size() > 0) {
+//                for (Map.Entry<String, Object> entry : localHeader.entrySet()) {
+//                    String key = entry.getKey();
+//                    classHeaders.put(key, entry.getValue());
+//                }
+//                for (Map.Entry<String, Object> entry : mainHeader.entrySet()) {
+//                    String key = entry.getKey();
+//                    classHeaders.putIfAbsent(key, entry.getValue());
+//                }
+//                return classHeaders;
+//            } else {
+//                return localHeader;
+//            }
+//        } else {
+//            return headerGroupApp;
+//        }
+//    }
+
 
 }

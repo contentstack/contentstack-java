@@ -12,10 +12,6 @@ public interface IURLRequestHTTP {
 
     public void setHeaders(LinkedHashMap<String, Object> headers);
 
-    public Constants.REQUEST_METHOD getRequestMethod();
-
-    public void setRequestMethod(Constants.REQUEST_METHOD requestMethod);
-
     public JSONObject getResponse();
 
     public String getInfo();
@@ -29,10 +25,5 @@ public interface IURLRequestHTTP {
     public ResultCallBack getCallBackObject();
 
     public void setCallBackObject(ResultCallBack builtResultCallBackObject);
-
-    public boolean getTreatDuplicateKeysAsArrayItems();
-
-    public void setTreatDuplicateKeysAsArrayItems(boolean treatDuplicateKeysAsArrayItems);
-
 
 }

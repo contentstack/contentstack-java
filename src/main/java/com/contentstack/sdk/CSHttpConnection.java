@@ -1,8 +1,12 @@
 package com.contentstack.sdk;
 
+import okhttp3.ResponseBody;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,20 +19,23 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class CSHttpConnection implements IURLRequestHTTP {
 
+    private final Logger logger = Logger.getLogger(CSHttpConnection.class.getName());
     private final String urlPath;
     private final IRequestModelHTTP connectionRequest;
     private String controller;
     private LinkedHashMap<String, Object> headers;
     private String info;
+    private String endpoint;
     private JSONObject requestJSON;
     private ResultCallBack callBackObject;
     private Constants.REQUEST_METHOD requestMethod;
     private JSONObject responseJSON;
     private HashMap<String, Object> formParams;
-    private boolean treatDuplicateKeysAsArrayItems;
+    //private boolean treatDuplicateKeysAsArrayItems;
 
     public CSHttpConnection(String urlToCall, IRequestModelHTTP csConnectionRequest) {
         this.urlPath = urlToCall;
@@ -74,7 +81,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     public void setFormParamsPOST(JSONObject requestJSON) {
-        this.requestJSON = null;
         this.requestJSON = requestJSON;
     }
 
@@ -88,25 +94,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
         this.callBackObject = callBackObject;
     }
 
-    @Override
-    public boolean getTreatDuplicateKeysAsArrayItems() {
-        return treatDuplicateKeysAsArrayItems;
-    }
-
-    @Override
-    public void setTreatDuplicateKeysAsArrayItems(boolean treatDuplicateKeysAsArrayItems) {
-        this.treatDuplicateKeysAsArrayItems = treatDuplicateKeysAsArrayItems;
-    }
-
-    @Override
-    public Constants.REQUEST_METHOD getRequestMethod() {
-        return requestMethod;
-    }
-
-    @Override
-    public void setRequestMethod(Constants.REQUEST_METHOD requestMethod) {
-        this.requestMethod = requestMethod;
-    }
 
     @Override
     public JSONObject getResponse() {
@@ -138,31 +125,17 @@ public class CSHttpConnection implements IURLRequestHTTP {
             String key = e.getKey();
             Object value = e.getValue();
             try {
-                if (key.equalsIgnoreCase("include[]")) {
-                    key = URLEncoder.encode(key, "UTF-8");
-                    JSONArray array = (JSONArray) value;
-                    for (int i = 0; i < array.length(); i++) {
-                        urlParams += urlParams.equals("?") ? key + "=" + array.opt(i) : "&" + key + "=" + array.opt(i);
-                    }
-                } else if (key.equalsIgnoreCase("only[BASE][]")) {
-                    key = URLEncoder.encode(key, "UTF-8");
-                    JSONArray array = (JSONArray) value;
-                    for (int i = 0; i < array.length(); i++) {
-                        urlParams += urlParams.equals("?") ? key + "=" + array.opt(i) : "&" + key + "=" + array.opt(i);
-                    }
-                } else if (key.equalsIgnoreCase("except[BASE][]")) {
-                    key = URLEncoder.encode(key, "UTF-8");
-                    JSONArray array = (JSONArray) value;
-                    for (int i = 0; i < array.length(); i++) {
-                        urlParams += urlParams.equals("?") ? key + "=" + array.opt(i) : "&" + key + "=" + array.opt(i);
-                    }
+                if (key.equalsIgnoreCase("include[]") ||
+                        key.equalsIgnoreCase("only[BASE][]") ||
+                        key.equalsIgnoreCase("except[BASE][]")) {
+                    urlParams = convertUrlParam(urlParams, value, key);
                 } else if (key.equalsIgnoreCase("only")) {
                     JSONObject onlyJSON = (JSONObject) value;
-                    Iterator<String> iter = onlyJSON.keys();
-                    while (iter.hasNext()) {
-                        String innerKey = iter.next();
+                    Iterator<String> itrString = onlyJSON.keys();
+                    while (itrString.hasNext()) {
+                        String innerKey = itrString.next();
                         JSONArray array = onlyJSON.optJSONArray(innerKey);
-                        innerKey = URLEncoder.encode("only[" + innerKey + "][]", "UTF-8");
+                        innerKey = URLEncoder.encode("only[" + innerKey + "][]", StandardCharsets.UTF_8);
                         for (int i = 0; i < array.length(); i++) {
                             urlParams += urlParams.equals("?") ? innerKey + "=" + array.opt(i) : "&" + innerKey + "=" + array.opt(i);
                         }
@@ -173,14 +146,14 @@ public class CSHttpConnection implements IURLRequestHTTP {
                     while (iter.hasNext()) {
                         String innerKey = iter.next();
                         JSONArray array = onlyJSON.optJSONArray(innerKey);
-                        innerKey = URLEncoder.encode("except[" + innerKey + "][]", "UTF-8");
+                        innerKey = URLEncoder.encode("except[" + innerKey + "][]", StandardCharsets.UTF_8);
                         for (int i = 0; i < array.length(); i++) {
                             urlParams += urlParams.equals("?") ? innerKey + "=" + array.opt(i) : "&" + innerKey + "=" + array.opt(i);
                         }
                     }
                 } else if (key.equalsIgnoreCase("query")) {
                     JSONObject queryJSON = (JSONObject) value;
-                    urlParams += urlParams.equals("?") ? key + "=" + URLEncoder.encode(queryJSON.toString(), "UTF-8") : "&" + key + "=" + URLEncoder.encode(queryJSON.toString(), "UTF-8");
+                    urlParams += urlParams.equals("?") ? key + "=" + URLEncoder.encode(queryJSON.toString(), StandardCharsets.UTF_8) : "&" + key + "=" + URLEncoder.encode(queryJSON.toString(), StandardCharsets.UTF_8);
                 } else {
                     urlParams += urlParams.equals("?") ? key + "=" + value : "&" + key + "=" + value;
                 }
@@ -192,32 +165,65 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
 
+    private String convertUrlParam(String urlParams, Object value, String key) {
+        key = URLEncoder.encode(key, StandardCharsets.UTF_8);
+        JSONArray array = (JSONArray) value;
+        for (int i = 0; i < array.length(); i++) {
+            urlParams += urlParams.equals("?") ? key + "=" + array.opt(i) : "&" + key + "=" + array.opt(i);
+        }
+        return urlParams;
+    }
+
     @Override
     public void send() {
 
-        String url = null;
-        if (requestMethod == Constants.REQUEST_METHOD.GET) {
-            String params = setFormParamsGET(formParams);
-            if (params != null) {
-                url = urlPath + params;
-            } else {
-                url = urlPath;
-            }
+        String url = "";
+        String params = setFormParamsGET(formParams);
+        if (params != null) {
+            url = urlPath + params;
         } else {
             url = urlPath;
         }
 
         try {
-            sendGET(url);
+            //sendGET(url);
+            getService(url);
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }
 
+    private void getService(String requestUrl) throws IOException {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(this.endpoint).build();
+        APIService service = retrofit.create(APIService.class);
+        this.headers.remove(Constants.ENVIRONMENT);
+        Response<ResponseBody> response = service.getRequest(requestUrl, this.headers).execute();
+        if (response.isSuccessful()) {
+            String resp = response.body().string();
+            logger.info(resp);
+            responseJSON = new JSONObject(resp);
+            connectionRequest.onRequestFinished(CSHttpConnection.this);
+        } else {
+            setError(response.errorBody().string());
+        }
 
-    private void sendGET(String GET_URL) throws IOException, JSONException {
-        URL obj = new URL(GET_URL);
-        HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+    }
+
+
+    void setError(String errResp) {
+        logger.info(errResp);
+        responseJSON = new JSONObject(errResp); // Parse error string to JSONObject
+        responseJSON.put("error_message", responseJSON.optString("error_message"));
+        responseJSON.put("error_code", responseJSON.optString("error_code"));
+        responseJSON.put("errors", responseJSON.optString("errors"));
+        int errCode = Integer.parseInt(responseJSON.optString("error_code"));
+        connectionRequest.onRequestFailed(responseJSON, errCode, callBackObject);
+    }
+
+
+    private void sendGET(String requestUrl) throws IOException, JSONException {
+        URL objUrl = new URL(requestUrl);
+        HttpURLConnection conn = (HttpURLConnection) objUrl.openConnection();
         conn.setRequestMethod("GET");
         if (this.headers.containsKey("api_key")) {
             conn.setRequestProperty("api_key", headers.get("api_key").toString());
@@ -242,7 +248,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
             responseJSON = new JSONObject(response.toString());
             connectionRequest.onRequestFinished(CSHttpConnection.this);
         } else {
-            // Setting up error details, like error_message, error_code, error_details
             settingErrorInfo(conn);
         }
 
@@ -272,4 +277,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
         return agent != null ? agent : ("Java" + System.getProperty("java.version"));
     }
 
+    protected void setEndpoint(@NotNull String endpoint) {
+        this.endpoint = endpoint;
+    }
 }

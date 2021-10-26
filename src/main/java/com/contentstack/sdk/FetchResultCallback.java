@@ -1,7 +1,7 @@
 package com.contentstack.sdk;
 
 
-public abstract class FetchResultCallback extends ResultCallBack {
+public abstract class FetchResultCallback implements ResultCallBack {
 
     /**
      * Triggered after call execution complete.
@@ -17,12 +17,9 @@ public abstract class FetchResultCallback extends ResultCallBack {
     }
 
     @Override
-    void onRequestFail(ResponseType responseType, Error error) {
+    public void onRequestFail(ResponseType responseType, Error error) {
         onCompletion(responseType, error);
     }
 
-    @Override
-    public void always() {
-    }
 
 }

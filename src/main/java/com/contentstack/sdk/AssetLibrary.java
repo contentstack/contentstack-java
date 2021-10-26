@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class AssetLibrary implements INotifyClass {
 
     private static final Logger logger = Logger.getLogger(AssetLibrary.class.getSimpleName());
-    public JSONObject urlQueries;
+    public final JSONObject urlQueries;
     private Stack stackInstance;
     private LinkedHashMap<String, Object> stackHeader;
     private LinkedHashMap<String, Object> localHeader;
@@ -29,7 +29,7 @@ public class AssetLibrary implements INotifyClass {
 
     protected void setStackInstance(Stack stack) {
         this.stackInstance = stack;
-        this.stackHeader = stack.localHeader;
+        this.stackHeader = stack.headers;
     }
 
     /**
@@ -87,20 +87,11 @@ public class AssetLibrary implements INotifyClass {
      * </pre>
      */
     public AssetLibrary sort(String key, ORDERBY orderby) {
-        try {
-            switch (orderby) {
-                case ASCENDING:
-                    urlQueries.put("asc", key);
-                    break;
-
-                case DESCENDING:
-                    urlQueries.put("desc", key);
-                    break;
-            }
-        } catch (Exception e) {
-            throwException("sort", Constants.QUERY_EXCEPTION, e);
+        if (orderby == ORDERBY.ASCENDING) {
+            urlQueries.put("asc", key);
+        } else {
+            urlQueries.put("desc", key);
         }
-
         return this;
     }
 
@@ -121,7 +112,7 @@ public class AssetLibrary implements INotifyClass {
         try {
             urlQueries.put("include_count", "true");
         } catch (Exception e) {
-            throwException("includeCount", Constants.QUERY_EXCEPTION, e);
+            throwException("includeCount");
         }
         return this;
     }
@@ -142,7 +133,7 @@ public class AssetLibrary implements INotifyClass {
         try {
             urlQueries.put("relative_urls", "true");
         } catch (Exception e) {
-            throwException("relative_urls", Constants.QUERY_EXCEPTION, e);
+            throwException("relative_urls");
         }
         return this;
     }
@@ -168,13 +159,13 @@ public class AssetLibrary implements INotifyClass {
     public void fetchAll(FetchAssetsCallback assetsCallback) {
         try {
             this.assetsCallback = assetsCallback;
-            String URL = "/" + stackInstance.VERSION + "/assets";
+            String url = "v3/assets";
             LinkedHashMap<String, Object> headers = getHeader(localHeader);
             if (headers.containsKey(Constants.ENVIRONMENT)) {
                 urlQueries.put(Constants.ENVIRONMENT, headers.get(Constants.ENVIRONMENT));
             }
 
-            fetchFromNetwork(URL, urlQueries, headers, assetsCallback);
+            fetchFromNetwork(url, urlQueries, headers, assetsCallback);
 
         } catch (Exception e) {
             logger.severe(e.getLocalizedMessage());
@@ -182,10 +173,10 @@ public class AssetLibrary implements INotifyClass {
 
     }
 
-    private void fetchFromNetwork(String URL, JSONObject urlQueries, LinkedHashMap<String, Object> headers, FetchAssetsCallback assetsCallback) {
+    private void fetchFromNetwork(String url, JSONObject urlQueries, LinkedHashMap<String, Object> headers, FetchAssetsCallback assetsCallback) {
         if (assetsCallback != null) {
             HashMap<String, Object> urlParams = getUrlParams(urlQueries);
-            new CSBackgroundTask(this, stackInstance, Constants.FETCHALLASSETS, URL, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.ASSETLIBRARY.toString(), false, Constants.REQUEST_METHOD.GET, assetsCallback);
+            new CSBackgroundTask(this, stackInstance, Constants.FETCHALLASSETS, url, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.ASSETLIBRARY.toString(), false, Constants.REQUEST_METHOD.GET, assetsCallback);
         }
     }
 
@@ -212,15 +203,14 @@ public class AssetLibrary implements INotifyClass {
             return hashMap;
         }
 
-        return null;
+        return hashMap;
     }
 
     /**
-     * @param tag           String to which  Class belong
-     * @param messageString takes as Message
-     * @param e             Exception
+     * @param messageString
+     *         takes as Message
      */
-    private void throwException(String tag, String messageString, Exception e) {
+    private void throwException(String messageString) {
         Error error = new Error();
         error.setErrorMessage(messageString);
     }
@@ -238,9 +228,7 @@ public class AssetLibrary implements INotifyClass {
 
                 for (Map.Entry<String, Object> entry : mainHeader.entrySet()) {
                     String key = entry.getKey();
-                    if (!classHeaders.containsKey(key)) {
-                        classHeaders.put(key, entry.getValue());
-                    }
+                    classHeaders.putIfAbsent(key, entry.getValue());
                 }
 
                 return classHeaders;
@@ -256,6 +244,8 @@ public class AssetLibrary implements INotifyClass {
 
     @Override
     public void getResult(Object object, String controller) {
+        // this method is empty
+        logger.warning("this method is empty");
     }
 
     @Override
@@ -265,9 +255,9 @@ public class AssetLibrary implements INotifyClass {
             count = jsonObject.optInt("count");
         }
 
-        List<Asset> assets = new ArrayList<Asset>();
+        List<Asset> assets = new ArrayList<>();
 
-        if (objects != null && objects.size() > 0) {
+        if (objects != null && !objects.isEmpty()) {
             for (Object object : objects) {
                 AssetModel model = (AssetModel) object;
                 Asset asset = stackInstance.asset();
@@ -279,8 +269,6 @@ public class AssetLibrary implements INotifyClass {
                 asset.json = model.json;
                 asset.assetUid = model.uploadedUid;
                 asset.setTags(model.tags);
-                model = null;
-
                 assets.add(asset);
             }
         }
