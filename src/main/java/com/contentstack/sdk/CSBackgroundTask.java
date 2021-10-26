@@ -1,7 +1,6 @@
 package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -24,23 +23,23 @@ class CSBackgroundTask {
 
     }
 
-    protected CSBackgroundTask(Query queryInstance, Stack stackInstance, String controller, String url, LinkedHashMap<String, Object> headers, LinkedHashMap<String, Object> urlQueries, JSONObject jsonMain, String requestInfo, Constants.REQUEST_METHOD method, ResultCallBack callback) {
+    protected CSBackgroundTask(Query queryInstance, Stack stackInstance, String controller, String url, LinkedHashMap<String, Object> headers, HashMap<String, Object> urlQueries, String requestInfo, ResultCallBack callback) {
         checkHeader(headers);
-        String completeUrl = stackInstance.URL_SCHEMA + stackInstance.URL + url;
+        String completeUrl = stackInstance.config.getEndpoint() + url;
         CSConnectionRequest csConnectionRequest = new CSConnectionRequest(queryInstance);
         csConnectionRequest.setQueryInstance(queryInstance);
         csConnectionRequest.setURLQueries(urlQueries);
-        csConnectionRequest.setParams(completeUrl, method, controller, jsonMain, headers, requestInfo, callback);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback);
 
     }
 
 
-    protected CSBackgroundTask(Entry entryInstance, Stack stackInstance, String controller, String url, LinkedHashMap<String, Object> headers, HashMap<String, Object> urlQueries, JSONObject jsonMain, String requestInfo, boolean isOffline, Constants.REQUEST_METHOD method, ResultCallBack callBack) {
+    protected CSBackgroundTask(Entry entryInstance, Stack stackInstance, String controller, String url, LinkedHashMap<String, Object> headers, HashMap<String, Object> urlQueries, String requestInfo, ResultCallBack callBack) {
         checkHeader(headers);
-        String completeUrl = stackInstance.URL_SCHEMA + stackInstance.URL + url;
+        String completeUrl = stackInstance.config.getEndpoint() + url;
         CSConnectionRequest csConnectionRequest = new CSConnectionRequest(entryInstance);
         csConnectionRequest.setURLQueries(urlQueries);
-        csConnectionRequest.setParams(completeUrl, method, controller, jsonMain, headers, requestInfo, callBack);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callBack);
     }
 
 
