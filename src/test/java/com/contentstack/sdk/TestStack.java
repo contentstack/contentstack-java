@@ -321,5 +321,23 @@ class TestStack {
         });
     }
 
+    @Test
+    void testConfigSetRegion() {
+        Config config = new Config();
+        config.setRegion(Config.ContentstackRegion.US);
+        assertEquals("US", config.getRegion().toString());
+    }
+
+    @Test
+    void testConfigGetRegion() {
+        Config config = new Config();
+        assertEquals("US", config.getRegion().toString());
+    }
+
+    @Test
+    void testConfigGetHost() {
+        Config config = new Config();
+        assertEquals(config.HOST, config.getHost());
+    }
 
 }

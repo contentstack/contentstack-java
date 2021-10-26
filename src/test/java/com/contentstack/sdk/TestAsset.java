@@ -2,20 +2,17 @@ package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONObject;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestAsset {
 
     protected String API_KEY, DELIVERY_TOKEN, ENV;
     private final Logger logger = Logger.getLogger(TestAsset.class.getName());
-    private Asset assetInstance;
     private String assetUid;
     private Stack stack;
 
@@ -26,87 +23,10 @@ class TestAsset {
         DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
         ENV = dotenv.get("ENVIRONMENT");
         stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV);
-        assetInstance = stack.asset();
     }
 
     @Test
-    void testAssetDefaultConstructor() {
-        logger.fine("We are working with fake apis");
-        Asset asset = new Asset();
-        Assertions.assertNotNull(asset);
-    }
-
-    @Test
-    void testAddHeader() {
-        String headerKey = "fakeKey";
-        assetInstance.setHeader(headerKey, "fakeValue");
-        Assertions.assertTrue(assetInstance.headers.containsKey(headerKey));
-    }
-
-    @Test
-    void testRemoveHeader() {
-        String headerKey = "fakeKey";
-        assetInstance.removeHeader(headerKey);
-        Assertions.assertFalse(assetInstance.headers.containsKey(headerKey));
-    }
-
-    @Test
-    void testSetAssetUid() {
-        String headerKey = "asset@fakeuid";
-        assetInstance.setUid(headerKey);
-        Assertions.assertEquals(headerKey, assetInstance.assetUid);
-    }
-
-    @Test
-    void testSetAssetTagsLength() {
-        String[] tags = {"gif", "img", "landscape", "portrait"};
-        assetInstance.setTags(tags);
-        Assertions.assertEquals(tags.length, assetInstance.tagsArray.length);
-    }
-
-
-    @Test
-    void testGetAssetTags() {
-        String[] tags = {"gif", "img", "landscape", "portrait"};
-        assetInstance.setTags(tags);
-        Assertions.assertEquals(tags.length, assetInstance.getTags().length);
-    }
-
-    @Test
-    void testAssetIncludeDimension() {
-        assetInstance.includeDimension();
-        Assertions.assertTrue(assetInstance.urlQueries.has("include_dimension"));
-    }
-
-
-    @Test
-    void testAssetIncludeFallback() {
-        assetInstance.includeFallback();
-        Assertions.assertTrue(assetInstance.urlQueries.has("include_fallback"));
-    }
-
-    @Test
-    void testAssetAddParam() {
-        assetInstance.addParam("fake@Param", "fake@Param");
-        Assertions.assertTrue(assetInstance.urlQueries.has("fake@Param"));
-    }
-
-    @Test
-    void testNewAssetInstance() {
-        String fakeAssetUid = "fakeAssetUid";
-        assetInstance = stack.asset(fakeAssetUid);
-        Assertions.assertEquals(fakeAssetUid, assetInstance.assetUid);
-    }
-
-
-    @Test
-    void assetConfigure() {
-        assetInstance = stack.asset("assetuid@fake");
-        Assertions.assertEquals("assetuid@fake",
-                assetInstance.assetUid);
-    }
-
-    @Test
+    @Order(1)
     void testNewAssetLibrary() {
         AssetLibrary assets = stack.assetLibrary();
         assets.fetchAll(new FetchAssetsCallback() {
@@ -131,12 +51,11 @@ class TestAsset {
 
 
     @Test
+    @Order(2)
     void testNewAssetZOnlyForOrderByUid() {
-//        if (!assetUid.isEmpty()) {
         String[] tags = {"black", "white", "red"};
-        String uid = "blt5312f71416d6e2c8"; // fake@assetuid
-        Asset asset = stack.asset(uid);
-        stack.asset(uid).includeFallback().addParam("fake@header", "fake@header").setTags(tags).fetch(new FetchResultCallback() {
+        Asset asset = stack.asset(assetUid);
+        asset.includeFallback().addParam("fake@header", "fake@header").setTags(tags).fetch(new FetchResultCallback() {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
                 Assertions.assertTrue(asset.getAssetUid().startsWith("blt"));
@@ -153,9 +72,91 @@ class TestAsset {
                 Assertions.assertEquals("", asset.getDeletedBy());
             }
         });
-//        } else {
-//            Assertions.fail("Fail Expected");
-//        }
+    }
+
+    @Test
+    void testAssetDefaultConstructor() {
+        logger.fine("We are working with fake apis");
+        Asset asset = new Asset();
+        Assertions.assertNotNull(asset);
+    }
+
+    @Test
+    void testAddHeader() {
+        String headerKey = "fakeKey";
+        Asset assetInstance = stack.asset();
+        assetInstance.setHeader(headerKey, "fakeValue");
+        Assertions.assertTrue(assetInstance.headers.containsKey(headerKey));
+    }
+
+    @Test
+    void testRemoveHeader() {
+        String headerKey = "fakeKey";
+        Asset assetInstance = stack.asset();
+        assetInstance.removeHeader(headerKey);
+        Assertions.assertFalse(assetInstance.headers.containsKey(headerKey));
+    }
+
+    @Test
+    void testSetAssetUid() {
+        String headerKey = "asset@fakeuid";
+        Asset assetInstance = stack.asset();
+        assetInstance.setUid(headerKey);
+        Assertions.assertEquals(headerKey, assetInstance.assetUid);
+    }
+
+    @Test
+    void testSetAssetTagsLength() {
+        String[] tags = {"gif", "img", "landscape", "portrait"};
+        Asset assetInstance = stack.asset();
+        assetInstance.setTags(tags);
+        Assertions.assertEquals(tags.length, assetInstance.tagsArray.length);
+    }
+
+
+    @Test
+    void testGetAssetTags() {
+        String[] tags = {"gif", "img", "landscape", "portrait"};
+        Asset assetInstance = stack.asset();
+        assetInstance.setTags(tags);
+        Assertions.assertEquals(tags.length, assetInstance.getTags().length);
+    }
+
+    @Test
+    void testAssetIncludeDimension() {
+        Asset assetInstance = stack.asset();
+        assetInstance.includeDimension();
+        Assertions.assertTrue(assetInstance.urlQueries.has("include_dimension"));
+    }
+
+
+    @Test
+    void testAssetIncludeFallback() {
+        Asset assetInstance = stack.asset();
+        assetInstance.includeFallback();
+        Assertions.assertTrue(assetInstance.urlQueries.has("include_fallback"));
+    }
+
+    @Test
+    void testAssetAddParam() {
+        Asset assetInstance = stack.asset();
+        assetInstance.addParam("fake@Param", "fake@Param");
+        Assertions.assertTrue(assetInstance.urlQueries.has("fake@Param"));
+    }
+
+    @Test
+    void testNewAssetInstance() {
+        String fakeAssetUid = "fakeAssetUid";
+        Asset assetInstance = stack.asset(fakeAssetUid);
+        Assertions.assertEquals(fakeAssetUid, assetInstance.assetUid);
+    }
+
+
+    @Test
+    void assetConfigure() {
+        Asset assetInstance = stack.asset("assetuid@fake");
+        Assertions.assertEquals("assetuid@fake",
+                assetInstance.assetUid);
     }
 
 

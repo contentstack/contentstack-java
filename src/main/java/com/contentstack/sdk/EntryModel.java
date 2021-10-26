@@ -11,8 +11,7 @@ import java.util.logging.Logger;
 
 class EntryModel {
 
-
-    private static final Logger logger = Logger.getLogger(EntryModel.class.getSimpleName());
+    private final Logger logger = Logger.getLogger(EntryModel.class.getSimpleName());
     protected JSONObject jsonObject = null;
     protected String entryUid = null;
     protected String ownerEmailId = null;
@@ -105,7 +104,6 @@ class EntryModel {
                 if (ownerObject.has("email") && ownerObject.opt("email") != null) {
                     ownerEmailId = (String) ownerObject.opt("email");
                 }
-
                 if (ownerObject.has("uid") && ownerObject.opt("uid") != null) {
                     ownerUid = ownerObject.opt("uid").toString();
                 }
@@ -117,12 +115,8 @@ class EntryModel {
                     ownerMap.put(key, owner.optString(key));
                 }
             }
-
             if (jsonObject != null && jsonObject.has("rich_text_editor")) {
                 this.rteContent = (String) (jsonObject.isNull("rich_text_editor") ? " " : jsonObject.opt("rich_text_editor"));
-
-                //do rich_text_editor utility stuff
-
             }
 
         } catch (Exception e) {

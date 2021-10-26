@@ -160,6 +160,5 @@ public class LivePreviewTestcase {
                 logger.info("error: " + error.getErrorDetail());
             }
         });
-
     }
 }

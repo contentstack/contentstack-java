@@ -13,7 +13,5 @@ public abstract class SingleQueryResultCallback implements ResultCallBack {
         onCompletion(responseType, null, error);
     }
 
-
-
 }
 

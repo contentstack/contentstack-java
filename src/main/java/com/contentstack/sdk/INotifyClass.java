@@ -7,8 +7,7 @@ import java.util.List;
 
 public interface INotifyClass {
 
+    void getResult(Object object, String controller);
 
-    public void getResult(Object object, String controller);
-
-    public void getResultObject(List<Object> object, JSONObject jsonObject, boolean isSingleEntry);
+    void getResultObject(List<Object> object, JSONObject jsonObject, boolean isSingleEntry);
 }

@@ -18,7 +18,7 @@ public class Query implements INotifyClass {
 
     private static final Logger logger = Logger.getLogger(Query.class.getSimpleName());
     protected ContentType contentTypeInstance = null;
-    protected LinkedHashMap<String, Object> formHeader = null;
+    protected LinkedHashMap<String, Object> headers = null;
     protected JSONObject urlQueries = null;
     private JSONObject mainJSON = null;
     private String formName = null;
@@ -91,7 +91,7 @@ public class Query implements INotifyClass {
     }
 
     public String getContentType() {
-        return contentTypeInstance.contentTypeName;
+        return contentTypeInstance.contentTypeUid;
     }
 
 
@@ -1562,7 +1562,7 @@ public class Query implements INotifyClass {
 
 
     private LinkedHashMap<String, Object> getHeader(LinkedHashMap<String, Object> localHeader) {
-        LinkedHashMap<String, Object> mainHeader = formHeader;
+        LinkedHashMap<String, Object> mainHeader = headers;
         LinkedHashMap<String, Object> classHeaders = new LinkedHashMap<>();
 
         if (localHeader != null && localHeader.size() > 0) {
@@ -1584,7 +1584,7 @@ public class Query implements INotifyClass {
             }
 
         } else {
-            return formHeader;
+            return headers;
         }
     }
 
