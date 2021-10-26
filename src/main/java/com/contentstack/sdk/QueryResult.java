@@ -86,16 +86,13 @@ public class QueryResult {
         try {
             if (receiveJson != null) {
                 if (receiveJson.has("schema")) {
-
-                    JSONArray jsonarray = new JSONArray();
-                    jsonarray = receiveJson.getJSONArray("schema");
+                    JSONArray jsonarray = receiveJson.getJSONArray("schema");
                     if (jsonarray != null) {
                         schemaArray = jsonarray;
                     }
                 }
 
                 if (receiveJson.has("content_type")) {
-
                     JSONObject jsonObject = receiveJson.getJSONObject("content_type");
                     if (jsonObject != null) {
                         contentObject = jsonObject;
@@ -106,7 +103,7 @@ public class QueryResult {
                     count = receiveJson.optInt("count");
                 }
 
-                if (count <= 0) {
+                if (count == 0) {
                     if (receiveJson.has("entries")) {
                         count = receiveJson.optInt("entries");
                     }

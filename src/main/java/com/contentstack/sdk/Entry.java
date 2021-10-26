@@ -37,8 +37,8 @@ public class Entry {
     private JSONObject exceptJsonObject;
     private String rteContent = null;
 
-    private Entry() {
-        throw new IllegalArgumentException("Entry=Private");
+    private Entry() throws IllegalAccessException {
+        throw new IllegalAccessException("Can Not Access Private Modifier");
     }
 
     protected Entry(String contentTypeName) {
@@ -209,35 +209,6 @@ public class Entry {
         return _metadata;
     }
 
-    /**
-     * Get {@link Language} instance
-     *
-     * @return Language @getLanguage
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Language local = entry.getLanguage();
-     * </pre>
-     */
-    @Deprecated
-    public Language getLanguage() {
-        String localeCode = null;
-
-        if (_metadata != null && _metadata.size() > 0 && _metadata.containsKey("locale")) {
-            localeCode = (String) _metadata.get("locale");
-        } else if (resultJson.has("locale")) {
-            localeCode = (String) resultJson.optString("locale");
-        }
-
-        if (localeCode != null) {
-            localeCode = localeCode.replace("-", "_");
-            LanguageCode codeValue = LanguageCode.valueOf(localeCode);
-            int localeValue = codeValue.ordinal();
-            Language[] language = Language.values();
-
-            return language[localeValue];
-        }
-        return null;
-    }
 
     public String getLocale() {
         return this.language;
@@ -547,7 +518,6 @@ public class Entry {
      * Calendar createdAt = entry.getCreateAt("key");
      * </pre>
      */
-
     public Calendar getCreateAt() {
 
         try {
@@ -653,10 +623,8 @@ public class Entry {
      * </pre>
      */
     public Asset getAsset(String key) {
-
         JSONObject assetObject = getJSONObject(key);
         Asset asset = contentTypeInstance.stackInstance.asset().configure(assetObject);
-
         return asset;
     }
 
@@ -675,9 +643,7 @@ public class Entry {
     public List<Asset> getAssets(String key) {
         List<Asset> assets = new ArrayList<>();
         JSONArray assetArray = getJSONArray(key);
-
         for (int i = 0; i < assetArray.length(); i++) {
-
             if (assetArray.opt(i) instanceof JSONObject) {
                 Asset asset = contentTypeInstance.stackInstance.asset().configure(assetArray.optJSONObject(i));
                 assets.add(asset);
@@ -1050,7 +1016,7 @@ public class Entry {
         try {
 
             if (!uid.isEmpty()) {
-                String URL = "/" + contentTypeInstance.stackInstance.VERSION + "/content_types/" + contentTypeName + "/entries/" + uid;
+                String URL = "v3/content_types/" + contentTypeName + "/entries/" + uid;
                 LinkedHashMap<String, Object> headers = getHeader(localHeader);
                 LinkedHashMap<String, String> headerAll = new LinkedHashMap<String, String>();
                 JSONObject urlQueries = new JSONObject();

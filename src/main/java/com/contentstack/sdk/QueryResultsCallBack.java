@@ -1,7 +1,7 @@
 package com.contentstack.sdk;
 
 
-public abstract class QueryResultsCallBack extends ResultCallBack {
+public abstract class QueryResultsCallBack implements ResultCallBack {
 
     public abstract void onCompletion(ResponseType responseType, QueryResult queryresult, Error error);
 
@@ -10,14 +10,8 @@ public abstract class QueryResultsCallBack extends ResultCallBack {
     }
 
     @Override
-    void onRequestFail(ResponseType responseType, Error error) {
+    public void onRequestFail(ResponseType responseType, Error error) {
         onCompletion(responseType, null, error);
     }
-
-    @Override
-    public void always() {
-
-    }
-
 
 }

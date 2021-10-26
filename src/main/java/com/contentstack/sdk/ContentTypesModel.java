@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 public class ContentTypesModel {
 
-    private static final Logger logger = Logger.getLogger(ContentTypesModel.class.getSimpleName());
-    private JSONObject responseJSON = new JSONObject();
+    private final Logger logger = Logger.getLogger(ContentTypesModel.class.getSimpleName());
+    private Object response;
     private JSONArray responseJSONArray = new JSONArray();
 
     public void setJSON(JSONObject responseJSON) {
@@ -17,7 +17,7 @@ public class ContentTypesModel {
         if (responseJSON != null) {
             if (responseJSON.has("content_type")) {
                 try {
-                    this.responseJSON = responseJSON.getJSONObject("content_type");
+                    this.response = (JSONObject) responseJSON.getJSONObject("content_type");
                 } catch (JSONException e) {
                     logger.severe(e.getLocalizedMessage());
                 }
@@ -26,6 +26,7 @@ public class ContentTypesModel {
             if (responseJSON.has("content_types")) {
                 try {
                     this.responseJSONArray = responseJSON.getJSONArray("content_types");
+                    this.response = (JSONArray) responseJSON.getJSONArray("content_types");
                 } catch (JSONException e) {
                     logger.severe(e.getLocalizedMessage());
                 }
@@ -34,8 +35,8 @@ public class ContentTypesModel {
         }
     }
 
-    public JSONObject getResponse() {
-        return responseJSON;
+    public Object getResponse() {
+        return this.response;
     }
 
     public JSONArray getResultArray() {

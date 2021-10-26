@@ -16,13 +16,14 @@ import java.util.logging.Logger;
 
 public class ContentType {
 
-    private static final Logger logger = Logger.getLogger(ContentType.class.getSimpleName());
+    private final Logger logger = Logger.getLogger(ContentType.class.getSimpleName());
     protected String contentTypeName = null;
     protected Stack stackInstance = null;
     private LinkedHashMap<String, Object> localHeader = null;
     private LinkedHashMap<String, Object> stackHeader = null;
 
     private ContentType() {
+
     }
 
     protected ContentType(String contentTypeName) {
@@ -32,7 +33,7 @@ public class ContentType {
 
     protected void setStackInstance(Stack stack) {
         this.stackInstance = stack;
-        this.stackHeader = stack.localHeader;
+        this.stackHeader = stack.headers;
     }
 
 
@@ -165,10 +166,8 @@ public class ContentType {
 
 
     public void fetch(JSONObject params, final ContentTypesCallback callback) {
-
         try {
-
-            String URL = "/" + stackInstance.VERSION + "/content_types/" + contentTypeName;
+            String URL = "v3/content_types/" + contentTypeName;
             HashMap<String, Object> headers = getHeader(localHeader);
             if (params == null) {
                 params = new JSONObject();
@@ -176,11 +175,8 @@ public class ContentType {
 
             Iterator keys = params.keys();
             while (keys.hasNext()) {
-                // loop to get the dynamic key
                 String key = (String) keys.next();
-                // get the value of the dynamic key
                 Object value = params.opt(key);
-                // do something here with the value...
                 params.put(key, value);
             }
 
@@ -198,7 +194,6 @@ public class ContentType {
 
 
         } catch (Exception e) {
-
             Error error = new Error();
             error.setErrorMessage(Constants.JSON_NOT_PROPER);
             callback.onRequestFail(ResponseType.UNKNOWN, error);
@@ -249,9 +244,7 @@ public class ContentType {
 
 
     private HashMap<String, Object> getUrlParams(JSONObject urlQueriesJSON) {
-
         HashMap<String, Object> hashMap = new HashMap<>();
-
         if (urlQueriesJSON != null && urlQueriesJSON.length() > 0) {
             Iterator<String> iter = urlQueriesJSON.keys();
             while (iter.hasNext()) {
