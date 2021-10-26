@@ -1,13 +1,11 @@
 package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import junit.framework.TestCase;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,24 +13,17 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-/**
- * The type Query test case.
- */
 public class QueryTestCase {
 
-    private static final Logger logger = Logger.getLogger(AssetTestCase.class.getName());
+    private static final Logger logger = Logger.getLogger(QueryTestCase.class.getName());
     private static Stack stack;
     private static Query query, queryFallback;
 
-    /**
-     * One time set up.
-     *
-     * @throws Exception the exception
-     */
-    @BeforeClass
+    @BeforeAll
     public static void oneTimeSetUp() throws Exception {
         logger.setLevel(Level.FINE);
         Dotenv dotenv = Dotenv.load();
@@ -50,39 +41,15 @@ public class QueryTestCase {
         logger.info("test started...");
     }
 
-    /**
-     * One time tear down.
-     */
-    @AfterClass()
-    public static void oneTimeTearDown() {
-        logger.info("When all the test cases of class finishes...");
-    }
 
-    /**
-     * Sets up the test fixture.
-     * (Called before every test case method.)
-     */
-    @BeforeClass()
+    @BeforeEach
     public static void setUp() {
         query = stack.contentType("product").query();
     }
 
 
-    /**
-     * Tears down the test fixture.
-     * (Called after every test case method.)
-     */
-    @After()
-    public void tearDown() {
-        logger.info("Runs after every testcase completes.");
-    }
-
-
-    /**
-     * Test 01 fetch all entries.
-     */
-    @Test()
-    public void test_01_fetchAllEntries() {
+    @Test
+    void testAllEntries() {
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
@@ -93,11 +60,8 @@ public class QueryTestCase {
         });
     }
 
-    /**
-     * Test 02 fetch single entry.
-     */
     @Test()
-    public void test_02_fetchSingleEntry() {
+    void testWhereEquals() {
         Query query = stack.contentType("categories").query();
         query.where("title", "Women");
         query.find(new QueryResultsCallBack() {
@@ -112,11 +76,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 03 fetch single non existing entry.
-     */
     @Test()
-    public void test_03_fetchSingleNonExistingEntry() {
+    void testWhere() {
         Query query = stack.contentType("categories").query();
         query.where("uid", "blta3b58d6893d8935b");
         query.find(new QueryResultsCallBack() {
@@ -131,11 +92,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 04 fetch entry with include reference.
-     */
     @Test
-    public void test_04_fetchEntryWithIncludeReference() {
+    void testIncludeReference() {
         query.includeReference("category");
         query.find(new QueryResultsCallBack() {
             @Override
@@ -149,11 +107,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 05 fetch entry not contained in field.
-     */
     @Test
-    public void test_05_fetchEntryNotContainedInField() {
+    void testNotContainedInField() {
         String[] containArray = new String[]{"Roti Maker", "kids dress"};
         query.notContainedIn("title", containArray);
         query.find(new QueryResultsCallBack() {
@@ -168,11 +123,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 06 fetch entry contained in field.
-     */
     @Test
-    public void test_06_fetchEntryContainedInField() {
+    void testContainedInField() {
         String[] containArray = new String[]{"Roti Maker", "kids dress"};
         query.containedIn("title", containArray);
         query.find(new QueryResultsCallBack() {
@@ -187,11 +139,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 07 fetch entry not equal to field.
-     */
     @Test
-    public void test_07_fetchEntryNotEqualToField() {
+    void testNotEqualTo() {
         query.notEqualTo("title", "yellow t shirt");
         query.find(new QueryResultsCallBack() {
             @Override
@@ -205,11 +154,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 08 fetch entry greater than equal to field.
-     */
     @Test
-    public void test_08_fetchEntryGreaterThanEqualToField() {
+    void testGreaterThanOrEqualTo() {
         query.greaterThanOrEqualTo("price", 90);
         query.find(new QueryResultsCallBack() {
             @Override
@@ -223,11 +169,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 09 fetch entry greater than field.
-     */
     @Test
-    public void test_09_fetchEntryGreaterThanField() {
+    void testGreaterThanField() {
         query.greaterThan("price", 90);
         query.find(new QueryResultsCallBack() {
             @Override
@@ -241,11 +184,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 10 fetch entry less than equal field.
-     */
     @Test
-    public void test_10_fetchEntryLessThanEqualField() {
+    void testLessThanEqualField() {
         query.lessThanOrEqualTo("price", 90);
         query.find(new QueryResultsCallBack() {
             @Override
@@ -259,11 +199,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 11 fetch entry less than field.
-     */
     @Test
-    public void test_11_fetchEntryLessThanField() {
+    void testLessThanField() {
         query.lessThan("price", "90");
         query.find(new QueryResultsCallBack() {
             @Override
@@ -277,11 +214,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 12 fetch entries with or.
-     */
     @Test
-    public void test_12_fetchEntriesWithOr() {
+    void testEntriesWithOr() {
 
         ContentType ct = stack.contentType("product");
         Query orQuery = ct.query();
@@ -310,11 +244,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 13 fetch entries with and.
-     */
     @Test
-    public void test_13_fetchEntriesWithAnd() {
+    void testEntriesWithAnd() {
 
         ContentType ct = stack.contentType("product");
         Query orQuery = ct.query();
@@ -342,11 +273,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 14 add query.
-     */
     @Test
-    public void test_14_addQuery() {
+    void testAddQuery() {
         query.addQuery("limit", "8");
         query.find(new QueryResultsCallBack() {
             @Override
@@ -360,11 +288,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 15 remove query from query.
-     */
     @Test
-    public void test_15_removeQueryFromQuery() {
+    void testRemoveQueryFromQuery() {
         query.addQuery("limit", "8");
         query.removeQuery("limit");
         query.find(new QueryResultsCallBack() {
@@ -379,11 +304,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 16 include schema.
-     */
     @Test
-    public void test_16_includeSchema() {
+    void testIncludeSchema() {
         query.includeContentType();
         query.find(new QueryResultsCallBack() {
             @Override
@@ -397,11 +319,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 17 search.
-     */
     @Test
-    public void test_17_search() {
+    void testSearch() {
         query.search("dress");
         query.find(new QueryResultsCallBack() {
             @Override
@@ -428,11 +347,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 18 ascending.
-     */
     @Test
-    public void test_18_ascending() {
+    void testAscending() {
         query.ascending("title");
         query.find(new QueryResultsCallBack() {
             @Override
@@ -448,11 +364,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 19 descending.
-     */
     @Test
-    public void test_19_descending() {
+    void testDescending() {
         query.descending("title");
         query.find(new QueryResultsCallBack() {
             @Override
@@ -468,11 +381,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 20 limit.
-     */
     @Test
-    public void test_20_limit() {
+    void testLimit() {
         query.limit(3);
         query.find(new QueryResultsCallBack() {
             @Override
@@ -488,11 +398,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 21 skip.
-     */
     @Test
-    public void test_21_skip() {
+    void testSkip() {
         query.skip(3);
         query.find(new QueryResultsCallBack() {
             @Override
@@ -506,11 +413,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 22 only.
-     */
     @Test
-    public void test_22_only() {
+    void testOnly() {
         query.only(new String[]{"price"});
         query.find(new QueryResultsCallBack() {
             @Override
@@ -524,11 +428,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 23 except.
-     */
     @Test
-    public void test_23_except() {
+    void testExcept() {
         query.locale("en-eu");
         query.except(new String[]{"price", "chutiya"});
         query.find(new QueryResultsCallBack() {
@@ -543,11 +444,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 24 count.
-     */
     @Test
-    public void test_24_count() {
+    void testCount() {
         query.count();
         query.find(new QueryResultsCallBack() {
             @Override
@@ -561,11 +459,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 25 regex.
-     */
     @Test
-    public void test_25_regex() {
+    void testRegex() {
         query.regex("title", "lap*", "i");
         query.find(new QueryResultsCallBack() {
             @Override
@@ -579,11 +474,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 26 exist.
-     */
     @Test
-    public void test_26_exist() {
+    void testExist() {
         query.exists("title");
         query.find(new QueryResultsCallBack() {
             @Override
@@ -597,11 +489,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 27 not exist.
-     */
     @Test
-    public void test_27_notExist() {
+    void testNotExist() {
         query.notExists("price1");
         query.find(new QueryResultsCallBack() {
             @Override
@@ -615,11 +504,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 28 tags.
-     */
     @Test
-    public void test_28_tags() {
+    void testTags() {
         query.tags(new String[]{"pink"});
         query.find(new QueryResultsCallBack() {
             @Override
@@ -635,11 +521,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 29 language.
-     */
     @Test
-    public void test_29_language() {
+    void testLanguage() {
         query.locale("en-us");
         query.find(new QueryResultsCallBack() {
             @Override
@@ -655,11 +538,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 30 include count.
-     */
     @Test
-    public void test_30_includeCount() {
+    void testIncludeCount() {
         query.includeCount();
         query.where("uid", "blt3976eac6d3a0cb74");
         query.find(new QueryResultsCallBack() {
@@ -674,11 +554,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 31 include reference only fetch.
-     */
     @Test
-    public void test_31_includeReferenceOnly_fetch() {
+    void testIncludeReferenceOnly() {
 
         final Query query = stack.contentType("multifield").query();
         query.where("uid", "blt1b1cb4f26c4b682e");
@@ -709,11 +586,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 32 include reference except fetch.
-     */
     @Test
-    public void test_32_includeReferenceExcept_fetch() {
+    void testIncludeReferenceExcept() {
         query = query.where("uid", "blt7801c5d40cbbe979");
         ArrayList<String> strings = new ArrayList<>();
         strings.add("title");
@@ -732,11 +606,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 33 find one.
-     */
     @Test
-    public void test_33_findOne() {
+    void testFindOne() {
         query.includeCount();
         query.where("in_stock", true);
         query.findOne(new SingleQueryResultCallback() {
@@ -750,11 +621,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 34 complex find.
-     */
     @Test
-    public void test_34_complexFind() {
+    void testComplexFind() {
         query.notEqualTo("title", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*******");
         query.includeCount();
         query.find(new QueryResultsCallBack() {
@@ -773,11 +641,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 35 include schema.
-     */
     @Test
-    public void test_35_includeSchema() {
+    void testIncludeSchemaCheck() {
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
@@ -791,11 +656,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 36 include content type.
-     */
     @Test
-    public void test_36_includeContentType() {
+    void testIncludeContentType() {
         query.includeContentType();
         query.find(new QueryResultsCallBack() {
             @Override
@@ -809,11 +671,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 38 include content type.
-     */
     @Test
-    public void test_38_include_content_type() {
+    void testIncludeContentTypeFetch() {
         query.includeContentType();
         query.find(new QueryResultsCallBack() {
             @Override
@@ -828,29 +687,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 39 include content type.
-     */
     @Test
-    public void test_39_include_content_type() {
-        query.includeContentType();
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    JSONObject entries = queryresult.getContentType();
-                    logger.fine(entries.toString());
-                }
-            }
-        });
-    }
-
-
-    /**
-     * Test 40 add params.
-     */
-    @Test
-    public void test_40_addParams() {
+    void testAddParams() {
         query.addParam("keyWithNull", null);
         query.find(new QueryResultsCallBack() {
             @Override
@@ -866,11 +704,8 @@ public class QueryTestCase {
     }
 
 
-    /**
-     * Test 41 include fallback.
-     */
     @Test
-    public void test_41_include_fallback() {
+    void testIncludeFallback() {
         queryFallback.locale("hi-in");
         queryFallback.find(new QueryResultsCallBack() {
             @Override
@@ -889,11 +724,8 @@ public class QueryTestCase {
         });
     }
 
-    /**
-     * Test 42 without include fallback.
-     */
     @Test
-    public void test_42_without_include_fallback() {
+    void testWithoutIncludeFallback() {
         queryFallback.locale("hi-in").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
@@ -905,11 +737,8 @@ public class QueryTestCase {
         });
     }
 
-    /**
-     * Test 43 entry include embedded items.
-     */
     @Test
-    public void test_43_entry_include_embedded_items() {
+    void testEntryIncludeEmbeddedItems() {
         final Query query = stack.contentType("categories").query();
         query.includeEmbeddedItems().find(new QueryResultsCallBack() {
             @Override
@@ -921,7 +750,7 @@ public class QueryTestCase {
                         //TestCase.assertTrue(_embedded_items);
                     }
                 }
-                TestCase.assertTrue(query.urlQueries.has("include_embedded_items[]"));
+                assertTrue(query.urlQueries.has("include_embedded_items[]"));
             }
         });
     }

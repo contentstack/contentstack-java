@@ -37,10 +37,12 @@ class CSConnectionRequest implements IRequestModelHTTP {
 
     public CSConnectionRequest(Query queryInstance) {
         notifyClass = queryInstance;
+        this.endpoint = queryInstance.contentTypeInstance.stackInstance.config.getEndpoint();
     }
 
     public CSConnectionRequest(Entry entryInstance) {
         this.entryInstance = entryInstance;
+        this.endpoint = this.entryInstance.contentTypeInstance.stackInstance.config.getEndpoint();
     }
 
     public CSConnectionRequest(AssetLibrary assetLibrary) {

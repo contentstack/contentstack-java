@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 /**
  * The type Config testcase.
  */
-public class LivePreviewTestcase {
+public class TestLivePreviewTestcase {
 
-    private static final Logger logger = Logger.getLogger(AssetTestCase.class.getName());
+    private static final Logger logger = Logger.getLogger(TestLivePreviewTestcase.class.getName());
     private static Config config;
 
     /**

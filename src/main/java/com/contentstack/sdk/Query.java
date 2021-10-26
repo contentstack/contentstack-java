@@ -1291,7 +1291,7 @@ public class Query implements INotifyClass {
         try {
             if (isJsonProper) {
                 if (!formName.isEmpty()) {
-                    execQuery(null, callback, false);
+                    execQuery(null, callback);
                 } else {
                     throwException("find", Constants.CONTENT_TYPE_NAME, null);
                     error = new Error();
@@ -1343,7 +1343,7 @@ public class Query implements INotifyClass {
                         limit = (int) urlQueries.get("limit");
                     }
                     urlQueries.put("limit", 1);
-                    execQuery(callBack, null, false);
+                    execQuery(callBack, null);
                     if (limit != -1) {
                         urlQueries.put("limit", limit);
                     }
@@ -1423,9 +1423,9 @@ public class Query implements INotifyClass {
     }
 
 
-    protected void execQuery(SingleQueryResultCallback callBack, QueryResultsCallBack callback, boolean isFromLocal) {
+    protected void execQuery(SingleQueryResultCallback callBack, QueryResultsCallBack callback) {
         try {
-            String URL =  "v3/content_types/" + formName + "/entries";
+            String urlString = "content_types/" + formName + "/entries";
             queryResultCallback = callback;
             singleQueryResultCallback = callBack;
             setQueryJson(callback);
@@ -1433,15 +1433,11 @@ public class Query implements INotifyClass {
             if (headers.size() < 1) {
                 throwException("find", Constants.HEADER_IS_MISSING_TO_PROCESS_THE_DATA, null);
             } else {
-                if (headers.containsKey("environment")) {
-                    urlQueries.put("environment", headers.get("environment"));
-                }
-
+                urlQueries.put("environment", headers.get("environment"));
                 checkLivePreview(headers);
-
                 mainJSON.put("query", urlQueries);
                 mainJSON.put("_method", Constants.REQUEST_METHOD.GET.toString());
-                fetchFromNetwork(URL, headers, mainJSON, callback, callBack);
+                fetchFromNetwork(urlString, headers, mainJSON, callback, callBack);
             }
 
 
@@ -1477,12 +1473,12 @@ public class Query implements INotifyClass {
 
 
     //fetch from network.
-    private void fetchFromNetwork(String URL, LinkedHashMap<String, Object> headers, JSONObject jsonMain, ResultCallBack callback, SingleQueryResultCallback resultCallback) {
+    private void fetchFromNetwork(String urlString, LinkedHashMap<String, Object> headers, JSONObject jsonMain, ResultCallBack callback, SingleQueryResultCallback resultCallback) {
         LinkedHashMap<String, Object> urlParams = getUrlParams(jsonMain);
         if (resultCallback != null) {
-            new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.SINGLEQUERYOBJECT, URL, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.QUERY.toString(), Constants.REQUEST_METHOD.GET, resultCallback);
+            new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.SINGLEQUERYOBJECT, urlString, headers, urlParams, Constants.REQUEST_CONTROLLER.QUERY.toString(), resultCallback);
         } else {
-            new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.QUERYOBJECT, URL, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.QUERY.toString(), Constants.REQUEST_METHOD.GET, callback);
+            new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.QUERYOBJECT, urlString, headers, urlParams, Constants.REQUEST_CONTROLLER.QUERY.toString(), callback);
         }
     }
 

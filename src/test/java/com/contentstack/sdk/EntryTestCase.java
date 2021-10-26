@@ -1,43 +1,29 @@
 package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import junit.framework.TestCase;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-/**
- * The type Entry test case.
- */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EntryTestCase {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class EntryTestCase {
 
-    private static final Logger logger = Logger.getLogger(EntryTestCase.class.getName());
-    private static final String CONTENT_TYPE = "product";
-    private static String entryUID = null;
-    private static Stack stack;
+    private final Logger logger = Logger.getLogger(EntryTestCase.class.getName());
+    private final String CONTENT_TYPE = "product";
+    private String entryUID = "justFakeIt";
+    private Stack stack;
 
 
-    /**
-     * One time set up.
-     *
-     * @throws Exception the exception
-     */
-    @BeforeClass
-    public static void oneTimeSetUp() throws Exception {
-        // Loading credentials
+    @BeforeAll
+    public void oneTimeSetUp() throws Exception {
         Dotenv dotenv = Dotenv.load();
         String DEFAULT_API_KEY = dotenv.get("API_KEY");
         String DEFAULT_DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
@@ -48,76 +34,53 @@ public class EntryTestCase {
 
         assert DEFAULT_API_KEY != null;
         stack = Contentstack.stack(DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV, config);
+    }
+
+
+    @Test
+    @Order(1)
+    void veryFirstTest() {
         final Query query = stack.contentType(CONTENT_TYPE).query();
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     entryUID = queryresult.getResultObjects().get(15).getUid();
-                    System.out.println(entryUID);
+                    assertTrue(entryUID.startsWith("blt"));
+                } else {
+                    Assertions.fail("Could not fetch the query data");
                 }
             }
         });
     }
 
 
-    /**
-     * Test 01 find all entries.
-     */
     @Test
-    public void test_01_findAllEntries() {
-        final Query query = stack.contentType(CONTENT_TYPE).query();
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    entryUID = queryresult.getResultObjects().get(15).getUid();
-                }
-            }
-        });
-    }
-
-    /**
-     * Test 02 only fetch.
-     */
-    @Test
-    public void test_02_only_fetch() {
+    void testOnly() {
         final Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUID);
         entry.only(new String[]{"price"});
-        entry.fetch(new EntryResultCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, Error error) {
-                if (error == null) {
-                    assertEquals(786, entry.toJSON().get("price"));
-                }
-            }
-        });
+        entry.fetch(null);
+        Assertions.assertEquals(786, entry.otherPostJSON);
     }
 
-    /**
-     * Test 03 except fetch.
-     */
     @Test
-    public void test_03_except_fetch() {
+    void testExceptFetch() {
         final Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUID);
         entry.except(new String[]{"title"});
         entry.fetch(new EntryResultCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
                 if (error == null) {
-                    assertFalse(entry.toJSON().has("title"));
+                    Assertions.assertFalse(entry.toJSON().has("title"));
                 } else {
-                    assertEquals(422, error.getErrorCode());
+                    Assertions.assertEquals(422, error.getErrorCode());
                 }
             }
         });
     }
 
-    /**
-     * Test 04 include reference fetch.
-     */
     @Test
-    public void test_04_includeReference_fetch() {
+    void testIncludeReference() {
         final Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUID);
         entry.includeReference(new String[]{"brand", "categories"});
         entry.fetch(new EntryResultCallBack() {
@@ -131,11 +94,8 @@ public class EntryTestCase {
         });
     }
 
-    /**
-     * Test 05 include reference only fetch.
-     */
     @Test
-    public void test_05_includeReferenceOnly_fetch() {
+    void testIncludeReferenceOnly() {
         final Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUID);
         ArrayList<String> strings = new ArrayList<>();
         strings.add("title");
@@ -146,7 +106,7 @@ public class EntryTestCase {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
                 if (error == null) {
-                    assertEquals("laptop", entry.toJSON().getString("title"));
+                    Assertions.assertEquals("laptop", entry.toJSON().getString("title"));
                 }
             }
         });
@@ -154,11 +114,8 @@ public class EntryTestCase {
     }
 
 
-    /**
-     * Test 06 include reference except fetch.
-     */
     @Test
-    public void test_06_includeReferenceExcept_fetch() {
+    void testIncludeReferenceExcept() {
         final Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUID);
         ArrayList<String> strings = new ArrayList<>();
         strings.add("color");
@@ -173,11 +130,8 @@ public class EntryTestCase {
     }
 
 
-    /**
-     * Test 07 get markdown fetch.
-     */
     @Test
-    public void test_07_getMarkdown_fetch() {
+    void testGetMarkdown() {
         final Entry entry = stack.contentType("user").entry(entryUID);
         entry.fetch(new EntryResultCallBack() {
             @Override
@@ -188,11 +142,8 @@ public class EntryTestCase {
     }
 
 
-    /**
-     * Test 08 get.
-     */
     @Test
-    public void test_08_get() {
+    void testGet() {
         final Entry entry = stack.contentType("user").entry(entryUID);
         entry.fetch(new EntryResultCallBack() {
             @Override
@@ -203,11 +154,8 @@ public class EntryTestCase {
     }
 
 
-    /**
-     * Test 09 get param.
-     */
     @Test
-    public void test_09_getParam() {
+    void testGetParam() {
         final Entry entry = stack.contentType("user").entry(entryUID);
         entry.addParam("include_dimensions", "true");
         entry.fetch(new EntryResultCallBack() {
@@ -219,11 +167,8 @@ public class EntryTestCase {
     }
 
 
-    /**
-     * Test 10 include reference content type uid.
-     */
     @Test
-    public void test_10_IncludeReferenceContentTypeUID() {
+    void testIncludeReferenceContentTypeUID() {
         final Entry entry = stack.contentType("user").entry(entryUID);
         entry.includeReferenceContentTypeUID();
         entry.fetch(new EntryResultCallBack() {
@@ -246,11 +191,8 @@ public class EntryTestCase {
     }
 
 
-    /**
-     * Test 11 locale.
-     */
     @Test
-    public void test_11_Locale() {
+    void testLocale() {
         final Entry entry = stack.contentType("user").entry(entryUID);
         entry.fetch(new EntryResultCallBack() {
             @Override
@@ -263,11 +205,8 @@ public class EntryTestCase {
         });
     }
 
-    /**
-     * Test 12 entry except.
-     */
     @Test
-    public void test_12_entry_except() {
+    void testEntryExcept() {
         final Entry entry = stack.contentType("user").entry(entryUID);
         String[] allValues = {"color", "price_in_usd"};
         entry.except(allValues);
@@ -283,11 +222,8 @@ public class EntryTestCase {
     }
 
 
-    /**
-     * Test 13 entry include fallback.
-     */
     @Test
-    public void test_13_entry_include_fallback() {
+    void testEntryIncludeFallback() {
         final Entry entry = stack.contentType("categories").entry(entryUID).setLocale("hi-in");
         entry.setLocale("");
         entry.includeFallback().fetch(new EntryResultCallBack() {
@@ -295,29 +231,24 @@ public class EntryTestCase {
             public void onCompletion(ResponseType responseType, Error error) {
                 if (error == null) {
                     String checkResp = entry.getLocale();
-                    assertEquals("en-us", checkResp);
+                    Assertions.assertEquals("en-us", checkResp);
                 }
-                TestCase.assertTrue(entry.otherPostJSON.has("include_fallback"));
+                assertTrue(entry.otherPostJSON.has("include_fallback"));
             }
         });
     }
 
-    /**
-     * Test 14 entry include embedded items.
-     *
-     * @throws Exception the exception
-     */
     @Test
-    public void test_14_entry_include_embedded_items() throws Exception {
+    void testEntryIncludeEmbeddedItems() {
         final Entry entry = stack.contentType("categories").entry(entryUID);
         entry.includeEmbeddedItems().fetch(new EntryResultCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
                 if (error == null) {
                     boolean _embedded_items = entry.toJSON().has("_embedded_items");
-                    TestCase.assertTrue(_embedded_items);
+                    assertTrue(_embedded_items);
                 }
-                TestCase.assertTrue(entry.otherPostJSON.has("include_embedded_items[]"));
+                assertTrue(entry.otherPostJSON.has("include_embedded_items[]"));
             }
         });
     }

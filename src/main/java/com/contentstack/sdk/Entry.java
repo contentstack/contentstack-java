@@ -7,14 +7,12 @@ import org.json.JSONObject;
 import java.util.*;
 import java.util.logging.Logger;
 
-/**
- * An entry is an actual piece of content that you want to publish. You can create entries only for content types that
- * have already been created.
- */
+import static com.contentstack.sdk.Constants.ENVIRONMENT;
+
 
 public class Entry {
 
-    private static final Logger logger = Logger.getLogger(Entry.class.getSimpleName());
+    private final Logger logger = Logger.getLogger(Entry.class.getSimpleName());
     public JSONObject otherPostJSON;
     protected LinkedHashMap<String, Object> headers = null;
     protected HashMap<String, Object> owner = null;
@@ -26,23 +24,23 @@ public class Entry {
     protected String title = null;
     protected String url = null;
     protected String language = null;
-    private String contentTypeName = null;
-    private LinkedHashMap<String, Object> localHeader = null;
-    private ContentType contentTypeInstance = null;
-    private String[] tags = null;
-    private JSONArray referenceArray;
-    private JSONArray objectUidForOnly;
-    private JSONArray objectUidForExcept;
-    private JSONObject onlyJsonObject;
-    private JSONObject exceptJsonObject;
-    private String rteContent = null;
+    protected String contentTypeUid = null;
+    protected LinkedHashMap<String, Object> localHeader = null;
+    protected ContentType contentTypeInstance = null;
+    protected String[] tags = null;
+    protected JSONArray referenceArray;
+    protected JSONArray objectUidForOnly;
+    protected JSONArray objectUidForExcept;
+    protected JSONObject onlyJsonObject;
+    protected JSONObject exceptJsonObject;
+    protected String rteContent = null;
 
     private Entry() throws IllegalAccessException {
         throw new IllegalAccessException("Can Not Access Private Modifier");
     }
 
     protected Entry(String contentTypeName) {
-        this.contentTypeName = contentTypeName;
+        this.contentTypeUid = contentTypeName;
         this.localHeader = new LinkedHashMap<>();
         this.otherPostJSON = new JSONObject();
     }
@@ -68,7 +66,6 @@ public class Entry {
         }
         this.uid = model.entryUid;
         this.setTags(model.tags);
-        model = null;
         return this;
     }
 
@@ -177,7 +174,7 @@ public class Entry {
      */
 
     public String getContentType() {
-        return contentTypeName;
+        return contentTypeUid;
     }
 
     /**
@@ -994,58 +991,46 @@ public class Entry {
     /**
      * Fetches the latest version of the entries from Contentstack.com content stack
      *
-     * @param callBack
+     * @param callback
      *         {@link EntryResultCallBack} object to notify the application when the request has completed.
      *         <br><br><b>Example :</b><br>
      *         <pre class="prettyprint">
-     *                         //'blt5d4sample2633b' is a dummy Stack API key
-     *                         //'blt6d0240b5sample254090d' is dummy access token.
-     *                          {@code
-     *                         Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *                         Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
-     *                         entry.fetch(new EntryResultCallBack() {<br>
-     *                          &#64;Override
-     *                         public void onCompletion(ResponseType responseType, Error error) {
-     *                         }<br>
-     *                         });<br>
-     *                         }
-     *                         </pre>
+     *                 {@code
+     *                 Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *                 Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
+     *                 entry.fetch(new EntryResultCallBack() {<br>
+     *                 &#64;Override
+     *                 public void onCompletion(ResponseType responseType, Error error) {
+     *                 }<br>
+     *                 });<br>
+     *                 }
+     *                 </pre>
      */
 
-    public void fetch(EntryResultCallBack callBack) {
-        try {
-
-            if (!uid.isEmpty()) {
-                String URL = "v3/content_types/" + contentTypeName + "/entries/" + uid;
-                LinkedHashMap<String, Object> headers = getHeader(localHeader);
-                LinkedHashMap<String, String> headerAll = new LinkedHashMap<String, String>();
-                JSONObject urlQueries = new JSONObject();
-                if (headers != null && headers.size() > 0) {
-                    for (Map.Entry<String, Object> entry : headers.entrySet()) {
-                        headerAll.put(entry.getKey(), (String) entry.getValue());
-                    }
-                    if (headers.containsKey("environment")) {
-                        urlQueries.put("environment", headers.get("environment"));
-                    }
-                }
-
-                checkLivePreview(headers, headerAll, urlQueries);
-                fetchFromNetwork(URL, urlQueries, callBack);
+    public void fetch(EntryResultCallBack callback) {
+        if (!uid.isEmpty()) {
+            try {
+                throw new IllegalAccessException("Entry Uid is required");
+            } catch (IllegalAccessException e) {
+                logger.severe(e.getLocalizedMessage());
             }
-        } catch (Exception e) {
-            throwException(null, e, callBack);
         }
+        String urlString = "content_types/" + contentTypeUid + "/entries/" + uid;
+        JSONObject urlQueries = new JSONObject();
+        urlQueries.put(ENVIRONMENT, headers.get(ENVIRONMENT));
+        checkLivePreview(headers, urlQueries);
+        fetchFromNetwork(urlString, this.headers, urlQueries, callback);
     }
 
 
-    private void fetchFromNetwork(String URL, JSONObject urlQueries, EntryResultCallBack callBack) {
+    private void fetchFromNetwork(String urlString, Map<String, Object> headers, JSONObject urlQueries, EntryResultCallBack callBack) {
         try {
             JSONObject mainJson = new JSONObject();
             setIncludeJSON(urlQueries, callBack);
             mainJson.put("query", urlQueries);
             mainJson.put("_method", Constants.REQUEST_METHOD.GET.toString());
             HashMap<String, Object> urlParams = getUrlParams(mainJson);
-            new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.FETCHENTRY, URL, getHeader(localHeader), urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.ENTRY.toString(), false, Constants.REQUEST_METHOD.GET, callBack);
+            new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.FETCHENTRY, urlString, this.headers, urlParams, Constants.REQUEST_CONTROLLER.ENTRY.toString(), callBack);
 
         } catch (Exception e) {
             throwException(null, e, callBack);
@@ -1053,30 +1038,25 @@ public class Entry {
     }
 
 
-    private void checkLivePreview(LinkedHashMap<String, Object> headers, LinkedHashMap<String, String> headerAll, JSONObject urlQueries) {
+    private void checkLivePreview(LinkedHashMap<String, Object> headers, JSONObject urlQueries) {
         // Step 1: check live preview enabled
         Config configInstance = contentTypeInstance.stackInstance.config;
         if (configInstance.enableLivePreview) {
             // Step 2: check and compare content type
-            if (configInstance.livePreviewContentType.equalsIgnoreCase(contentTypeName)) {
+            if (configInstance.livePreviewContentType.equalsIgnoreCase(contentTypeUid)) {
                 configInstance.setHost(configInstance.livePreviewHost);
                 // Step 4: Remove access_token from header
                 headers.remove("access_token");
-                headerAll.remove("access_token");
                 // Remove environment from  urlQuery
-                if (headers.containsKey("environment")) {
-                    headers.remove("environment");
-                    headerAll.remove("environment");
+                if (headers.containsKey(ENVIRONMENT)) {
+                    headers.remove(ENVIRONMENT);
                 }
                 if (configInstance.livePreviewHash == null || configInstance.livePreviewHash.isEmpty()) {
                     configInstance.livePreviewHash = "init";
                 }
                 headers.put("live_preview", configInstance.livePreviewHash);
                 headers.put("authorization", configInstance.managementToken);
-                headerAll.put("authorization", configInstance.managementToken);
-                headerAll.put("live_preview", configInstance.livePreviewHash);
-
-                urlQueries.remove("environment");
+                urlQueries.remove(ENVIRONMENT);
             }
         }
 
