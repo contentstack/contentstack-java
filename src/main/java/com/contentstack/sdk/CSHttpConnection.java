@@ -8,11 +8,7 @@ import org.json.JSONObject;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -20,6 +16,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import static com.contentstack.sdk.Constants.*;
 
 public class CSHttpConnection implements IURLRequestHTTP {
 
@@ -35,16 +33,15 @@ public class CSHttpConnection implements IURLRequestHTTP {
     private Constants.REQUEST_METHOD requestMethod;
     private JSONObject responseJSON;
     private HashMap<String, Object> formParams;
-    //private boolean treatDuplicateKeysAsArrayItems;
 
     public CSHttpConnection(String urlToCall, IRequestModelHTTP csConnectionRequest) {
         this.urlPath = urlToCall;
         this.connectionRequest = csConnectionRequest;
     }
 
-    public HashMap<String, Object> getFormParams() {
-        return formParams;
-    }
+//    public HashMap<String, Object> getFormParams() {
+//        return formParams;
+//    }
 
     public void setFormParams(HashMap<String, Object> formParams) {
         this.formParams = formParams;
@@ -186,7 +183,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
         }
 
         try {
-            //sendGET(url);
             getService(url);
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -197,13 +193,17 @@ public class CSHttpConnection implements IURLRequestHTTP {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(this.endpoint).build();
         APIService service = retrofit.create(APIService.class);
         this.headers.remove(Constants.ENVIRONMENT);
+        this.headers.put(X_USER_AGENT, CLIENT_USER_AGENT);
+        this.headers.put(CONTENT_TYPE, APPLICATION_JSON);
         Response<ResponseBody> response = service.getRequest(requestUrl, this.headers).execute();
         if (response.isSuccessful()) {
+            assert response.body() != null;
             String resp = response.body().string();
             logger.info(resp);
             responseJSON = new JSONObject(resp);
             connectionRequest.onRequestFinished(CSHttpConnection.this);
         } else {
+            assert response.errorBody() != null;
             setError(response.errorBody().string());
         }
 
@@ -213,69 +213,13 @@ public class CSHttpConnection implements IURLRequestHTTP {
     void setError(String errResp) {
         logger.info(errResp);
         responseJSON = new JSONObject(errResp); // Parse error string to JSONObject
-        responseJSON.put("error_message", responseJSON.optString("error_message"));
-        responseJSON.put("error_code", responseJSON.optString("error_code"));
-        responseJSON.put("errors", responseJSON.optString("errors"));
-        int errCode = Integer.parseInt(responseJSON.optString("error_code"));
+        responseJSON.put(ERROR_MESSAGE, responseJSON.optString(ERROR_MESSAGE));
+        responseJSON.put(ERROR_CODE, responseJSON.optString(ERROR_CODE));
+        responseJSON.put(ERRORS, responseJSON.optString(ERRORS));
+        int errCode = Integer.parseInt(responseJSON.optString(ERROR_CODE));
         connectionRequest.onRequestFailed(responseJSON, errCode, callBackObject);
     }
 
-
-    private void sendGET(String requestUrl) throws IOException, JSONException {
-        URL objUrl = new URL(requestUrl);
-        HttpURLConnection conn = (HttpURLConnection) objUrl.openConnection();
-        conn.setRequestMethod("GET");
-        if (this.headers.containsKey("api_key")) {
-            conn.setRequestProperty("api_key", headers.get("api_key").toString());
-        }
-        if (this.headers.containsKey("access_token")) {
-            conn.setRequestProperty("access_token", headers.get("access_token").toString());
-        }
-        if (this.headers.containsKey("environment")) {
-            conn.setRequestProperty("environment", headers.get("environment").toString());
-        }
-        conn.setRequestProperty("X-User-Agent", defaultUserAgent() + "/" + Constants.SDK_VERSION);
-        conn.setRequestProperty("Content-Type", "application/json");
-        int responseCode = conn.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) { // success
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                StringBuilder append = response.append(inputLine);
-            }
-            in.close();
-            responseJSON = new JSONObject(response.toString());
-            connectionRequest.onRequestFinished(CSHttpConnection.this);
-        } else {
-            settingErrorInfo(conn);
-        }
-
-    }
-
-    private void settingErrorInfo(HttpURLConnection con) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getErrorStream(), StandardCharsets.UTF_8));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-        responseJSON = new JSONObject(response.toString());
-        String errorMsg = responseJSON.optString("error_message");
-        String errorCode = responseJSON.optString("error_code");
-        String errorDetails = responseJSON.optString("errors");
-        responseJSON.put("error_message", errorMsg);
-        responseJSON.put("error_code", errorCode);
-        responseJSON.put("errors", errorDetails);
-        int errorCodeInt = Integer.parseInt(errorCode);
-        connectionRequest.onRequestFailed(responseJSON, errorCodeInt, callBackObject);
-    }
-
-    private String defaultUserAgent() {
-        String agent = System.getProperty("http.agent");
-        return agent != null ? agent : ("Java" + System.getProperty("java.version"));
-    }
 
     protected void setEndpoint(@NotNull String endpoint) {
         this.endpoint = endpoint;

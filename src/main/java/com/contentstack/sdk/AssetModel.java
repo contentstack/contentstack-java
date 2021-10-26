@@ -16,12 +16,12 @@ class AssetModel {
     int count = 0;
     int totalCount = 0;
 
-    public AssetModel(JSONObject responseJSON, boolean isArray) {
+    public AssetModel(JSONObject response, boolean isArray) {
 
         if (isArray) {
-            json = responseJSON;
+            json = response;
         } else {
-            json = responseJSON.optJSONObject("asset");
+            json = response.optJSONObject("asset");
         }
 
         uploadedUid = (String) json.opt("uid");
@@ -44,12 +44,12 @@ class AssetModel {
             }
         }
 
-        if (responseJSON.has("count")) {
-            count = responseJSON.optInt("count");
+        if (response.has("count")) {
+            count = response.optInt("count");
         }
 
-        if (responseJSON.has("objects")) {
-            totalCount = responseJSON.optInt("objects");
+        if (response.has("objects")) {
+            totalCount = response.optInt("objects");
         }
     }
 

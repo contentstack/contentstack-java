@@ -25,19 +25,16 @@ public class Asset {
     protected String uploadUrl = null;
     protected JSONObject json = null;
     protected String[] tagsArray = null;
-    //protected LinkedHashMap<String, Object> headerGroupApp;
     protected LinkedHashMap<String, Object> headers;
     protected Stack stackInstance;
 
     protected Asset() {
         this.headers = new LinkedHashMap<>();
-        //this.headerGroupApp = new LinkedHashMap<>();
     }
 
     protected Asset(@NotNull String assetUid) {
         this.assetUid = assetUid;
         this.headers = new LinkedHashMap<>();
-        //this.headerGroupApp = new LinkedHashMap<>();
     }
 
     protected void setStackInstance(@NotNull Stack stack) {
@@ -149,10 +146,7 @@ public class Asset {
     }
 
     public void fetch(FetchResultCallback callback) {
-        //LinkedHashMap<String, Object> headerMap = getHeader(this.headers);
-        if (this.headers.containsKey(ENVIRONMENT)) {
-            urlQueries.put(ENVIRONMENT, this.headers.get(ENVIRONMENT));
-        }
+        urlQueries.put(ENVIRONMENT, this.headers.get(ENVIRONMENT));
         fetchFromNetwork("assets/" + assetUid, urlQueries, this.headers, callback);
     }
 
@@ -160,7 +154,7 @@ public class Asset {
     private void fetchFromNetwork(String url, JSONObject urlQueries, LinkedHashMap<String, Object> headers, FetchResultCallback callback) {
         if (callback != null) {
             HashMap<String, Object> urlParams = getUrlParams(urlQueries);
-            new CSBackgroundTask(this, stackInstance, Constants.FETCHASSETS, url, headers, urlParams, new JSONObject(), Constants.REQUEST_CONTROLLER.ASSET.toString(), false, Constants.REQUEST_METHOD.GET, callback);
+            new CSBackgroundTask(this, stackInstance, Constants.FETCHASSETS, url, headers, urlParams, Constants.REQUEST_CONTROLLER.ASSET.toString(), callback);
         }
     }
 
@@ -174,34 +168,8 @@ public class Asset {
                 Object value = urlQueriesJSON.opt(key);
                 hashMap.put(key, value);
             }
-            return hashMap;
         }
         return hashMap;
     }
-
-
-//    private LinkedHashMap<String, Object> getHeader(@NotNull LinkedHashMap<String, Object> localHeader) {
-//        LinkedHashMap<String, Object> mainHeader = headerGroupApp;
-//        LinkedHashMap<String, Object> classHeaders = new LinkedHashMap<>();
-//
-//        if (localHeader.size() > 0) {
-//            if (mainHeader.size() > 0) {
-//                for (Map.Entry<String, Object> entry : localHeader.entrySet()) {
-//                    String key = entry.getKey();
-//                    classHeaders.put(key, entry.getValue());
-//                }
-//                for (Map.Entry<String, Object> entry : mainHeader.entrySet()) {
-//                    String key = entry.getKey();
-//                    classHeaders.putIfAbsent(key, entry.getValue());
-//                }
-//                return classHeaders;
-//            } else {
-//                return localHeader;
-//            }
-//        } else {
-//            return headerGroupApp;
-//        }
-//    }
-
 
 }

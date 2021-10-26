@@ -103,7 +103,7 @@ public class Stack {
      * content type.
      *
      * @param contentTypeUid
-     *         the content type name
+     *         Enter the unique ID of the content type of which you want to retrieve the entries. The UID is often based on the title of the content type and it is unique across a stack.
      * @return the {@link ContentType} <p> <b>Example</b> <pre> Stack stack = contentstack.Stack("apiKey",
      * "deliveryToken", "environment"); ContentType contentType = stack.contentType("contentTypeUid") </pre>
      */

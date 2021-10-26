@@ -10,6 +10,7 @@ import java.util.List;
 
 class CSConnectionRequest implements IRequestModelHTTP {
 
+    protected String endpoint;
     private String urlToCall;
     private String controller;
     private String requestInfo;
@@ -20,7 +21,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
     private CSHttpConnection connection;
     private JSONObject responseJSON;
     private INotifyClass notifyClass;
-    private INotifyClass assetLibrary;
+    private AssetLibrary assetLibrary;
 
     private Entry entryInstance;
     private Query queryInstance;
@@ -42,12 +43,14 @@ class CSConnectionRequest implements IRequestModelHTTP {
         this.entryInstance = entryInstance;
     }
 
-    public CSConnectionRequest(INotifyClass assetLibrary) {
+    public CSConnectionRequest(AssetLibrary assetLibrary) {
         this.assetLibrary = assetLibrary;
+        this.endpoint = this.assetLibrary.stackInstance.config.getEndpoint();
     }
 
     public CSConnectionRequest(Asset asset) {
         this.assetInstance = asset;
+        this.endpoint = this.assetInstance.stackInstance.config.getEndpoint();
     }
 
     public CSConnectionRequest(Stack stack) {
@@ -56,6 +59,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
 
     public CSConnectionRequest(ContentType contentType) {
         this.contentType = contentType;
+        this.endpoint = this.contentType.stackInstance.config.getEndpoint();
     }
 
     public void setQueryInstance(Query queryInstance) {
@@ -67,6 +71,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
     }
 
     public void setStackInstance(Stack stackInstance) {
+        this.endpoint = this.stackInstance.config.getEndpoint();
         this.stackInstance = stackInstance;
     }
 
@@ -89,7 +94,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
         connection.setController(controller);
         connection.setHeaders(header);
         connection.setInfo(requestInfo);
-        connection.setEndpoint(this.stackInstance.config.getEndpoint());
+        connection.setEndpoint(this.endpoint);
         connection.setFormParamsPOST(paramsJSON);
         connection.setCallBackObject(callBackObject);
         if (urlQueries != null && urlQueries.size() > 0) {
@@ -163,7 +168,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
                 ((EntryResultCallBack) request.getCallBackObject()).onRequestFinish(ResponseType.NETWORK);
             }
         } else if (controller.equalsIgnoreCase(Constants.FETCHALLASSETS)) {
-            AssetsModel assetsModel = new AssetsModel(responseJSON, false);
+            AssetsModel assetsModel = new AssetsModel(responseJSON);
             List<Object> objectList = assetsModel.objects;
             assetLibrary.getResultObject(objectList, responseJSON, false);
         } else if (controller.equalsIgnoreCase(Constants.FETCHASSETS)) {

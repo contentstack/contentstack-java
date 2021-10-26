@@ -18,9 +18,16 @@ public class Constants {
     protected static final String SDK_VERSION = "1.8.0";
     protected static final String ENVIRONMENT = "environment";
     protected static final String CONTENT_TYPE_UID = "content_type_uid";
-    protected static final String ILLEGAL_ACCESS_MSG = "Can Not Access Private Modifier";
-    protected static final String CONTENT_TYPES = "content_types";
     protected static final String SYNCHRONISATION = "stacks/sync";
+    // Errors
+    protected static final String ERROR_CODE = "error_code";
+    protected static final String ERROR_MESSAGE = "error_message";
+    protected static final String ERRORS = "errors";
+    // User-Agents
+    protected static final String X_USER_AGENT = "X-User-Agent";
+    protected static final String CONTENT_TYPE = "Content-Type";
+    protected static final String APPLICATION_JSON = "application/json";
+    protected static final String CLIENT_USER_AGENT = userAgent();
 
 
     /**
@@ -128,6 +135,14 @@ public class Constants {
                 Integer.parseInt(hourOfDay), Integer.parseInt(min),
                 Integer.parseInt(sec));
         return cal;
+    }
+
+
+    protected static String userAgent() {
+        String agent = System.getProperty("http.agent");
+        String agentStr = agent != null ? agent : ("Java" + System.getProperty("java.version"));
+        agentStr = agentStr + "/" + SDK_VERSION;
+        return agentStr;
     }
 }
 

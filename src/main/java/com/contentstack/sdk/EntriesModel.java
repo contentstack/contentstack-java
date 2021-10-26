@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 class EntriesModel {
 
-    private static final Logger logger = Logger.getLogger(EntriesModel.class.getSimpleName());
+    private final Logger logger = Logger.getLogger(EntriesModel.class.getSimpleName());
     protected JSONObject jsonObject;
     protected String formName;
     protected List<Object> objectList;

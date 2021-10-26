@@ -16,7 +16,7 @@ public class Entry {
 
     private static final Logger logger = Logger.getLogger(Entry.class.getSimpleName());
     public JSONObject otherPostJSON;
-    protected LinkedHashMap<String, Object> formHeader = null;
+    protected LinkedHashMap<String, Object> headers = null;
     protected HashMap<String, Object> owner = null;
     protected HashMap<String, Object> _metadata = null;
     protected String uid = null;
@@ -1153,7 +1153,7 @@ public class Entry {
     }
 
     private LinkedHashMap<String, Object> getHeader(LinkedHashMap<String, Object> localHeader) {
-        LinkedHashMap<String, Object> mainHeader = formHeader;
+        LinkedHashMap<String, Object> mainHeader = headers;
         LinkedHashMap<String, Object> classHeaders = new LinkedHashMap<>();
         if (localHeader != null && localHeader.size() > 0) {
             if (mainHeader != null && mainHeader.size() > 0) {
@@ -1172,7 +1172,7 @@ public class Entry {
                 return localHeader;
             }
         } else {
-            return formHeader;
+            return headers;
         }
     }
 
