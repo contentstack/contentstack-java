@@ -14,4 +14,3 @@ public abstract class SingleQueryResultCallback implements ResultCallBack {
     }
 
 }
-

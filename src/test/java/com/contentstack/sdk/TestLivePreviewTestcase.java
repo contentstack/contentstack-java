@@ -3,6 +3,7 @@ package com.contentstack.sdk;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -25,14 +26,12 @@ public class TestLivePreviewTestcase {
         config = new Config();
     }
 
-
     /**
      * Test config test.
      */
     @Test()
     public void testConfigTest() {
-        Config livePreview = config.enableLivePreview(true)
-                .setLivePreviewHost("api.contentstack.com")
+        Config livePreview = config.enableLivePreview(true).setLivePreviewHost("api.contentstack.com")
                 .setManagementToken("managementToken");
         Assert.assertEquals("api.contentstack.com", livePreview.livePreviewHost);
         Assert.assertEquals("managementToken", livePreview.managementToken);
@@ -58,19 +57,15 @@ public class TestLivePreviewTestcase {
 
     @Test()
     public void testSetLivePreview() {
-        Config livePreview = config
-                .setLivePreviewHost("api.contentstack.com");
+        Config livePreview = config.setLivePreviewHost("api.contentstack.com");
         Assert.assertEquals("api.contentstack.com", livePreview.livePreviewHost);
     }
 
-
     @Test()
     public void testSetAuthorization() {
-        Config livePreview = config
-                .setManagementToken("management_token");
+        Config livePreview = config.setManagementToken("management_token");
         Assert.assertEquals("management_token", livePreview.managementToken);
     }
-
 
     @Test()
     public void testStackEnableLivePreviewQuery() throws Exception {
@@ -82,14 +77,13 @@ public class TestLivePreviewTestcase {
         stack.livePreviewQuery(hashMap);
         ContentType contentType = stack.contentType("contentType");
         Query queryInstance = contentType.query();
-
-
+        Assertions.assertNotNull(queryInstance);
     }
-
 
     @Test()
     public void testStackEnableLivePreviewEntry() throws Exception {
-        config.enableLivePreview(true).setLivePreviewHost("live-preview.contentstack.com").setManagementToken("management_token_123456");
+        config.enableLivePreview(true).setLivePreviewHost("live-preview.contentstack.com")
+                .setManagementToken("management_token_123456");
         Stack stack = Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", config);
         HashMap<String, String> hashMap = new HashMap<String, String>();
         hashMap.put("live_preview", "hash167673");
@@ -97,15 +91,9 @@ public class TestLivePreviewTestcase {
         stack.livePreviewQuery(hashMap);
         ContentType contentType = stack.contentType("contentType");
         Entry entryInstance = contentType.entry("entryUid478748374");
-
-        entryInstance.fetch(new EntryResultCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, Error error) {
-                System.out.println(error);
-            }
-        });
+        entryInstance.fetch(null);
+        Assertions.assertNotNull(entryInstance);
     }
-
 
     @Test()
     public void testEnableLivePreviewWithoutRequiredParameters() {
@@ -120,7 +108,8 @@ public class TestLivePreviewTestcase {
 
     @Test()
     public void testExceptionWhenAllRequiredParamsNotProvided() {
-        Config livePreviewEnablerConfig = new Config().enableLivePreview(true).setLivePreviewHost("live-preview.contentstack.io");
+        Config livePreviewEnablerConfig = new Config().enableLivePreview(true)
+                .setLivePreviewHost("live-preview.contentstack.io");
         try {
             Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
         } catch (Exception e) {
@@ -131,7 +120,8 @@ public class TestLivePreviewTestcase {
 
     @Test()
     public void testMissingHostToEnableLivePreview() {
-        Config livePreviewEnablerConfig = new Config().enableLivePreview(true).setManagementToken("management_token_123456");
+        Config livePreviewEnablerConfig = new Config().enableLivePreview(true)
+                .setManagementToken("management_token_123456");
         try {
             Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
         } catch (Exception e) {
@@ -142,23 +132,15 @@ public class TestLivePreviewTestcase {
 
     @Test()
     public void testCompleteLivePreview() throws Exception {
-        Config livePreviewEnablerConfig = new Config()
-                .enableLivePreview(true)
-                .setLivePreviewHost("live-preview.contentstack.io")
-                .setManagementToken("management_token_123456");
-        Stack stack = Contentstack.stack("liveAPIKey",
-                "liveAccessToken",
-                "liveEnv", livePreviewEnablerConfig);
+        Config livePreviewEnablerConfig = new Config().enableLivePreview(true)
+                .setLivePreviewHost("live-preview.contentstack.io").setManagementToken("management_token_123456");
+        Stack stack = Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
         HashMap<String, String> hashMap = new HashMap<>();
-        //hashMap.put("live_preview", "something");
+        // hashMap.put("live_preview", "something");
         hashMap.put("content_type_uid", "content_type_uid");
         stack.livePreviewQuery(hashMap);
         Entry entry = stack.contentType("content_type_uid").entry("entry_uid");
-        entry.fetch(new EntryResultCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, Error error) {
-                logger.info("error: " + error.getErrorDetail());
-            }
-        });
+        entry.fetch(null);
+        Assertions.assertNotNull(entry);
     }
 }

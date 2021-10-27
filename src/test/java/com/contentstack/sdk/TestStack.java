@@ -31,14 +31,10 @@ class TestStack {
         stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV);
     }
 
-
     @Test
     void stackExceptionTesting() {
-        IllegalAccessException thrown = Assertions.assertThrows(
-                IllegalAccessException.class,
-                Stack::new,
-                "Can Not Access Private Modifier"
-        );
+        IllegalAccessException thrown = Assertions.assertThrows(IllegalAccessException.class, Stack::new,
+                "Can Not Access Private Modifier");
         assertEquals("Can Not Access Private Modifier", thrown.getLocalizedMessage());
     }
 
@@ -104,6 +100,7 @@ class TestStack {
     }
 
     @Test
+    @Deprecated
     void testGetAccessToken() {
         assertTrue(stack.getAccessToken().startsWith("blt"));
     }
@@ -137,7 +134,6 @@ class TestStack {
         assertEquals("www.fakeurl.com/fakePath/fakeImage.png?name=ishaileshmishra&fakeKey=fakeValue", newUrl);
     }
 
-
     @Test
     void testGetContentTypes() {
         JSONObject params = new JSONObject();
@@ -146,7 +142,6 @@ class TestStack {
         stack.getContentTypes(params, null);
         assertEquals(4, params.length());
     }
-
 
     @Test
     void testSyncWithoutCallback() {
@@ -164,7 +159,6 @@ class TestStack {
         assertTrue(stack.syncParams.has("environment"));
     }
 
-
     @Test
     void testSyncTokenWithoutCallback() {
         stack.syncToken("justFakeToken", null);
@@ -173,7 +167,6 @@ class TestStack {
         assertTrue(stack.syncParams.has("init"));
         assertTrue(stack.syncParams.has("environment"));
     }
-
 
     @Test
     void testSyncFromDateWithoutCallback() {
@@ -184,7 +177,6 @@ class TestStack {
         assertTrue(stack.syncParams.has("init"));
         assertTrue(stack.syncParams.has("environment"));
     }
-
 
     @Test
     void testPrivateDateConverter() {
@@ -201,7 +193,6 @@ class TestStack {
         assertTrue(stack.syncParams.has("init"));
         assertTrue(stack.syncParams.has("environment"));
     }
-
 
     @Test
     void testSyncLocaleWithoutCallback() {
@@ -239,7 +230,6 @@ class TestStack {
         assertTrue(stack.syncParams.has("environment"));
     }
 
-
     @Test
     void testSyncPublishTypeAssetUnPublished() {
         stack.syncPublishType(Stack.PublishType.asset_unpublished, null);
@@ -249,7 +239,6 @@ class TestStack {
         assertTrue(stack.syncParams.has("environment"));
     }
 
-
     @Test
     void testSyncPublishTypeContentTypeDeleted() {
         stack.syncPublishType(Stack.PublishType.content_type_deleted, null);
@@ -258,7 +247,6 @@ class TestStack {
         assertTrue(stack.syncParams.has("init"));
         assertTrue(stack.syncParams.has("environment"));
     }
-
 
     @Test
     void testSyncPublishTypeEntryDeleted() {
@@ -278,7 +266,6 @@ class TestStack {
         assertTrue(stack.syncParams.has("environment"));
     }
 
-
     @Test
     void testSyncIncludingMultipleParams() {
         Date newDate = new Date();
@@ -292,7 +279,6 @@ class TestStack {
         assertTrue(stack.syncParams.has("init"));
         assertTrue(stack.syncParams.has("environment"));
     }
-
 
     @Test
     void testGetAllContentTypes() {
@@ -337,7 +323,7 @@ class TestStack {
     @Test
     void testConfigGetHost() {
         Config config = new Config();
-        assertEquals(config.HOST, config.getHost());
+        assertEquals(config.host, config.getHost());
     }
 
 }

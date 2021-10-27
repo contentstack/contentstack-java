@@ -2,7 +2,6 @@ package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
 
-
 /**
  * The type Config. enables optional parameters while passing from stack
  */
@@ -10,20 +9,14 @@ public class Config {
 
     protected String livePreviewHash = null;
     protected String livePreviewContentType = null;
-    protected String HOST = "cdn.contentstack.io";
-    protected String VERSION = "v3";
-    protected String SCHEME = "https://";
-    protected String ENDPOINT;
+    protected String host = "cdn.contentstack.io";
+    protected String version = "v3";
+    protected String scheme = "https://";
+    protected String endpoint;
     protected boolean enableLivePreview = false;
     protected String livePreviewHost;
     protected ContentstackRegion region = ContentstackRegion.US;
     protected String managementToken;
-
-    /**
-     * Instantiates a new Config.
-     */
-    public Config() {
-    }
 
     /**
      * Gets region.
@@ -37,8 +30,7 @@ public class Config {
     /**
      * Sets region.
      *
-     * @param region
-     *         the region
+     * @param region the region
      * @return the region
      */
     public ContentstackRegion setRegion(ContentstackRegion region) {
@@ -47,12 +39,12 @@ public class Config {
     }
 
     protected String getEndpoint() {
-        return ENDPOINT+"/"+getVersion()+"/";
+        return endpoint + "/" + getVersion() + "/";
     }
 
     protected String setEndpoint(@NotNull String endpoint) {
-        ENDPOINT = endpoint;
-        return ENDPOINT;
+        this.endpoint = endpoint;
+        return this.endpoint;
     }
 
     /**
@@ -61,18 +53,17 @@ public class Config {
      * @return the host
      */
     public String getHost() {
-        return HOST;
+        return host;
     }
 
     /**
      * Sets host.
      *
-     * @param hostName
-     *         the host name
+     * @param hostName the host name
      */
     public void setHost(String hostName) {
         if (hostName != null && !hostName.isEmpty()) {
-            HOST = hostName;
+            host = hostName;
         }
     }
 
@@ -82,15 +73,13 @@ public class Config {
      * @return the version
      */
     public String getVersion() {
-        return VERSION;
+        return version;
     }
-
 
     /**
      * Enable live preview config.
      *
-     * @param enableLivePreview
-     *         to enable live preview
+     * @param enableLivePreview to enable live preview
      * @return the config
      */
     public Config enableLivePreview(boolean enableLivePreview) {
@@ -101,8 +90,7 @@ public class Config {
     /**
      * Sets live preview host.
      *
-     * @param livePreviewHost
-     *         the live preview host
+     * @param livePreviewHost the live preview host
      * @return the live preview host
      */
     public Config setLivePreviewHost(@NotNull String livePreviewHost) {
@@ -113,8 +101,7 @@ public class Config {
     /**
      * Sets management token.
      *
-     * @param managementToken
-     *         the management token
+     * @param managementToken the management token
      * @return the management token
      */
     public Config setManagementToken(@NotNull String managementToken) {
@@ -122,11 +109,11 @@ public class Config {
         return this;
     }
 
-
     /**
      * The enum Contentstack region.
      */
-    public enum ContentstackRegion {US, EU}
+    public enum ContentstackRegion {
+        US, EU
+    }
 
 }
-

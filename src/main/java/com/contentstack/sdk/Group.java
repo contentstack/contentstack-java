@@ -5,45 +5,44 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-
 
 public class Group {
 
-    private JSONObject resultJson;
-    private Stack stackInstance;
-
+    private final JSONObject resultJson;
+    private final Stack stackInstance;
 
     protected Group(Stack stack, JSONObject jsonObject) {
         resultJson = jsonObject;
         stackInstance = stack;
     }
 
-
     /**
      * Get group representation in json
      *
-     * @return JSONObject
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * JSONObject json = group.toJSON();
-     * </pre>
+     * @return JSONObject <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         JSONObject json = group.toJSON();
+     *         </pre>
      */
     public JSONObject toJSON() {
         return resultJson;
     }
 
-
     /**
      * Get object value for key.
      *
      * @param key field_uid as key.
-     * @return JSONObject
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Object obj = group.get("key");
-     * </pre>
+     * @return JSONObject <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         Object obj = group.get("key");
+     *         </pre>
      */
     public Object get(String key) {
         try {
@@ -58,16 +57,17 @@ public class Group {
         }
     }
 
-
     /**
      * Get string value for key.
      *
      * @param key field_uid as key.
-     * @return String
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String value = group.getString("key");
-     * </pre>
+     * @return String <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         String value = group.getString("key");
+     *         </pre>
      */
     public String getString(String key) {
         Object value = get(key);
@@ -79,16 +79,17 @@ public class Group {
         return null;
     }
 
-
     /**
      * Get boolean value for key.
      *
      * @param key field_uid as key.
-     * @return boolean true or false
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Boolean value = group.getBoolean("key");
-     * </pre>
+     * @return boolean true or false <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         Boolean value = group.getBoolean("key");
+     *         </pre>
      */
     public Boolean getBoolean(String key) {
         Object value = get(key);
@@ -100,16 +101,17 @@ public class Group {
         return false;
     }
 
-
     /**
      * Get {@link JSONArray} value for key
      *
      * @param key field_uid as key.
-     * @return JSONArray
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * JSONArray value = group.getJSONArray("key");
-     * </pre>
+     * @return JSONArray <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         JSONArray value = group.getJSONArray("key");
+     *         </pre>
      */
     public JSONArray getJSONArray(String key) {
         Object value = get(key);
@@ -121,16 +123,17 @@ public class Group {
         return null;
     }
 
-
     /**
      * Get {@link JSONObject} value for key
      *
      * @param key field_uid as key.
-     * @return JSONObject
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * JSONObject value = group.getJSONObject("key");
-     * </pre>
+     * @return JSONObject <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         JSONObject value = group.getJSONObject("key");
+     *         </pre>
      */
     public JSONObject getJSONObject(String key) {
         Object value = get(key);
@@ -142,16 +145,17 @@ public class Group {
         return null;
     }
 
-
     /**
      * Get {@link JSONObject} value for key
      *
      * @param key field_uid as key.
-     * @return Number
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * JSONObject value = group.getJSONObject("key");
-     * </pre>
+     * @return Number <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         JSONObject value = group.getJSONObject("key");
+     *         </pre>
      */
     public Number getNumber(String key) {
         Object value = get(key);
@@ -163,16 +167,17 @@ public class Group {
         return null;
     }
 
-
     /**
      * Get integer value for key
      *
      * @param key field_uid as key.
-     * @return int
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * int value = group.getInt("key");
-     * </pre>
+     * @return int <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         int value = group.getInt("key");
+     *         </pre>
      */
     public int getInt(String key) {
         Number value = getNumber(key);
@@ -182,16 +187,17 @@ public class Group {
         return 0;
     }
 
-
     /**
      * Get integer value for key
      *
      * @param key field_uid as key.
-     * @return float
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * float value = group.getFloat("key");
-     * </pre>
+     * @return float <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         float value = group.getFloat("key");
+     *         </pre>
      */
     public float getFloat(String key) {
         Number value = getNumber(key);
@@ -201,16 +207,17 @@ public class Group {
         return (float) 0;
     }
 
-
     /**
      * Get double value for key
      *
      * @param key field_uid as key.
-     * @return double
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * double value = group.getDouble("key");
-     * </pre>
+     * @return double <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         double value = group.getDouble("key");
+     *         </pre>
      */
     public double getDouble(String key) {
         Number value = getNumber(key);
@@ -220,16 +227,17 @@ public class Group {
         return (double) 0;
     }
 
-
     /**
      * Get long value for key
      *
      * @param key field_uid as key.
-     * @return long
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * long value = group.getLong("key");
-     * </pre>
+     * @return long <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         long value = group.getLong("key");
+     *         </pre>
      */
     public long getLong(String key) {
         Number value = getNumber(key);
@@ -243,11 +251,13 @@ public class Group {
      * Get short value for key
      *
      * @param key field_uid as key.
-     * @return short
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * short value = group.getShort("key");
-     * </pre>
+     * @return short <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         short value = group.getShort("key");
+     *         </pre>
      */
     public short getShort(String key) {
         Number value = getNumber(key);
@@ -261,11 +271,13 @@ public class Group {
      * Get {@link Calendar} value for key
      *
      * @param key field_uid as key.
-     * @return {@link java.util.Date}
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Calendar value = group.getDate("key");
-     * </pre>
+     * @return {@link java.util.Date} <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         Calendar value = group.getDate("key");
+     *         </pre>
      */
     public Calendar getDate(String key) {
 
@@ -278,16 +290,17 @@ public class Group {
         return null;
     }
 
-
     /**
      * Get an asset from the group
      *
      * @param key field_uid as key.
-     * @return Asset object
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Asset asset = group.getAsset("key");
-     * </pre>
+     * @return Asset object <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         Asset asset = group.getAsset("key");
+     *         </pre>
      */
     public Asset getAsset(String key) {
 
@@ -295,12 +308,13 @@ public class Group {
         return stackInstance.asset().configure(assetObject);
     }
 
-
     /**
      * Get an assets from the group. This works with multiple true fields
      *
-     * @param key field_uid as key.
-     *            <br><br><b>Example :</b><br>
+     * @param key field_uid as key. <br>
+     *            <br>
+     *            <b>Example :</b><br>
+     * 
      *            <pre class="prettyprint">
      *            {@code List<Asset> asset = group.getAssets("key"); }
      *            @return ArrayList of {@link Asset}
@@ -318,15 +332,16 @@ public class Group {
         return assets;
     }
 
-
     /**
      * Get a group from the group.
      *
-     * @param key field_uid as key.
-     *            <br><br><b>Example :</b><br>
+     * @param key field_uid as key. <br>
+     *            <br>
+     *            <b>Example :</b><br>
+     * 
      *            <pre class="prettyprint">
      *            Group innerGroup = group.getGroup("key");
-     *            @return Group object
+     *            &#64;return Group object
      *            </pre>
      */
     public Group getGroup(String key) {
@@ -336,14 +351,15 @@ public class Group {
         return null;
     }
 
-
     /**
      * Get a list of group from the group.
      * <p>
      * <b>Note :-</b> This will work when group is multiple true.
      *
-     * @param key field_uid as key.
-     *            <br><br><b>Example :</b><br>
+     * @param key field_uid as key. <br>
+     *            <br>
+     *            <b>Example :</b><br>
+     * 
      *            <pre class="prettyprint">
      *            Group innerGroup = group.getGroups("key");
      *            @return List of {@link Group}
@@ -367,14 +383,14 @@ public class Group {
         return null;
     }
 
-
     /**
      * Get value for the given reference key.
      *
      * @param refKey         key of a reference field.
      * @param refContentType class uid.
-     * @return {@link ArrayList} of {@link Entry} instances.
-     * Also specified contentType value will be set as class uid for all {@link Entry} instance.
+     * @return {@link ArrayList} of {@link Entry} instances. Also specified
+     *         contentType value will be set as class uid for all {@link Entry}
+     *         instance.
      */
     public ArrayList<Entry> getAllEntries(String refKey, String refContentType) {
         try {
@@ -386,7 +402,7 @@ public class Group {
                     ArrayList<Entry> builtObjectList = new ArrayList<Entry>();
                     for (int i = 0; i < count; i++) {
 
-                        EntryModel model = new EntryModel(((JSONArray) resultJson.get(refKey)).getJSONObject(i), null, false, false, true);
+                        EntryModel model = new EntryModel(((JSONArray) resultJson.get(refKey)).getJSONObject(i));
                         Entry entryInstance = null;
                         try {
                             entryInstance = stackInstance.contentType(refContentType).entry();
@@ -395,16 +411,9 @@ public class Group {
                             e.printStackTrace();
                         }
                         entryInstance.setUid(model.entryUid);
-                        entryInstance.ownerEmailId = model.ownerEmailId;
-                        entryInstance.ownerUid = model.ownerUid;
-                        if (model.ownerMap != null) {
-                            entryInstance.owner = new HashMap<>(model.ownerMap);
-                        }
                         entryInstance.resultJson = model.jsonObject;
                         entryInstance.setTags(model.tags);
-
                         builtObjectList.add(entryInstance);
-                        model = null;
                     }
                     return builtObjectList;
                 }
@@ -415,6 +424,5 @@ public class Group {
         }
         return null;
     }
-
 
 }

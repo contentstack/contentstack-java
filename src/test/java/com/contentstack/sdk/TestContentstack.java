@@ -111,7 +111,7 @@ class TestContentstack {
     void initStackWithConfigs() throws IllegalAccessException {
         Config config = new Config();
         Stack stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
-        Assertions.assertEquals("cdn.contentstack.io", config.HOST);
+        Assertions.assertEquals("cdn.contentstack.io", config.host);
         Assertions.assertNotNull(stack);
     }
 }

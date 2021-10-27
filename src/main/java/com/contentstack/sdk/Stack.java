@@ -40,20 +40,20 @@ public class Stack {
 
     protected void setConfig(Config config) {
         this.config = config;
-        String urlDomain = config.HOST;
+        String urlDomain = config.host;
         if (!config.region.name().isEmpty()) {
             String region = config.region.name().toLowerCase();
             if (!region.equalsIgnoreCase("us")) {
                 if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
                     urlDomain = "cdn.contentstack.com";
                 }
-                config.HOST = region + "-" + urlDomain;
+                config.host = region + "-" + urlDomain;
             }
         }
 
         setLivePreview();
         // Set the endpoint
-        String endpoint = config.SCHEME + config.HOST;
+        String endpoint = config.scheme + config.host;
         this.config.setEndpoint(endpoint);
     }
 
@@ -66,7 +66,7 @@ public class Stack {
                 if (config.livePreviewHost == null || config.livePreviewHost.isEmpty()) {
                     throw new IllegalAccessException("host is required");
                 }
-                config.HOST = config.livePreviewHost;
+                config.host = config.livePreviewHost;
             }
         } catch (Exception e) {
             String info = "To enable live preview, managementToken and host are required";

@@ -8,118 +8,56 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 
-
 class EntryModel {
 
-    private final Logger logger = Logger.getLogger(EntryModel.class.getSimpleName());
-    protected JSONObject jsonObject = null;
+    protected JSONObject jsonObject;
     protected String entryUid = null;
-    protected String ownerEmailId = null;
-    protected String ownerUid = null;
     protected String title = null;
     protected String url = null;
     protected String[] tags = null;
     protected String language = null;
     protected String rteContent = null;
-    protected Map<String, Object> ownerMap = null;
-    protected Map<String, Object> _metadata = null;
-    private JSONArray tagsArray = null;
+    protected Map<String, Object> metadata = null;
 
-    public EntryModel(JSONObject jsonObj, String entryUid, boolean isFromObjectsModel, boolean isFromCache, boolean isFromDeltaResponse) {
+    public EntryModel(JSONObject response) {
+        this.jsonObject = response;
+        final String PUBLISH_DETAILS = "publish_details";
+        final String TITLE = "title";
+        final String LOCALE = "locale";
+        final String UID = "uid";
+        final String URL = "url";
 
         try {
-            this.entryUid = entryUid;
-            if (isFromObjectsModel) {
-                jsonObject = jsonObj;
-                this.entryUid = (String) (jsonObject.isNull("uid") ? " " : jsonObject.opt("uid"));
-            } else {
 
-                if (isFromCache) {
-                    jsonObject = jsonObj.opt("response") == null ? null : jsonObj.optJSONObject("response");
-                } else {
-                    jsonObject = jsonObj;
-                }
-
-                if (isFromDeltaResponse) {
-                    this.entryUid = (String) (jsonObject != null && jsonObject.isNull("uid") ? " " : jsonObject.opt("uid"));
-                } else {
-                    jsonObject = jsonObject != null && jsonObject.opt("entry") == null ? null : jsonObject.optJSONObject("entry");
-                }
+            if (this.jsonObject.has(UID)) {
+                this.entryUid = (String) this.jsonObject.opt(UID);
             }
-            if (jsonObject != null && jsonObject.has("uid")) {
-                this.entryUid = (String) (jsonObject.isNull("uid") ? " " : jsonObject.opt("uid"));
+            if (this.jsonObject.has(TITLE)) {
+                this.title = (String) this.jsonObject.opt(TITLE);
             }
-
-            if (jsonObject != null && jsonObject.has("title")) {
-                this.title = (String) (jsonObject.isNull("title") ? " " : jsonObject.opt("title"));
+            if (this.jsonObject.has(LOCALE)) {
+                this.language = (String) this.jsonObject.opt(LOCALE);
             }
-
-            if (jsonObject != null && jsonObject.has("locale")) {
-                this.language = (String) (jsonObject.isNull("locale") ? " " : jsonObject.opt("locale"));
-            }
-
-            if (jsonObject != null && jsonObject.has("url")) {
-                this.url = (String) (jsonObject.isNull("url") ? " " : jsonObject.opt("url"));
-            }
-
-            if (jsonObject != null && jsonObject.has("_metadata")) {
-                JSONObject _metadataJSON = jsonObject.optJSONObject("_metadata");
-                Iterator<String> iterator = _metadataJSON.keys();
-                _metadata = new HashMap<>();
-                while (iterator.hasNext()) {
-                    String key = iterator.next();
-                    if (key.equalsIgnoreCase("uid")) {
-                        this.entryUid = _metadataJSON.optString(key);
+            if (this.jsonObject.has(URL)) {
+                this.url = (String) this.jsonObject.opt(URL);
+            } else if (this.jsonObject.has(PUBLISH_DETAILS)) {
+                JSONArray publishArray = this.jsonObject.optJSONArray(PUBLISH_DETAILS);
+                publishArray.forEach(model -> {
+                    JSONObject jsonModel = (JSONObject) model;
+                    Iterator<String> iterator = jsonModel.keys();
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    while (iterator.hasNext()) {
+                        String key = iterator.next();
+                        hashMap.put(key, this.jsonObject.opt(key));
                     }
-                    _metadata.put(key, _metadataJSON.optString(key));
-                }
-            } else if (jsonObject != null && jsonObject.has("publish_details")) {
-
-                JSONArray publishArray = jsonObject.optJSONArray("publish_details");
-
-                if (publishArray != null && publishArray.length() > 0) {
-
-                    for (int i = 0; i < publishArray.length(); i++) {
-                        JSONObject jsonObject = publishArray.optJSONObject(i);
-                        Iterator<String> iterator = jsonObject.keys();
-                        HashMap<String, Object> hashMap = new HashMap<>();
-                        while (iterator.hasNext()) {
-                            String key = iterator.next();
-                            hashMap.put(key, jsonObject.opt(key));
-                        }
-                    }
-                }
-
-
-                if (_metadata == null) {
-                    _metadata = new HashMap<>();
-                    _metadata.put("publish_details", publishArray);
-                }
-
-            }
-
-
-            if (jsonObject != null && jsonObject.has("_owner") && (jsonObject.opt("_owner") != null) && (!jsonObject.opt("_owner").toString().equalsIgnoreCase("null"))) {
-                JSONObject ownerObject = jsonObject.optJSONObject("_owner");
-                if (ownerObject.has("email") && ownerObject.opt("email") != null) {
-                    ownerEmailId = (String) ownerObject.opt("email");
-                }
-                if (ownerObject.has("uid") && ownerObject.opt("uid") != null) {
-                    ownerUid = ownerObject.opt("uid").toString();
-                }
-                JSONObject owner = jsonObject.optJSONObject("_owner");
-                Iterator<String> iterator = owner.keys();
-                ownerMap = new HashMap<>();
-                while (iterator.hasNext()) {
-                    String key = iterator.next();
-                    ownerMap.put(key, owner.optString(key));
+                });
+                if (metadata == null) {
+                    metadata = new HashMap<>();
+                    metadata.put(PUBLISH_DETAILS, publishArray);
                 }
             }
-            if (jsonObject != null && jsonObject.has("rich_text_editor")) {
-                this.rteContent = (String) (jsonObject.isNull("rich_text_editor") ? " " : jsonObject.opt("rich_text_editor"));
-            }
-
         } catch (Exception e) {
+            Logger logger = Logger.getLogger(EntryModel.class.getSimpleName());
             logger.severe(e.getLocalizedMessage());
         }
 
