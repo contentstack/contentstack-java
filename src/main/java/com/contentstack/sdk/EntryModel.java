@@ -74,7 +74,6 @@ class EntryModel {
             parsePublishDetail();
         }
 
-
     }
 
     private void parsePublishDetail() {
