@@ -106,9 +106,9 @@ public class Query implements INotifyClass {
      *         <b>Example :</b><br>
      * 
      *         <pre class="prettyprint">
-     * Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
-     * Query csQuery = stack.contentType("contentType_name").query();
-     * csQuery.where("uid", "bltf4fbsample851db");
+     *          Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
+     *          Query csQuery = stack.contentType("contentType_name").query();
+     *          csQuery.where("uid", "entry_uid");
      *         </pre>
      */
 
@@ -1626,9 +1626,7 @@ public class Query implements INotifyClass {
      *         <b>Example :</b><br>
      * 
      *         <pre class="prettyprint">
-     *      //'blt5d4sample2633b' is a dummy Stack API key
-     *      //'blt6d0240b5sample254090d' is dummy access token.
-     *      Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
+     *      Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment_name");
      *      Query csQuery = stack.contentType("contentType_name").query();<br>
      *      csQuery.includeReferenceContentTypUid();
      *      csQuery.findOne(new QueryResultsCallBack() {<br>

@@ -75,7 +75,7 @@ public class QueryTestCase {
     @Test()
     void testWhere() {
         Query query = stack.contentType("categories").query();
-        query.where("uid", "blta3b58d6893d8935b");
+        query.where("uid", "fakeit");
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
@@ -508,7 +508,7 @@ public class QueryTestCase {
     @Test
     void testIncludeCount() {
         query.includeCount();
-        query.where("uid", "blt3976eac6d3a0cb74");
+        query.where("uid", "fakeIt");
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
@@ -524,7 +524,7 @@ public class QueryTestCase {
     void testIncludeReferenceOnly() {
 
         final Query query = stack.contentType("multifield").query();
-        query.where("uid", "blt1b1cb4f26c4b682e");
+        query.where("uid", "fakeIt");
 
         ArrayList<String> strings = new ArrayList<>();
         strings.add("title");
@@ -552,7 +552,7 @@ public class QueryTestCase {
 
     @Test
     void testIncludeReferenceExcept() {
-        query = query.where("uid", "blt7801c5d40cbbe979");
+        query = query.where("uid", "fakeit");
         ArrayList<String> strings = new ArrayList<>();
         strings.add("title");
         query.exceptWithReferenceUid(strings, "category");

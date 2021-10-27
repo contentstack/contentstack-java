@@ -615,7 +615,7 @@ public class Entry {
     }
 
     /**
-     * Get an asset from the entry
+     * Get an asset from the entrys
      *
      * @param key field_uid as key.
      * @return Asset <br>
@@ -639,7 +639,7 @@ public class Entry {
      * <pre class="prettyprint">
      * {
      *     &#64;code
-     *     List<Asset> asset = entry.getAssets("key");
+     *     List asset = entry.getAssets("key");
      * }
      * </pre>
      *
@@ -659,17 +659,24 @@ public class Entry {
         return assets;
     }
 
+
     /**
+     * @param key
+
+
      * Get a group from entry.
      *
      * @param key field_uid as key. <br>
      *            <br>
      *            <b>Example :</b><br>
-     * 
+     *
      *            <pre class="prettyprint">
      *             Group innerGroup = entry.getGroup("key");
      *             return null
      *            </pre>
+
+
+     * @return {@link Group}
      */
     public Group getGroup(String key) {
 

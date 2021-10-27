@@ -86,8 +86,8 @@ public class ContentType {
      *
      * <p>
      * If an entry is not published in a specific locale, make use of the
-     * “include_fallback=true” query parameter to fetch the published content from
-     * its fallback locale.
+     * <b>include_fallback=true</b> query parameter to fetch the published content
+     * from its fallback locale.
      * <p>
      * <b>Note:</b>If the fallback language of the specified locale is the master
      * language itself, this parameter would not be applicable.
