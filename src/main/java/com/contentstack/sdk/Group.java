@@ -397,7 +397,7 @@ public class Group {
                             entryInstance = new Entry(refContentType);
                             e.printStackTrace();
                         }
-                        entryInstance.setUid(model.entryUid);
+                        entryInstance.setUid(model.uid);
                         entryInstance.resultJson = model.jsonObject;
                         entryInstance.setTags(model.tags);
                         entryContainer.add(entryInstance);

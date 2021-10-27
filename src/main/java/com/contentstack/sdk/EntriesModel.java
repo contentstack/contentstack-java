@@ -16,15 +16,19 @@ class EntriesModel {
         try {
             this.jsonObject = responseJSON;
             objectList = new ArrayList<>();
-            JSONArray entriesArray = jsonObject.opt("entries") == null ? null : jsonObject.optJSONArray("entries");
-            assert entriesArray != null;
-            entriesArray.forEach(model -> {
-                if (model instanceof JSONObject) {
-                    JSONObject newModel = (JSONObject) model;
-                    EntryModel entry = new EntryModel(newModel);
-                    objectList.add(entry);
+            Object entryList = jsonObject.opt("entries");
+            if (entryList instanceof JSONArray){
+                JSONArray entries = (JSONArray) entryList;
+                if (entries.length()>0){
+                    entries.forEach(model -> {
+                        if (model instanceof JSONObject) {
+                            JSONObject newModel = (JSONObject) model;
+                            EntryModel entry = new EntryModel(newModel);
+                            objectList.add(entry);
+                        }
+                    });
                 }
-            });
+            }
         } catch (Exception e) {
             Logger logger = Logger.getLogger(EntriesModel.class.getSimpleName());
             logger.severe(e.getLocalizedMessage());

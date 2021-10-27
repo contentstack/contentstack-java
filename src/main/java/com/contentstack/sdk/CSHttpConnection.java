@@ -195,7 +195,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
         if (response.isSuccessful()) {
             assert response.body() != null;
             String resp = response.body().string();
-            logger.info(resp);
             responseJSON = new JSONObject(resp);
             connectionRequest.onRequestFinished(CSHttpConnection.this);
         } else {

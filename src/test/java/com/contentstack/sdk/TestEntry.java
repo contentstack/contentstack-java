@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestEntryCase {
+class TestEntry {
 
-    private final Logger logger = Logger.getLogger(TestEntryCase.class.getName());
+    private final Logger logger = Logger.getLogger(TestEntry.class.getName());
     private final String CONTENT_TYPE = "product";
     private String entryUid = "justFakeIt";
     private Stack stack;

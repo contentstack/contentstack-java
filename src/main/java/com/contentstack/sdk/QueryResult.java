@@ -6,13 +6,11 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.logging.Logger;
 
-/**
- * It results the query response
- */
+
 
 public class QueryResult {
 
-    private static final Logger logger = Logger.getLogger(QueryResult.class.getSimpleName());
+    private final Logger logger = Logger.getLogger(QueryResult.class.getSimpleName());
     protected JSONObject receiveJson;
     protected JSONArray schemaArray;
     protected JSONObject contentObject;
@@ -84,7 +82,6 @@ public class QueryResult {
     protected void setJSON(JSONObject jsonobject, List<Entry> objectList) {
         receiveJson = jsonobject;
         resultObjects = objectList;
-
         try {
             if (receiveJson != null) {
                 if (receiveJson.has("schema")) {

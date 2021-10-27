@@ -1525,11 +1525,11 @@ public class Query implements INotifyClass {
             Entry entry = null;
             try {
                 entry = contentTypeInstance.stackInstance.contentType(formName)
-                        .entry(((EntryModel) objects.get(i)).entryUid);
+                        .entry(((EntryModel) objects.get(i)).uid);
             } catch (Exception e) {
                 entry = new Entry(formName);
             }
-            entry.setUid(((EntryModel) objects.get(i)).entryUid);
+            entry.setUid(((EntryModel) objects.get(i)).uid);
             entry.resultJson = ((EntryModel) objects.get(i)).jsonObject;
             entry.title = ((EntryModel) objects.get(i)).title;
             entry.url = ((EntryModel) objects.get(i)).url;

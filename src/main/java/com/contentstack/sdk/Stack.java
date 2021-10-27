@@ -364,8 +364,10 @@ public class Stack {
      *                     <b>Example :</b><br>
      *
      *                     <pre class="prettyprint">
-     *                      final Date start_date = sdf.parse("2018-10-07"); <P>
-     *                      stack.syncFromDate(start_date, SyncResultCallBack)                                                                                                                                                                                                                                    SyncResultCallBack()) {         }
+     *                     final Date start_date = sdf.parse("2018-10-07"); <P>
+     *                     stack.syncFromDate(start_date, SyncResultCallBack()) {
+     *
+     *                     }
      *                     </pre>
      */
     public void syncFromDate(@NotNull Date fromDate, SyncResultCallBack syncCallBack) {
@@ -451,7 +453,7 @@ public class Stack {
      *                     <b>Example :</b><br>
      *
      *                     <pre class="prettyprint">
-     *                                                                                                                                                                                                                                         stackInstance.syncPublishType(Stack.PublishType.entry_published, new SyncResultCallBack()) { }
+     *                     stackInstance.syncPublishType(Stack.PublishType.entry_published, new SyncResultCallBack()) { }
      *                     </pre>
      */
     public void syncPublishType(PublishType publishType, SyncResultCallBack syncCallBack) {

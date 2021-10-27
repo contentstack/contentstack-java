@@ -12,9 +12,9 @@ import java.util.logging.Logger;
 /**
  * The type Config testcase.
  */
-public class TestLivePreviewTestcase {
+public class TestLivePreview {
 
-    private static final Logger logger = Logger.getLogger(TestLivePreviewTestcase.class.getName());
+    private static final Logger logger = Logger.getLogger(TestLivePreview.class.getName());
     private static Config config;
 
     /**
