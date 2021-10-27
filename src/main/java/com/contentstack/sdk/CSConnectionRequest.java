@@ -98,7 +98,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
             errResp.setErrorMessage(errMsg);
         }
         if (error.has(ERROR_CODE)) {
-            int errCode =  error.optInt(ERROR_CODE);
+            int errCode = error.optInt(ERROR_CODE);
             errResp.setErrorCode(errCode);
         }
         if (error.has(ERRORS)) {

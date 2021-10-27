@@ -32,7 +32,7 @@ class AssetModel {
             json = response.optJSONObject("asset");
         }
 
-        if (json!=null){
+        if (json != null) {
             uploadedUid = (String) json.opt("uid");
             contentType = (String) json.opt("content_type");
             fileSize = (String) json.opt("file_size");

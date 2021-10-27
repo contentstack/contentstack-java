@@ -17,9 +17,9 @@ class EntriesModel {
             this.jsonObject = responseJSON;
             objectList = new ArrayList<>();
             Object entryList = jsonObject.opt("entries");
-            if (entryList instanceof JSONArray){
+            if (entryList instanceof JSONArray) {
                 JSONArray entries = (JSONArray) entryList;
-                if (entries.length()>0){
+                if (entries.length() > 0) {
                     entries.forEach(model -> {
                         if (model instanceof JSONObject) {
                             JSONObject newModel = (JSONObject) model;

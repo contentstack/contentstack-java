@@ -6,8 +6,6 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.logging.Logger;
 
-
-
 public class QueryResult {
 
     private final Logger logger = Logger.getLogger(QueryResult.class.getSimpleName());

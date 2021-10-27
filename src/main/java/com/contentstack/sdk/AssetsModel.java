@@ -16,8 +16,7 @@ class AssetsModel {
     /**
      * Instantiates a new Assets model.
      *
-     * @param response
-     *         the response
+     * @param response the response
      */
     public AssetsModel(JSONObject response) {
         JSONArray listResponse = response != null && response.has("assets") ? response.optJSONArray("assets") : null;
