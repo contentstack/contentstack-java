@@ -65,8 +65,7 @@ public class ContentType {
      */
     public Entry entry(String entryUid) {
         Entry entry = new Entry(contentTypeUid);
-        entry.headers = this.headers;
-        entry.setContentType(this);
+        entry.setContentType(this, this.headers);
         entry.setUid(entryUid);
         return entry;
     }
@@ -74,7 +73,7 @@ public class ContentType {
     protected Entry entry() {
         Entry entry = new Entry(contentTypeUid);
         entry.headers = this.headers;
-        entry.setContentType(this);
+        entry.setContentType(this, this.headers);
         return entry;
     }
 

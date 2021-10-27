@@ -1,7 +1,7 @@
 package com.contentstack.sdk;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -12,21 +12,21 @@ import static com.contentstack.sdk.Constants.ENVIRONMENT;
 public class Entry {
 
     private final Logger logger = Logger.getLogger(Entry.class.getSimpleName());
-    protected JSONObject otherPostJSON;
+    protected JSONObject params;
     protected LinkedHashMap<String, Object> headers = null;
     protected HashMap<String, Object> owner = null;
     protected String uid = null;
+    protected JSONObject publishDetails;
     protected JSONObject resultJson = null;
     protected String title = null;
     protected String url = null;
     protected String language = null;
     protected String contentTypeUid;
-    protected LinkedHashMap<String, Object> localHeader = null;
     protected ContentType contentType = null;
     protected String[] tags = null;
     protected JSONArray referenceArray;
     protected JSONArray objectUidForOnly;
-    protected JSONArray objectUidForExcept;
+    protected JSONArray exceptFieldArray;
     protected JSONObject onlyJsonObject;
     protected JSONObject exceptJsonObject;
     protected String rteContent = null;
@@ -37,12 +37,12 @@ public class Entry {
 
     protected Entry(String contentTypeName) {
         this.contentTypeUid = contentTypeName;
-        this.localHeader = new LinkedHashMap<>();
-        this.otherPostJSON = new JSONObject();
+        this.params = new JSONObject();
     }
 
-    protected void setContentType(ContentType contentType) {
+    protected void setContentType(@NotNull ContentType contentType, @NotNull LinkedHashMap<String, Object> header) {
         this.contentType = contentType;
+        this.headers = header;
     }
 
     public Entry configure(JSONObject jsonObject) {
@@ -52,7 +52,8 @@ public class Entry {
         this.url = model.url;
         this.language = model.language;
         this.rteContent = model.rteContent;
-        this.uid = model.entryUid;
+        this.uid = model.uid;
+        this.publishDetails = model.publishDetails;
         this.setTags(model.tags);
         return this;
     }
@@ -74,7 +75,7 @@ public class Entry {
 
     public void setHeader(String key, String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
-            localHeader.put(key, value);
+            this.headers.put(key, value);
         }
     }
 
@@ -94,7 +95,7 @@ public class Entry {
 
     public void removeHeader(String key) {
         if (!key.isEmpty()) {
-            localHeader.remove(key);
+            this.headers.remove(key);
         }
     }
 
@@ -195,24 +196,18 @@ public class Entry {
      * @return Entry <br>
      *         <br>
      *         <b>Example :</b><br>
-     * 
+     *
      *         <pre class="prettyprint">
      *         Entry entry = entry.setLanguage();
      *         </pre>
      */
 
-    public Entry setLocale(String locale) {
-        if (locale != null) {
-            try {
-                otherPostJSON.put("locale", locale);
-            } catch (JSONException e) {
-                logger.severe(e.getLocalizedMessage());
-            }
-        }
-
+    public Entry setLocale(@NotNull String locale) {
+        params.put("locale", locale);
         return this;
     }
 
+    @Deprecated
     public Map<String, Object> getOwner() {
         return owner;
     }
@@ -239,24 +234,15 @@ public class Entry {
      * @param key field_uid as key. <br>
      *            <br>
      *            <b>Example :</b><br>
-     * 
+     *
      *            <pre class="prettyprint">
      *            Object obj = entry.get("key");
      *            </pre>
-     * 
+     *
      * @return Object @resultJson
      */
-    public Object get(String key) {
-        try {
-            if (resultJson != null && key != null) {
-                return resultJson.get(key);
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
-            return null;
-        }
+    public Object get(@NotNull String key) {
+        return resultJson.opt(key);
     }
 
     /**
@@ -265,17 +251,17 @@ public class Entry {
      * @param key field_uid as key. <br>
      *            <br>
      *            <b>Example :</b><br>
-     * 
+     *
      *            <pre class="prettyprint">
      *            String value = entry.getString("key");
      *            </pre>
-     * 
+     *
      * @return String @getString
      */
 
-    public String getString(String key) {
+    public String getString(@NotNull String key) {
         Object value = get(key);
-        if (value != null) {
+        if (value instanceof String) {
             return (String) value;
         }
         return null;
@@ -287,17 +273,17 @@ public class Entry {
      * @param key field_uid as key. <br>
      *            <br>
      *            <b>Example :</b><br>
-     * 
+     *
      *            <pre class="prettyprint">
      *            Boolean value = entry.getBoolean("key");
      *            </pre>
-     * 
+     *
      * @return boolean @getBoolean
      */
 
-    public Boolean getBoolean(String key) {
+    public Boolean getBoolean(@NotNull String key) {
         Object value = get(key);
-        if (value != null) {
+        if (value instanceof Boolean) {
             return (Boolean) value;
         }
         return false;
@@ -309,17 +295,17 @@ public class Entry {
      * @param key field_uid as key. <br>
      *            <br>
      *            <b>Example :</b><br>
-     * 
+     *
      *            <pre class="prettyprint">
      *            JSONArray value = entry.getJSONArray("key");
      *            </pre>
-     * 
+     *
      * @return JSONArray @getJSONArray
      */
 
-    public JSONArray getJSONArray(String key) {
+    public JSONArray getJSONArray(@NotNull String key) {
         Object value = get(key);
-        if (value != null) {
+        if (value instanceof JSONArray) {
             return (JSONArray) value;
         }
         return null;
@@ -331,16 +317,16 @@ public class Entry {
      * @param key field_uid as key. <br>
      *            <br>
      *            <b>Example :</b><br>
-     * 
+     *
      *            <pre class="prettyprint">
      *            JSONObject value = entry.getJSONObject("key");
      *            </pre>
-     * 
+     *
      * @return JSONObject @getJSONObject
      */
-    public JSONObject getJSONObject(String key) {
+    public JSONObject getJSONObject(@NotNull String key) {
         Object value = get(key);
-        if (value != null) {
+        if (value instanceof JSONObject) {
             return (JSONObject) value;
         }
         return null;
@@ -352,17 +338,17 @@ public class Entry {
      * @param key field_uid as key. <br>
      *            <br>
      *            <b>Example :</b><br>
-     * 
+     *
      *            <pre class="prettyprint">
      *            JSONObject value = entry.getJSONObject("key");
      *            </pre>
-     * 
+     *
      * @return Number @getNumber
      */
 
-    public Number getNumber(String key) {
+    public Number getNumber(@NotNull String key) {
         Object value = get(key);
-        if (value != null) {
+        if (value instanceof Number) {
             return (Number) value;
         }
         return null;
@@ -374,18 +360,18 @@ public class Entry {
      * @param key field_uid as key. <br>
      *            <br>
      *            <b>Example :</b><br>
-     * 
+     *
      *            <pre class="prettyprint">
      *            int value = entry.getInt("key");
      *            </pre>
-     * 
+     *
      * @return int @getInt
      */
 
-    public int getInt(String key) {
-        Number value = getNumber(key);
-        if (value != null) {
-            return value.intValue();
+    public int getInt(@NotNull String key) {
+        Object value = getNumber(key);
+        if (value instanceof Integer) {
+            return (Integer) value;
         }
         return 0;
     }
@@ -397,16 +383,16 @@ public class Entry {
      * @return float @getFloat <br>
      *         <br>
      *         <b>Example :</b><br>
-     * 
+     *
      *         <pre class="prettyprint">
      *         float value = entry.getFloat("key");
      *         </pre>
      */
 
-    public float getFloat(String key) {
-        Number value = getNumber(key);
-        if (value != null) {
-            return value.floatValue();
+    public float getFloat(@NotNull String key) {
+        Object value = getNumber(key);
+        if (value instanceof Float) {
+            return (Float) value;
         }
         return 0;
     }
@@ -418,13 +404,13 @@ public class Entry {
      * @return double @getDouble <br>
      *         <br>
      *         <b>Example :</b><br>
-     * 
+     *
      *         <pre class="prettyprint">
      *         double value = entry.getDouble("key");
      *         </pre>
      */
 
-    public double getDouble(String key) {
+    public double getDouble(@NotNull String key) {
         Number value = getNumber(key);
         if (value != null) {
             return value.doubleValue();
@@ -438,15 +424,15 @@ public class Entry {
      * @param key field_uid as key. <br>
      *            <br>
      *            <b>Example :</b><br>
-     * 
+     *
      *            <pre class="prettyprint">
      *            long value = entry.getLong("key");
      *            </pre>
-     * 
+     *
      * @return long @getLong
      */
 
-    public long getLong(String key) {
+    public long getLong(@NotNull String key) {
         Number value = getNumber(key);
         if (value != null) {
             return value.longValue();
@@ -462,14 +448,14 @@ public class Entry {
      *            <br>
      *            <br>
      *            <b>Example :</b><br>
-     * 
+     *
      *            <pre class="prettyprint">
      *            short value = entry.getShort("key");
      *            </pre>
-     * 
+     *
      * @return short @getShort
      */
-    public short getShort(String key) {
+    public short getShort(@NotNull String key) {
         Number value = getNumber(key);
         if (value != null) {
             return value.shortValue();
@@ -483,15 +469,15 @@ public class Entry {
      * @param key field_uid as key. <br>
      *            <br>
      *            <b>Example :</b><br>
-     * 
+     *
      *            <pre class="prettyprint">
      *            Calendar value = entry.getDate("key");
      *            </pre>
-     * 
+     *
      * @return Calendar @getDate
      */
 
-    public Calendar getDate(String key) {
+    public Calendar getDate(@NotNull String key) {
         try {
             String value = getString(key);
             return Constants.parseDate(value, null);
@@ -615,13 +601,13 @@ public class Entry {
     }
 
     /**
-     * Get an asset from the entrys
+     * Get an asset from the entry
      *
      * @param key field_uid as key.
      * @return Asset <br>
      *         <br>
      *         <b>Example :</b><br>
-     * 
+     *
      *         <pre class="prettyprint">
      *         Asset asset = entry.getAsset("key");
      *         </pre>
@@ -650,21 +636,21 @@ public class Entry {
     public List<Asset> getAssets(String key) {
         List<Asset> assets = new ArrayList<>();
         JSONArray assetArray = getJSONArray(key);
-        for (int i = 0; i < assetArray.length(); i++) {
-            if (assetArray.opt(i) instanceof JSONObject) {
-                Asset asset = contentType.stackInstance.asset().configure(assetArray.optJSONObject(i));
+        assetArray.forEach(model -> {
+            if (model instanceof JSONObject) {
+                JSONObject newModel = (JSONObject) model;
+                Asset asset = contentType.stackInstance.asset().configure(newModel);
                 assets.add(asset);
             }
-        }
+        });
         return assets;
     }
 
-
     /**
      * @param key
-
-
-     * Get a group from entry.
+     *
+     *
+     *            Get a group from entry.
      *
      * @param key field_uid as key. <br>
      *            <br>
@@ -674,12 +660,11 @@ public class Entry {
      *             Group innerGroup = entry.getGroup("key");
      *             return null
      *            </pre>
-
-
+     *
+     *
      * @return {@link Group}
      */
     public Group getGroup(String key) {
-
         if (!key.isEmpty() && resultJson.has(key) && resultJson.opt(key) instanceof JSONObject) {
             return new Group(contentType.stackInstance, resultJson.optJSONObject(key));
         }
@@ -760,7 +745,7 @@ public class Entry {
                         entryInstance = new Entry(refContentType);
                         logger.severe(e.getLocalizedMessage());
                     }
-                    entryInstance.setUid(model.entryUid);
+                    entryInstance.setUid(model.uid);
                     entryInstance.resultJson = model.jsonObject;
                     entryInstance.setTags(model.tags);
                     entryContainer.add(entryInstance);
@@ -778,7 +763,7 @@ public class Entry {
      * @return {@link Entry} object, so you can chain this call. <br>
      *         <br>
      *         <b>Example :</b><br>
-     * 
+     *
      *         <pre class="prettyprint">
      *          Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *          Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
@@ -786,21 +771,14 @@ public class Entry {
      *         </pre>
      */
 
-    public Entry except(String[] fieldUid) {
-        try {
-            if (fieldUid != null && fieldUid.length > 0) {
-
-                if (objectUidForExcept == null) {
-                    objectUidForExcept = new JSONArray();
-                }
-
-                int count = fieldUid.length;
-                for (int i = 0; i < count; i++) {
-                    objectUidForExcept.put(fieldUid[i]);
-                }
+    public Entry except(@NotNull String[] fieldUid) {
+        if (fieldUid.length > 0) {
+            if (exceptFieldArray == null) {
+                exceptFieldArray = new JSONArray();
             }
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            for (String s : fieldUid) {
+                exceptFieldArray.put(s);
+            }
         }
         return this;
     }
@@ -812,24 +790,20 @@ public class Entry {
      * @return {@link Entry} object, so you can chain this call. <br>
      *         <br>
      *         <b>Example :</b><br>
-     * 
+     *
      *         <pre class="prettyprint">
      *          Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *          Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
      *          entry.includeReference("referenceUid");
      *         </pre>
      */
-    public Entry includeReference(String referenceField) {
-        try {
-            if (!referenceField.isEmpty()) {
-                if (referenceArray == null) {
-                    referenceArray = new JSONArray();
-                }
-                referenceArray.put(referenceField);
-                otherPostJSON.put("include[]", referenceArray);
+    public Entry includeReference(@NotNull String referenceField) {
+        if (!referenceField.isEmpty()) {
+            if (referenceArray == null) {
+                referenceArray = new JSONArray();
             }
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            referenceArray.put(referenceField);
+            params.put("include[]", referenceArray);
         }
         return this;
     }
@@ -848,19 +822,15 @@ public class Entry {
      *          entry.includeReference(new String[]{"referenceUid_A", "referenceUid_B"});
      *         </pre>
      */
-    public Entry includeReference(String[] referenceFields) {
-        try {
-            if (referenceFields != null && referenceFields.length > 0) {
-                if (referenceArray == null) {
-                    referenceArray = new JSONArray();
-                }
-                for (int i = 0; i < referenceFields.length; i++) {
-                    referenceArray.put(referenceFields[i]);
-                }
-                otherPostJSON.put("include[]", referenceArray);
+    public Entry includeReference(@NotNull String[] referenceFields) {
+        if (referenceFields.length > 0) {
+            if (referenceArray == null) {
+                referenceArray = new JSONArray();
             }
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            for (String field : referenceFields) {
+                referenceArray.put(field);
+            }
+            params.put("include[]", referenceArray);
         }
         return this;
     }
@@ -882,19 +852,13 @@ public class Entry {
      *         </pre>
      */
     public Entry only(String[] fieldUid) {
-        try {
-            if (fieldUid != null && fieldUid.length > 0) {
-                if (objectUidForOnly == null) {
-                    objectUidForOnly = new JSONArray();
-                }
-
-                int count = fieldUid.length;
-                for (int i = 0; i < count; i++) {
-                    objectUidForOnly.put(fieldUid[i]);
-                }
+        if (fieldUid != null && fieldUid.length > 0) {
+            if (objectUidForOnly == null) {
+                objectUidForOnly = new JSONArray();
             }
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            for (String field : fieldUid) {
+                objectUidForOnly.put(field);
+            }
         }
         return this;
     }
@@ -920,24 +884,16 @@ public class Entry {
      *         </pre>
      */
 
-    public Entry onlyWithReferenceUid(ArrayList<String> fieldUid, String referenceFieldUid) {
-        try {
-            if (fieldUid != null && referenceFieldUid != null) {
-                if (onlyJsonObject == null) {
-                    onlyJsonObject = new JSONObject();
-                }
-                JSONArray fieldValueArray = new JSONArray();
-                int count = fieldUid.size();
-                for (int i = 0; i < count; i++) {
-                    fieldValueArray.put(fieldUid.get(i));
-                }
-
-                onlyJsonObject.put(referenceFieldUid, fieldValueArray);
-                includeReference(referenceFieldUid);
-            }
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+    public Entry onlyWithReferenceUid(@NotNull ArrayList<String> fieldUid, @NotNull String referenceFieldUid) {
+        if (onlyJsonObject == null) {
+            onlyJsonObject = new JSONObject();
         }
+        JSONArray fieldValueArray = new JSONArray();
+        fieldUid.forEach(field -> {
+            fieldValueArray.put(field);
+        });
+        onlyJsonObject.put(referenceFieldUid, fieldValueArray);
+        includeReference(referenceFieldUid);
         return this;
     }
 
@@ -963,24 +919,16 @@ public class Entry {
      *          entry.onlyWithReferenceUid(array, "referenceUid");
      *         </pre>
      */
-    public Entry exceptWithReferenceUid(ArrayList<String> fieldUid, String referenceFieldUid) {
-        try {
-            if (fieldUid != null && referenceFieldUid != null) {
-                if (exceptJsonObject == null) {
-                    exceptJsonObject = new JSONObject();
-                }
-                JSONArray fieldValueArray = new JSONArray();
-                int count = fieldUid.size();
-                for (int i = 0; i < count; i++) {
-                    fieldValueArray.put(fieldUid.get(i));
-                }
-
-                exceptJsonObject.put(referenceFieldUid, fieldValueArray);
-                includeReference(referenceFieldUid);
-            }
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+    public Entry exceptWithReferenceUid(@NotNull ArrayList<String> fieldUid, @NotNull String referenceFieldUid) {
+        if (exceptJsonObject == null) {
+            exceptJsonObject = new JSONObject();
         }
+        JSONArray fieldValueArray = new JSONArray();
+        fieldUid.forEach(field -> {
+            fieldValueArray.put(field);
+        });
+        exceptJsonObject.put(referenceFieldUid, fieldValueArray);
+        includeReference(referenceFieldUid);
         return this;
     }
 
@@ -1017,47 +965,36 @@ public class Entry {
         JSONObject urlQueries = new JSONObject();
         urlQueries.put(ENVIRONMENT, headers.get(ENVIRONMENT));
         checkLivePreview(headers, urlQueries);
-        fetchFromNetwork(urlString, this.headers, urlQueries, callback);
+        fetchFromNetwork(urlString, urlQueries, callback);
     }
 
-    private void fetchFromNetwork(String urlString, Map<String, Object> headers, JSONObject urlQueries,
-            EntryResultCallBack callBack) {
+    private void fetchFromNetwork(String urlString, JSONObject urlQueries, EntryResultCallBack callBack) {
         try {
             JSONObject mainJson = new JSONObject();
             setIncludeJSON(urlQueries, callBack);
             mainJson.put("query", urlQueries);
-            mainJson.put("_method", Constants.REQUEST_METHOD.GET.toString());
             HashMap<String, Object> urlParams = getUrlParams(mainJson);
             new CSBackgroundTask(this, contentType.stackInstance, Constants.FETCHENTRY, urlString, this.headers,
                     urlParams, Constants.REQUEST_CONTROLLER.ENTRY.toString(), callBack);
-
         } catch (Exception e) {
             throwException(null, e, callBack);
         }
     }
 
     private void checkLivePreview(LinkedHashMap<String, Object> headers, JSONObject urlQueries) {
-        // Step 1: check live preview enabled
         Config configInstance = contentType.stackInstance.config;
-        if (configInstance.enableLivePreview) {
-            // Step 2: check and compare content type
-            if (configInstance.livePreviewContentType.equalsIgnoreCase(contentTypeUid)) {
-                configInstance.setHost(configInstance.livePreviewHost);
-                // Step 4: Remove access_token from header
-                headers.remove("access_token");
-                // Remove environment from urlQuery
-                if (headers.containsKey(ENVIRONMENT)) {
-                    headers.remove(ENVIRONMENT);
-                }
-                if (configInstance.livePreviewHash == null || configInstance.livePreviewHash.isEmpty()) {
-                    configInstance.livePreviewHash = "init";
-                }
-                headers.put("live_preview", configInstance.livePreviewHash);
-                headers.put("authorization", configInstance.managementToken);
-                urlQueries.remove(ENVIRONMENT);
+        if (configInstance.enableLivePreview
+                && configInstance.livePreviewContentType.equalsIgnoreCase(contentTypeUid)) {
+            configInstance.setHost(configInstance.livePreviewHost);
+            headers.remove("access_token"); // Step 4: Remove access_token from header
+            headers.remove(ENVIRONMENT); // Remove environment from urlQuery
+            if (configInstance.livePreviewHash == null || configInstance.livePreviewHash.isEmpty()) {
+                configInstance.livePreviewHash = "init";
             }
+            headers.put("live_preview", configInstance.livePreviewHash);
+            headers.put("authorization", configInstance.managementToken);
+            urlQueries.remove(ENVIRONMENT);
         }
-
     }
 
     private LinkedHashMap<String, Object> getUrlParams(JSONObject jsonMain) {
@@ -1076,28 +1013,24 @@ public class Entry {
 
     private void setIncludeJSON(JSONObject mainJson, ResultCallBack callBack) {
         try {
-            Iterator<String> iterator = otherPostJSON.keys();
+            Iterator<String> iterator = params.keys();
             while (iterator.hasNext()) {
                 String key = iterator.next();
-                Object value = otherPostJSON.get(key);
+                Object value = params.get(key);
                 mainJson.put(key, value);
             }
-
             if (objectUidForOnly != null && objectUidForOnly.length() > 0) {
                 mainJson.put("only[BASE][]", objectUidForOnly);
                 objectUidForOnly = null;
             }
-
-            if (objectUidForExcept != null && objectUidForExcept.length() > 0) {
-                mainJson.put("except[BASE][]", objectUidForExcept);
-                objectUidForExcept = null;
+            if (exceptFieldArray != null && exceptFieldArray.length() > 0) {
+                mainJson.put("except[BASE][]", exceptFieldArray);
+                exceptFieldArray = null;
             }
-
             if (exceptJsonObject != null && exceptJsonObject.length() > 0) {
                 mainJson.put("except", exceptJsonObject);
                 exceptJsonObject = null;
             }
-
             if (onlyJsonObject != null && onlyJsonObject.length() > 0) {
                 mainJson.put("only", onlyJsonObject);
                 onlyJsonObject = null;
@@ -1108,42 +1041,14 @@ public class Entry {
     }
 
     private void throwException(String errorMsg, Exception e, EntryResultCallBack callBack) {
-
         Error error = new Error();
         if (errorMsg != null) {
             error.setErrorMessage(errorMsg);
         } else {
             error.setErrorMessage(e.toString());
         }
-
         callBack.onRequestFail(ResponseType.UNKNOWN, error);
-
     }
-
-    // private LinkedHashMap<String, Object> getHeader(LinkedHashMap<String, Object>
-    // localHeader) {
-    // LinkedHashMap<String, Object> mainHeader = headers;
-    // LinkedHashMap<String, Object> classHeaders = new LinkedHashMap<>();
-    // if (localHeader != null && localHeader.size() > 0) {
-    // if (mainHeader != null && mainHeader.size() > 0) {
-    // for (Map.Entry<String, Object> entry : localHeader.entrySet()) {
-    // String key = entry.getKey();
-    // classHeaders.put(key, entry.getValue());
-    // }
-    // for (Map.Entry<String, Object> entry : mainHeader.entrySet()) {
-    // String key = entry.getKey();
-    // if (!classHeaders.containsKey(key)) {
-    // classHeaders.put(key, entry.getValue());
-    // }
-    // }
-    // return classHeaders;
-    // } else {
-    // return localHeader;
-    // }
-    // } else {
-    // return headers;
-    // }
-    // }
 
     /**
      * This method adds key and value to an Entry.
@@ -1170,16 +1075,8 @@ public class Entry {
      *         </pre>
      */
 
-    public Entry addParam(String key, String value) {
-
-        if (key != null && value != null) {
-            try {
-                otherPostJSON.put(key, value);
-            } catch (JSONException e) {
-                logger.severe(e.getLocalizedMessage());
-            }
-        }
-
+    public Entry addParam(@NotNull String key, @NotNull String value) {
+        params.put(key, value);
         return this;
     }
 
@@ -1189,7 +1086,6 @@ public class Entry {
      *
      * @return {@link Entry}
      *
-     *         <br>
      *         <br>
      *         <b>Example :</b><br>
      * 
@@ -1207,11 +1103,7 @@ public class Entry {
      *         </pre>
      */
     public Entry includeReferenceContentTypeUID() {
-        try {
-            otherPostJSON.put("include_reference_content_type_uid", "true");
-        } catch (JSONException e) {
-            logger.severe(e.getLocalizedMessage());
-        }
+        params.put("include_reference_content_type_uid", "true");
         return this;
     }
 
@@ -1229,15 +1121,9 @@ public class Entry {
      *         </pre>
      */
     public Entry includeContentType() {
-        try {
-            if (otherPostJSON.has("include_schema")) {
-                otherPostJSON.remove("include_schema");
-            }
-            otherPostJSON.put("include_content_type", true);
-            otherPostJSON.put("include_global_field_schema", true);
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
-        }
+        params.remove("include_schema");
+        params.put("include_content_type", true);
+        params.put("include_global_field_schema", true);
         return this;
     }
 
@@ -1256,7 +1142,7 @@ public class Entry {
      *         </pre>
      */
     public Entry includeFallback() {
-        otherPostJSON.put("include_fallback", true);
+        params.put("include_fallback", true);
         return this;
     }
 
@@ -1265,12 +1151,12 @@ public class Entry {
      * Assets) along with entry/entries details.<br>
      * Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      * final Entry entry = stack.contentType("user").entry("entryUid"); entry =
-     * entry.includeEmbeddedObjects() entry.fetch()
+     * entry.includeEmbeddedObjects(); entry.fetch()
      *
      * @return {@link Entry}
      */
     public Entry includeEmbeddedItems() {
-        otherPostJSON.put("include_embedded_items[]", "BASE");
+        params.put("include_embedded_items[]", "BASE");
         return this;
     }
 

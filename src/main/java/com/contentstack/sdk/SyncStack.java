@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -52,7 +53,7 @@ public class SyncStack {
         return this.syncToken;
     }
 
-    public ArrayList<JSONObject> getItems() {
+    public List<JSONObject> getItems() {
         return this.syncItems;
     }
 

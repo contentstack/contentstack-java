@@ -125,7 +125,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
             entryInstance.title = model.title;
             entryInstance.url = model.url;
             entryInstance.language = model.language;
-            entryInstance.uid = model.entryUid;
+            entryInstance.uid = model.uid;
             entryInstance.setTags(model.tags);
             if (request.getCallBackObject() != null) {
                 ((EntryResultCallBack) request.getCallBackObject()).onRequestFinish(ResponseType.NETWORK);
