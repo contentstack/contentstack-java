@@ -13,4 +13,3 @@ public interface APIService {
     @GET
     Call<ResponseBody> getRequest(@Url String url, @HeaderMap LinkedHashMap<String, Object> headers);
 }
-

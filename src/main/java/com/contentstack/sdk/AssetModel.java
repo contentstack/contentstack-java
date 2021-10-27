@@ -3,7 +3,9 @@ package com.contentstack.sdk;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
+/**
+ * The type Asset model.
+ */
 class AssetModel {
 
     String uploadedUid;
@@ -16,6 +18,12 @@ class AssetModel {
     int count = 0;
     int totalCount = 0;
 
+    /**
+     * Instantiates a new Asset model.
+     *
+     * @param response the response
+     * @param isArray  the is array
+     */
     public AssetModel(JSONObject response, boolean isArray) {
 
         if (isArray) {

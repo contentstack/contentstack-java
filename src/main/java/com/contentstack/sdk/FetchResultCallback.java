@@ -1,6 +1,5 @@
 package com.contentstack.sdk;
 
-
 public abstract class FetchResultCallback implements ResultCallBack {
 
     public abstract void onCompletion(ResponseType responseType, Error error);
@@ -13,6 +12,5 @@ public abstract class FetchResultCallback implements ResultCallBack {
     public void onRequestFail(ResponseType responseType, Error error) {
         onCompletion(responseType, error);
     }
-
 
 }

@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 public class QueryResult {
 
-
     private static final Logger logger = Logger.getLogger(QueryResult.class.getSimpleName());
     protected JSONObject receiveJson;
     protected JSONArray schemaArray;
@@ -20,64 +19,67 @@ public class QueryResult {
     protected int count;
     protected List<Entry> resultObjects;
 
-
     /**
-     * @return List of {@link Entry} objects list.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
+     * @return List of {@link Entry} objects list. <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
      * List&#60;Entry&#62; list = queryResultObject.getResultObjects();<br>
-     * </pre>
+     *         </pre>
      */
     public List<Entry> getResultObjects() {
         return resultObjects;
     }
 
-
     /**
      * Returns count of objects available.<br>
-     * <b>Note : </b>
-     * To retrieve this data, {@link Query#includeCount()} or {@link Query#count()}
-     * should be added in {@link Query} while querying.
+     * <b>Note : </b> To retrieve this data, {@link Query#includeCount()} or
+     * {@link Query#count()} should be added in {@link Query} while querying.
      *
-     * @return int count
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
+     * @return int count <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
      * int count = queryResultObject.getCount();<br>
-     * </pre>
+     *         </pre>
      */
 
     public int getCount() {
         return count;
     }
 
-
     /**
      * Returns class&#39;s schema if call to fetch schema executed successfully.
      *
-     * @return JSONArray schema Array
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
+     * @return JSONArray schema Array <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
      * JSONArray schemaArray = queryResultObject.getSchema();<br>
-     * </pre>
+     *         </pre>
      */
     public JSONArray getSchema() {
         return schemaArray;
     }
 
-
     /**
-     * Returns class&#39;s content type if call to fetch contentType executed successfully.
+     * Returns class&#39;s content type if call to fetch contentType executed
+     * successfully.
      *
-     * @return JSONObject contentObject
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
+     * @return JSONObject contentObject <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
      * JSONObject contentObject = queryResultObject.getContentType();<br>
-     * </pre>
+     *         </pre>
      */
     public JSONObject getContentType() {
         return contentObject;
     }
-
 
     protected void setJSON(JSONObject jsonobject, List<Entry> objectList) {
         receiveJson = jsonobject;
@@ -114,6 +116,5 @@ public class QueryResult {
             logger.severe(e.getLocalizedMessage());
         }
     }
-
 
 }

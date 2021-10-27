@@ -8,7 +8,7 @@ public interface IURLRequestHTTP {
 
     void send();
 
-    LinkedHashMap<String, String> getHeaders();
+    LinkedHashMap<String, Object> getHeaders();
 
     void setHeaders(LinkedHashMap<String, Object> headers);
 

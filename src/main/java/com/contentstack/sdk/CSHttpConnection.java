@@ -9,6 +9,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -28,20 +29,15 @@ public class CSHttpConnection implements IURLRequestHTTP {
     private LinkedHashMap<String, Object> headers;
     private String info;
     private String endpoint;
-    private JSONObject requestJSON;
     private ResultCallBack callBackObject;
-    private Constants.REQUEST_METHOD requestMethod;
     private JSONObject responseJSON;
     private HashMap<String, Object> formParams;
+    private final String utfType = String.valueOf(StandardCharsets.UTF_8);
 
     public CSHttpConnection(String urlToCall, IRequestModelHTTP csConnectionRequest) {
         this.urlPath = urlToCall;
         this.connectionRequest = csConnectionRequest;
     }
-
-//    public HashMap<String, Object> getFormParams() {
-//        return formParams;
-//    }
 
     public void setFormParams(HashMap<String, Object> formParams) {
         this.formParams = formParams;
@@ -58,13 +54,13 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     @Override
-    public LinkedHashMap getHeaders() {
-        return headers;
+    public void setHeaders(LinkedHashMap<String, Object> headers) {
+        this.headers = headers;
     }
 
     @Override
-    public void setHeaders(LinkedHashMap<String, Object> headers) {
-        this.headers = headers;
+    public LinkedHashMap<String, Object> getHeaders() {
+        return this.headers;
     }
 
     @Override
@@ -78,7 +74,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     public void setFormParamsPOST(JSONObject requestJSON) {
-        this.requestJSON = requestJSON;
+        // this.requestJSON = requestJSON;
     }
 
     @Override
@@ -91,16 +87,16 @@ public class CSHttpConnection implements IURLRequestHTTP {
         this.callBackObject = callBackObject;
     }
 
-
     @Override
     public JSONObject getResponse() {
         return responseJSON;
     }
 
-    public String setFormParamsGET(HashMap<String, java.lang.Object> params) {
+    public String setFormParamsGET(HashMap<String, Object> params) {
         if (params != null && params.size() > 0) {
             String urlParams = null;
-            urlParams = info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.QUERY.name()) || info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.ENTRY.name()) ? getParams(params) : null;
+            urlParams = info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.QUERY.name())
+                    || info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.ENTRY.name()) ? getParams(params) : null;
             if (urlParams == null) {
                 for (Map.Entry<String, Object> e : params.entrySet()) {
                     if (urlParams == null) {
@@ -115,16 +111,14 @@ public class CSHttpConnection implements IURLRequestHTTP {
         return null;
     }
 
-
     private String getParams(HashMap<String, Object> params) {
         String urlParams = "?";
         for (Map.Entry<String, Object> e : params.entrySet()) {
             String key = e.getKey();
             Object value = e.getValue();
             try {
-                if (key.equalsIgnoreCase("include[]") ||
-                        key.equalsIgnoreCase("only[BASE][]") ||
-                        key.equalsIgnoreCase("except[BASE][]")) {
+                if (key.equalsIgnoreCase("include[]") || key.equalsIgnoreCase("only[BASE][]")
+                        || key.equalsIgnoreCase("except[BASE][]")) {
                     urlParams = convertUrlParam(urlParams, value, key);
                 } else if (key.equalsIgnoreCase("only")) {
                     JSONObject onlyJSON = (JSONObject) value;
@@ -132,9 +126,10 @@ public class CSHttpConnection implements IURLRequestHTTP {
                     while (itrString.hasNext()) {
                         String innerKey = itrString.next();
                         JSONArray array = onlyJSON.optJSONArray(innerKey);
-                        innerKey = URLEncoder.encode("only[" + innerKey + "][]", StandardCharsets.UTF_8);
+                        innerKey = URLEncoder.encode("only[" + innerKey + "][]", utfType);
                         for (int i = 0; i < array.length(); i++) {
-                            urlParams += urlParams.equals("?") ? innerKey + "=" + array.opt(i) : "&" + innerKey + "=" + array.opt(i);
+                            urlParams += urlParams.equals("?") ? innerKey + "=" + array.opt(i)
+                                    : "&" + innerKey + "=" + array.opt(i);
                         }
                     }
                 } else if (key.equalsIgnoreCase("except")) {
@@ -143,14 +138,16 @@ public class CSHttpConnection implements IURLRequestHTTP {
                     while (iter.hasNext()) {
                         String innerKey = iter.next();
                         JSONArray array = onlyJSON.optJSONArray(innerKey);
-                        innerKey = URLEncoder.encode("except[" + innerKey + "][]", StandardCharsets.UTF_8);
+                        innerKey = URLEncoder.encode("except[" + innerKey + "][]", utfType);
                         for (int i = 0; i < array.length(); i++) {
-                            urlParams += urlParams.equals("?") ? innerKey + "=" + array.opt(i) : "&" + innerKey + "=" + array.opt(i);
+                            urlParams += urlParams.equals("?") ? innerKey + "=" + array.opt(i)
+                                    : "&" + innerKey + "=" + array.opt(i);
                         }
                     }
                 } else if (key.equalsIgnoreCase("query")) {
                     JSONObject queryJSON = (JSONObject) value;
-                    urlParams += urlParams.equals("?") ? key + "=" + URLEncoder.encode(queryJSON.toString(), StandardCharsets.UTF_8) : "&" + key + "=" + URLEncoder.encode(queryJSON.toString(), StandardCharsets.UTF_8);
+                    urlParams += urlParams.equals("?") ? key + "=" + URLEncoder.encode(queryJSON.toString(), utfType)
+                            : "&" + key + "=" + URLEncoder.encode(queryJSON.toString(), utfType);
                 } else {
                     urlParams += urlParams.equals("?") ? key + "=" + value : "&" + key + "=" + value;
                 }
@@ -161,9 +158,8 @@ public class CSHttpConnection implements IURLRequestHTTP {
         return urlParams;
     }
 
-
-    private String convertUrlParam(String urlParams, Object value, String key) {
-        key = URLEncoder.encode(key, StandardCharsets.UTF_8);
+    private String convertUrlParam(String urlParams, Object value, String key) throws UnsupportedEncodingException {
+        key = URLEncoder.encode(key, utfType);
         JSONArray array = (JSONArray) value;
         for (int i = 0; i < array.length(); i++) {
             urlParams += urlParams.equals("?") ? key + "=" + array.opt(i) : "&" + key + "=" + array.opt(i);
@@ -209,7 +205,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
 
     }
 
-
     void setError(String errResp) {
         logger.info(errResp);
         responseJSON = new JSONObject(errResp); // Parse error string to JSONObject
@@ -219,7 +214,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
         int errCode = Integer.parseInt(responseJSON.optString(ERROR_CODE));
         connectionRequest.onRequestFailed(responseJSON, errCode, callBackObject);
     }
-
 
     protected void setEndpoint(@NotNull String endpoint) {
         this.endpoint = endpoint;

@@ -3,10 +3,10 @@ package com.contentstack.sdk;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import static com.contentstack.sdk.Constants.*;
 
 class CSConnectionRequest implements IRequestModelHTTP {
 
@@ -14,26 +14,15 @@ class CSConnectionRequest implements IRequestModelHTTP {
     private String urlToCall;
     private String controller;
     private String requestInfo;
-    private JSONObject paramsJSON;
     private LinkedHashMap<String, Object> header;
     private HashMap<String, Object> urlQueries;
-    private ResultCallBack callBackObject;
-    private CSHttpConnection connection;
-    private JSONObject responseJSON;
+    private ResultCallBack resultCallBack;
     private INotifyClass notifyClass;
     private AssetLibrary assetLibrary;
 
     private Entry entryInstance;
-    private Query queryInstance;
     private Asset assetInstance;
     private Stack stackInstance;
-    private ContentType contentType;
-    private JSONObject errorJObject;
-    private Error errorObject = new Error();
-
-
-    public CSConnectionRequest() {
-    }
 
     public CSConnectionRequest(Query queryInstance) {
         notifyClass = queryInstance;
@@ -42,7 +31,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
 
     public CSConnectionRequest(Entry entryInstance) {
         this.entryInstance = entryInstance;
-        this.endpoint = this.entryInstance.contentTypeInstance.stackInstance.config.getEndpoint();
+        this.endpoint = this.entryInstance.contentType.stackInstance.config.getEndpoint();
     }
 
     public CSConnectionRequest(AssetLibrary assetLibrary) {
@@ -60,12 +49,11 @@ class CSConnectionRequest implements IRequestModelHTTP {
     }
 
     public CSConnectionRequest(ContentType contentType) {
-        this.contentType = contentType;
-        this.endpoint = this.contentType.stackInstance.config.getEndpoint();
+        this.endpoint = contentType.stackInstance.config.getEndpoint();
     }
 
     public void setQueryInstance(Query queryInstance) {
-        this.queryInstance = queryInstance;
+        this.endpoint = queryInstance.contentTypeInstance.stackInstance.config.getEndpoint();
     }
 
     public void setURLQueries(HashMap<String, Object> urlQueries) {
@@ -77,104 +65,77 @@ class CSConnectionRequest implements IRequestModelHTTP {
         this.stackInstance = stackInstance;
     }
 
-
     public void setParams(Object... objects) {
         this.urlToCall = (String) objects[0];
         this.header = (LinkedHashMap<String, Object>) objects[1];
         this.controller = (String) objects[2];
         this.requestInfo = (String) objects[3];
         if (objects[4] != null) {
-            callBackObject = (ResultCallBack) objects[4];
+            resultCallBack = (ResultCallBack) objects[4];
         }
         sendRequest();
     }
 
-
     @Override
     public void sendRequest() {
-        connection = new CSHttpConnection(urlToCall, this);
+        CSHttpConnection connection = new CSHttpConnection(urlToCall, this);
         connection.setController(controller);
         connection.setHeaders(header);
         connection.setInfo(requestInfo);
         connection.setEndpoint(this.endpoint);
-        connection.setFormParamsPOST(paramsJSON);
-        connection.setCallBackObject(callBackObject);
+        connection.setCallBackObject(resultCallBack);
         if (urlQueries != null && urlQueries.size() > 0) {
             connection.setFormParams(urlQueries);
         }
         connection.send();
     }
 
-
     @Override
     public void onRequestFailed(JSONObject error, int statusCode, ResultCallBack callBackObject) {
-        String errMsg = "";
-        int errCode = 0;
-        if (error != null && !error.isEmpty()) {
-            if (error.has("error_message")) {
-                errMsg = error.optString("error_message");
-            }
-            if (error.has("error_code")) {
-                errCode = error.optInt("error_code");
-            }
-            if (error.has("errors")) {
-                if (error.opt("errors") instanceof JSONObject) {
-                    JSONObject errorsJsonObj = error.optJSONObject("errors");
-                    Iterator<String> iterator = errorsJsonObj.keys();
-                    while (iterator.hasNext()) {
-                        String key = iterator.next();
-                        errorObject.setErrorDetail(error.get("errors").toString());
-                    }
-                }
-            }
+        Error errResp = new Error();
+        if (error.has(ERROR_MESSAGE)) {
+            String errMsg = error.optString(ERROR_MESSAGE);
+            errResp.setErrorMessage(errMsg);
         }
-        errorObject.setErrorCode(errCode);
-        errorObject.setErrorMessage(errMsg);
-        errorObject.setErrorDetail(error.get("errors").toString());
-        if (this.callBackObject != null) {
-            this.callBackObject.onRequestFail(ResponseType.NETWORK, errorObject);
+        if (error.has(ERROR_CODE)) {
+            int errCode =  error.optInt(ERROR_CODE);
+            errResp.setErrorCode(errCode);
+        }
+        if (error.has(ERRORS)) {
+            String errorDetail = (String) error.opt(ERRORS);
+            errResp.setErrorDetail(errorDetail);
+        }
+        if (this.resultCallBack != null) {
+            this.resultCallBack.onRequestFail(ResponseType.NETWORK, errResp);
         }
     }
 
-
     @Override
     public void onRequestFinished(CSHttpConnection request) {
-
-        responseJSON = request.getResponse();
-        String controller = request.getController();
-        if (controller.equalsIgnoreCase(Constants.QUERYOBJECT)) {
-            EntriesModel model = new EntriesModel(responseJSON, null, false);
-            notifyClass.getResult(model.formName, null);
-            notifyClass.getResultObject(model.objectList, responseJSON, false);
-        } else if (controller.equalsIgnoreCase(Constants.SINGLEQUERYOBJECT)) {
-            EntriesModel model = new EntriesModel(responseJSON, null, false);
-            notifyClass.getResult(model.formName, null);
-            notifyClass.getResultObject(model.objectList, responseJSON, true);
-        } else if (controller.equalsIgnoreCase(Constants.FETCHENTRY)) {
-            EntryModel model = new EntryModel(responseJSON, null, false, false, false);
+        JSONObject jsonResponse = request.getResponse();
+        if (request.getController().equalsIgnoreCase(Constants.QUERYOBJECT)) {
+            EntriesModel model = new EntriesModel(jsonResponse);
+            notifyClass.getResultObject(model.objectList, jsonResponse, false);
+        } else if (request.getController().equalsIgnoreCase(Constants.SINGLEQUERYOBJECT)) {
+            EntriesModel model = new EntriesModel(jsonResponse);
+            notifyClass.getResultObject(model.objectList, jsonResponse, true);
+        } else if (request.getController().equalsIgnoreCase(Constants.FETCHENTRY)) {
+            EntryModel model = new EntryModel(jsonResponse);
             entryInstance.resultJson = model.jsonObject;
-            entryInstance.ownerEmailId = model.ownerEmailId;
-            entryInstance.ownerUid = model.ownerUid;
             entryInstance.title = model.title;
             entryInstance.url = model.url;
             entryInstance.language = model.language;
-            if (model.ownerMap != null) {
-                entryInstance.owner = new HashMap<>(model.ownerMap);
-            }
-            if (model._metadata != null) {
-                entryInstance._metadata = new HashMap<>(model._metadata);
-            }
             entryInstance.uid = model.entryUid;
             entryInstance.setTags(model.tags);
             if (request.getCallBackObject() != null) {
                 ((EntryResultCallBack) request.getCallBackObject()).onRequestFinish(ResponseType.NETWORK);
             }
-        } else if (controller.equalsIgnoreCase(Constants.FETCHALLASSETS)) {
-            AssetsModel assetsModel = new AssetsModel(responseJSON);
+        } else if (request.getController().equalsIgnoreCase(Constants.FETCHALLASSETS)) {
+            AssetsModel assetsModel = new AssetsModel(jsonResponse);
             List<Object> objectList = assetsModel.objects;
-            assetLibrary.getResultObject(objectList, responseJSON, false);
-        } else if (controller.equalsIgnoreCase(Constants.FETCHASSETS)) {
-            AssetModel model = new AssetModel(responseJSON, false);
+            assetLibrary.getResultObject(objectList, jsonResponse, false);
+        } else if (request.getController().equalsIgnoreCase(Constants.FETCHASSETS)) {
+            AssetModel model = new AssetModel(jsonResponse, false);
             assetInstance.contentType = model.contentType;
             assetInstance.fileSize = model.fileSize;
             assetInstance.uploadUrl = model.uploadUrl;
@@ -185,21 +146,19 @@ class CSConnectionRequest implements IRequestModelHTTP {
             if (request.getCallBackObject() != null) {
                 ((FetchResultCallback) request.getCallBackObject()).onRequestFinish(ResponseType.NETWORK);
             }
-        } else if (controller.equalsIgnoreCase(Constants.FETCHSYNC)) {
+        } else if (request.getController().equalsIgnoreCase(Constants.FETCHSYNC)) {
             SyncStack model = new SyncStack();
-            model.setJSON(responseJSON);
+            model.setJSON(jsonResponse);
             if (request.getCallBackObject() != null) {
                 ((SyncResultCallBack) request.getCallBackObject()).onRequestFinish(model);
             }
-        } else if (controller.equalsIgnoreCase(Constants.FETCHCONTENTTYPES)) {
+        } else if (request.getController().equalsIgnoreCase(Constants.FETCHCONTENTTYPES)) {
             ContentTypesModel model = new ContentTypesModel();
-            model.setJSON(responseJSON);
+            model.setJSON(jsonResponse);
             if (request.getCallBackObject() != null) {
                 ((ContentTypesCallback) request.getCallBackObject()).onRequestFinish(model);
             }
-
         }
     }
-
 
 }

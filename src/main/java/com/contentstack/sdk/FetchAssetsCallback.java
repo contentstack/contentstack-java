@@ -2,9 +2,7 @@ package com.contentstack.sdk;
 
 import java.util.List;
 
-
 public abstract class FetchAssetsCallback implements ResultCallBack {
-
 
     public abstract void onCompletion(ResponseType responseType, List<Asset> assets, Error error);
 

@@ -2,7 +2,6 @@ package com.contentstack.sdk;
 
 public abstract class EntryResultCallBack implements ResultCallBack {
 
-
     public abstract void onCompletion(ResponseType responseType, Error error);
 
     void onRequestFinish(ResponseType responseType) {

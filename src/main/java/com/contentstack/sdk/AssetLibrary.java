@@ -8,6 +8,9 @@ import java.util.logging.Logger;
 
 import static com.contentstack.sdk.Constants.ENVIRONMENT;
 
+/**
+ * The type Asset library.
+ */
 public class AssetLibrary implements INotifyClass {
 
     protected final Logger logger = Logger.getLogger(AssetLibrary.class.getSimpleName());
@@ -16,7 +19,6 @@ public class AssetLibrary implements INotifyClass {
     protected LinkedHashMap<String, Object> headers;
     protected FetchAssetsCallback callback;
     protected int count;
-
 
     protected AssetLibrary() {
         this.urlQueries = new JSONObject();
@@ -27,17 +29,34 @@ public class AssetLibrary implements INotifyClass {
         this.headers = stack.headers;
     }
 
-    public void setHeader(@NotNull String headerKey,
-                          @NotNull String headerValue) {
+    /**
+     * Sets header.
+     *
+     * @param headerKey   the header key
+     * @param headerValue the header value
+     */
+    public void setHeader(@NotNull String headerKey, @NotNull String headerValue) {
         this.headers.put(headerKey, headerValue);
     }
 
+    /**
+     * Remove header.
+     *
+     * @param headerKey the header key
+     */
     public void removeHeader(@NotNull String headerKey) {
         if (!headerKey.isEmpty()) {
             this.headers.remove(headerKey);
         }
     }
 
+    /**
+     * Sort asset library.
+     *
+     * @param keyOrderBy the key order by
+     * @param orderby    the orderby
+     * @return the asset library
+     */
     public AssetLibrary sort(String keyOrderBy, ORDERBY orderby) {
         if (orderby == ORDERBY.ASCENDING) {
             urlQueries.put("asc", keyOrderBy);
@@ -47,45 +66,73 @@ public class AssetLibrary implements INotifyClass {
         return this;
     }
 
+    /**
+     * Include count asset library.
+     *
+     * @return the asset library
+     */
     public AssetLibrary includeCount() {
         urlQueries.put("include_count", "true");
         return this;
     }
 
+    /**
+     * Include relative url asset library.
+     *
+     * @return the asset library
+     */
     public AssetLibrary includeRelativeUrl() {
         urlQueries.put("relative_urls", "true");
         return this;
     }
 
     /**
-     * Retrieve the published content of the fallback locale if an entry is not localized in specified locale
+     * Retrieve the published content of the fallback locale if an entry is not
+     * localized in specified locale
      *
-     * @return {@link AssetLibrary} object, so you can chain this call. <br><br><b>Example :</b><br> <pre
-     * class="prettyprint">     Stack stack = Contentstack.stack( "apiKey", "deliveryToken",  "environment");
-     * AssetLibrary assetLibObject = stack.assetLibrary();     AssetLibrary.includeFallback(); </pre>
+     * @return {@link AssetLibrary} object, so you can chain this call. <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         AssetLibrary assetLibObject = stack.assetLibrary();
+     *         AssetLibrary.includeFallback();
+     *         </pre>
      */
     public AssetLibrary includeFallback() {
         urlQueries.put("include_fallback", true);
         return this;
     }
 
+    /**
+     * Gets count.
+     *
+     * @return the count
+     */
     public int getCount() {
         return count;
     }
 
+    /**
+     * Fetch all.
+     *
+     * @param callback the callback
+     */
     public void fetchAll(FetchAssetsCallback callback) {
         this.callback = callback;
         urlQueries.put(ENVIRONMENT, headers.get(ENVIRONMENT));
         fetchFromNetwork("assets", urlQueries, headers, callback);
     }
 
-    private void fetchFromNetwork(String url, JSONObject urlQueries, LinkedHashMap<String, Object> headers, FetchAssetsCallback callback) {
+    private void fetchFromNetwork(String url, JSONObject urlQueries, LinkedHashMap<String, Object> headers,
+            FetchAssetsCallback callback) {
         if (callback != null) {
             HashMap<String, Object> urlParams = getUrlParams(urlQueries);
-            new CSBackgroundTask(this, stackInstance, Constants.FETCHALLASSETS, url, headers, urlParams, Constants.REQUEST_CONTROLLER.ASSETLIBRARY.toString(), callback);
+            new CSBackgroundTask(this, stackInstance, Constants.FETCHALLASSETS, url, headers, urlParams,
+                    Constants.REQUEST_CONTROLLER.ASSETLIBRARY.toString(), callback);
         }
     }
-
 
     private HashMap<String, Object> getUrlParams(JSONObject urlQueriesJSON) {
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -99,7 +146,6 @@ public class AssetLibrary implements INotifyClass {
         }
         return hashMap;
     }
-
 
     @Override
     public void getResult(Object object, String controller) {
@@ -135,10 +181,11 @@ public class AssetLibrary implements INotifyClass {
         }
     }
 
-
+    /**
+     * The enum Orderby.
+     */
     public enum ORDERBY {
-        ASCENDING,
-        DESCENDING
+        ASCENDING, DESCENDING
     }
 
 }

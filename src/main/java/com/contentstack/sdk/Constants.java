@@ -13,7 +13,6 @@ import java.util.logging.Logger;
  */
 public class Constants {
 
-
     private static final Logger logger = Logger.getLogger(Constants.class.getSimpleName());
     protected static final String SDK_VERSION = "1.8.0";
     protected static final String ENVIRONMENT = "environment";
@@ -29,26 +28,21 @@ public class Constants {
     protected static final String APPLICATION_JSON = "application/json";
     protected static final String CLIENT_USER_AGENT = userAgent();
 
-
     /**
      * The enum Request method.
      */
-// REQUEST  METHOD
-    public enum REQUEST_METHOD {GET}
+    // REQUEST METHOD
+    public enum REQUEST_METHOD {
+        GET
+    }
 
     /**
      * The enum Request controller.
      */
-// REQUEST_CONTROLLER
+    // REQUEST_CONTROLLER
     public enum REQUEST_CONTROLLER {
-        QUERY,
-        ENTRY,
-        ASSET,
-        SYNC,
-        CONTENTTYPES,
-        ASSETLIBRARY
+        QUERY, ENTRY, ASSET, SYNC, CONTENTTYPES, ASSETLIBRARY
     }
-
 
     // GET REQUEST TYPE
     public static final String QUERYOBJECT = "getQueryEntries";
@@ -59,21 +53,17 @@ public class Constants {
     public static final String FETCHSYNC = "getSync";
     public static final String FETCHCONTENTTYPES = "getContentTypes";
 
-
     // ERROR MESSAGE BLOCK
     public static final String JSON_NOT_PROPER = "Please provide valid JSON.";
     public static final String CONTENT_TYPE_NAME = "Please set contentType name.";
     public static final String HEADER_IS_MISSING_TO_PROCESS_THE_DATA = "Header is missing to process the data";
     public static final String QUERY_EXCEPTION = "Please provide valid params.";
 
-
     /**
      * Parse date calendar.
      *
-     * @param date
-     *         the date
-     * @param timeZone
-     *         the time zone
+     * @param date     the date
+     * @param timeZone the time zone
      * @return the calendar
      */
     public static Calendar parseDate(String date, TimeZone timeZone) {
@@ -104,15 +94,11 @@ public class Constants {
     /**
      * Parse date calendar.
      *
-     * @param date
-     *         the date
-     * @param dateFormat
-     *         the date format
-     * @param timeZone
-     *         the time zone
+     * @param date       the date
+     * @param dateFormat the date format
+     * @param timeZone   the time zone
      * @return the calendar
-     * @throws ParseException
-     *         the parse exception
+     * @throws ParseException the parse exception
      */
     public static Calendar parseDate(String date, String dateFormat, TimeZone timeZone) throws ParseException {
         Calendar cal = Calendar.getInstance();
@@ -130,13 +116,10 @@ public class Constants {
         } else {
             cal.setTimeZone(TimeZone.getDefault());
         }
-        cal.set(Integer.parseInt(year),
-                Integer.parseInt(month) - 1, Integer.parseInt(day),
-                Integer.parseInt(hourOfDay), Integer.parseInt(min),
-                Integer.parseInt(sec));
+        cal.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day), Integer.parseInt(hourOfDay),
+                Integer.parseInt(min), Integer.parseInt(sec));
         return cal;
     }
-
 
     protected static String userAgent() {
         String agent = System.getProperty("http.agent");
@@ -145,4 +128,3 @@ public class Constants {
         return agentStr;
     }
 }
-

@@ -1,6 +1,5 @@
 package com.contentstack.sdk;
 
-
 public abstract class QueryResultsCallBack implements ResultCallBack {
 
     public abstract void onCompletion(ResponseType responseType, QueryResult queryresult, Error error);
