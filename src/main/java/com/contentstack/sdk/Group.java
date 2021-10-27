@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * The type Group.
+ */
 public class Group {
 
     private final JSONObject resultJson;
@@ -72,9 +75,7 @@ public class Group {
     public String getString(String key) {
         Object value = get(key);
         if (value != null) {
-            if (value instanceof String) {
-                return (String) value;
-            }
+            return (String) value;
         }
         return null;
     }
@@ -94,9 +95,7 @@ public class Group {
     public Boolean getBoolean(String key) {
         Object value = get(key);
         if (value != null) {
-            if (value instanceof Boolean) {
-                return (Boolean) value;
-            }
+            return (Boolean) value;
         }
         return false;
     }
@@ -116,9 +115,7 @@ public class Group {
     public JSONArray getJSONArray(String key) {
         Object value = get(key);
         if (value != null) {
-            if (value instanceof JSONArray) {
-                return (JSONArray) value;
-            }
+            return (JSONArray) value;
         }
         return null;
     }
@@ -138,9 +135,7 @@ public class Group {
     public JSONObject getJSONObject(String key) {
         Object value = get(key);
         if (value != null) {
-            if (value instanceof JSONObject) {
-                return (JSONObject) value;
-            }
+            return (JSONObject) value;
         }
         return null;
     }
@@ -160,9 +155,7 @@ public class Group {
     public Number getNumber(String key) {
         Object value = get(key);
         if (value != null) {
-            if (value instanceof Number) {
-                return (Number) value;
-            }
+            return (Number) value;
         }
         return null;
     }
@@ -204,7 +197,7 @@ public class Group {
         if (value != null) {
             return value.floatValue();
         }
-        return (float) 0;
+        return 0;
     }
 
     /**
@@ -224,7 +217,7 @@ public class Group {
         if (value != null) {
             return value.doubleValue();
         }
-        return (double) 0;
+        return 0;
     }
 
     /**
@@ -244,7 +237,7 @@ public class Group {
         if (value != null) {
             return value.longValue();
         }
-        return (long) 0;
+        return 0;
     }
 
     /**
@@ -303,7 +296,6 @@ public class Group {
      *         </pre>
      */
     public Asset getAsset(String key) {
-
         JSONObject assetObject = getJSONObject(key);
         return stackInstance.asset().configure(assetObject);
     }
@@ -316,8 +308,8 @@ public class Group {
      *            <b>Example :</b><br>
      * 
      *            <pre class="prettyprint">
-     *            {@code List<Asset> asset = group.getAssets("key"); }
-     *            @return ArrayList of {@link Asset}
+     *              {@code List<Asset> asset = group.getAssets("key"); }
+     *              @return ArrayList of {@link Asset}
      *            </pre>
      */
     public List<Asset> getAssets(String key) {
@@ -340,9 +332,11 @@ public class Group {
      *            <b>Example :</b><br>
      * 
      *            <pre class="prettyprint">
-     *            Group innerGroup = group.getGroup("key");
-     *            &#64;return Group object
+     *              Group innerGroup = group.getGroup("key");            &#64;return Group
+     *         object
      *            </pre>
+     * 
+     * @return the group
      */
     public Group getGroup(String key) {
         if (!key.isEmpty() && resultJson.has(key) && resultJson.opt(key) instanceof JSONObject) {
@@ -361,26 +355,21 @@ public class Group {
      *            <b>Example :</b><br>
      * 
      *            <pre class="prettyprint">
-     *            Group innerGroup = group.getGroups("key");
-     *            @return List of {@link Group}
+     *              Group innerGroup = group.getGroups("key");
+     *         @return List of {@link Group}
      *            </pre>
      */
     public List<Group> getGroups(String key) {
-
+        List<Group> groupList = new ArrayList<>();
         if (!key.isEmpty() && resultJson.has(key) && resultJson.opt(key) instanceof JSONArray) {
             JSONArray array = resultJson.optJSONArray(key);
-            List<Group> groupList = new ArrayList<>();
-
-            for (int i = 0; i < array.length(); i++) {
-                if (array.opt(i) instanceof JSONObject) {
-                    Group group = new Group(stackInstance, array.optJSONObject(i));
-                    groupList.add(group);
-                }
-            }
-
-            return groupList;
+            array.forEach(model -> {
+                JSONObject newModel = (JSONObject) model;
+                Group group = new Group(stackInstance, newModel);
+                groupList.add(group);
+            });
         }
-        return null;
+        return groupList;
     }
 
     /**
@@ -393,15 +382,13 @@ public class Group {
      *         instance.
      */
     public ArrayList<Entry> getAllEntries(String refKey, String refContentType) {
+        ArrayList<Entry> entryContainer = new ArrayList<>();
         try {
+
             if (resultJson != null) {
-
                 if (resultJson.get(refKey) instanceof JSONArray) {
-
                     int count = ((JSONArray) resultJson.get(refKey)).length();
-                    ArrayList<Entry> builtObjectList = new ArrayList<Entry>();
                     for (int i = 0; i < count; i++) {
-
                         EntryModel model = new EntryModel(((JSONArray) resultJson.get(refKey)).getJSONObject(i));
                         Entry entryInstance = null;
                         try {
@@ -413,16 +400,16 @@ public class Group {
                         entryInstance.setUid(model.entryUid);
                         entryInstance.resultJson = model.jsonObject;
                         entryInstance.setTags(model.tags);
-                        builtObjectList.add(entryInstance);
+                        entryContainer.add(entryInstance);
                     }
-                    return builtObjectList;
+                    return entryContainer;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return entryContainer;
         }
-        return null;
+        return entryContainer;
     }
 
 }

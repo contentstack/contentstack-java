@@ -8,7 +8,7 @@ src/main/java/com/contentstack/sdk/models
 .project
 .classpath
 factoryConfiguration.json
-
+.vscode
 ### Eclipse ###
 .metadata
 .env
@@ -266,3 +266,4 @@ java.iml
 src/main/resources/
 /.idea/
 /src/main/java/com/contentstack/sdk/models/
+/.vscode/
