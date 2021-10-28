@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * The type Group.
- */
 public class Group {
 
     private final JSONObject resultJson;
@@ -48,14 +45,9 @@ public class Group {
      *         </pre>
      */
     public Object get(String key) {
-        try {
-            if (resultJson != null && key != null) {
-                return resultJson.get(key);
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (resultJson != null && key != null) {
+            return resultJson.get(key);
+        } else {
             return null;
         }
     }

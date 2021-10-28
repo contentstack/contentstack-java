@@ -27,13 +27,18 @@ public class Constants {
     protected static final String CONTENT_TYPE = "Content-Type";
     protected static final String APPLICATION_JSON = "application/json";
     protected static final String CLIENT_USER_AGENT = userAgent();
+    // Query
+    protected static final String QUERY = "query";
+    protected static final String EXCEPT = "except";
+    protected static final String EXISTS = "$exists";
+    protected static final String REGEX = "$regex";
+    protected static final String LIMIT = "limit";
+    protected static final String OPTIONS = "$options";
 
-    /**
-     * The enum Request method.
-     */
-    // REQUEST METHOD
-    public enum REQUEST_METHOD {
-        GET
+
+
+    protected Constants() {
+        logger.warning("Not Allowed");
     }
 
     /**
@@ -84,10 +89,9 @@ public class Constants {
             try {
                 return parseDate(date, formatString, timeZone);
             } catch (ParseException e) {
-                // logger.warning(e.getLocalizedMessage());
+                logger.warning(e.getLocalizedMessage());
             }
         }
-
         return null;
     }
 
