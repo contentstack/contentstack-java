@@ -1178,7 +1178,7 @@ public class Query implements INotifyClass {
         logger.warning(messageString);
     }
 
-    protected void setQueryJson(QueryResultsCallBack callback) {
+    protected void setQueryJson() {
         if (queryValueJSON != null && queryValueJSON.length() > 0) {
             urlQueries.put(QUERY, queryValueJSON);
         }
@@ -1209,7 +1209,7 @@ public class Query implements INotifyClass {
             String urlString = "content_types/" + formName + "/entries";
             queryResultCallback = callback;
             singleQueryResultCallback = callBack;
-            setQueryJson(callback);
+            setQueryJson();
             urlQueries.put(Constants.ENVIRONMENT, this.headers.get(Constants.ENVIRONMENT));
             checkLivePreview();
             mainJSON.put(QUERY, urlQueries);
