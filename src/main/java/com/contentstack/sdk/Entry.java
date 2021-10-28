@@ -924,9 +924,7 @@ public class Entry {
             exceptJsonObject = new JSONObject();
         }
         JSONArray fieldValueArray = new JSONArray();
-        fieldUid.forEach(field -> {
-            fieldValueArray.put(field);
-        });
+        fieldUid.forEach(field -> fieldValueArray.put(field));
         exceptJsonObject.put(referenceFieldUid, fieldValueArray);
         includeReference(referenceFieldUid);
         return this;
@@ -1149,14 +1147,40 @@ public class Entry {
     /**
      * includeEmbeddedItems instance of Entry Include Embedded Objects (Entries and
      * Assets) along with entry/entries details.<br>
-     * Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     * final Entry entry = stack.contentType("user").entry("entryUid"); entry =
-     * entry.includeEmbeddedObjects(); entry.fetch()
      *
-     * @return {@link Entry}
+     * @return {@link Entry} object, so you can chain this call. <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         final Entry entry = stack.contentType("user").entry("entryUid");
+     *         entry.includeEmbeddedItems();
+     *         </pre>
+     *
      */
     public Entry includeEmbeddedItems() {
         params.put("include_embedded_items[]", "BASE");
+        return this;
+    }
+
+    /**
+     * Includes Branch in the entry response
+     *
+     * @return {@link Entry} object, so you can chain this call.
+     * 
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         final Entry entry = stack.contentType("user").entry("entryUid");
+     *         entry.includeBranch();
+     *         </pre>
+     */
+    public Entry includeBranch() {
+        params.put("include_branch", true);
         return this;
     }
 

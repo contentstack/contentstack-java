@@ -181,5 +181,12 @@ class TestAsset {
         Assertions.assertTrue(asset.json.has("asset"));
     }
 
+    @Test
+    void testAssetIncludeBranch() {
+        Asset asset = stack.asset("fake@uid");
+        asset.includeBranch();
+        Assertions.assertTrue(asset.urlQueries.has("include_branch"));
+    }
+
 
 }

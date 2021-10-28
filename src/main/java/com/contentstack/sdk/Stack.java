@@ -47,13 +47,13 @@ public class Stack {
             }
         }
 
-        setLivePreview();
+        includeLivePreview();
         // Set the endpoint
         String endpoint = config.scheme + config.host;
         this.config.setEndpoint(endpoint);
     }
 
-    private void setLivePreview() {
+    private void includeLivePreview() {
         try {
             if (config.enableLivePreview) {
                 if (config.managementToken == null || config.managementToken.isEmpty()) {
@@ -242,7 +242,7 @@ public class Stack {
      * @param parameters the parameters {@link LinkedHashMap}
      * @return the string
      */
-    public String ImageTransform(@NotNull String imageUrl, @NotNull LinkedHashMap<String, Object> parameters) {
+    public String imageTransform(@NotNull String imageUrl, @NotNull Map<String, Object> parameters) {
         if (parameters.size() == 0) {
             return imageUrl;
         }
@@ -255,7 +255,7 @@ public class Stack {
         return imageUrl;
     }
 
-    protected String getQueryParam(LinkedHashMap<String, Object> params) {
+    protected String getQueryParam(Map<String, Object> params) {
         return params.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue()).collect(Collectors.joining("&"));
     }
 

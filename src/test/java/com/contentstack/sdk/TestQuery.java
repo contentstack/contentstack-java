@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TestQuery {
 
     private final Logger logger = Logger.getLogger(TestQuery.class.getName());
+    private String DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV;
     private Stack stack;
     private Query query;
     private String entryUid;
@@ -27,9 +28,9 @@ class TestQuery {
     public void beforeAll() throws IllegalAccessException {
         logger.setLevel(Level.FINE);
         Dotenv dotenv = Dotenv.load();
-        String DEFAULT_API_KEY = dotenv.get("API_KEY");
-        String DEFAULT_DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
-        String DEFAULT_ENV = dotenv.get("ENVIRONMENT");
+        DEFAULT_API_KEY = dotenv.get("API_KEY");
+        DEFAULT_DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
+        DEFAULT_ENV = dotenv.get("ENVIRONMENT");
         String DEFAULT_HOST = dotenv.get("HOST");
         Config config = new Config();
         config.setHost(DEFAULT_HOST);
@@ -827,7 +828,7 @@ class TestQuery {
 
     @Test
     @Order(41)
-    void testEntryIncludeEmbeddedItems() {
+    void testQueryIncludeEmbeddedItems() {
         final Query query = stack.contentType("categories").query();
         query.includeEmbeddedItems().find(new QueryResultsCallBack() {
             @Override
@@ -839,6 +840,43 @@ class TestQuery {
                 }
             }
         });
+    }
+
+
+    @Test
+    @Order(41)
+    void testQueryIncludeBranch() {
+        query.includeBranch().find(new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
+                if (error == null) {
+                    assertTrue(query.urlQueries.has("include_branch"));
+                    Assertions.assertEquals(true, query.urlQueries.opt("include_branch"));
+                } else {
+                    Assertions.fail("Failing, Verify credentials");
+                }
+            }
+        });
+    }
+
+
+    @Test
+    @Order(52)
+    void testQueryPassConfigBranchIncludeBranch() throws IllegalAccessException {
+        Config config = new Config();
+        config.setBranch("feature_branch");
+        Stack branchStack = Contentstack.stack(DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV, config);
+        Query query = branchStack.contentType("product").query();
+        query.includeBranch().find(new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
+                logger.info("No result expected");
+            }
+        });
+        Assertions.assertTrue(query.urlQueries.has("include_branch"));
+        Assertions.assertEquals(true, query.urlQueries.opt("include_branch"));
+        Assertions.assertTrue(query.headers.containsKey("branch"));
+        logger.info("passed...");
     }
 
 }

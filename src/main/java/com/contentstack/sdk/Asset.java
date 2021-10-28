@@ -67,6 +67,16 @@ public class Asset {
      *
      * @param headerKey   the header key
      * @param headerValue the header value
+     *
+     *                    <br>
+     *                    <br>
+     *                    <b>Example :</b><br>
+     *
+     *                    <pre class="prettyprint">
+     *                    Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *                    Asset asset = stack.asset(asset_uid);
+     *                    asset.setHeader();
+     *                    </pre>
      */
     public void setHeader(@NotNull String headerKey, @NotNull String headerValue) {
         headers.put(headerKey, headerValue);
@@ -76,6 +86,18 @@ public class Asset {
      * Remove header.
      *
      * @param headerKey the header key
+     *
+     *
+     *                  <br>
+     *                  <br>
+     *                  <b>Example :</b><br>
+     *
+     *                  <pre class="prettyprint">
+     *                  Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *                  Asset asset = stack.asset(asset_uid);
+     *                  asset.removeHeader();
+     *
+     *                  </pre>
      */
     public void removeHeader(@NotNull String headerKey) {
         headers.remove(headerKey);
@@ -91,6 +113,22 @@ public class Asset {
      * Gets asset uid.
      *
      * @return the asset uid
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getAssetUid();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String getAssetUid() {
         return assetUid;
@@ -100,6 +138,22 @@ public class Asset {
      * Gets file type.
      *
      * @return the file type
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getFileType();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String getFileType() {
         return contentType;
@@ -109,6 +163,22 @@ public class Asset {
      * Gets file size.
      *
      * @return the file size
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getFileSize();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String getFileSize() {
         return fileSize;
@@ -118,6 +188,22 @@ public class Asset {
      * Gets file name.
      *
      * @return the file name
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getFileName();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String getFileName() {
         return fileName;
@@ -125,8 +211,24 @@ public class Asset {
 
     /**
      * Gets url.
-     *
+     * 
      * @return the url
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getUrl();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String getUrl() {
         return uploadUrl;
@@ -136,6 +238,22 @@ public class Asset {
      * To json json object.
      *
      * @return the json object
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.toJSON();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public JSONObject toJSON() {
         return json;
@@ -145,6 +263,23 @@ public class Asset {
      * Gets create at.
      *
      * @return the create at
+     *
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getCreateAt();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public Calendar getCreateAt() {
         return parseDate(json.optString("created_at"), null);
@@ -154,6 +289,23 @@ public class Asset {
      * Gets created by.
      *
      * @return the created by
+     *
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getCreatedBy();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String getCreatedBy() {
         return json.optString("created_by");
@@ -163,6 +315,23 @@ public class Asset {
      * Gets update at.
      *
      * @return the update at
+     *
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getUpdateAt();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public Calendar getUpdateAt() {
         return parseDate(json.optString("updated_at"), null);
@@ -172,6 +341,23 @@ public class Asset {
      * Gets updated by.
      *
      * @return the updated by
+     *
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getUpdatedBy();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String getUpdatedBy() {
         return json.optString("updated_by");
@@ -181,6 +367,22 @@ public class Asset {
      * Gets delete at.
      *
      * @return the delete at
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getDeleteAt();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public Calendar getDeleteAt() {
         return parseDate(json.optString("deleted_at"), null);
@@ -190,6 +392,22 @@ public class Asset {
      * Gets deleted by.
      *
      * @return the deleted by
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getDeletedBy();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String getDeletedBy() {
         return json.optString("deleted_by");
@@ -199,6 +417,23 @@ public class Asset {
      * Get tags string [ ].
      *
      * @return the string [ ]
+     *
+     * 
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getTags();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String[] getTags() {
         return tagsArray;
@@ -213,6 +448,16 @@ public class Asset {
      * Include dimension asset.
      *
      * @return the asset
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.includeDimension();
+     *         </pre>
      */
     public Asset includeDimension() {
         urlQueries.put("include_dimension", true);
@@ -225,6 +470,16 @@ public class Asset {
      * @param paramKey   the param key
      * @param paramValue the param value
      * @return the asset
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.addParam();
+     *         </pre>
      */
     public Asset addParam(@NotNull String paramKey, @NotNull String paramValue) {
         urlQueries.put(paramKey, paramValue);
@@ -235,9 +490,40 @@ public class Asset {
      * Include fallback asset.
      *
      * @return the asset
+     *
+     * 
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.includeFallback();
+     *         </pre>
      */
     public Asset includeFallback() {
         urlQueries.put("include_fallback", true);
+        return this;
+    }
+
+    /**
+     * Includes Branch in the asset response
+     *
+     * @return {@link Asset} object, so you can chain this call. <br>
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.includeBranch();
+     *         </pre>
+     */
+    public Asset includeBranch() {
+        urlQueries.put("include_branch", true);
         return this;
     }
 

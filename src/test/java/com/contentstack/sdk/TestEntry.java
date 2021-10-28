@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TestEntry {
 
     private final Logger logger = Logger.getLogger(TestEntry.class.getName());
+    private String DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV;
     private final String CONTENT_TYPE = "product";
     private String entryUid = "justFakeIt";
     private Stack stack;
@@ -26,9 +27,9 @@ class TestEntry {
     @BeforeAll
     public void intOnceBeforeAll() throws Exception {
         Dotenv dotenv = Dotenv.load();
-        String DEFAULT_API_KEY = dotenv.get("API_KEY");
-        String DEFAULT_DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
-        String DEFAULT_ENV = dotenv.get("ENVIRONMENT");
+        DEFAULT_API_KEY = dotenv.get("API_KEY");
+        DEFAULT_DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
+        DEFAULT_ENV = dotenv.get("ENVIRONMENT");
         String DEFAULT_HOST = dotenv.get("HOST");
         Config config = new Config();
         config.setHost(DEFAULT_HOST);
@@ -517,6 +518,35 @@ class TestEntry {
         Entry initEntry = stack.contentType("product").entry(entryUid);
         initEntry.includeEmbeddedItems();
         Assertions.assertTrue(initEntry.params.has("include_embedded_items[]"));
+        logger.info("passed...");
+    }
+
+    @Test
+    @Order(54)
+    void testEntryIncludeBranch() {
+        Entry initEntry = stack.contentType("product").entry(entryUid);
+        initEntry.includeBranch();
+        Assertions.assertTrue(initEntry.params.has("include_branch"));
+        Assertions.assertEquals(true, initEntry.params.opt("include_branch"));
+        logger.info("passed...");
+    }
+
+    @Test
+    @Order(55)
+    void testEntryPassConfigBranchIncludeBranch() throws IllegalAccessException {
+        Config config = new Config();
+        config.setBranch("feature_branch");
+        Stack branchStack = Contentstack.stack(DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV, config);
+        Entry entry = branchStack.contentType("product").entry(entryUid);
+        entry.includeBranch().fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                logger.info(entry.headers + "");
+            }
+        });
+        Assertions.assertTrue(entry.params.has("include_branch"));
+        Assertions.assertEquals(true, entry.params.opt("include_branch"));
+        Assertions.assertTrue(entry.headers.containsKey("branch"));
         logger.info("passed...");
     }
 

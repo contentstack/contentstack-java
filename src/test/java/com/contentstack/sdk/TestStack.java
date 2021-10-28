@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
@@ -125,9 +126,9 @@ class TestStack {
 
     @Test
     void testImageTransform() {
-        LinkedHashMap<String, Object> linkedMap = new LinkedHashMap<>();
-        linkedMap.put("fakeKey", "fakeValue");
-        String newUrl = stack.ImageTransform("www.fakeurl.com/fakePath/fakeImage.png", linkedMap);
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("fakeKey", "fakeValue");
+        String newUrl = stack.imageTransform("www.fakeurl.com/fakePath/fakeImage.png", params);
         assertEquals("www.fakeurl.com/fakePath/fakeImage.png?fakeKey=fakeValue", newUrl);
     }
 
@@ -135,7 +136,7 @@ class TestStack {
     void testImageTransformWithQuestionMark() {
         LinkedHashMap<String, Object> linkedMap = new LinkedHashMap<>();
         linkedMap.put("fakeKey", "fakeValue");
-        String newUrl = stack.ImageTransform("www.fakeurl.com/fakePath/fakeImage.png?name=ishaileshmishra", linkedMap);
+        String newUrl = stack.imageTransform("www.fakeurl.com/fakePath/fakeImage.png?name=ishaileshmishra", linkedMap);
         assertEquals("www.fakeurl.com/fakePath/fakeImage.png?name=ishaileshmishra&fakeKey=fakeValue", newUrl);
     }
 

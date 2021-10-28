@@ -136,11 +136,23 @@ public class TestLivePreview {
                 .setLivePreviewHost("live-preview.contentstack.io").setManagementToken("management_token_123456");
         Stack stack = Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
         HashMap<String, String> hashMap = new HashMap<>();
-        // hashMap.put("live_preview", "something");
         hashMap.put("content_type_uid", "content_type_uid");
         stack.livePreviewQuery(hashMap);
         Entry entry = stack.contentType("content_type_uid").entry("entry_uid");
         entry.fetch(null);
+        Assertions.assertNotNull(entry);
+    }
+
+    @Test()
+    public void testCompleteLivePreviewInQuery() throws Exception {
+        Config livePreviewEnablerConfig = new Config().enableLivePreview(true).setLivePreviewHost("cdn.contentstack.io")
+                .setManagementToken("fake@token");
+        Stack stack = Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("content_type_uid", "content_type_uid");
+        stack.livePreviewQuery(hashMap);
+        Query entry = stack.contentType("content_type_uid").query();
+        entry.find(null);
         Assertions.assertNotNull(entry);
     }
 }

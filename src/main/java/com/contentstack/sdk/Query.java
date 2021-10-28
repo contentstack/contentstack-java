@@ -1206,7 +1206,7 @@ public class Query implements INotifyClass {
             singleQueryResultCallback = callBack;
             setQueryJson();
             urlQueries.put(Constants.ENVIRONMENT, this.headers.get(Constants.ENVIRONMENT));
-            checkLivePreview();
+            includeLivePreview();
             mainJSON.put(QUERY, urlQueries);
             fetchFromNetwork(urlString, mainJSON, callback, callBack);
         } catch (Exception e) {
@@ -1216,9 +1216,10 @@ public class Query implements INotifyClass {
 
     }
 
-    private void checkLivePreview() {
+    private void includeLivePreview() {
         Config configInstance = contentTypeInstance.stackInstance.config;
-        if (configInstance.enableLivePreview && configInstance.livePreviewContentType.equalsIgnoreCase(contentTypeUid)) {
+        if (configInstance.enableLivePreview
+                && configInstance.livePreviewContentType.equalsIgnoreCase(contentTypeUid)) {
             configInstance.setHost(configInstance.livePreviewHost); // Check host and replace with new host
             this.headers.remove("access_token");
             urlQueries.remove(Constants.ENVIRONMENT);
@@ -1428,20 +1429,42 @@ public class Query implements INotifyClass {
 
     /**
      * @return {@link Query} object, so you can chain this call. <br>
+     *
+     *
+     * @return {@link Query}
+     * 
      *         <br>
      *         <br>
      *         <b>Example :</b><br>
-     * 
+     *
      *         <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", environment);
      *         Query query = stack.contentType("contentTypeUid").query();
      *         query.includeEmbeddedObjects()
      *         </pre>
-     *
-     * @return {@link Query}
      */
     public Query includeEmbeddedItems() {
         urlQueries.put("include_embedded_items[]", "BASE");
+        return this;
+    }
+
+    /**
+     * Includes Branch in the entry response
+     *
+     * @return {@link Query} object, so you can chain this call. <br>
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Query query = stack.contentType("contentTypeUid").query();
+     *         entry.includeBranch();
+     *         </pre>
+     */
+    public Query includeBranch() {
+        urlQueries.put("include_branch", true);
         return this;
     }
 
