@@ -538,11 +538,40 @@ class QueryTestCase {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
                     Assertions.assertEquals(1, entries.size());
+                    // to add in the coverage code execution
+                    Group group = new Group(stack, entries.get(0).toJSON());
+                    doSomeBackgroundTask(group);
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
             }
         });
+    }
+
+    protected void doSomeBackgroundTask(Group group) {
+        JSONObject groupJsonObject = group.toJSON();
+        Assertions.assertNotNull(groupJsonObject);
+        Assertions.assertNotNull(groupJsonObject);
+        Object titleObj = group.get("title");
+        String titleStr = group.getString("title");
+        Boolean titleBool = group.getBoolean("in_stock");
+        JSONArray titleJSONArray = group.getJSONArray("image");
+        JSONObject titleJSONObject = group.getJSONObject("publish_details");
+        Object versionNum = group.getNumber("_version");
+        Object versionInt = group.getInt("_version");
+        Float versionFloat = group.getFloat("_version");
+        Double versionDouble = group.getDouble("_version");
+        long versionLong = group.getLong("_version");
+        logger.fine("versionLong: " + versionLong);
+        Assertions.assertNotNull(titleObj);
+        Assertions.assertNotNull(titleStr);
+        Assertions.assertNotNull(titleBool);
+        Assertions.assertNotNull(titleJSONArray);
+        Assertions.assertNotNull(titleJSONObject);
+        Assertions.assertNotNull(versionNum);
+        Assertions.assertNotNull(versionInt);
+        Assertions.assertNotNull(versionFloat);
+        Assertions.assertNotNull(versionDouble);
     }
 
     @Test
@@ -710,10 +739,6 @@ class QueryTestCase {
                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*******");
         query.includeCount();
         query.find(new QueryResultsCallBack() {
-            private void accept(Entry entry) {
-                logger.info(entry.getTitle());
-            }
-
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -779,12 +804,11 @@ class QueryTestCase {
     @Test
     @Order(38)
     void testAddParams() {
-        query.addParam("keyWithNull", null);
+        query.addParam("keyWithNull", "null");
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    boolean result = query.urlQueries.has("keyWithNull");
                     Object nullObject = query.urlQueries.opt("keyWithNull");
                     assertEquals("null", nullObject.toString());
                 }
@@ -838,13 +862,124 @@ class QueryTestCase {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    List<Entry> entryList = queryresult.getResultObjects();
                     assertTrue(query.urlQueries.has("include_embedded_items[]"));
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
             }
         });
+    }
+
+    @Test
+    @Order(42)
+    void testError() {
+        Error error = new Error("Faking error information", 400, "{errors: invalid credential}");
+        Assertions.assertNotNull(error.getErrorDetail());
+        Assertions.assertEquals(400, error.getErrorCode());
+        Assertions.assertNotNull(error.getErrorMessage());
+    }
+
+    // Unit testcases
+    // Running through the BeforeEach query instance
+
+    @Test
+    void testUnitQuerySetHeader() {
+        query.setHeader("fakeHeaderKey", "fakeHeaderValue");
+        Assertions.assertTrue(query.headers.containsKey("fakeHeaderKey"));
+    }
+
+    @Test
+    void testUnitQueryRemoveHeader() {
+        query.setHeader("fakeHeaderKey", "fakeHeaderValue");
+        query.removeHeader("fakeHeaderKey");
+        Assertions.assertFalse(query.headers.containsKey("fakeHeaderKey"));
+    }
+
+    @Test
+    void testUnitQueryWhere() {
+        query.where("title", "fakeTitle");
+        Assertions.assertTrue(query.queryValueJSON.has("title"));
+        Assertions.assertEquals("fakeTitle", query.queryValueJSON.opt("title"));
+    }
+
+    @Test
+    void testUnitAndQuery() {
+        ArrayList<Query> queryObj = new ArrayList<>();
+        queryObj.add(query);
+        queryObj.add(query);
+        queryObj.add(query);
+        try {
+            query.and(queryObj);
+            Assertions.assertTrue(query.queryValueJSON.has("$and"));
+        } catch (Exception e) {
+            Assertions.assertTrue(query.queryValueJSON.has("$and"));
+        }
+    }
+
+    @Test
+    void testUnitQueryOr() {
+        ArrayList<Query> queryObj = new ArrayList<>();
+        queryObj.add(query);
+        queryObj.add(query);
+        queryObj.add(query);
+        try {
+            query.or(queryObj);
+            Assertions.assertTrue(query.queryValueJSON.has("$or"));
+        } catch (Exception e) {
+            Assertions.assertTrue(query.queryValueJSON.has("$or"));
+        }
+    }
+
+    @Test
+    void testUnitQueryExcept() {
+        ArrayList<String> queryObj = new ArrayList<>();
+        queryObj.add("fakeQuery1");
+        queryObj.add("fakeQuery2");
+        queryObj.add("fakeQuery3");
+        query.except(queryObj);
+        Assertions.assertEquals(3, query.objectUidForExcept.length());
+    }
+
+    @Test
+    void testUnitQueryOwner() {
+        query.includeOwner();
+        Assertions.assertTrue(query.urlQueries.has("include_owner"));
+    }
+
+    @Test
+    void testUnitQuerySkip() {
+        query.skip(5);
+        Assertions.assertTrue(query.urlQueries.has("skip"));
+    }
+
+    @Test
+    void testUnitQueryLimit() {
+        query.limit(5);
+        Assertions.assertTrue(query.urlQueries.has("limit"));
+    }
+
+    @Test
+    void testUnitQueryRegex() {
+        query.regex("regexKey", "regexValue");
+        Assertions.assertTrue(query.queryValue.has("$regex"));
+    }
+
+    @Test
+    void testUnitQueryIncludeReferenceContentTypUid() {
+        query.includeReferenceContentTypUid();
+        Assertions.assertTrue(query.urlQueries.has("include_reference_content_type_uid"));
+    }
+
+    @Test
+    void testUnitQueryWhereIn() {
+        query.whereIn("fakeIt", query);
+        Assertions.assertTrue(query.queryValueJSON.has("fakeIt"));
+    }
+
+    @Test
+    void testUnitQueryWhereNotIn() {
+        query.whereNotIn("fakeIt", query);
+        Assertions.assertTrue(query.queryValueJSON.has("fakeIt"));
     }
 
 }

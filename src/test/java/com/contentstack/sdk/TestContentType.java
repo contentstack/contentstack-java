@@ -1,6 +1,7 @@
 package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 
@@ -70,7 +71,7 @@ class TestContentType {
         Entry entry = contentType.entry("just-fake-it");
         Assertions.assertEquals("product", entry.getContentType());
         Assertions.assertEquals("just-fake-it", entry.uid);
-        Assertions.assertEquals(3, entry.headers.size());
+        Assertions.assertEquals(4, entry.headers.size());
         logger.info("passed...");
     }
 
@@ -79,7 +80,7 @@ class TestContentType {
         ContentType contentType = stack.contentType("product");
         Query query = contentType.query();
         Assertions.assertEquals("product", query.getContentType());
-        Assertions.assertEquals(3, query.headers.size());
+        Assertions.assertEquals(4, query.headers.size());
         logger.info("passed...");
     }
 
@@ -95,6 +96,21 @@ class TestContentType {
             public void onCompletion(ContentTypesModel model, Error error) {
                 JSONObject resp = (JSONObject) model.getResponse();
                 Assertions.assertTrue(resp.has("schema"));
+            }
+        });
+    }
+
+    @Test
+    void testContentTypesFetch() {
+        ContentType contentType = stack.contentType("product");
+        JSONObject paramObj = new JSONObject();
+        paramObj.put("ctKeyOne", "ctKeyValue1");
+        paramObj.put("ctKeyTwo", "ctKeyValue2");
+        contentType.fetch(paramObj, new ContentTypesCallback() {
+            @Override
+            public void onCompletion(ContentTypesModel model, Error error) {
+                JSONArray resp = model.getResultArray();
+                Assertions.assertTrue(resp.isEmpty());
             }
         });
     }

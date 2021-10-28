@@ -49,6 +49,11 @@ class TestStack {
     }
 
     @Test
+    void testConstantConstructor() {
+        Assertions.assertNotNull(new Constants());
+    }
+
+    @Test
     void testStackAddHeader() {
         stack.setHeader("abcd", "justForTesting");
         assertTrue(stack.headers.containsKey("abcd"));

@@ -5,8 +5,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -320,10 +323,13 @@ class TestEntry {
 
     @Test
     @Order(34)
-    void entryGetDate() {
-        Object updatedBy = entry.getDate("updated_at");
-        Assertions.assertTrue(updatedBy instanceof GregorianCalendar);
+    void entryGetDate() throws ParseException {
+        Object updatedAt = entry.getDate("updated_at");
+        Assertions.assertTrue(updatedAt instanceof GregorianCalendar);
         logger.info("passed...");
+        TimeZone zone = TimeZone.getTimeZone("Asia/Kolkata");
+        String input = "Thu Jun 18 20:56:02 EDT 2009";
+        Constants.parseDate(input, "EEE MMM d HH:mm:ss zzz yyyy", zone);
     }
 
     @Test

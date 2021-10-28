@@ -49,7 +49,7 @@ public class Asset {
      * @param jsonObject the json object
      * @return the asset
      */
-    public Asset configure(@NotNull JSONObject jsonObject) {
+    public Asset configure(JSONObject jsonObject) {
         AssetModel model;
         model = new AssetModel(jsonObject, true);
         this.contentType = model.contentType;
