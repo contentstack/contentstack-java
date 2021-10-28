@@ -58,9 +58,9 @@ public class Query implements INotifyClass {
      *              <b>Example :</b><br>
      * 
      *              <pre class="prettyprint">
-     *                                                     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
-     *                                                     Query csQuery = stack.contentType("contentType_name").query();<br>
-     *                                                     csQuery.setHeader("custom_key", "custom_value");
+     *              Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
+     *              Query csQuery = stack.contentType("contentType_name").query();<br>
+     *              csQuery.setHeader("custom_key", "custom_value");
      *              </pre>
      */
     public void setHeader(String key, String value) {
@@ -77,9 +77,9 @@ public class Query implements INotifyClass {
      *            <b>Example :</b><br>
      * 
      *            <pre class="prettyprint">
-     *                                             Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
-     *                                             Query csQuery = stack.contentType("contentType_name").query();<br>
-     *                                             csQuery.removeHeader("custom_key");
+     *            Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
+     *            Query csQuery = stack.contentType("contentType_name").query();<br>
+     *            csQuery.removeHeader("custom_key");
      *            </pre>
      */
     public void removeHeader(String key) {
@@ -138,9 +138,9 @@ public class Query implements INotifyClass {
      *         <b>Example :</b><br>
      * 
      *         <pre class="prettyprint">
-     * Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
-     * Query csQuery = stack.contentType("contentType_name").query();
-     * csQuery.addQuery("query_param_key", "query_param_value");
+     *          Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
+     *          Query csQuery = stack.contentType("contentType_name").query();
+     *          csQuery.addQuery("query_param_key", "query_param_value");
      *         </pre>
      */
     public Query addQuery(String key, String value) {
@@ -192,19 +192,19 @@ public class Query implements INotifyClass {
      *         <b>Example ;</b><br>
      * 
      *         <pre class="prettyprint">
-     * Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
-     * Query csQuery = stack.contentType("contentType_name").query();
+     *          Stack stack = Contentstack..stack( "APIKey", "deliveryToken", "environment_name");
+     *          Query csQuery = stack.contentType("contentType_name").query();
      *
-     * Query query = projectClass.query();
-     * query.where('username','something');
+     *          Query query = projectClass.query();
+     *          query.where('username','something');
      *
-     * Query subQuery = projectClass.query();
-     * subQuery.where('email_address','something@email.com');
+     *          Query subQuery = projectClass.query();
+     *          subQuery.where('email_address','something@email.com');
      *
-     * ArrayList&#60;Query&#62; array = new ArrayList&#60;Query&#62;();<br>
-     * array.add(query);
-     * array.add(subQuery);<br>
-     * projectQuery.and(array);
+     *          ArrayList&#60;Query&#62; array = new ArrayList&#60;Query&#62;();<br>
+     *          array.add(query);
+     *          array.add(subQuery);<br>
+     *          projectQuery.and(array);
      *         </pre>
      */
     public Query and(ArrayList<Query> queryObjects) {
@@ -240,19 +240,19 @@ public class Query implements INotifyClass {
      *         <b>Example :</b><br>
      * 
      *         <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
-     *     Query csQuery = stack.contentType("contentType_name").query();
+     *          Stack stack = Contentstack.stack( "APIKey", "deliveryToken", "environment_name");
+     *          Query csQuery = stack.contentType("contentType_name").query();
      *
-     *     Query query = projectClass.query();
-     *     query.where('username','something');
+     *          Query query = projectClass.query();
+     *          query.where('username','something');
      *
-     *     Query subQuery = projectClass.query();
-     *     subQuery.where('email_address','something@email.com');
+     *          Query subQuery = projectClass.query();
+     *          subQuery.where('email_address','something@email.com');
      *
-     *     ArrayList&#60;Query&#62; array = new ArrayList&#60;Query&#62;();
-     *     array.add(query);
-     *     array.add(subQuery);<br>
-     *     csQuery.or(array);
+     *          ArrayList&#60;Query&#62; array = new ArrayList&#60;Query&#62;();
+     *          array.add(query);
+     *          array.add(subQuery);<br>
+     *          csQuery.or(array);
      *         </pre>
      */
     public Query or(ArrayList<Query> queryObjects) {
