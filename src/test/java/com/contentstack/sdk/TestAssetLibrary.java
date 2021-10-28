@@ -49,7 +49,6 @@ class TestAssetLibrary {
         });
     }
 
-
     @Test
     void testAssetSetHeader() {
         AssetLibrary assetLibrary = stack.assetLibrary();
@@ -83,7 +82,6 @@ class TestAssetLibrary {
         logger.info("passed...");
     }
 
-
     @Test
     void testAssetIncludeCount() {
         AssetLibrary assetLibrary = stack.assetLibrary();
@@ -99,7 +97,6 @@ class TestAssetLibrary {
         Assertions.assertFalse(assetLibrary.headers.containsKey("relative_urls"));
         logger.info("passed...");
     }
-
 
     @Test
     void testAssetGetCount() {

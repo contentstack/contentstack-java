@@ -26,7 +26,6 @@ class TestContentType {
         stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV);
     }
 
-
     @Test
     @Order(1)
     void testPrivateAccess() {
@@ -55,7 +54,6 @@ class TestContentType {
         logger.info("passed...");
     }
 
-
     @Test
     void testContentRemoveHeader() {
         ContentType contentType = stack.contentType("product");
@@ -83,7 +81,6 @@ class TestContentType {
         Assertions.assertEquals(4, query.headers.size());
         logger.info("passed...");
     }
-
 
     @Test
     void testContentTypeFetch() {
@@ -121,6 +118,5 @@ class TestContentType {
         CSBackgroundTask backgroundTask = new CSBackgroundTask();
         backgroundTask.checkHeader(mapHeader);
     }
-
 
 }

@@ -842,7 +842,6 @@ class TestQuery {
         });
     }
 
-
     @Test
     @Order(41)
     void testQueryIncludeBranch() {
@@ -858,7 +857,6 @@ class TestQuery {
             }
         });
     }
-
 
     @Test
     @Order(52)
@@ -878,5 +876,18 @@ class TestQuery {
         Assertions.assertTrue(query.headers.containsKey("branch"));
         logger.info("passed...");
     }
+
+    // @Test @Order(53)
+    // void testIncludeBranchAPI() throws IllegalAccessException {
+    // Dotenv dotenv = Dotenv.load();
+    // String apiKey = dotenv.get("apiKey");
+    // String deliveryToken = dotenv.get("deliveryToken");
+    // String env = dotenv.get("env");
+    // Config config = new Config();
+    // config.setHost("development");
+    // Stack stack = Contentstack.stack(apiKey, deliveryToken, env, config);
+    // query = stack.contentType("menu").query();
+    // query.includeBranch().find(null);
+    // }
 
 }

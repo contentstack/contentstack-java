@@ -39,8 +39,7 @@ class TestContentstack {
             Contentstack.stack(null, DELIVERY_TOKEN, ENV);
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("API Key can not be null",
-                    e.getLocalizedMessage(), "Set APIKey Null");
+            Assertions.assertEquals("API Key can not be null", e.getLocalizedMessage(), "Set APIKey Null");
         }
     }
 
@@ -50,8 +49,8 @@ class TestContentstack {
             Contentstack.stack(API_KEY, null, ENV);
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Delivery Token can not be null",
-                    e.getLocalizedMessage(), "Set deliveryToken Null");
+            Assertions.assertEquals("Delivery Token can not be null", e.getLocalizedMessage(),
+                    "Set deliveryToken Null");
         }
     }
 
@@ -61,11 +60,9 @@ class TestContentstack {
             Contentstack.stack(API_KEY, DELIVERY_TOKEN, null);
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Environment can not be null",
-                    e.getLocalizedMessage(), "Set Environment Null");
+            Assertions.assertEquals("Environment can not be null", e.getLocalizedMessage(), "Set Environment Null");
         }
     }
-
 
     @Test
     void initStackWithEmptyAPIKey() {
@@ -74,8 +71,7 @@ class TestContentstack {
             Contentstack.stack("", DELIVERY_TOKEN, ENV);
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("API Key can not be empty",
-                    e.getLocalizedMessage(), "Set APIKey Null");
+            Assertions.assertEquals("API Key can not be empty", e.getLocalizedMessage(), "Set APIKey Null");
         }
     }
 
@@ -85,8 +81,8 @@ class TestContentstack {
             Contentstack.stack(API_KEY, "", ENV);
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Delivery Token can not be empty",
-                    e.getLocalizedMessage(), "Set deliveryToken Null");
+            Assertions.assertEquals("Delivery Token can not be empty", e.getLocalizedMessage(),
+                    "Set deliveryToken Null");
         }
     }
 
@@ -99,7 +95,6 @@ class TestContentstack {
             Assertions.assertEquals("Environment can not be empty", e.getLocalizedMessage(), "Set Environment Null");
         }
     }
-
 
     @Test
     void initStackWithAllValidCredentials() throws IllegalAccessException {
