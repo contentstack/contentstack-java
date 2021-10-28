@@ -7,7 +7,6 @@ import org.junit.jupiter.api.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.logging.Logger;
@@ -166,7 +165,7 @@ class TestEntry {
     @Order(15)
     void entryToJSON() {
         boolean isJson = entry.toJSON() instanceof JSONObject;
-        Assertions.assertTrue(entry.toJSON() != null);
+        Assertions.assertNotNull(entry.toJSON());
         Assertions.assertTrue(isJson);
         logger.info("passed...");
     }
@@ -176,7 +175,7 @@ class TestEntry {
     void entryGetObject() {
         Object what = entry.get("short_description");
         Object invalidKey = entry.get("invalidKey");
-        Assertions.assertTrue(what != null);
+        Assertions.assertNotNull(what);
         Assertions.assertNull(invalidKey);
         logger.info("passed...");
     }
@@ -186,7 +185,7 @@ class TestEntry {
     void entryGetString() {
         Object what = entry.getString("short_description");
         Object version = entry.getString("_version");
-        Assertions.assertTrue(what != null);
+        Assertions.assertNotNull(what);
         Assertions.assertNull(version);
         logger.info("passed...");
     }

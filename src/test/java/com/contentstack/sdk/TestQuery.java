@@ -402,7 +402,8 @@ class TestQuery {
                     for (int i = 0; i < entries.size(); i++) {
                         String previous = entries.get(i).getTitle(); // get first string
                         String next = entries.get(i + 1).getTitle(); // get second string
-                        if (previous.compareTo(next) < 0) {  // compare both if less than Zero then Ascending else descending
+                        if (previous.compareTo(next) < 0) { // compare both if less than Zero then Ascending else
+                                                            // descending
                             Assertions.assertTrue(true);
                         } else {
                             Assertions.fail("expected descending, found ascending");
@@ -427,7 +428,8 @@ class TestQuery {
                     for (int i = 0; i < entries.size(); i++) {
                         String previous = entries.get(i).getTitle(); // get first string
                         String next = entries.get(i + 1).getTitle(); // get second string
-                        if (previous.compareTo(next) < 0) {  // compare both if less than Zero then Ascending else descending
+                        if (previous.compareTo(next) < 0) { // compare both if less than Zero then Ascending else
+                                                            // descending
                             Assertions.fail("expected descending, found ascending");
                         } else {
                             Assertions.assertTrue(true);
@@ -509,7 +511,8 @@ class TestQuery {
     }
 
     @Test
-    @Order(24) @Deprecated
+    @Order(24)
+    @Deprecated
     void testCount() {
         query.count();
         query.find(new QueryResultsCallBack() {
@@ -777,7 +780,6 @@ class TestQuery {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    boolean result = query.urlQueries.has("keyWithNull");
                     Object nullObject = query.urlQueries.opt("keyWithNull");
                     assertEquals("null", nullObject.toString());
                 }
@@ -831,7 +833,6 @@ class TestQuery {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    List<Entry> entryList = queryresult.getResultObjects();
                     assertTrue(query.urlQueries.has("include_embedded_items[]"));
                 } else {
                     Assertions.fail("Failing, Verify credentials");
