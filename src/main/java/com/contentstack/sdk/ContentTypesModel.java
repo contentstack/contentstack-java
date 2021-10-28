@@ -3,8 +3,6 @@ package com.contentstack.sdk;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.logging.Logger;
-
 public class ContentTypesModel {
 
     private Object response;

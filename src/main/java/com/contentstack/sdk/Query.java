@@ -2,7 +2,6 @@ package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -804,7 +803,6 @@ public class Query implements INotifyClass {
             exceptJsonObject = new JSONObject();
         }
         JSONArray fieldValueArray = new JSONArray();
-        int count = fieldUid.size();
         for (String s : fieldUid) {
             fieldValueArray.put(s);
         }
@@ -1153,10 +1151,12 @@ public class Query implements INotifyClass {
                 if (urlQueries != null && urlQueries.has(LIMIT)) {
                     limit = (int) urlQueries.get(LIMIT);
                 }
-                urlQueries.put(LIMIT, 1);
-                execQuery(callBack, null);
-                if (limit != -1) {
-                    urlQueries.put(LIMIT, limit);
+                if (urlQueries != null) {
+                    urlQueries.put(LIMIT, 1);
+                    execQuery(callBack, null);
+                    if (limit != -1) {
+                        urlQueries.put(LIMIT, limit);
+                    }
                 }
             } else {
                 throwException("find", Constants.CONTENT_TYPE_NAME, null);
@@ -1305,34 +1305,6 @@ public class Query implements INotifyClass {
         }
 
     }
-
-    // private LinkedHashMap<String, Object> getHeader(LinkedHashMap<String, Object>
-    // localHeader) {
-    // LinkedHashMap<String, Object> mainHeader = headers;
-    // LinkedHashMap<String, Object> classHeaders = new LinkedHashMap<>();
-    //
-    // if (localHeader != null && localHeader.size() > 0) {
-    // if (mainHeader != null && mainHeader.size() > 0) {
-    // for (Map.Entry<String, Object> entry : localHeader.entrySet()) {
-    // String key = entry.getKey();
-    // classHeaders.put(key, entry.getValue());
-    // }
-    //
-    // for (Map.Entry<String, Object> entry : mainHeader.entrySet()) {
-    // String key = entry.getKey();
-    // if (!classHeaders.containsKey(key)) {
-    // classHeaders.put(key, entry.getValue());
-    // }
-    // }
-    // return classHeaders;
-    // } else {
-    // return localHeader;
-    // }
-    //
-    // } else {
-    // return headers;
-    // }
-    // }
 
     /**
      * This method adds key and value to an Entry. Parameters:
