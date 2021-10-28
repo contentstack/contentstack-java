@@ -19,13 +19,13 @@ public class Query implements INotifyClass {
     private static final Logger logger = Logger.getLogger(Query.class.getSimpleName());
     protected ContentType contentTypeInstance = null;
     protected LinkedHashMap<String, Object> headers = null;
-    protected JSONObject urlQueries = null;
-    protected JSONObject mainJSON = null;
-    protected String formName = null;
+    protected JSONObject urlQueries;
+    protected JSONObject mainJSON;
+    protected String contentTypeUid;
     protected QueryResultsCallBack queryResultCallback;
     protected SingleQueryResultCallback singleQueryResultCallback;
-    protected JSONObject queryValueJSON = null;
-    protected JSONObject queryValue = null;
+    protected JSONObject queryValueJSON;
+    protected JSONObject queryValue;
     protected JSONArray objectUidForInclude = null;
     protected JSONArray objectUidForExcept = null;
     protected JSONArray objectUidForOnly = null;
@@ -36,7 +36,7 @@ public class Query implements INotifyClass {
     private JSONObject exceptJsonObject;
 
     protected Query(String formName) {
-        this.formName = formName;
+        this.contentTypeUid = formName;
         this.urlQueries = new JSONObject();
         this.queryValue = new JSONObject();
         this.queryValueJSON = new JSONObject();
@@ -700,8 +700,6 @@ public class Query implements INotifyClass {
             for (String fieldId : fieldIds) {
                 objectUidForExcept.put(fieldId);
             }
-        } else {
-            throwException(EXCEPT, Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -729,9 +727,8 @@ public class Query implements INotifyClass {
             if (objectUidForOnly == null) {
                 objectUidForOnly = new JSONArray();
             }
-            int count = fieldUid.length;
-            for (int i = 0; i < count; i++) {
-                objectUidForOnly.put(fieldUid[i]);
+            for (String s : fieldUid) {
+                objectUidForOnly.put(s);
             }
         }
         return this;
@@ -1107,7 +1104,7 @@ public class Query implements INotifyClass {
     public Query find(QueryResultsCallBack callback) {
         Error error = null;
         if (isJsonProper) {
-            if (!formName.isEmpty()) {
+            if (!contentTypeUid.isEmpty()) {
                 execQuery(null, callback);
             } else {
                 throwException("find", Constants.CONTENT_TYPE_NAME, null);
@@ -1144,9 +1141,9 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query findOne(SingleQueryResultCallback callBack) {
-        Error error = null;
+
         if (isJsonProper) {
-            if (!formName.isEmpty()) {
+            if (!contentTypeUid.isEmpty()) {
                 int limit = -1;
                 if (urlQueries != null && urlQueries.has(LIMIT)) {
                     limit = (int) urlQueries.get(LIMIT);
@@ -1160,8 +1157,6 @@ public class Query implements INotifyClass {
                 }
             } else {
                 throwException("find", Constants.CONTENT_TYPE_NAME, null);
-                error = new Error();
-                error.setErrorMessage(errorString);
             }
         }
         return this;
@@ -1206,7 +1201,7 @@ public class Query implements INotifyClass {
 
     protected void execQuery(SingleQueryResultCallback callBack, QueryResultsCallBack callback) {
         try {
-            String urlString = "content_types/" + formName + "/entries";
+            String urlString = "content_types/" + contentTypeUid + "/entries";
             queryResultCallback = callback;
             singleQueryResultCallback = callBack;
             setQueryJson();
@@ -1223,7 +1218,7 @@ public class Query implements INotifyClass {
 
     private void checkLivePreview() {
         Config configInstance = contentTypeInstance.stackInstance.config;
-        if (configInstance.enableLivePreview && configInstance.livePreviewContentType.equalsIgnoreCase(formName)) {
+        if (configInstance.enableLivePreview && configInstance.livePreviewContentType.equalsIgnoreCase(contentTypeUid)) {
             configInstance.setHost(configInstance.livePreviewHost); // Check host and replace with new host
             this.headers.remove("access_token");
             urlQueries.remove(Constants.ENVIRONMENT);
@@ -1275,10 +1270,10 @@ public class Query implements INotifyClass {
         for (int i = 0; i < countObject; i++) {
             Entry entry = null;
             try {
-                entry = contentTypeInstance.stackInstance.contentType(formName)
+                entry = contentTypeInstance.stackInstance.contentType(contentTypeUid)
                         .entry(((EntryModel) objects.get(i)).uid);
             } catch (Exception e) {
-                entry = new Entry(formName);
+                entry = new Entry(contentTypeUid);
             }
             entry.setUid(((EntryModel) objects.get(i)).uid);
             entry.resultJson = ((EntryModel) objects.get(i)).jsonObject;
