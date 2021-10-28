@@ -17,6 +17,15 @@ public class Config {
     protected String livePreviewHost;
     protected ContentstackRegion region = ContentstackRegion.US;
     protected String managementToken;
+    protected String branch;
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
 
     /**
      * Gets region.

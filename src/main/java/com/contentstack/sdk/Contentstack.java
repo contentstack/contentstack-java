@@ -96,6 +96,9 @@ public class Contentstack {
         stack.setHeader("api_key", stackApiKey);
         stack.setHeader("access_token", deliveryToken);
         stack.setHeader("environment", environment);
+        if (config.getBranch() != null && !config.getBranch().isEmpty()) {
+            stack.setHeader("branch", config.getBranch());
+        }
         stack.setConfig(config);
         return stack;
     }
