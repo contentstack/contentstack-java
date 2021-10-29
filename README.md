@@ -19,7 +19,7 @@ Group id: `com.contentstack.sdk`
 
 Artifact id: `java`
 
-[updated version](https://search.maven.org/artifact/com.contentstack.sdk/java)
+[{ version }](https://search.maven.org/artifact/com.contentstack.sdk/java)
 
 1. **Maven**
 ```java
