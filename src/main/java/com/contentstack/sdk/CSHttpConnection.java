@@ -73,10 +73,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
         this.info = info;
     }
 
-    public void setFormParamsPOST(JSONObject requestJSON) {
-        // this.requestJSON = requestJSON;
-    }
-
     @Override
     public ResultCallBack getCallBackObject() {
         return callBackObject;
