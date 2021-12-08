@@ -33,6 +33,7 @@ class QueryTestCase {
         String DEFAULT_HOST = dotenv.get("HOST");
         Config config = new Config();
         config.setHost(DEFAULT_HOST);
+        config.setRegion(Config.ContentstackRegion.US);
         assert DEFAULT_API_KEY != null;
         stack = Contentstack.stack(DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV, config);
     }
