@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.8.0</version>
+    <version>1.8.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>contentstack-java</name>
     <description>Java SDK for Contentstack Content Delivery API</description>
@@ -15,7 +15,7 @@
 
     <properties>
         <!--update sdk version before every release push for SNAPSHOT/RELEASE-->
-        <sdk.version.snapshot>v1.8.0-SNAPSHOT</sdk.version.snapshot>
+        <sdk.version.snapshot>v1.8.0</sdk.version.snapshot>
         <sdk.version.release>v1.8.0</sdk.version.release>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -41,6 +41,9 @@
         <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <json-version>20210307</json-version>
+        <jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
+        <maven-release-plugin-version>2.5.3</maven-release-plugin-version>
+        <nexus-staging-maven-plugin-version>1.6.7</nexus-staging-maven-plugin-version>
         <contentstack-utils-version>1.1.0</contentstack-utils-version>
     </properties>
 
@@ -143,6 +146,7 @@
             <artifactId>lombok</artifactId>
             <version>${lombok-source.version}</version>
         </dependency>
+        <!--JUnit 5 requires Java 8, you should make sure you have it ready in your environment.-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -174,19 +178,20 @@
             # time-consuming stuff
             mvn surefire-report:report site -DgenerateReports=false
             -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>${surefire-report-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report-only</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-surefire-report-plugin</artifactId>-->
+            <!--                <version>${surefire-report-plugin.version}</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <phase>test</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>report-only</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -200,6 +205,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -224,6 +230,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -272,10 +279,11 @@
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
+                <version>${nexus-staging-maven-plugin-version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -290,7 +298,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
+                <version>${maven-release-plugin-version}</version>
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <useReleaseProfile>false</useReleaseProfile>
@@ -298,12 +306,32 @@
                     <goals>deploy</goals>
                 </configuration>
             </plugin>
+
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-surefire-plugin</artifactId>-->
+            <!--                <version>2.21.0</version>-->
+            <!--                <dependencies>-->
+            <!--                    <dependency>-->
+            <!--                        <groupId>org.junit.platform</groupId>-->
+            <!--                        <artifactId>junit-platform-surefire-provider</artifactId>-->
+            <!--                        <version>1.2.0-M1</version>-->
+            <!--                    </dependency>-->
+            <!--                    <dependency>-->
+            <!--                        <groupId>org.junit.jupiter</groupId>-->
+            <!--                        <artifactId>junit-jupiter-engine</artifactId>-->
+            <!--                        <version>5.2.0-M1</version>-->
+            <!--                    </dependency>-->
+            <!--                </dependencies>-->
+            <!--            </plugin>-->
+
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.5</version>
+                <version>${jacoco-maven-plugin-version}</version>
                 <executions>
                     <execution>
+                        <id>prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
@@ -315,9 +343,39 @@
                             <goal>report</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>target/jacoco.exec</dataFile>
+                            <outputDirectory>target/jacoco-ut</outputDirectory>
+                        </configuration>
+                    </execution>
                 </executions>
+                <configuration>
+<!--                    <systemPropertyVariables>-->
+<!--                        <jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>-->
+<!--                    </systemPropertyVariables>-->
+                    <excludes>
+                        <exclude>src/main/java/com/contentstack/sdk/Group.class</exclude>
+                        <exclude>src/main/java/com/contentstack/sdk/FetchAssetsCallback.class</exclude>
+                        <exclude>src/main/java/com/contentstack/sdk/SingleQueryResultCallback.class</exclude>
+                        <exclude>src/main/java/com/contentstack/sdk/ContentTypesCallback.class</exclude>
+                        <exclude>src/main/java/com/contentstack/sdk/QueryResultsCallBack.class</exclude>
+                        <exclude>src/main/java/com/contentstack/sdk/FetchResultCallback.class</exclude>
+                        <exclude>src/main/java/com/contentstack/sdk/EntryResultCallBack.class</exclude>
+                        <exclude>src/main/java/com/contentstack/sdk/FetchResultCallback.class</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
+            </plugin>
         </plugins>
     </build>
 
