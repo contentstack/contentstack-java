@@ -1,3 +1,4 @@
 # Authors
-- [Contentstack](https://www.contentstack.com/)
-- [Shailesh-Mishra](shailesh.mishra@contentstack.com)
+- [ishaileshmishra](shailesh.mishra@contentstack.com)
+- [shaileshmishra](mshaileshr@contentstack.com)
+- [admin](dev@contentstack.com)
