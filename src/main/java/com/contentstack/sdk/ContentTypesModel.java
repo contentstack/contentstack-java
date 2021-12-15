@@ -1,40 +1,30 @@
 package com.contentstack.sdk;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.logging.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class ContentTypesModel {
 
-    private static final Logger logger = Logger.getLogger(ContentTypesModel.class.getSimpleName());
-    private JSONObject responseJSON = new JSONObject();
+    private Object response;
     private JSONArray responseJSONArray = new JSONArray();
 
     public void setJSON(JSONObject responseJSON) {
 
-        if (responseJSON!=null){
-            if (responseJSON.has("content_type")){
-                try {
-                    this.responseJSON = responseJSON.getJSONObject("content_type");
-                } catch (JSONException e) {
-                    logger.severe(e.getLocalizedMessage());
-                }
+        if (responseJSON != null) {
+            String ctKey = "content_type";
+            if (responseJSON.has(ctKey) && responseJSON.opt(ctKey) instanceof JSONObject) {
+                this.response = responseJSON.optJSONObject(ctKey);
             }
-
-            if (responseJSON.has("content_types")){
-                try {
-                    this.responseJSONArray = responseJSON.getJSONArray("content_types");
-                } catch (JSONException e) {
-                    logger.severe(e.getLocalizedMessage());
-                }
+            String ctListKey = "content_types";
+            if (responseJSON.has(ctListKey) && responseJSON.opt(ctListKey) instanceof JSONArray) {
+                this.response = responseJSON.optJSONArray(ctListKey);
+                this.responseJSONArray = (JSONArray) this.response;
             }
-
         }
     }
 
-    public JSONObject getResponse() {
-        return responseJSON;
+    public Object getResponse() {
+        return this.response;
     }
 
     public JSONArray getResultArray() {

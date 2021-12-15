@@ -1,345 +1,191 @@
 package com.contentstack.sdk;
 
-
-import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSController;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.*;
 import java.util.logging.Logger;
 
+import static com.contentstack.sdk.Constants.ENVIRONMENT;
+
 /**
- Assets refer to all the media files (images, videos, PDFs, audio files, and so on) uploaded to Contentstack.
- These files can be used in multiple entries.
- Read more about [Assets](https://www.contentstack.com/docs/guide/content-management#working-with-assets)
+ * The type Asset library.
  */
-public class AssetLibrary implements INotifyClass{
+public class AssetLibrary implements INotifyClass {
 
-    private static final Logger logger = Logger.getLogger(AssetLibrary.class.getSimpleName());
-    private Stack stackInstance;
-    private LinkedHashMap<String, Object> stackHeader;
-    private LinkedHashMap<String, Object> localHeader;
-    public JSONObject urlQueries;
-    private FetchAssetsCallback assetsCallback;
-    private int count;
+    protected final Logger logger = Logger.getLogger(AssetLibrary.class.getSimpleName());
+    protected final JSONObject urlQueries;
+    protected Stack stackInstance;
+    protected LinkedHashMap<String, Object> headers;
+    protected FetchAssetsCallback callback;
+    protected int count;
 
-
-    /**
-     * Sorting order enum for {@link AssetLibrary}.
-     * @author Contentstack.com, Inc
-     */
-    public enum ORDERBY
-    {
-        ASCENDING,
-        DESCENDING
+    protected AssetLibrary() {
+        this.urlQueries = new JSONObject();
     }
 
-    protected AssetLibrary(){
-        this.localHeader = new LinkedHashMap<String, Object>();
-        this.urlQueries  = new JSONObject();
-    }
-
-    protected void setStackInstance(Stack stack){
+    protected void setStackInstance(@NotNull Stack stack) {
         this.stackInstance = stack;
-        this.stackHeader = stack.localHeader;
+        this.headers = stack.headers;
     }
 
     /**
-     * To set headers for Contentstack rest calls.
-     * <br>
-     * Scope is limited to this object only.
-     * @param key
-     * header name.
-     * @param value
-     * header value against given header name.
+     * Sets header.
      *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Application API key
-     * AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     * assetLibObject.setHeader("custom_header_key", "custom_header_value");
-     * </pre>
+     * @param headerKey   the header key
+     * @param headerValue the header value
      */
-    public void setHeader(String key, String value) {
-        if (!key.isEmpty() && !value.isEmpty()) {
-            localHeader.put(key, value);
+    public void setHeader(@NotNull String headerKey, @NotNull String headerValue) {
+        this.headers.put(headerKey, headerValue);
+    }
+
+    /**
+     * Remove header.
+     *
+     * @param headerKey the header key
+     */
+    public void removeHeader(@NotNull String headerKey) {
+        if (!headerKey.isEmpty()) {
+            this.headers.remove(headerKey);
         }
     }
 
-
     /**
-     * Remove a header for a given key from headers.
-     * <br>
-     * Scope is limited to this object only.
-     * @param key header key.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Application API key
-     * AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
+     * Sort asset library.
      *
-     * assetLibObject.removeHeader("custom_header_key");
-     * </pre>
+     * @param keyOrderBy the key order by
+     * @param orderby    the orderby
+     * @return the asset library
      */
-    public void removeHeader(String key){
-        if(!key.isEmpty()){
-            localHeader.remove(key);
-        }
-    }
-
-
-    /**
-     * Sort assets by fieldUid.
-     * @param key
-     * field Uid.
-     * @param orderby
-     * {@link ORDERBY} value for ascending or descending.
-     * @return
-     * {@link AssetLibrary} object, so you can chain this call.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Application API key
-     * AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     * assetLibObject.sort("fieldUid", AssetLibrary.ORDERBY.ASCENDING);
-     * </pre>
-     *
-     */
-    public AssetLibrary sort(String key, ORDERBY orderby){
-        try {
-            switch (orderby){
-                case ASCENDING:
-                    urlQueries.put("asc",key);
-                    break;
-
-                case DESCENDING:
-                    urlQueries.put("desc",key);
-                    break;
-            }
-        }catch(Exception e) {
-            throwException("sort", CSAppConstants.ErrorMessage_QueryFilterException, e);
-        }
-
-        return this;
-    }
-
-    /**
-     * Retrieve count and data of assets in result.
-     * @return {@link AssetLibrary} object, so you can chain this call.
-     *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Stack API key
-     * //'bltdtsample_accessToken767vv' is dummy access token.
-     * AssetLibrary assetLibObject = Contentstack.stack( "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     * assetLibObject.includeCount();
-     * </pre>
-     */
-    public AssetLibrary includeCount(){
-        try {
-            urlQueries.put("include_count","true");
-        } catch (Exception e) {
-            throwException("includeCount", CSAppConstants.ErrorMessage_QueryFilterException, e);
-        }
-        return this;
-    }
-
-
-    /**
-     * Retrieve relative urls objects in result.
-     * @return
-     * {@link AssetLibrary} object, so you can chain this call.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Stack API key
-     * //'bltdtsample_accessToken767vv' is dummy access token.
-     * AssetLibrary assetLibObject = Contentstack.stack( "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     * assetLibObject.includeRelativeUrl();
-     * </pre>
-     */
-    public AssetLibrary includeRelativeUrl(){
-        try {
-            urlQueries.put("relative_urls","true");
-        } catch (Exception e) {
-            throwException("relative_urls", CSAppConstants.ErrorMessage_QueryFilterException, e);
+    public AssetLibrary sort(String keyOrderBy, ORDERBY orderby) {
+        if (orderby == ORDERBY.ASCENDING) {
+            urlQueries.put("asc", keyOrderBy);
+        } else {
+            urlQueries.put("desc", keyOrderBy);
         }
         return this;
     }
 
     /**
-     * Get a count of assets in success callback of {@link FetchAssetsCallback}.
-     * @return int @count
+     * Include count asset library.
+     *
+     * @return the asset library
      */
-    public int getCount(){
+    public AssetLibrary includeCount() {
+        urlQueries.put("include_count", "true");
+        return this;
+    }
+
+    /**
+     * Include relative url asset library.
+     *
+     * @return the asset library
+     */
+    public AssetLibrary includeRelativeUrl() {
+        urlQueries.put("relative_urls", "true");
+        return this;
+    }
+
+    /**
+     * Retrieve the published content of the fallback locale if an entry is not
+     * localized in specified locale
+     *
+     * @return {@link AssetLibrary} object, so you can chain this call. <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         AssetLibrary assetLibObject = stack.assetLibrary();
+     *         AssetLibrary.includeFallback();
+     *         </pre>
+     */
+    public AssetLibrary includeFallback() {
+        urlQueries.put("include_fallback", true);
+        return this;
+    }
+
+    /**
+     * Gets count.
+     *
+     * @return the count
+     */
+    public int getCount() {
         return count;
     }
 
-
-
     /**
-     * Fetch a all asset.
-     * @param assetsCallback
-     * {@link FetchAssetsCallback} instance for success and failure result.
+     * Fetch all.
      *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *   AssetLibrary assetLibObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).assetLibrary();
-     *   assetLibObject.fetchAll(new FetchAssetsCallback() {
-     *   {@code public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) }{
-     *      if (error == null) {
-     *         //Success Block.
-     *      } else {
-     *         //Error Block.
-     *      }
-     *   }
-     *  });
-     *
-     * </pre>
-     *
+     * @param callback the callback
      */
-    public void fetchAll(FetchAssetsCallback assetsCallback){
-        try {
-            this.assetsCallback = assetsCallback;
-            String URL = "/" + stackInstance.VERSION + "/assets";
-            LinkedHashMap<String, Object> headers = getHeader(localHeader);
-            if (headers.containsKey("environment")) {
-                urlQueries.put("environment", headers.get("environment"));
-            }
-
-            fetchFromNetwork(URL, urlQueries, headers,  assetsCallback);
-
-        } catch (Exception e){
-            logger.severe(e.getLocalizedMessage());
-        }
-
+    public void fetchAll(FetchAssetsCallback callback) {
+        this.callback = callback;
+        urlQueries.put(ENVIRONMENT, headers.get(ENVIRONMENT));
+        fetchFromNetwork("assets", urlQueries, headers, callback);
     }
 
-
-
-    private void fetchFromNetwork(String URL, JSONObject urlQueries, LinkedHashMap<String, Object> headers, FetchAssetsCallback assetsCallback) {
-        if(assetsCallback != null) {
+    private void fetchFromNetwork(String url, JSONObject urlQueries, LinkedHashMap<String, Object> headers,
+            FetchAssetsCallback callback) {
+        if (callback != null) {
             HashMap<String, Object> urlParams = getUrlParams(urlQueries);
-            new CSBackgroundTask(this, stackInstance, CSController.FETCHALLASSETS, URL, headers, urlParams, new JSONObject(), CSAppConstants.callController.ASSETLIBRARY.toString(), false, CSAppConstants.RequestMethod.GET, assetsCallback);
+            new CSBackgroundTask(this, stackInstance, Constants.FETCHALLASSETS, url, headers, urlParams,
+                    Constants.REQUEST_CONTROLLER.ASSETLIBRARY.toString(), callback);
         }
     }
-
-
-
-
-    /**
-     * @param urlQueriesJSON takes {@link JSONObject} object as argeument
-     * @return
-     */
 
     private HashMap<String, Object> getUrlParams(JSONObject urlQueriesJSON) {
-
         HashMap<String, Object> hashMap = new HashMap<>();
-        if(urlQueriesJSON != null && urlQueriesJSON.length() > 0){
+        if (urlQueriesJSON != null && urlQueriesJSON.length() > 0) {
             Iterator<String> iter = urlQueriesJSON.keys();
             while (iter.hasNext()) {
                 String key = iter.next();
-                try {
-                    Object value = urlQueriesJSON.opt(key);
-                    hashMap.put(key, value);
-                } catch (Exception e) {
-                    logger.severe(e.getLocalizedMessage());
-                }
+                Object value = urlQueriesJSON.opt(key);
+                hashMap.put(key, value);
             }
-
-            return hashMap;
         }
-
-        return null;
-    }
-
-
-    /**
-     * @param tag String to which  Class belong
-     * @param messageString takes as Message
-     * @param e Exception
-     */
-    private void throwException(String tag, String messageString, Exception e){
-        Error error = new Error();
-        error.setErrorMessage(messageString);
-    }
-
-    private LinkedHashMap<String, Object> getHeader(LinkedHashMap<String, Object> localHeader) {
-        LinkedHashMap<String, Object> mainHeader = stackHeader;
-        LinkedHashMap<String, Object> classHeaders = new LinkedHashMap<>();
-
-        if(localHeader != null && localHeader.size() > 0){
-            if(mainHeader != null && mainHeader.size() > 0) {
-                for (Map.Entry<String, Object> entry : localHeader.entrySet()) {
-                    String key = entry.getKey();
-                    classHeaders.put(key, entry.getValue());
-                }
-
-                for (Map.Entry<String, Object> entry : mainHeader.entrySet()) {
-                    String key = entry.getKey();
-                    if(!classHeaders.containsKey(key)) {
-                        classHeaders.put(key, entry.getValue());
-                    }
-                }
-
-                return classHeaders;
-
-            }else{
-                return localHeader;
-            }
-
-        }else{
-            return stackHeader;
-        }
+        return hashMap;
     }
 
     @Override
-    public void getResult(Object object, String controller) {}
+    public void getResult(Object object, String controller) {
+        logger.warning("No implementation required");
+    }
 
     @Override
     public void getResultObject(List<Object> objects, JSONObject jsonObject, boolean isSingleEntry) {
 
-        if(jsonObject != null && jsonObject.has("count")){
+        if (jsonObject != null && jsonObject.has("count")) {
             count = jsonObject.optInt("count");
         }
 
-        List<Asset> assets = new ArrayList<Asset>();
+        List<Asset> assets = new ArrayList<>();
 
-        if(objects != null && objects.size() > 0){
+        if (objects != null && !objects.isEmpty()) {
             for (Object object : objects) {
                 AssetModel model = (AssetModel) object;
-                Asset asset      = stackInstance.asset();
-
-                asset.contentType  = model.contentType;
-                asset.fileSize     = model.fileSize;
-                asset.uploadUrl    = model.uploadUrl;
-                asset.fileName     = model.fileName;
-                asset.json         = model.json;
+                Asset asset = stackInstance.asset();
+                asset.contentType = model.contentType;
+                asset.fileSize = model.fileSize;
+                asset.uploadUrl = model.uploadUrl;
+                asset.fileName = model.fileName;
+                asset.json = model.json;
                 asset.assetUid = model.uploadedUid;
                 asset.setTags(model.tags);
-                model = null;
-
                 assets.add(asset);
             }
         }
 
-        if(assetsCallback != null) {
-            assetsCallback.onRequestFinish(ResponseType.NETWORK, assets);
+        if (callback != null) {
+            callback.onRequestFinish(ResponseType.NETWORK, assets);
         }
     }
 
-
-
     /**
-     * Retrieve the published content of the fallback locale if an entry is not localized in specified locale
-     * @return {@link AssetLibrary} object, so you can chain this call.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack( "ApiKey", "deliveryToken",  environment_name);
-     *     AssetLibrary assetLibObject = stack.assetLibrary();
-     *     assetLibObject.includeFallback();
-     * </pre>
+     * The enum Orderby.
      */
-    public AssetLibrary includeFallback(){
-        urlQueries.put("include_fallback", true);
-        return this;
+    public enum ORDERBY {
+        ASCENDING, DESCENDING
     }
 
 }

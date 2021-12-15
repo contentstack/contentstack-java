@@ -1,92 +1,90 @@
 package com.contentstack.sdk;
-import com.contentstack.sdk.utility.CSAppConstants;
-import org.json.JSONObject;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-
+import java.util.Map;
+import java.util.logging.Logger;
 
 class CSBackgroundTask {
 
-    public CSBackgroundTask(Query queryInstance, Stack stackInstance, String controller, String url, LinkedHashMap<String, Object> headers, LinkedHashMap<String, Object> urlQueries, JSONObject jsonMain, String requestInfo, CSAppConstants.RequestMethod method, ResultCallBack callback) {
-            if (headers != null && headers.size() > 0) {
-                String URL = stackInstance.URLSCHEMA + stackInstance.URL + url;
-                CSConnectionRequest csConnectionRequest = new CSConnectionRequest(queryInstance);
-                csConnectionRequest.setQueryInstance(queryInstance);
-                csConnectionRequest.setURLQueries(urlQueries);
-                csConnectionRequest.setParams(URL, method, controller, jsonMain, headers, requestInfo, callback);
-            } else {
-                sendErrorForHeader(callback);
-            }
+    protected CSBackgroundTask() {
     }
 
-
-    public CSBackgroundTask(Entry entryInstance, Stack stackInstance, String controller, String url, LinkedHashMap<String, Object> headers, HashMap<String, Object> urlQueries, JSONObject jsonMain, String requestInfo, boolean isOffline, CSAppConstants.RequestMethod method, ResultCallBack callBack) {
-            if (headers != null && headers.size() > 0) {
-                String URL = stackInstance.URLSCHEMA + stackInstance.URL + url;
-                CSConnectionRequest csConnectionRequest = new CSConnectionRequest(entryInstance);
-                csConnectionRequest.setURLQueries(urlQueries);
-                csConnectionRequest.setParams(URL, method, controller, jsonMain, headers,  requestInfo, callBack);
-            } else {
-                sendErrorForHeader(callBack);
-            }
-    }
-
-
-
-    public CSBackgroundTask(AssetLibrary assetLibrary, Stack stackInstance, String controller, String url, LinkedHashMap<String, Object> headers, HashMap<String, Object> urlQueries, JSONObject jsonMain,  String requestInfo, boolean isOffline, CSAppConstants.RequestMethod method, ResultCallBack callback) {
-            if (headers != null && headers.size() > 0) {
-                String URL = stackInstance.URLSCHEMA + stackInstance.URL + url;
-                CSConnectionRequest csConnectionRequest = new CSConnectionRequest(assetLibrary);
-                csConnectionRequest.setURLQueries(urlQueries);
-                csConnectionRequest.setParams(URL, method, controller, jsonMain, headers,  requestInfo, callback);
-            } else {
-                sendErrorForHeader(callback);
-            }
-    }
-
-
-    public CSBackgroundTask(Asset asset, Stack stackInstance, String controller, String url, LinkedHashMap<String, Object> headers, HashMap<String, Object> urlQueries, JSONObject jsonMain,  String requestInfo, boolean isOffline, CSAppConstants.RequestMethod method, ResultCallBack callback) {
-            if (headers != null && headers.size() > 0) {
-                String URL = stackInstance.URLSCHEMA + stackInstance.URL + url;
-                CSConnectionRequest csConnectionRequest = new CSConnectionRequest(asset);
-                csConnectionRequest.setURLQueries(urlQueries);
-                csConnectionRequest.setParams(URL, method, controller, jsonMain, headers, requestInfo, callback);
-            } else {
-                sendErrorForHeader(callback);
-            }
+    protected CSBackgroundTask(Stack stackInstance, String controller, String url, HashMap<String, Object> headers,
+            HashMap<String, Object> urlParams, String requestInfo, ResultCallBack callback) {
+        checkHeader(headers);
+        String completeUrl = stackInstance.config.getEndpoint() + url;
+        CSConnectionRequest csConnectionRequest = new CSConnectionRequest(stackInstance);
+        csConnectionRequest.setStackInstance(stackInstance);
+        csConnectionRequest.setURLQueries(urlParams);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback);
 
     }
 
+    protected CSBackgroundTask(Query queryInstance, Stack stackInstance, String controller, String url,
+            LinkedHashMap<String, Object> headers, HashMap<String, Object> urlQueries, String requestInfo,
+            ResultCallBack callback) {
+        checkHeader(headers);
+        String completeUrl = stackInstance.config.getEndpoint() + url;
+        CSConnectionRequest csConnectionRequest = new CSConnectionRequest(queryInstance);
+        csConnectionRequest.setQueryInstance(queryInstance);
+        csConnectionRequest.setURLQueries(urlQueries);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback);
 
-    public CSBackgroundTask(Stack stackInstance, String controller, String url, HashMap<String, Object> headers, HashMap<String, Object> urlParams, JSONObject jsonMain, String requestInfo, boolean b, CSAppConstants.RequestMethod method, ResultCallBack callback) {
-            if (headers != null && headers.size() > 0) {
-                String URL = stackInstance.URLSCHEMA + stackInstance.URL + url;
-                CSConnectionRequest csConnectionRequest = new CSConnectionRequest(stackInstance);
-                csConnectionRequest.setStackInstance(stackInstance);
-                csConnectionRequest.setURLQueries(urlParams);
-                csConnectionRequest.setParams(URL, method, controller, jsonMain, headers, requestInfo, callback);
-            } else {
-                sendErrorForHeader(callback);
-            }
     }
 
-
-    public CSBackgroundTask(ContentType contentTypeInstance, Stack stackInstance, String controller, String url, HashMap<String, Object> headers, HashMap<String, Object> urlParams, JSONObject jsonMain, String requestInfo, boolean b, CSAppConstants.RequestMethod method, ResultCallBack callback) {
-            if (headers != null && headers.size() > 0) {
-                String URL = stackInstance.URLSCHEMA + stackInstance.URL + url;
-                CSConnectionRequest csConnectionRequest = new CSConnectionRequest(contentTypeInstance);
-                csConnectionRequest.setURLQueries(urlParams);
-                csConnectionRequest.setParams(URL, method, controller, jsonMain, headers, requestInfo, callback);
-            } else {
-                sendErrorForHeader(callback);
-            }
+    protected CSBackgroundTask(Entry entryInstance, Stack stackInstance, String controller, String url,
+            LinkedHashMap<String, Object> headers, HashMap<String, Object> urlQueries, String requestInfo,
+            ResultCallBack callBack) {
+        checkHeader(headers);
+        String completeUrl = stackInstance.config.getEndpoint() + url;
+        CSConnectionRequest csConnectionRequest = new CSConnectionRequest(entryInstance);
+        csConnectionRequest.setURLQueries(urlQueries);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callBack);
     }
 
-    private void sendErrorForHeader(ResultCallBack callbackObject) {
-        Error error = new Error();
-        error.setErrorMessage(CSAppConstants.ErrorMessage_CalledDefaultMethod);
-        if (callbackObject != null) {
-            callbackObject.onRequestFail(ResponseType.UNKNOWN, error);
+    protected CSBackgroundTask(AssetLibrary assetLibrary, Stack stackInstance, String controller, String url,
+            LinkedHashMap<String, Object> headers, HashMap<String, Object> urlQueries, String requestInfo,
+            ResultCallBack callback) {
+        checkHeader(headers);
+        String completeUrl = stackInstance.config.getEndpoint() + url;
+        CSConnectionRequest csConnectionRequest = new CSConnectionRequest(assetLibrary);
+        csConnectionRequest.setURLQueries(urlQueries);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback);
+
+    }
+
+    protected CSBackgroundTask(Asset asset, Stack stackInstance, String controller, String url,
+            LinkedHashMap<String, Object> headers, HashMap<String, Object> urlQueries, String requestInfo,
+            ResultCallBack callback) {
+        checkHeader(headers);
+        String completeUrl = stackInstance.config.getEndpoint() + url;
+        CSConnectionRequest csConnectionRequest = new CSConnectionRequest(asset);
+        csConnectionRequest.setURLQueries(urlQueries);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback);
+    }
+
+    protected CSBackgroundTask(ContentType contentType, Stack stackInstance, String controller, String url,
+            HashMap<String, Object> headers, HashMap<String, Object> urlParams, String requestInfo,
+            ResultCallBack callback) {
+        checkHeader(headers);
+        String completeUrl = stackInstance.config.getEndpoint() + url;
+        CSConnectionRequest csConnectionRequest = new CSConnectionRequest(contentType);
+        csConnectionRequest.setURLQueries(urlParams);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback);
+    }
+
+    protected void checkHeader(@NotNull Map<String, Object> headers) {
+        final Logger logger = Logger.getLogger("CSBackgroundTask");
+        if (headers.size() == 0) {
+            try {
+                throw new IllegalAccessException("CSBackgroundTask Header Exception");
+            } catch (IllegalAccessException e) {
+                logger.severe(e.getLocalizedMessage());
+            }
         }
     }
+
 }

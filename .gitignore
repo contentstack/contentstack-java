@@ -3,11 +3,12 @@
 # src/test/java/com/contentstack/test/SyncTestCase.java
 # Language Support for Java(TM) by Red Hat extension for Visual Studio Code - https://marketplace.visualstudio.com/items?itemName=redhat.java
 
+src/main/java/com/contentstack/sdk/models
 .idea
 .project
 .classpath
 factoryConfiguration.json
-
+.vscode
 ### Eclipse ###
 .metadata
 .env
@@ -15,6 +16,7 @@ factoryConfiguration.json
 bin/
 tmp/
 *.tmp
+.vscode
 *.bak
 *.swp
 *~.nib
@@ -89,7 +91,7 @@ local.properties
 
 # Generated files
 .idea/**/contentModel.xml
-
+cover
 # Sensitive or high-churn files
 .idea/**/dataSources/
 .idea/**/dataSources.ids
@@ -264,3 +266,6 @@ gradle-app.setting
 java.iml
 src/main/resources/
 /.idea/
+/src/main/java/com/contentstack/sdk/models/
+/.vscode/
+/.vscode/

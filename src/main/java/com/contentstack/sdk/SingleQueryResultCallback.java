@@ -1,6 +1,6 @@
 package com.contentstack.sdk;
 
-public abstract class SingleQueryResultCallback extends ResultCallBack {
+public abstract class SingleQueryResultCallback implements ResultCallBack {
 
     public abstract void onCompletion(ResponseType responseType, Entry entry, Error error);
 
@@ -9,15 +9,8 @@ public abstract class SingleQueryResultCallback extends ResultCallBack {
     }
 
     @Override
-    void onRequestFail(ResponseType responseType, Error error) {
+    public void onRequestFail(ResponseType responseType, Error error) {
         onCompletion(responseType, null, error);
     }
 
-    @Override
-    public void always() {
-
-    }
-
-
 }
-
