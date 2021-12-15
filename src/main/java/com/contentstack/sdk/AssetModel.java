@@ -2,15 +2,10 @@ package com.contentstack.sdk;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import java.util.Iterator;
-import java.util.WeakHashMap;
-
 
 /**
- * @Author Shailesh Mishra
- * Asset Object Model
+ * The type Asset model.
  */
-
 class AssetModel {
 
     String uploadedUid;
@@ -20,59 +15,53 @@ class AssetModel {
     String uploadUrl;
     String[] tags;
     JSONObject json;
-    private int totalCount = 0;
     int count = 0;
+    int totalCount = 0;
 
-    public AssetModel(JSONObject responseJSON, boolean isArray, boolean isFromCache) {
+    /**
+     * Instantiates a new Asset model.
+     *
+     * @param response the response
+     * @param isArray  the is array
+     */
+    public AssetModel(JSONObject response, boolean isArray) {
 
-        if(isFromCache){
-            json = responseJSON.opt("response") == null ? responseJSON : responseJSON.optJSONObject("response");
-        }else{
-            json = responseJSON;
+        if (isArray) {
+            json = response;
+        } else {
+            json = response.optJSONObject("asset");
         }
 
-        if(isArray){
-            json = responseJSON;
-        }else{
-            json = responseJSON.optJSONObject("asset");
+        if (json != null) {
+            uploadedUid = (String) json.opt("uid");
+            contentType = (String) json.opt("content_type");
+            fileSize = (String) json.opt("file_size");
+            fileName = (String) json.opt("filename");
+            uploadUrl = (String) json.opt("url");
+            if (json.opt("tags") instanceof JSONArray) {
+                extractTags();
+            }
+            if (response.has("count")) {
+                count = response.optInt("count");
+            }
+
+            if (response.has("objects")) {
+                totalCount = response.optInt("objects");
+            }
         }
+    }
 
-        uploadedUid = (String) json.opt("uid");
-        contentType = (String) json.opt("content_type");
-        fileSize    = (String) json.opt("file_size");
-        fileName    = (String) json.opt("filename");
-        uploadUrl   = (String) json.opt("url");
-
-        if(json.opt("tags") instanceof JSONArray){
-            if((json.has("tags")) && (json.opt("tags") != null) && (! (json.opt("tags").equals("")))){
-
-                JSONArray tagsArray =  (JSONArray) json.opt("tags");
-                if(tagsArray.length() > 0){
-                    int count = tagsArray.length();
-                    tags = new String[count];
-                    for(int i = 0; i < count; i++){
-                        tags[i] = (String) tagsArray.opt(i);
-                    }
+    private void extractTags() {
+        JSONArray tagArray = json.optJSONArray("tags");
+        if (tagArray != null && !tagArray.isEmpty()) {
+            JSONArray tagsArray = (JSONArray) json.opt("tags");
+            if (tagsArray.length() > 0) {
+                int counter = tagsArray.length();
+                tags = new String[counter];
+                for (int i = 0; i < counter; i++) {
+                    tags[i] = (String) tagsArray.opt(i);
                 }
             }
-        }
-
-        if(json != null && json.has("_metadata")){
-            JSONObject _metadataJSON  = json.optJSONObject("_metadata");
-            Iterator<String> iterator = _metadataJSON.keys();
-            WeakHashMap<String, Object> _metadata = new WeakHashMap<String, Object>();
-            while (iterator.hasNext()) {
-                String key = iterator.next();
-                _metadata.put(key, _metadataJSON.optString(key));
-            }
-        }
-
-        if(responseJSON.has("count")){
-            count = responseJSON.optInt("count");
-        }
-
-        if(responseJSON.has("objects")){
-            totalCount = responseJSON.optInt("objects");
         }
     }
 

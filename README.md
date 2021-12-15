@@ -15,19 +15,27 @@ You will need JDK installed on your machine. You can install it from [here](http
 
 To use the Contentstack Java SDK to your existing project, perform the steps given below:
 
+Group id: `com.contentstack.sdk`
+
+Artifact id: `java`
+
+[{ version }](https://search.maven.org/artifact/com.contentstack.sdk/java)
+
 1. **Maven**
 ```java
 <dependency>
   <groupId>com.contentstack.sdk</groupId>
   <artifactId>java</artifactId>
-  <version>1.7.0</version>
+  <version>{version}</version>
 </dependency>
 ```
 
 2. **Gradle**
 ```java
-implementation 'com.contentstack.sdk:java:1.7.0'
+implementation 'com.contentstack.sdk:java:{version}'
 ```
+
+_Get updated version from_ [_version_](https://search.maven.org/artifact/com.contentstack.sdk/java)
 
 ### Key Concepts for using Contentstack
 
@@ -59,7 +67,7 @@ A publishing environment corresponds to one or more deployment servers or a cont
 
 To initialize the SDK, specify application  API key, access token, and environment name of the stack as shown in the snippet given below:
 ```java
-Stack stack = Contentstack.stack( "APIKey", "accessToken", "environment_name");
+Stack stack=Contentstack.stack("apiKey","accessToken","environment");
 ```
 To get the API credentials mentioned above, log in to your Contentstack account and then in your top panel navigation, go to Settings &gt; Stack to view the API Key and Access Token.
 
@@ -70,27 +78,29 @@ To get the API credentials mentioned above, log in to your Contentstack account 
 To retrieve a single entry from a content type use the code snippet given below:
 
 ```java
+//stack is an instance of Stack class
 ContentType contentType = stack.contentType("content_type_uid");
-Entry blogEntry = contentType.entry("entry_uid");
-blogEntry.fetch(new EntryResultCallBack() {
-    @Override
-    public void onCompletion(ResponseType responseType, Error error) {
-        if (error == null) {
-           //Success block
-        } else {
-           //Error block
-        }}
- });
-  ```
+Entry entry = contentType.entry("entry_uid");
+entry.fetch(new EntryResultCallBack(){
+@Override
+public void onCompletion(ResponseType responseType, Error error){
+    if(error==null){
+        //Success block
+    }else{
+        //Error block
+    }}
+});
+```
+
 ##### Get Multiple Entries
 
 To retrieve multiple entries of a particular content type, use the code snippet given below:
 
 ```java
 //stack is an instance of Stack class
-Query blogQuery = stack.contentType("content_type_uid").query();
-blogQuery.find(new QueryResultsCallBack() {
-    @Override
+Query query = stack.contentType("content_type_uid").query();
+query.find(new QueryResultsCallBack(){
+@Override
     public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
         if(error == null){
            //Success block
@@ -111,7 +121,7 @@ You can query for content types, entries, assets and more using our Java API Ref
 
 We have introduced Image Delivery APIs that let you retrieve images and then manipulate and optimize them for your digital properties. It lets you perform a host of other actions such as crop, trim, resize, rotate, overlay, and so on.
 
-For example, if you want to crop an image (with width as 300 and height as 400), you simply need to append query parameters at the end of the image URL, such as, https://images.contentstack.io/v3/assets/blteae40eb499811073/bltc5064f36b5855343/59e0c41ac0eddd140d5a8e3e/download?crop=300,400. There are several more parameters that you can use for your images.
+For example, if you want to crop an image (with width as 300 and height as 400), you simply need to append query parameters at the end of the image URL, such as, https://images.contentstack.io/v3/assets/download?crop=300,400. There are several more parameters that you can use for your images.
 
 [Read Image Delivery API documentation](https://www.contentstack.com/docs/apis/image-delivery-api/).
 

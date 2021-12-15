@@ -1,506 +1,562 @@
 package com.contentstack.sdk;
-import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSController;
-import com.contentstack.sdk.utility.ContentstackUtil;
+
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
-import java.util.*;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
+import static com.contentstack.sdk.Constants.ENVIRONMENT;
+import static com.contentstack.sdk.Constants.parseDate;
 
 /**
- * Asset refer to  the media file (images, videos, PDFs, audio files, and so on)
- * uploaded to Contentstack. These files can be used in multiple entries.
+ * The type Asset.
  */
-
 public class Asset {
 
-    private static final Logger logger = Logger.getLogger(Asset.class.getSimpleName());
-    protected String assetUid     = null;
-    protected String contentType  = null;
-    protected String fileSize     = null;
-    protected String fileName     = null;
-    protected String uploadUrl    = null;
-    protected JSONObject json 	  = null;
-    protected String[] tagsArray  = null;
-    public JSONObject urlQueries = new JSONObject();
-    protected LinkedHashMap<String, Object> headerGroup_app;
-    protected LinkedHashMap<String, Object> headerGroup_local;
+    protected final Logger logger = Logger.getLogger(Asset.class.getSimpleName());
+    protected final JSONObject urlQueries = new JSONObject();
+    protected String assetUid = null;
+    protected String contentType = null;
+    protected String fileSize = null;
+    protected String fileName = null;
+    protected String uploadUrl = null;
+    protected JSONObject json = null;
+    protected String[] tagsArray = null;
+    protected LinkedHashMap<String, Object> headers;
     protected Stack stackInstance;
 
-    protected Asset(){
-        this.headerGroup_local = new LinkedHashMap<>();
-        this.headerGroup_app = new LinkedHashMap<>();
-
+    protected Asset() {
+        this.headers = new LinkedHashMap<>();
     }
 
-    protected Asset(String assetUid){
+    protected Asset(@NotNull String assetUid) {
         this.assetUid = assetUid;
-        this.headerGroup_local = new LinkedHashMap<>();
-        this.headerGroup_app = new LinkedHashMap<>();
+        this.headers = new LinkedHashMap<>();
     }
 
-    protected void setStackInstance(Stack stack) {
+    protected void setStackInstance(@NotNull Stack stack) {
         this.stackInstance = stack;
-        this.headerGroup_app = stack.localHeader;
+        this.headers = stack.headers;
     }
-
 
     /**
-     * Creates new instance of {@link Asset} from valid {@link JSONObject}.
-     * If JSON object is not appropriate then it will return null.
-     * @param jsonObject json object of particular file attached in the built object.<br>
-     * {@link Asset} can be generate using of data filled {@link Entry}
-     * and
-     * {@link JSONObject}.<br>
+     * Configure asset.
      *
-     * <br><br><b>Example :</b><br>
-     * <br>1. Single Attachment :-<br>
-     * <pre class="prettyprint linenums:1">
-     *  //'blt5d4sample2633b' is a dummy Application API key
-     * Stack stack = Contentstack.stack("apiKey", "deliveryToken",  "environment");
-     * Asset assetObject = stack.asset("assetUid");
-     * assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));</pre>
-     *
-     * <br>2. Multiple Attachment :-<br>
-     * <pre class="prettyprint linenums:1">
-     * JSONArray array = entryObject.getJSONArray(Attach_Image_Field_Uid);
-     * {@code for (int i = 0; i < array.length(); i++)} {
-     *  	  Asset assetObject = stack.asset("assetUid");
-     *  	  assetObject.configure(entryObject.getJSONObject(attached_image_field_uid));
-     *    }
-     * </pre>
-     * @return {@link Asset} instance.
+     * @param jsonObject the json object
+     * @return the asset
      */
-    public Asset configure(JSONObject jsonObject){
-        AssetModel model = null;
-        model = new AssetModel(jsonObject, true, false);
-        this.contentType  = model.contentType;
-        this.fileSize     = model.fileSize;
-        this.uploadUrl    = model.uploadUrl;
-        this.fileName     = model.fileName;
-        this.json         = model.json;
+    public Asset configure(JSONObject jsonObject) {
+        AssetModel model;
+        model = new AssetModel(jsonObject, true);
+        this.contentType = model.contentType;
+        this.fileSize = model.fileSize;
+        this.uploadUrl = model.uploadUrl;
+        this.fileName = model.fileName;
+        this.json = model.json;
         this.assetUid = model.uploadedUid;
         this.setTags(model.tags);
-        model = null;
-        return this;
-    }
-
-
-    protected Asset setTags(String[] tags){
-        tagsArray = tags;
         return this;
     }
 
     /**
-     * To set headers for Contentstack rest calls.
-     * <br>
-     * Scope is limited to this object only.
-     * @param key header name.
-     * @param value header value against given header name.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Asset assetObject = Contentstack.stack( "blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
-     * assetObject.setHeader("custom_header_key", "custom_header_value");
-     * </pre>
-     */
-    public void setHeader(String key, String value){
-        if(!key.isEmpty() && !value.isEmpty()){
-            removeHeader(key);
-            headerGroup_local.put(key, value);
-        }
-    }
-
-
-    /**
-     * Remove a header for a given key from headers.
-     * <br>
-     * Scope is limited to this object only
-     * @param key header key.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Application API key
-     * Asset assetObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
-     * assetObject.removeHeader("custom_header_key");
-     * </pre>
-     */
-    public void removeHeader(String key){
-        if(headerGroup_local != null){
-            if(!key.isEmpty()){
-                headerGroup_local.remove(key);
-            }
-        }
-    }
-
-
-
-    /**
-     * To set uid of media file which is uploaded on Contentstack server.
-     * @param assetUid
-     * upload uid.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Application API key
-     * Asset assetObject = Contentstack.stack("blt5d4sample2633b", "bltdtsample_accessToken767vv",  config).asset("assetUid");
-     * assetObject.setUid("upload_uid");
-     * </pre>
+     * Sets header.
      *
+     * @param headerKey   the header key
+     * @param headerValue the header value
+     *
+     *                    <br>
+     *                    <br>
+     *                    <b>Example :</b><br>
+     *
+     *                    <pre class="prettyprint">
+     *                    Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *                    Asset asset = stack.asset(asset_uid);
+     *                    asset.setHeader();
+     *                    </pre>
      */
-    protected void setUid(String assetUid) {
-        if(!assetUid.isEmpty()){
+    public void setHeader(@NotNull String headerKey, @NotNull String headerValue) {
+        headers.put(headerKey, headerValue);
+    }
+
+    /**
+     * Remove header.
+     *
+     * @param headerKey the header key
+     *
+     *
+     *                  <br>
+     *                  <br>
+     *                  <b>Example :</b><br>
+     *
+     *                  <pre class="prettyprint">
+     *                  Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *                  Asset asset = stack.asset(asset_uid);
+     *                  asset.removeHeader();
+     *
+     *                  </pre>
+     */
+    public void removeHeader(@NotNull String headerKey) {
+        headers.remove(headerKey);
+    }
+
+    protected void setUid(@NotNull String assetUid) {
+        if (!assetUid.isEmpty()) {
             this.assetUid = assetUid;
         }
     }
 
-
-
-
-
     /**
+     * Gets asset uid.
      *
-     *  @return String @assetUid
-     * <br><br><b> Example :</b><br>
-     * <pre class="prettyprint">
-     * String uid = assetObject.getAssetUid();
-     * return String of @uid
-     * </pre>
+     * @return the asset uid
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getAssetUid();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String getAssetUid() {
         return assetUid;
     }
 
-
     /**
-     * @return String @contentType
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String contentType = assetObject.getFileType();
-     * </pre>
+     * Gets file type.
+     *
+     * @return the file type
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getFileType();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String getFileType() {
         return contentType;
     }
 
-
-
     /**
+     * Gets file size.
      *
-     * @return String @fileSize
-     * <br><b>Note :</b><br> file size will receive in bytes number.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String queueSize = assetObject.getFileSize();
-     * </pre>
+     * @return the file size
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getFileSize();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
-
-    public String getFileSize(){
+    public String getFileSize() {
         return fileSize;
     }
 
-
     /**
-     * @return String @fileName
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String fileName = assetObject.getFileName();
-     * </pre>
+     * Gets file name.
      *
+     * @return the file name
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getFileName();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
-    public String getFileName(){
+    public String getFileName() {
         return fileName;
     }
 
-
     /**
-     * @return String @uploadUrl by which you can download media file uploaded on Contentstack server.
-     * You will get uploaded url after uploading media file on Contentstack server.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String url = assetObject.getUrl();
-     * </pre>
+     * Gets url.
+     * 
+     * @return the url
      *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getUrl();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
-    public String getUrl(){
+    public String getUrl() {
         return uploadUrl;
     }
 
-
     /**
+     * To json json object.
      *
-     * @return JSON @json representation of this {@link Asset} instance data.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *  JSONObject json = assetObject.toJSON();
-     * </pre>
+     * @return the json object
      *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.toJSON();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public JSONObject toJSON() {
         return json;
     }
 
-
     /**
-     * @return Calendar @{@link java.util.Date}
-     * Get {@link Calendar} value of creation time of entry.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Calendar createdAt = assetObject.getCreateAt("key");
-     * </pre>
+     * Gets create at.
+     *
+     * @return the create at
+     *
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getCreateAt();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
-
-    public Calendar getCreateAt(){
-
-        try {
-            String value = json.optString("created_at");
-            return ContentstackUtil.parseDate(value, null);
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
-        }
-        return null;
+    public Calendar getCreateAt() {
+        return parseDate(json.optString("created_at"), null);
     }
 
-
-    public String getCreatedBy(){
+    /**
+     * Gets created by.
+     *
+     * @return the created by
+     *
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getCreatedBy();
+     *             }
+     *         });
+     *
+     *         </pre>
+     */
+    public String getCreatedBy() {
         return json.optString("created_by");
     }
 
-
     /**
-     * Get {@link Calendar} value of updating time of entry.
-     * @return Calendar @{@link java.util.Date}
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Calendar updatedAt = assetObject.getUpdateAt("key");
-     * </pre>
+     * Gets update at.
+     *
+     * @return the update at
+     *
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getUpdateAt();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
-
-    public Calendar getUpdateAt(){
-
-        try {
-            String value = json.optString("updated_at");
-            return ContentstackUtil.parseDate(value, null);
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
-        }
-        return null;
+    public Calendar getUpdateAt() {
+        return parseDate(json.optString("updated_at"), null);
     }
 
-
     /**
-     * Get uid who updated this entry.
-     * @return String @getUpdatedBy
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String updatedBy_uid = assetObject.getUpdatedBy();
-     * </pre>
+     * Gets updated by.
+     *
+     * @return the updated by
+     *
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getUpdatedBy();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
-
-    public String getUpdatedBy(){
+    public String getUpdatedBy() {
         return json.optString("updated_by");
     }
 
-
-
-
     /**
-     * Get {@link Calendar} value of deletion time of entry
-     * @return Calendar @{@link java.util.Date}
+     * Gets delete at.
      *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * Calendar updatedAt = entry.getUpdateAt("key");
-     * </pre>
+     * @return the delete at
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getDeleteAt();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
-    public Calendar getDeleteAt(){
-
-        try {
-            String value = json.optString("deleted_at");
-            return ContentstackUtil.parseDate(value, null);
-        } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
-        }
-        return null;
+    public Calendar getDeleteAt() {
+        return parseDate(json.optString("deleted_at"), null);
     }
 
-
     /**
-     * Get uid who deleted this entry.
+     * Gets deleted by.
      *
-     * @return String @getDeletedBy
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String deletedBy_uid = assetObject.getDeletedBy();
-     * </pre>
+     * @return the deleted by
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getDeletedBy();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
-    public String getDeletedBy(){
+    public String getDeletedBy() {
         return json.optString("deleted_by");
     }
 
-
     /**
-     * Get tags.
-     * @return String @tagsArray
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String[] tags = assetObject.getURL();
-     * </pre>
+     * Get tags string [ ].
+     *
+     * @return the string [ ]
+     *
+     * 
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.fetch(new FetchResultCallback() {
+     *             &#64;Override
+     *             public void onCompletion(ResponseType responseType, Error error) {
+     *                 asset.getTags();
+     *             }
+     *         });
+     *
+     *         </pre>
      */
     public String[] getTags() {
         return tagsArray;
     }
 
+    protected Asset setTags(String[] tags) {
+        tagsArray = tags;
+        return this;
+    }
 
     /**
-     * Include the dimensions (height and width) of the image in the response.
-     * Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD
-     * @return Asset
+     * Include dimension asset.
+     *
+     * @return the asset
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.includeDimension();
+     *         </pre>
      */
-    public Asset includeDimension(){
+    public Asset includeDimension() {
         urlQueries.put("include_dimension", true);
         return this;
     }
 
+    /**
+     * Add param asset.
+     *
+     * @param paramKey   the param key
+     * @param paramValue the param value
+     * @return the asset
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.addParam();
+     *         </pre>
+     */
+    public Asset addParam(@NotNull String paramKey, @NotNull String paramValue) {
+        urlQueries.put(paramKey, paramValue);
+        return this;
+    }
 
     /**
-     * Fetch a particular asset using uid.
-     * @param callback
-     * {@link FetchResultCallback} instance for success and failure result.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *  Asset asset = stack.asset("blt5312f71416d6e2c8");
-     *  asset.fetch(new FetchResultCallback() {
-     *    &#64;Override
-     *    public void onCompletion(ResponseType responseType, Error error) {
-     *          if(error == null){
-     *            //Success Block.
-     *          }else {
-     *            //Fail Block.
-     *          }
-     *    }
-     *  });
-     * </pre>
+     * Include fallback asset.
+     *
+     * @return the asset
+     *
+     * 
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.includeFallback();
+     *         </pre>
      */
-
-    public void fetch(FetchResultCallback callback){
-        try {
-            String URL = "/" + stackInstance.VERSION + "/assets/" + assetUid;
-            LinkedHashMap<String, Object> headers = getHeader(headerGroup_local);
-            if (headers.containsKey("environment")) {
-                urlQueries.put("environment", headers.get("environment"));
-            }
-            fetchFromNetwork(URL, urlQueries, headers, callback);
-        }catch (Exception e){
-            Error error = new Error();
-            error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
-            callback.onRequestFail(ResponseType.UNKNOWN, error);
-        }
+    public Asset includeFallback() {
+        urlQueries.put("include_fallback", true);
+        return this;
     }
 
+    /**
+     * Includes Branch in the asset response
+     *
+     * @return {@link Asset} object, so you can chain this call. <br>
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Asset asset = stack.asset(asset_uid);
+     *         asset.includeBranch();
+     *         </pre>
+     */
+    public Asset includeBranch() {
+        urlQueries.put("include_branch", true);
+        return this;
+    }
 
+    /**
+     * Fetch.
+     *
+     * @param callback the callback
+     */
+    public void fetch(FetchResultCallback callback) {
+        urlQueries.put(ENVIRONMENT, this.headers.get(ENVIRONMENT));
+        fetchFromNetwork("assets/" + assetUid, urlQueries, this.headers, callback);
+    }
 
-    private void fetchFromNetwork(String URL, JSONObject urlQueries, LinkedHashMap<String, Object> headers, FetchResultCallback callback) {
-        if(callback != null) {
+    private void fetchFromNetwork(String url, JSONObject urlQueries, LinkedHashMap<String, Object> headers,
+            FetchResultCallback callback) {
+        if (callback != null) {
             HashMap<String, Object> urlParams = getUrlParams(urlQueries);
-            new CSBackgroundTask(this, stackInstance, CSController.FETCHASSETS, URL, headers, urlParams, new JSONObject(),  CSAppConstants.callController.ASSET.toString(), false, CSAppConstants.RequestMethod.GET, callback);
+            new CSBackgroundTask(this, stackInstance, Constants.FETCHASSETS, url, headers, urlParams,
+                    Constants.REQUEST_CONTROLLER.ASSET.toString(), callback);
         }
     }
-
-
-
-
 
     private HashMap<String, Object> getUrlParams(JSONObject urlQueriesJSON) {
         HashMap<String, Object> hashMap = new HashMap<>();
-        if(urlQueriesJSON != null && urlQueriesJSON.length() > 0){
-            Iterator<String> iter = urlQueriesJSON.keys();
-            while (iter.hasNext()) {
-                String key = iter.next();
-                try {
-                    Object value = urlQueriesJSON.opt(key);
-                    hashMap.put(key, value);
-                } catch (Exception e) {
-                    logger.severe(e.getLocalizedMessage());
-                }
+        if (urlQueriesJSON != null && urlQueriesJSON.length() > 0) {
+            Iterator<String> keyArrays = urlQueriesJSON.keys();
+            while (keyArrays.hasNext()) {
+                String key = keyArrays.next();
+                Object value = urlQueriesJSON.opt(key);
+                hashMap.put(key, value);
             }
-            return hashMap;
         }
-        return null;
-    }
-
-
-
-
-    private LinkedHashMap<String, Object> getHeader(LinkedHashMap<String, Object> localHeader) {
-        LinkedHashMap<String, Object> mainHeader = headerGroup_app;
-        LinkedHashMap<String, Object> classHeaders = new LinkedHashMap<>();
-
-        if(localHeader != null && localHeader.size() > 0){
-            if(mainHeader != null && mainHeader.size() > 0) {
-                for (Map.Entry<String, Object> entry : localHeader.entrySet()) {
-                    String key = entry.getKey();
-                    classHeaders.put(key, entry.getValue());
-                }
-
-                for (Map.Entry<String, Object> entry : mainHeader.entrySet()) {
-                    String key = entry.getKey();
-                    if(!classHeaders.containsKey(key)) {
-                        classHeaders.put(key, entry.getValue());
-                    }
-                }
-                return classHeaders;
-            }else{
-                return localHeader;
-            }
-        }else{
-            return headerGroup_app;
-        }
-    }
-
-
-    /**
-     * This method adds key and value to an Entry.
-     * @param key The key as string which needs to be added to an Asset
-     * @param value The value as string which needs to be added to an Asset
-     * @return {@link Asset}
-     *
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *  final Asset asset = stack.asset("blt5312f71416d6e2c8");
-     *  asset.addParam("key", "some_value");
-     *  asset.fetch(new FetchResultCallback() {
-     *    &#64;Override
-     *    public void onCompletion(ResponseType responseType, Error error) {
-     *          if(error == null){
-     *            //Success Block.
-     *          }else {
-     *            //Fail Block.
-     *          }
-     *    }
-     *  });
-     * </pre>
-     *
-     *
-     */
-   public Asset addParam(String key, String value){
-       if(key != null && value != null){
-           urlQueries.put(key, value);
-       }
-       return this;
-   }
-
-
-    /**
-     * Retrieve the published content of the fallback locale if an entry is not localized in specified locale
-     * @return {@link Asset} object, so you can chain this call.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     *     Stack stack = Contentstack.stack("ApiKey", "deliveryToken", "environment");
-     *     final Asset asset = stack.asset("asset_uid");
-     *     asset.includeFallback();
-     * </pre>
-     */
-    public Asset includeFallback(){
-        urlQueries.put("include_fallback", true);
-        return this;
+        return hashMap;
     }
 
 }

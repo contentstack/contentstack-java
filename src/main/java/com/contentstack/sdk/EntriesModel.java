@@ -1,39 +1,36 @@
 package com.contentstack.sdk;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 class EntriesModel {
 
-    private static final Logger logger = Logger.getLogger(EntriesModel.class.getSimpleName());
     protected JSONObject jsonObject;
-    protected String formName;
     protected List<Object> objectList;
-    protected EntriesModel(JSONObject responseJSON, String formName, boolean isFromCache) {
 
+    protected EntriesModel(JSONObject responseJSON) {
         try {
-            if (isFromCache){
-                this.jsonObject = (responseJSON.opt("response") == null ? null : responseJSON.optJSONObject("response"));
-            }else{
-                this.jsonObject = responseJSON;
-            }
-
-            this.formName   = formName;
-            objectList      = new ArrayList<>();
-            JSONArray entriesArray =  jsonObject.opt("entries") == null ? null : jsonObject.optJSONArray("entries");
-
-            if(entriesArray != null && entriesArray.length() > 0){
-                int count = entriesArray.length();
-                for(int i = 0; i < count; i++){
-                    if(entriesArray.opt(i) != null && entriesArray.opt(i) instanceof JSONObject) {
-                        EntryModel entry = new EntryModel(entriesArray.optJSONObject(i), null, true, isFromCache, false);
-                        objectList.add(entry);
-                    }
+            this.jsonObject = responseJSON;
+            objectList = new ArrayList<>();
+            Object entryList = jsonObject.opt("entries");
+            if (entryList instanceof JSONArray) {
+                JSONArray entries = (JSONArray) entryList;
+                if (entries.length() > 0) {
+                    entries.forEach(model -> {
+                        if (model instanceof JSONObject) {
+                            JSONObject newModel = (JSONObject) model;
+                            EntryModel entry = new EntryModel(newModel);
+                            objectList.add(entry);
+                        }
+                    });
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
+            Logger logger = Logger.getLogger(EntriesModel.class.getSimpleName());
             logger.severe(e.getLocalizedMessage());
         }
 

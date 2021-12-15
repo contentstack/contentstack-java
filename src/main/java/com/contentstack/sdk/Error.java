@@ -1,26 +1,20 @@
 package com.contentstack.sdk;
 
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
- * If there is something wrong with the API request, Contentstack returns an error.
+ * If there is something wrong with the API request, Contentstack returns an
+ * error.
  */
 
 public class Error {
 
     String errorMessage = null;
-    int errorCode       = 0;
+    int errorCode = 0;
     String errDetails = null;
 
     public Error() {
     }
 
-    public Error(String errorMessage, int errorCode, String  errDetails) {
+    public Error(String errorMessage, int errorCode, String errDetails) {
         this.errorMessage = errorMessage;
         this.errorCode = errorCode;
         this.errDetails = errDetails;
@@ -29,11 +23,14 @@ public class Error {
     /**
      *
      * Returns error in string format.
-     * @return String error message
-     * <br><br><b>Example :</b><br>
-     *  <pre class="prettyprint">
-     *  String errorString = error.getErrorMessage();
-     *  </pre>
+     * 
+     * @return String error message <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         String errorString = error.getErrorMessage();
+     *         </pre>
      */
     public String getErrorMessage() {
         return errorMessage;
@@ -43,14 +40,16 @@ public class Error {
         this.errorMessage = errorMessage;
     }
 
-
     /**
      * Returns error code
-     * @return int value.
-     *  <br><br><b>Example :</b><br>
-     *  <pre class="prettyprint">
-     *  int errorCode = error.getErrorCode();
-     *  </pre>
+     * 
+     * @return int value. <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         int errorCode = error.getErrorCode();
+     *         </pre>
      */
     public int getErrorCode() {
         return errorCode;
@@ -60,14 +59,16 @@ public class Error {
         this.errorCode = errorCode;
     }
 
-
     /**
-     Returns error details in {@linkplain String}
-     @return String
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * String error = error.getErrorDetail();
-     * </pre>
+     * Returns error details in {@linkplain String}
+     * 
+     * @return String <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     * 
+     *         <pre class="prettyprint">
+     *         String error = error.getErrorDetail();
+     *         </pre>
      */
     public String getErrorDetail() {
         return this.errDetails;

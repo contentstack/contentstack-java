@@ -1,282 +1,158 @@
 package com.contentstack.sdk;
-import com.contentstack.sdk.utility.CSAppConstants;
-import com.contentstack.sdk.utility.CSController;
+
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- *
- * A Content Type is the structure or blueprint of a page or a section that your web or mobile
- * property will display. It lets you define the overall schema of this blueprint by adding fields
- * and setting its properties.
+ * The type Content type.
  */
-
 public class ContentType {
 
-    private static final Logger logger = Logger.getLogger(ContentType.class.getSimpleName());
-    protected String contentTypeName = null;
+    private final Logger logger = Logger.getLogger(ContentType.class.getSimpleName());
+    protected String contentTypeUid = null;
     protected Stack stackInstance = null;
-    private LinkedHashMap<String, Object> localHeader = null;
-    private LinkedHashMap<String, Object> stackHeader = null;
+    protected LinkedHashMap<String, Object> headers = null;
 
-    private ContentType(){}
-
-    protected ContentType(String contentTypeName) {
-        this.contentTypeName = contentTypeName;
-        this.localHeader = new LinkedHashMap<>();
+    protected ContentType() throws IllegalAccessException {
+        throw new IllegalAccessException("Can Not Access Private Modifier");
     }
 
-    protected void setStackInstance(Stack stack){
+    protected ContentType(String contentTypeUid) {
+        this.contentTypeUid = contentTypeUid;
+    }
+
+    protected void setStackInstance(Stack stack) {
         this.stackInstance = stack;
-        this.stackHeader = stack.localHeader;
+        this.headers = stack.headers;
     }
 
-
     /**
-     * To set headers for Built.io Contentstack rest calls.
-     * <br>
-     * Scope is limited to this object and followed classes.
-     * @param key
-     * header name.
-     * @param value
-     * header value against given header name.
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Stack API key
-     * //'blt6d0240b5sample254090d' is dummy access token.
-     * Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     * ContentType contentType = stack.contentType("form_name");<br>
-     * contentType.setHeader("custom_key", "custom_value");
-     * </pre>
+     * Sets header on {@link Stack}.
+     *
+     * @param headerKey   the header key
+     * @param headerValue the header value
      */
-
-    public void setHeader(String key, String value){
-        if(!key.isEmpty() && !value.isEmpty()){
-            localHeader.put(key, value);
+    public void setHeader(String headerKey, String headerValue) {
+        if (!headerKey.isEmpty() && !headerValue.isEmpty()) {
+            this.headers.put(headerKey, headerValue);
         }
     }
 
-
     /**
-     * Remove header key.
-     * @param key
-     * custom_header_key
-     * <br><br><b>Example :</b><br>
-     * <pre class="prettyprint">
-     * //'blt5d4sample2633b' is a dummy Stack API key
-     * //'blt6d0240b5sample254090d' is dummy access token.
-     *  Stack stack = Contentstack.stack( "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *  ContentType contentType = stack.contentType("form_name");<br>
-     *  contentType.removeHeader("custom_header_key");
-     * </pre>
+     * Remove header from {@link Stack}
+     *
+     * @param headerKey the header key
      */
-
-    public void removeHeader(String key){
-        if(!key.isEmpty()){
-            localHeader.remove(key);
+    public void removeHeader(String headerKey) {
+        if (!headerKey.isEmpty()) {
+            this.headers.remove(headerKey);
         }
     }
 
-
-
     /**
-     * Represents a {@link Entry}.
-     * Create {@link Entry} instance
-     * @param entryUid
-     * Set entry uid.
-     * @return
-     * {@link Entry} instance.
-     *  <br><br><b>Example :</b><br>
-     *  <pre class="prettyprint">
-     *  //'blt5d4sample2633b' is a dummy Stack API key
-     *  //'blt6d0240b5sample254090d' is dummy access token.
-     *  Stack stack = Contentstack.stack( "blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *  ContentType contentType = stack.contentType("form_name");<br>
-     *  // setUid will identify the object, and calling save will update it
-     *  ENTRY entry = contentType.entry("bltf4fbbc94e8c851db");
-     *  </pre>
+     * An entry is the actual piece of content created using one of the defined
+     * content types.
+     * <p>
+     * The Get a single entry request fetches a particular entry of a content type.
+     *
+     * @param entryUid the entry unique ID of the entry that you want to fetch.
+     * @return the {@link Entry} entry.
      */
     public Entry entry(String entryUid) {
-        Entry entry = new Entry(contentTypeName);
-        entry.formHeader = getHeader(localHeader);
-        entry.setContentTypeInstance(this);
+        Entry entry = new Entry(contentTypeUid);
+        entry.setContentType(this, this.headers);
         entry.setUid(entryUid);
-
         return entry;
     }
 
-
-
-    protected Entry entry(){
-        Entry entry = new Entry(contentTypeName);
-        entry.formHeader = getHeader(localHeader);
-        entry.setContentTypeInstance(this);
-
+    protected Entry entry() {
+        Entry entry = new Entry(contentTypeUid);
+        entry.headers = this.headers;
+        entry.setContentType(this, this.headers);
         return entry;
     }
-
-
 
     /**
-     * Represents a {@link Query}.
-     * Create {@link Query} instance.
-     * @return
-     * {@link Query} instance.
-     *  <br><br><b>Example :</b><br>
-     *  <pre class="prettyprint">
-     *  //'blt5d4sample2633b' is a dummy Stack API key
-     *  //'blt6d0240b5sample254090d' is dummy access token.
-     *  Stack stack = Contentstack.stack("blt5d4sample2633b", "blt6d0240b5sample254090d", "stag", false);
-     *  ContentType contentType = stack.contentType("form_name");<br>
-     *  Query csQuery = contentType.query();
-     *  </pre>
+     * Query. The Get all entries request fetches the list of all the entries of a
+     * particular content type. It returns the content of each entry in JSON format.
+     * You need to specify the environment and locale of which you want to get the
+     * entries.
+     *
+     * <p>
+     * If an entry is not published in a specific locale, make use of the
+     * <b>include_fallback=true</b> query parameter to fetch the published content
+     * from its fallback locale.
+     * <p>
+     * <b>Note:</b>If the fallback language of the specified locale is the master
+     * language itself, this parameter would not be applicable.
+     *
+     * <p>
+     * To include the publishing details in the response, make use of the
+     * include_publish_details=true parameter. This will return the publishing
+     * details of the entry in every environment along with the version number that
+     * is published in each of the environments. You can add other Queries to extend
+     * the functionality of this API call. Add a query parameter named query and
+     * provide your query (in JSON format) as the value.
+     *
+     * @return the {@link Query}
      */
-
-    public Query query(){
-        Query query = new Query(contentTypeName);
-        query.formHeader = getHeader(localHeader);
+    public Query query() {
+        Query query = new Query(contentTypeUid);
+        query.headers = this.headers;
         query.setContentTypeInstance(this);
         return query;
     }
 
-
-
-
     /**
+     * Fetch.
      *
-     * This call returns information of a specific content type. It returns the content type schema, but does not include its entries.
-     * @param params query parameters
-     * @param callback {@link ContentTypesCallback}
-     *  <br><br><b>Example :</b><br>
-     *  <pre class="prettyprint">
-     * ContentType  contentType = stack.contentType("content_type_uid");
-     * JSONObject params = new JSONObject();
-     * params.put("include_snippet_schema", true);
-     * params.put("limit", 3);
-     * contentType.fetch(params, new ContentTypesCallback() {
-     *
-     * public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
-     * if (error==null){
-     *
-     * }else {
-     *
-     * }
-     * }
-     * });
-     *</pre>
+     * @param params   the params
+     * @param callback the callback
      */
-
-
-    public void fetch(JSONObject params, final ContentTypesCallback callback) {
-
-        try {
-
-            String URL = "/" + stackInstance.VERSION + "/content_types/"+contentTypeName;
-            HashMap<String, Object> headers = getHeader(localHeader);
-            if (params == null){ params = new JSONObject(); }
-
-            Iterator keys = params.keys();
-            while(keys.hasNext()) {
-                // loop to get the dynamic key
-                String key = (String)keys.next();
-                // get the value of the dynamic key
-                Object value = params.opt(key);
-                // do something here with the value...
-                params.put(key, value);
-            }
-
-            if (headers.containsKey("environment")) {
-                params.put("environment", headers.get("environment"));
-            }
-
-            if (contentTypeName!=null && !contentTypeName.isEmpty()) {
-                fetchContentTypes(URL, params, headers, callback );
-            }else {
-                Error error = new Error();
-                error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
-                callback.onRequestFail(ResponseType.UNKNOWN, error);
-            }
-
-
-        }catch (Exception e){
-
-            Error error = new Error();
-            error.setErrorMessage(CSAppConstants.ErrorMessage_JsonNotProper);
-            callback.onRequestFail(ResponseType.UNKNOWN, error);
+    public void fetch(@NotNull JSONObject params, final ContentTypesCallback callback) {
+        String urlString = "content_types/" + contentTypeUid;
+        Iterator<String> keys = params.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            Object value = params.opt(key);
+            params.put(key, value);
         }
-
+        params.put("environment", headers.get("environment"));
+        if (contentTypeUid != null && !contentTypeUid.isEmpty()) {
+            try {
+                throw new IllegalAccessException("contentTypeUid is required");
+            } catch (Exception e) {
+                logger.warning("contentTypeUid is required");
+            }
+        }
+        fetchContentTypes(urlString, params, headers, callback);
     }
 
-
-
-    private void fetchContentTypes(String urlString, JSONObject content_type_param, HashMap<String, Object> headers, ContentTypesCallback callback) {
-
-        if(callback != null) {
-
-            HashMap<String, Object> urlParams = getUrlParams(content_type_param);
-            new CSBackgroundTask(this,  stackInstance, CSController.FETCHCONTENTTYPES, urlString, headers, urlParams, new JSONObject(), CSAppConstants.callController.CONTENTTYPES.toString(), false, CSAppConstants.RequestMethod.GET, callback);
+    private void fetchContentTypes(String urlString, JSONObject params, HashMap<String, Object> headers,
+            ContentTypesCallback callback) {
+        if (callback != null) {
+            HashMap<String, Object> urlParams = getUrlParams(params);
+            new CSBackgroundTask(this, stackInstance, Constants.FETCHCONTENTTYPES, urlString, headers, urlParams,
+                    Constants.REQUEST_CONTROLLER.CONTENTTYPES.toString(), callback);
         }
     }
-
-
-
-    /**
-     *
-     */
-    private LinkedHashMap<String, Object> getHeader(LinkedHashMap<String, Object> localHeader) {
-        LinkedHashMap<String, Object> mainHeader = stackHeader;
-        LinkedHashMap<String, Object> classHeaders = new LinkedHashMap<>();
-
-        if(localHeader != null && localHeader.size() > 0){
-            if(mainHeader != null && mainHeader.size() > 0) {
-                for (Map.Entry<String, Object> entry : localHeader.entrySet()) {
-                    String key = entry.getKey();
-                    classHeaders.put(key, entry.getValue());
-                }
-
-                for (Map.Entry<String, Object> entry : mainHeader.entrySet()) {
-                    String key = entry.getKey();
-                    if(!classHeaders.containsKey(key)) {
-                        classHeaders.put(key, entry.getValue());
-                    }
-                }
-                return classHeaders;
-
-            }else{
-                return localHeader;
-            }
-        }else{
-            return stackHeader;
-        }
-    }
-
-
 
     private HashMap<String, Object> getUrlParams(JSONObject urlQueriesJSON) {
-
         HashMap<String, Object> hashMap = new HashMap<>();
-
-        if(urlQueriesJSON != null && urlQueriesJSON.length() > 0){
-            Iterator<String> iter = urlQueriesJSON.keys();
-            while (iter.hasNext()) {
-                String key = iter.next();
-                try {
-                    Object value = urlQueriesJSON.opt(key);
-                    hashMap.put(key, value);
-                } catch (Exception e) {
-                    logger.severe(e.getLocalizedMessage());
-                }
+        if (urlQueriesJSON != null && urlQueriesJSON.length() > 0) {
+            Iterator<String> itStr = urlQueriesJSON.keys();
+            while (itStr.hasNext()) {
+                String key = itStr.next();
+                Object value = urlQueriesJSON.opt(key);
+                hashMap.put(key, value);
             }
-
-            return hashMap;
         }
-
-        return null;
+        return hashMap;
     }
 
 }
-
