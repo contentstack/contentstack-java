@@ -1,15 +1,12 @@
 # CHANGELOG
 
-## Version 2.0.0
+## Version 1.8.0
 
-### Date: 01-Nov-2021
+### Date: 08-Dec-2021
 
-- Added support for live preview
-- Added support for branching
-- Removed old version of jsoup dependency
-- Code improved as per sonar vulnerability guidelines
-- Removed deprecated code/Non-working code marked deprecated
-- Few breaking changes added.
+- Branching and live preview support added
+- Security update and General code improvements
+- log4j removed from the dependency
 
 ## Version 1.7.0
 
