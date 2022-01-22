@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public class QueryResult {
 
-    private final Logger logger = Logger.getLogger(QueryResult.class.getSimpleName());
+    protected static final Logger logger = Logger.getLogger(QueryResult.class.getSimpleName());
     protected JSONObject receiveJson;
     protected JSONArray schemaArray;
     protected JSONObject contentObject;

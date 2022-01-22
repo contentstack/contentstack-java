@@ -17,7 +17,7 @@ import static com.contentstack.sdk.Constants.parseDate;
  */
 public class Asset {
 
-    protected final Logger logger = Logger.getLogger(Asset.class.getSimpleName());
+    protected static final Logger logger = Logger.getLogger(Asset.class.getSimpleName());
     protected final JSONObject urlQueries = new JSONObject();
     protected String assetUid = null;
     protected String contentType = null;

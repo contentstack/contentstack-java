@@ -11,7 +11,7 @@ import static com.contentstack.sdk.Constants.ENVIRONMENT;
 
 public class Entry {
 
-    private final Logger logger = Logger.getLogger(Entry.class.getSimpleName());
+    protected static final Logger logger = Logger.getLogger(Entry.class.getSimpleName());
     protected JSONObject params;
     protected LinkedHashMap<String, Object> headers = null;
     protected HashMap<String, Object> owner = null;
@@ -952,7 +952,7 @@ public class Entry {
      */
 
     public void fetch(EntryResultCallBack callback) {
-        if (!uid.isEmpty()) {
+        if (uid.isEmpty()) { // throws IllegalAccessException if uid is Empty
             try {
                 throw new IllegalAccessException("Entry Uid is required");
             } catch (IllegalAccessException e) {

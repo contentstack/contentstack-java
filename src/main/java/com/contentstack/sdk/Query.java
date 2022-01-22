@@ -16,7 +16,7 @@ import static com.contentstack.sdk.Constants.*;
 
 public class Query implements INotifyClass {
 
-    private static final Logger logger = Logger.getLogger(Query.class.getSimpleName());
+    protected static final Logger logger = Logger.getLogger(Query.class.getSimpleName());
     protected ContentType contentTypeInstance = null;
     protected LinkedHashMap<String, Object> headers = null;
     protected JSONObject urlQueries;

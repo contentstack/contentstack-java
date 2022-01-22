@@ -1,6 +1,17 @@
 # CHANGELOG
 
-## Version 2.0.0
+
+## Version 1.8.1
+
+### Date: 21-Jan-2022
+
+- Entry uid bug fixed #45
+- Static logger implemented #43
+- Scope based dependencies
+
+------------------------------------------------
+
+## Version 1.8.0
 
 ### Date: 01-Nov-2021
 
@@ -10,6 +21,8 @@
 - Code improved as per sonar vulnerability guidelines
 - Removed deprecated code/Non-working code marked deprecated
 - Few breaking changes added.
+
+------------------------------------------------
 
 ## Version 1.7.0
 

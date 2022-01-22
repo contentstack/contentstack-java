@@ -22,7 +22,7 @@ import static com.contentstack.sdk.Constants.*;
 
 public class CSHttpConnection implements IURLRequestHTTP {
 
-    private final Logger logger = Logger.getLogger(CSHttpConnection.class.getName());
+    protected static final Logger logger = Logger.getLogger(CSHttpConnection.class.getName());
     private final String urlPath;
     private final IRequestModelHTTP connectionRequest;
     private String controller;
@@ -177,7 +177,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
         try {
             getService(url);
         } catch (IOException | JSONException e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
     }
 

@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class ContentType {
 
-    private final Logger logger = Logger.getLogger(ContentType.class.getSimpleName());
+    protected static final Logger logger = Logger.getLogger(ContentType.class.getSimpleName());
     protected String contentTypeUid = null;
     protected Stack stackInstance = null;
     protected LinkedHashMap<String, Object> headers = null;

@@ -16,7 +16,9 @@ factoryConfiguration.json
 bin/
 tmp/
 *.tmp
-.vscode
+.vscode/
+.dccache/
+.dccache
 *.bak
 *.swp
 *~.nib

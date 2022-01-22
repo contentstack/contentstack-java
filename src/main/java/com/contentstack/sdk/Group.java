@@ -6,9 +6,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Group {
 
+    protected static final Logger logger = Logger.getLogger(Group.class.getSimpleName());
     private final JSONObject resultJson;
     private final Stack stackInstance;
 
@@ -270,7 +272,7 @@ public class Group {
             String value = getString(key);
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
         }
         return null;
     }
@@ -387,7 +389,7 @@ public class Group {
                             entryInstance = stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            e.printStackTrace();
+                            logger.severe(e.getLocalizedMessage());
                         }
                         entryInstance.setUid(model.uid);
                         entryInstance.resultJson = model.jsonObject;
@@ -398,7 +400,7 @@ public class Group {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
             return entryContainer;
         }
         return entryContainer;

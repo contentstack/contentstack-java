@@ -13,7 +13,7 @@ import static com.contentstack.sdk.Constants.ENVIRONMENT;
  */
 public class AssetLibrary implements INotifyClass {
 
-    protected final Logger logger = Logger.getLogger(AssetLibrary.class.getSimpleName());
+    protected static final Logger logger = Logger.getLogger(AssetLibrary.class.getSimpleName());
     protected final JSONObject urlQueries;
     protected Stack stackInstance;
     protected LinkedHashMap<String, Object> headers;
