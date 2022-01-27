@@ -3,7 +3,7 @@
 
 ## Version 1.8.1
 
-### Date: 21-Jan-2022
+### Date: 27-Jan-2022
 
 - Entry uid bug fixed #45
 - Static logger implemented #43

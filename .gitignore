@@ -15,6 +15,8 @@ factoryConfiguration.json
 .env/
 bin/
 tmp/
+.talismanrc
+.talismanrc/
 *.tmp
 .vscode/
 .dccache/
@@ -269,5 +271,4 @@ java.iml
 src/main/resources/
 /.idea/
 /src/main/java/com/contentstack/sdk/models/
-/.vscode/
 /.vscode/
