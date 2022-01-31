@@ -12,6 +12,7 @@ factoryConfiguration.json
 ### Eclipse ###
 .metadata
 .env
+.dccache
 .env/
 bin/
 tmp/
