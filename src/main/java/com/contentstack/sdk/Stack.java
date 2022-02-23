@@ -37,17 +37,16 @@ public class Stack {
     protected void setConfig(Config config) {
         this.config = config;
         String urlDomain = config.host;
+
         if (!config.region.name().isEmpty()) {
             String region = config.region.name().toLowerCase();
-            // For the region EU
-            if (region.equalsIgnoreCase("eu")) {
+            if (region.equalsIgnoreCase("eu")) { // For the region EU
                 if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
                     urlDomain = "cdn.contentstack.com";
                 }
                 config.host = region + "-" + urlDomain;
             }
-            // for the region azure_na
-            if (region.equalsIgnoreCase("azure_na")) {
+            if (region.equalsIgnoreCase("azure_na")) { // for the region azure_na
                 if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
                     urlDomain = "cdn.contentstack.com";
                 }

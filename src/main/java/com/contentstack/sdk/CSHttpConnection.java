@@ -184,8 +184,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
     private void getService(String requestUrl) throws IOException {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(this.endpoint).build();
         APIService service = retrofit.create(APIService.class);
-        // [ environment deletion from  header line removed for consequent calls]
-        this.headers.put(X_USER_AGENT, CLIENT_USER_AGENT);
+        this.headers.put(X_USER_AGENT, CLIENT_USER_AGENT); 
         this.headers.put(CONTENT_TYPE, APPLICATION_JSON);
         Response<ResponseBody> response = service.getRequest(requestUrl, this.headers).execute();
         if (response.isSuccessful()) {
