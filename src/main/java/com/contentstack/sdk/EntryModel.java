@@ -26,7 +26,7 @@ class EntryModel {
     protected String createdBy = null;
     protected Boolean isDirectory = false;
     protected String[] tags = null;
-    protected String description = null;
+    protected Object description = null;
     protected String environment = null;
     protected JSONArray images = null;
     protected String locale = null;
@@ -57,7 +57,7 @@ class EntryModel {
             this.url = (String) this.jsonObject.opt(urlKey);
         }
         if (this.jsonObject.has("description")) {
-            this.description = (String) this.jsonObject.opt("description");
+            this.description = this.jsonObject.opt("description");
         }
 
         this.images = (JSONArray) this.jsonObject.opt("images");
