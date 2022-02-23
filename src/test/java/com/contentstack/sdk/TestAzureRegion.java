@@ -3,7 +3,7 @@ package com.contentstack.sdk;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class AzureRegionTest {
+class TestAzureRegion {
 
     @Test
     void testAzureRegion() {
