@@ -647,10 +647,6 @@ public class Entry {
     }
 
     /**
-     * @param key
-     *
-     *
-     *            Get a group from entry.
      *
      * @param key field_uid as key. <br>
      *            <br>

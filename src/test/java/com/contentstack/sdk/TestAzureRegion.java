@@ -72,4 +72,20 @@ class TestAzureRegion {
         });
         Assertions.assertEquals("azure-na-cdn.contentstack.com", stack.config.host);
     }
+
+    @Test
+    void testAzureRegionBehaviourEUStack() throws IllegalAccessException {
+        Config config = new Config();
+        Config.ContentstackRegion region = Config.ContentstackRegion.EU;
+        config.setRegion(region);
+        Stack stack = Contentstack.stack("fakeApiKey", "fakeDeliveryToken", "fakeEnvironment", config);
+        Query query = stack.contentType("fakeCT").query();
+        query.find(new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
+                System.out.println("So something here...");
+            }
+        });
+        Assertions.assertEquals("eu-cdn.contentstack.com", stack.config.host);
+    }
 }
