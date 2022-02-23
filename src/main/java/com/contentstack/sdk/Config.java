@@ -122,7 +122,7 @@ public class Config {
      * The enum Contentstack region.
      */
     public enum ContentstackRegion {
-        US, EU
+        US, EU, AZURE_NA
     }
 
 }
