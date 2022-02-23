@@ -5,8 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -186,6 +184,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
     private void getService(String requestUrl) throws IOException {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(this.endpoint).build();
         APIService service = retrofit.create(APIService.class);
+        // [ environment deletion from  header line removed for consequent calls]
         this.headers.put(X_USER_AGENT, CLIENT_USER_AGENT);
         this.headers.put(CONTENT_TYPE, APPLICATION_JSON);
         Response<ResponseBody> response = service.getRequest(requestUrl, this.headers).execute();
