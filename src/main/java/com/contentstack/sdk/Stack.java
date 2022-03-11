@@ -198,9 +198,9 @@ public class Stack {
     }
 
     /**
-     * @deprecated accessToken of particular stack
-     *
      * @return {@link Stack} accessToken
+     * @deprecated This method is no longer acceptable to get access token.
+     * <p> Use getDeliveryToken instead.
      */
     @Deprecated
     public String getAccessToken() {
