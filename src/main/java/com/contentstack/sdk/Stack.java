@@ -40,13 +40,12 @@ public class Stack {
 
         if (!config.region.name().isEmpty()) {
             String region = config.region.name().toLowerCase();
-            if (region.equalsIgnoreCase("eu")) { // For the region EU
+            if (region.equalsIgnoreCase("eu")) {
                 if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
                     urlDomain = "cdn.contentstack.com";
                 }
                 config.host = region + "-" + urlDomain;
-            }
-            if (region.equalsIgnoreCase("azure_na")) { // for the region azure_na
+            } else if (region.equalsIgnoreCase("azure_na")) {
                 if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
                     urlDomain = "cdn.contentstack.com";
                 }
@@ -488,8 +487,8 @@ public class Stack {
      *
      *
      */
-    public void sync(String contentType, Date fromDate, String localeCode, PublishType publishType,
-            SyncResultCallBack syncCallBack) {
+    public void sync(
+            String contentType, Date fromDate, String localeCode, PublishType publishType, SyncResultCallBack syncCallBack) {
         String newDate = convertUTCToISO(fromDate);
         this.sync(null);
         syncParams.put("start_from", newDate);
