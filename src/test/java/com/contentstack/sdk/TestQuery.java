@@ -797,12 +797,12 @@ class TestQuery {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    assertEquals(9, queryresult.getResultObjects().size());
+                    assertEquals(0, queryresult.getResultObjects().size());
                     queryFallback.includeFallback().locale("hi-in");
                     queryFallback.find(new QueryResultsCallBack() {
                         @Override
                         public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                            assertEquals(9, queryresult.getResultObjects().size());
+                            assertEquals(8, queryresult.getResultObjects().size());
                         }
                     });
                 }
@@ -818,7 +818,7 @@ class TestQuery {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    assertEquals(9, queryresult.getResultObjects().size());
+                    assertEquals(0, queryresult.getResultObjects().size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
