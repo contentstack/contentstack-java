@@ -37,13 +37,19 @@ public class Stack {
     protected void setConfig(Config config) {
         this.config = config;
         String urlDomain = config.host;
+
         if (!config.region.name().isEmpty()) {
             String region = config.region.name().toLowerCase();
-            if (!region.equalsIgnoreCase("us")) {
+            if (region.equalsIgnoreCase("eu")) {
                 if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
                     urlDomain = "cdn.contentstack.com";
                 }
                 config.host = region + "-" + urlDomain;
+            } else if (region.equalsIgnoreCase("azure_na")) {
+                if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
+                    urlDomain = "cdn.contentstack.com";
+                }
+                config.host = "azure-na" + "-" + urlDomain;
             }
         }
 
@@ -191,9 +197,9 @@ public class Stack {
     }
 
     /**
-     * @deprecated accessToken of particular stack
-     *
      * @return {@link Stack} accessToken
+     * @deprecated This method is no longer acceptable to get access token.
+     * <p> Use getDeliveryToken instead.
      */
     @Deprecated
     public String getAccessToken() {
@@ -481,8 +487,8 @@ public class Stack {
      *
      *
      */
-    public void sync(String contentType, Date fromDate, String localeCode, PublishType publishType,
-            SyncResultCallBack syncCallBack) {
+    public void sync(
+            String contentType, Date fromDate, String localeCode, PublishType publishType, SyncResultCallBack syncCallBack) {
         String newDate = convertUTCToISO(fromDate);
         this.sync(null);
         syncParams.put("start_from", newDate);

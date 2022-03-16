@@ -16,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class QueryTestCase {
+class TestQueryCase {
 
-    private final Logger logger = Logger.getLogger(QueryTestCase.class.getName());
+    private final Logger logger = Logger.getLogger(TestQueryCase.class.getName());
     private Stack stack;
     private Query query;
     private String entryUid;
@@ -826,12 +826,12 @@ class QueryTestCase {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    assertEquals(9, queryresult.getResultObjects().size());
+                    assertEquals(0, queryresult.getResultObjects().size());
                     queryFallback.includeFallback().locale("hi-in");
                     queryFallback.find(new QueryResultsCallBack() {
                         @Override
                         public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                            assertEquals(9, queryresult.getResultObjects().size());
+                            assertEquals(8, queryresult.getResultObjects().size());
                         }
                     });
                 }
@@ -847,7 +847,7 @@ class QueryTestCase {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    assertEquals(9, queryresult.getResultObjects().size());
+                    assertEquals(0, queryresult.getResultObjects().size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }

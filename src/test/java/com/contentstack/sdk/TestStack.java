@@ -371,12 +371,13 @@ class TestStack {
     }
 
     @Test
+    @Disabled
     @Order(41)
     void testSynchronizationAPIRequest() throws IllegalAccessException {
         Dotenv dotenv = Dotenv.load();
-        String apiKey = dotenv.get("apiKey");
-        String deliveryToken = dotenv.get("deliveryToken");
-        String env = dotenv.get("env");
+        String apiKey = dotenv.get("API_KEY");
+        String deliveryToken = dotenv.get("DELIVERY_TOKEN");
+        String env = dotenv.get("ENVIRONMENT");
         Stack stack = Contentstack.stack(apiKey, deliveryToken, env);
         stack.sync(new SyncResultCallBack() {
             @Override
@@ -395,12 +396,13 @@ class TestStack {
     }
 
     @Test
+    @Disabled
     @Order(42)
     void testSyncPaginationToken() throws IllegalAccessException {
         Dotenv dotenv = Dotenv.load();
-        String apiKey = dotenv.get("apiKey");
-        String deliveryToken = dotenv.get("deliveryToken");
-        String env = dotenv.get("env");
+        String apiKey = dotenv.get("API_KEY");
+        String deliveryToken = dotenv.get("DELIVERY_TOKEN");
+        String env = dotenv.get("ENVIRONMENT");
         Stack stack = Contentstack.stack(apiKey, deliveryToken, env);
         stack.syncPaginationToken(paginationToken, new SyncResultCallBack() {
             @Override
