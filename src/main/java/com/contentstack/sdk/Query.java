@@ -1,5 +1,6 @@
 package com.contentstack.sdk;
 
+import java.util.logging.Level;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -1210,7 +1211,7 @@ public class Query implements INotifyClass {
             mainJSON.put(QUERY, urlQueries);
             fetchFromNetwork(urlString, mainJSON, callback, callBack);
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
             throwException("find", Constants.QUERY_EXCEPTION, e);
         }
 

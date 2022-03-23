@@ -1,5 +1,6 @@
 package com.contentstack.sdk;
 
+import java.util.logging.Level;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -482,7 +483,7 @@ public class Entry {
             String value = getString(key);
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
         return null;
     }
@@ -504,7 +505,7 @@ public class Entry {
             String value = getString("created_at");
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
         return null;
     }
@@ -541,7 +542,7 @@ public class Entry {
             String value = getString("updated_at");
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
         return null;
     }
@@ -580,7 +581,7 @@ public class Entry {
             String value = getString("deleted_at");
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
         return null;
     }
@@ -739,7 +740,7 @@ public class Entry {
                         entryInstance = contentType.stackInstance.contentType(refContentType).entry();
                     } catch (Exception e) {
                         entryInstance = new Entry(refContentType);
-                        logger.severe(e.getLocalizedMessage());
+                        logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
                     }
                     entryInstance.setUid(model.uid);
                     entryInstance.resultJson = model.jsonObject;
@@ -952,7 +953,7 @@ public class Entry {
             try {
                 throw new IllegalAccessException("Entry Uid is required");
             } catch (IllegalAccessException e) {
-                logger.severe(e.getLocalizedMessage());
+                logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
             }
         }
         String urlString = "content_types/" + contentTypeUid + "/entries/" + uid;

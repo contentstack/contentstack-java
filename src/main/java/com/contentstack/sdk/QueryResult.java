@@ -1,5 +1,6 @@
 package com.contentstack.sdk;
 
+import java.util.logging.Level;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -108,7 +109,7 @@ public class QueryResult {
             }
 
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
     }
 

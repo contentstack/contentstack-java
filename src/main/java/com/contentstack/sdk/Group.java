@@ -1,5 +1,6 @@
 package com.contentstack.sdk;
 
+import java.util.logging.Level;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -272,7 +273,7 @@ public class Group {
             String value = getString(key);
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
         return null;
     }
@@ -389,7 +390,7 @@ public class Group {
                             entryInstance = stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            logger.severe(e.getLocalizedMessage());
+                            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
                         }
                         entryInstance.setUid(model.uid);
                         entryInstance.resultJson = model.jsonObject;
@@ -400,7 +401,7 @@ public class Group {
                 }
             }
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
             return entryContainer;
         }
         return entryContainer;

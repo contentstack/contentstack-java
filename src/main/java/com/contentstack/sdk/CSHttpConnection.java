@@ -1,5 +1,6 @@
 package com.contentstack.sdk;
 
+import java.util.logging.Level;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -177,7 +178,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
         try {
             getService(url);
         } catch (IOException | JSONException e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
     }
 

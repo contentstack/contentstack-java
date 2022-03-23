@@ -1,5 +1,6 @@
 package com.contentstack.sdk;
 
+import java.util.logging.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -82,7 +83,7 @@ class CSBackgroundTask {
             try {
                 throw new IllegalAccessException("CSBackgroundTask Header Exception");
             } catch (IllegalAccessException e) {
-                logger.severe(e.getLocalizedMessage());
+                logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
             }
         }
     }

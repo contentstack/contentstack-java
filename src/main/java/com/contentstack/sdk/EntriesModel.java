@@ -1,5 +1,6 @@
 package com.contentstack.sdk;
 
+import java.util.logging.Level;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -31,7 +32,7 @@ class EntriesModel {
             }
         } catch (Exception e) {
             Logger logger = Logger.getLogger(EntriesModel.class.getSimpleName());
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
 
     }
