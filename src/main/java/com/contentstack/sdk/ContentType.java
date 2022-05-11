@@ -2,6 +2,7 @@ package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+import retrofit2.Retrofit;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,8 +35,10 @@ public class ContentType {
     /**
      * Sets header on {@link Stack}.
      *
-     * @param headerKey   the header key
-     * @param headerValue the header value
+     * @param headerKey
+     *         the header key
+     * @param headerValue
+     *         the header value
      */
     public void setHeader(String headerKey, String headerValue) {
         if (!headerKey.isEmpty() && !headerValue.isEmpty()) {
@@ -46,7 +49,8 @@ public class ContentType {
     /**
      * Remove header from {@link Stack}
      *
-     * @param headerKey the header key
+     * @param headerKey
+     *         the header key
      */
     public void removeHeader(String headerKey) {
         if (!headerKey.isEmpty()) {
@@ -55,12 +59,12 @@ public class ContentType {
     }
 
     /**
-     * An entry is the actual piece of content created using one of the defined
-     * content types.
+     * An entry is the actual piece of content created using one of the defined content types.
      * <p>
      * The Get a single entry request fetches a particular entry of a content type.
      *
-     * @param entryUid the entry unique ID of the entry that you want to fetch.
+     * @param entryUid
+     *         the entry unique ID of the entry that you want to fetch.
      * @return the {@link Entry} entry.
      */
     public Entry entry(String entryUid) {
@@ -78,10 +82,9 @@ public class ContentType {
     }
 
     /**
-     * Query. The Get all entries request fetches the list of all the entries of a
-     * particular content type. It returns the content of each entry in JSON format.
-     * You need to specify the environment and locale of which you want to get the
-     * entries.
+     * Query. The Get all entries request fetches the list of all the entries of a particular content type. It returns
+     * the content of each entry in JSON format. You need to specify the environment and locale of which you want to get
+     * the entries.
      *
      * <p>
      * If an entry is not published in a specific locale, make use of the
@@ -92,12 +95,10 @@ public class ContentType {
      * language itself, this parameter would not be applicable.
      *
      * <p>
-     * To include the publishing details in the response, make use of the
-     * include_publish_details=true parameter. This will return the publishing
-     * details of the entry in every environment along with the version number that
-     * is published in each of the environments. You can add other Queries to extend
-     * the functionality of this API call. Add a query parameter named query and
-     * provide your query (in JSON format) as the value.
+     * To include the publishing details in the response, make use of the include_publish_details=true parameter. This
+     * will return the publishing details of the entry in every environment along with the version number that is
+     * published in each of the environments. You can add other Queries to extend the functionality of this API call.
+     * Add a query parameter named query and provide your query (in JSON format) as the value.
      *
      * @return the {@link Query}
      */
@@ -111,8 +112,10 @@ public class ContentType {
     /**
      * Fetch.
      *
-     * @param params   the params
-     * @param callback the callback
+     * @param params
+     *         the params
+     * @param callback
+     *         the callback
      */
     public void fetch(@NotNull JSONObject params, final ContentTypesCallback callback) {
         String urlString = "content_types/" + contentTypeUid;
@@ -134,7 +137,7 @@ public class ContentType {
     }
 
     private void fetchContentTypes(String urlString, JSONObject params, HashMap<String, Object> headers,
-            ContentTypesCallback callback) {
+                                   ContentTypesCallback callback) {
         if (callback != null) {
             HashMap<String, Object> urlParams = getUrlParams(params);
             new CSBackgroundTask(this, stackInstance, Constants.FETCHCONTENTTYPES, urlString, headers, urlParams,

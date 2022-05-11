@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.9.0-SNAPSHOT</version>
+    <version>1.9.0</version>
     <packaging>jar</packaging>
     <name>contentstack-java</name>
     <description>Java SDK for Contentstack Content Delivery API</description>
@@ -146,6 +146,13 @@
             <version>${loggin.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>converter-jackson</artifactId>
+            <version>2.9.0</version>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -366,9 +373,9 @@
                     </execution>
                 </executions>
                 <configuration>
-<!--                    <systemPropertyVariables>-->
-<!--                        <jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>-->
-<!--                    </systemPropertyVariables>-->
+                    <!--                    <systemPropertyVariables>-->
+                    <!--                        <jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>-->
+                    <!--                    </systemPropertyVariables>-->
                     <excludes>
                         <exclude>src/main/java/com/contentstack/sdk/Group.class</exclude>
                         <exclude>src/main/java/com/contentstack/sdk/FetchAssetsCallback.class</exclude>
