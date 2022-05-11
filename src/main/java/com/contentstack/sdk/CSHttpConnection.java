@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.contentstack.sdk.Constants.*;
@@ -175,7 +176,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
         try {
             getService(url);
         } catch (IOException | JSONException e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
     }
 

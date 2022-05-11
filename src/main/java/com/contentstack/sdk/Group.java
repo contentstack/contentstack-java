@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Group {
@@ -286,7 +287,7 @@ public class Group {
             String value = getString(key);
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
         return null;
     }
@@ -407,7 +408,7 @@ public class Group {
                             entryInstance = stackInstance.contentType(refContentType).entry();
                         } catch (Exception e) {
                             entryInstance = new Entry(refContentType);
-                            logger.severe(e.getLocalizedMessage());
+                            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
                         }
                         entryInstance.setUid(model.uid);
                         entryInstance.resultJson = model.jsonObject;
@@ -418,7 +419,7 @@ public class Group {
                 }
             }
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
             return entryContainer;
         }
         return entryContainer;
