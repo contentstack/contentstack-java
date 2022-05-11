@@ -2,6 +2,7 @@ package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+import retrofit2.Retrofit;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -19,6 +20,7 @@ public class AssetLibrary implements INotifyClass {
     protected LinkedHashMap<String, Object> headers;
     protected FetchAssetsCallback callback;
     protected int count;
+    protected Retrofit retrofit;
 
     protected AssetLibrary() {
         this.urlQueries = new JSONObject();

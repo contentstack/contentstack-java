@@ -2,6 +2,7 @@ package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+import retrofit2.Retrofit;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public class Asset {
     protected String[] tagsArray = null;
     protected LinkedHashMap<String, Object> headers;
     protected Stack stackInstance;
+    protected Retrofit retrofit;
 
     protected Asset() {
         this.headers = new LinkedHashMap<>();

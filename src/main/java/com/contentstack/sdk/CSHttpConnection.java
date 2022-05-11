@@ -28,6 +28,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
     private String controller;
     private LinkedHashMap<String, Object> headers;
     private String info;
+    private APIService service;
     private String endpoint;
     private ResultCallBack callBackObject;
     private JSONObject responseJSON;
@@ -182,11 +183,11 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     private void getService(String requestUrl) throws IOException {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(this.endpoint).build();
-        APIService service = retrofit.create(APIService.class);
+//        Retrofit retrofit = new Retrofit.Builder().baseUrl(this.endpoint).build();
+//        APIService service = retrofit.create(APIService.class);
         this.headers.put(X_USER_AGENT, CLIENT_USER_AGENT);
         this.headers.put(CONTENT_TYPE, APPLICATION_JSON);
-        Response<ResponseBody> response = service.getRequest(requestUrl, this.headers).execute();
+        Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
         if (response.isSuccessful()) {
             assert response.body() != null;
             String resp = response.body().string();
@@ -211,5 +212,9 @@ public class CSHttpConnection implements IURLRequestHTTP {
 
     protected void setEndpoint(@NotNull String endpoint) {
         this.endpoint = endpoint;
+    }
+
+    public void setAPIService(APIService service) {
+        this.service = service;
     }
 }
