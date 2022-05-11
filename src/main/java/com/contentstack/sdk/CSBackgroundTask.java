@@ -1,8 +1,6 @@
 package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
-import retrofit2.Retrofit;
-
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;

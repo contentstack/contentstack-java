@@ -3,7 +3,6 @@ package com.contentstack.sdk;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import retrofit2.Retrofit;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -61,10 +60,10 @@ public class Query implements INotifyClass {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                              Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
-     *                              Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *                              csQuery.setHeader("custom_key", "custom_value");
-     *                              </pre>
+     *                                      Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
+     *                                      Query csQuery = stack.contentType("contentTypeUid").query();<br>
+     *                                      csQuery.setHeader("custom_key", "custom_value");
+     *                                      </pre>
      */
     public void setHeader(@NotNull String key, @NotNull String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
@@ -83,10 +82,10 @@ public class Query implements INotifyClass {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                            Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
-     *                            Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *                            csQuery.removeHeader("custom_key");
-     *                            </pre>
+     *                                    Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
+     *                                    Query csQuery = stack.contentType("contentTypeUid").query();<br>
+     *                                    csQuery.removeHeader("custom_key");
+     *                                    </pre>
      */
     public void removeHeader(@NotNull String key) {
         if (!key.isEmpty()) {

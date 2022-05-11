@@ -1,7 +1,6 @@
 package com.contentstack.sdk;
 
 import org.json.JSONObject;
-import retrofit2.Retrofit;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -84,7 +83,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
         connection.setController(controller);
         connection.setHeaders(header);
         connection.setInfo(requestInfo);
-        connection.setEndpoint(this.endpoint);
+        //connection.setEndpoint(this.endpoint);
         connection.setAPIService(this.service);
         connection.setCallBackObject(resultCallBack);
         if (urlQueries != null && urlQueries.size() > 0) {

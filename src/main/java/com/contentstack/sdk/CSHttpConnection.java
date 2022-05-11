@@ -1,12 +1,10 @@
 package com.contentstack.sdk;
 
 import okhttp3.ResponseBody;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -29,7 +27,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
     private LinkedHashMap<String, Object> headers;
     private String info;
     private APIService service;
-    private String endpoint;
     private ResultCallBack callBackObject;
     private JSONObject responseJSON;
     private HashMap<String, Object> formParams;
@@ -183,8 +180,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     private void getService(String requestUrl) throws IOException {
-//        Retrofit retrofit = new Retrofit.Builder().baseUrl(this.endpoint).build();
-//        APIService service = retrofit.create(APIService.class);
         this.headers.put(X_USER_AGENT, CLIENT_USER_AGENT);
         this.headers.put(CONTENT_TYPE, APPLICATION_JSON);
         Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
@@ -208,10 +203,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
         responseJSON.put(ERRORS, responseJSON.optString(ERRORS));
         int errCode = Integer.parseInt(responseJSON.optString(ERROR_CODE));
         connectionRequest.onRequestFailed(responseJSON, errCode, callBackObject);
-    }
-
-    protected void setEndpoint(@NotNull String endpoint) {
-        this.endpoint = endpoint;
     }
 
     public void setAPIService(APIService service) {
