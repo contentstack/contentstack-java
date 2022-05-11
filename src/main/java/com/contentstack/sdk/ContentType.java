@@ -2,7 +2,6 @@ package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
-import retrofit2.Retrofit;
 
 import java.util.HashMap;
 import java.util.Iterator;

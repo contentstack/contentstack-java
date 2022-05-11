@@ -2,7 +2,6 @@ package com.contentstack.sdk;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import retrofit2.Retrofit;
 
 import java.util.ArrayList;
 import java.util.Calendar;
