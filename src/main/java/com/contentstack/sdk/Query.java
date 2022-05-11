@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.contentstack.sdk.Constants.*;
@@ -1195,7 +1196,7 @@ public class Query implements INotifyClass {
             errorHashMap.put(queryName, e.getLocalizedMessage());
         }
         errorHashMap.put("detail", messageString);
-        logger.warning(messageString);
+        logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
     }
 
     protected void setQueryJson() {
@@ -1235,7 +1236,7 @@ public class Query implements INotifyClass {
             mainJSON.put(QUERY, urlQueries);
             fetchFromNetwork(urlString, mainJSON, callback, callBack);
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
             throwException("find", Constants.QUERY_EXCEPTION, e);
         }
 

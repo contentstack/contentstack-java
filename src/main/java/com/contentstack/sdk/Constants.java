@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -89,7 +90,7 @@ public class Constants {
             try {
                 return parseDate(date, formatString, timeZone);
             } catch (ParseException e) {
-                logger.warning(e.getLocalizedMessage());
+                logger.log(Level.WARNING, e.getLocalizedMessage(), e);
             }
         }
         return null;

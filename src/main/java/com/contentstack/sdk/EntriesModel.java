@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class EntriesModel {
@@ -31,7 +32,7 @@ class EntriesModel {
             }
         } catch (Exception e) {
             Logger logger = Logger.getLogger(EntriesModel.class.getSimpleName());
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
 
     }
