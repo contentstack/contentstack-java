@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class Constants {
 
     private static final Logger logger = Logger.getLogger(Constants.class.getSimpleName());
-    protected static final String SDK_VERSION = "1.9.0";
+    protected static final String SDK_VERSION = "1.10.0";
     protected static final String ENVIRONMENT = "environment";
     protected static final String CONTENT_TYPE_UID = "content_type_uid";
     protected static final String SYNCHRONISATION = "stacks/sync";
@@ -35,7 +35,6 @@ public class Constants {
     protected static final String REGEX = "$regex";
     protected static final String LIMIT = "limit";
     protected static final String OPTIONS = "$options";
-
 
 
     protected Constants() {
@@ -68,8 +67,10 @@ public class Constants {
     /**
      * Parse date calendar.
      *
-     * @param date     the date
-     * @param timeZone the time zone
+     * @param date
+     *         the date
+     * @param timeZone
+     *         the time zone
      * @return the calendar
      */
     public static Calendar parseDate(String date, TimeZone timeZone) {
@@ -99,11 +100,15 @@ public class Constants {
     /**
      * Parse date calendar.
      *
-     * @param date       the date
-     * @param dateFormat the date format
-     * @param timeZone   the time zone
+     * @param date
+     *         the date
+     * @param dateFormat
+     *         the date format
+     * @param timeZone
+     *         the time zone
      * @return the calendar
-     * @throws ParseException the parse exception
+     * @throws ParseException
+     *         the parse exception
      */
     public static Calendar parseDate(String date, String dateFormat, TimeZone timeZone) throws ParseException {
         Calendar cal = Calendar.getInstance();

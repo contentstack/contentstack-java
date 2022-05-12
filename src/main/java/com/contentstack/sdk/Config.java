@@ -43,8 +43,9 @@ public class Config {
      *         <br><br><b>Example:</b><br><br>
      *         <code>
      *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP,  new InetSocketAddress("proxyHost", "proxyPort"));
-     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80)); Config
-     *         config = new Config() config.setProxy(proxy)
+     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80));
+     *         Config config = new Config();
+     *         config.setProxy(proxy);
      *         </code>
      */
     public void setProxy(Proxy proxy) {
