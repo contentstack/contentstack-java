@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
