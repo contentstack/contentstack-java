@@ -5,7 +5,6 @@ import okhttp3.OkHttpClient;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.net.Proxy;
 import java.text.DateFormat;
@@ -76,7 +75,6 @@ public class Stack {
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(endpoint)
                 .client(client)
-                .addConverterFactory(JacksonConverterFactory.create())
                 .build();
 
         this.service = retrofit.create(APIService.class);
