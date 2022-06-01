@@ -1,12 +1,10 @@
 package com.contentstack.sdk;
 
 import okhttp3.ResponseBody;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -16,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.contentstack.sdk.Constants.*;
@@ -28,7 +27,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
     private String controller;
     private LinkedHashMap<String, Object> headers;
     private String info;
-    private String endpoint;
+    private APIService service;
     private ResultCallBack callBackObject;
     private JSONObject responseJSON;
     private HashMap<String, Object> formParams;
@@ -177,16 +176,15 @@ public class CSHttpConnection implements IURLRequestHTTP {
         try {
             getService(url);
         } catch (IOException | JSONException e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
     }
 
     private void getService(String requestUrl) throws IOException {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(this.endpoint).build();
-        APIService service = retrofit.create(APIService.class);
-        this.headers.put(X_USER_AGENT, CLIENT_USER_AGENT);
+        this.headers.put(X_USER_AGENT_KEY, "contentstack-java/" + SDK_VERSION);
+        this.headers.put(USER_AGENT_KEY, USER_AGENT);
         this.headers.put(CONTENT_TYPE, APPLICATION_JSON);
-        Response<ResponseBody> response = service.getRequest(requestUrl, this.headers).execute();
+        Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
         if (response.isSuccessful()) {
             assert response.body() != null;
             String resp = response.body().string();
@@ -209,7 +207,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
         connectionRequest.onRequestFailed(responseJSON, errCode, callBackObject);
     }
 
-    protected void setEndpoint(@NotNull String endpoint) {
-        this.endpoint = endpoint;
+    public void setAPIService(APIService service) {
+        this.service = service;
     }
 }

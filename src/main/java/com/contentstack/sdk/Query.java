@@ -5,13 +5,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.contentstack.sdk.Constants.*;
 
 /**
- * Contentstack provides certain queries that you can use to fetch filtered
- * results. You can use queries for Entries and Assets API requests.
+ * Contentstack provides certain queries that you can use to fetch filtered results. You can use queries for Entries and
+ * Assets API requests.
  */
 
 public class Query implements INotifyClass {
@@ -30,7 +31,6 @@ public class Query implements INotifyClass {
     protected JSONArray objectUidForExcept = null;
     protected JSONArray objectUidForOnly = null;
     private boolean isJsonProper = true;
-
     private String errorString;
     private JSONObject onlyJsonObject;
     private JSONObject exceptJsonObject;
@@ -48,22 +48,23 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * To set headers for Built.io Contentstack rest calls. <br>
-     * Scope is limited to this object and followed classes.
+     * To set headers for Built.io Contentstack rest calls. <br> Scope is limited to this object and followed classes.
      *
-     * @param key   header name.
-     * @param value header value against given header name. <br>
-     * 
-     * 
-     *              <br>
-     *              <br>
-     *              <b>Example :</b><br>
-     * 
-     *              <pre class="prettyprint">
-     *              Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
-     *              Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *              csQuery.setHeader("custom_key", "custom_value");
-     *              </pre>
+     * @param key
+     *         header name.
+     * @param value
+     *         header value against given header name. <br>
+     *
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *                                      Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
+     *                                      Query csQuery = stack.contentType("contentTypeUid").query();<br>
+     *                                      csQuery.setHeader("custom_key", "custom_value");
+     *                                      </pre>
      */
     public void setHeader(@NotNull String key, @NotNull String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
@@ -74,17 +75,18 @@ public class Query implements INotifyClass {
     /**
      * Remove header key @param key custom_header_key
      *
-     * @param key {@link String} <br>
-     * 
-     *            <br>
-     *            <br>
-     *            <b>Example :</b><br>
-     * 
-     *            <pre class="prettyprint">
-     *            Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
-     *            Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *            csQuery.removeHeader("custom_key");
-     *            </pre>
+     * @param key
+     *         {@link String} <br>
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *                                    Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
+     *                                    Query csQuery = stack.contentType("contentTypeUid").query();<br>
+     *                                    csQuery.removeHeader("custom_key");
+     *                                    </pre>
      */
     public void removeHeader(@NotNull String key) {
         if (!key.isEmpty()) {
@@ -97,21 +99,22 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Add a constraint to fetch all entries that contains given value against
-     * specified key
+     * Add a constraint to fetch all entries that contains given value against specified key
      *
-     * @param key   field uid.
-     * @param value field value which get &#39;included&#39; from the response.
+     * @param key
+     *         field uid.
+     * @param value
+     *         field value which get &#39;included&#39; from the response.
      * @return {@link Query} object, so you can chain this call.
-     *         <p>
-     *         <b>Note :</b> for group field provide key in a
-     *         &#34;key.groupFieldUid&#34; format. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <p>
+     * <b>Note :</b> for group field provide key in a
+     * &#34;key.groupFieldUid&#34; format. <br>
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();
      *          csQuery.where("uid", "entry_uid");
@@ -126,15 +129,17 @@ public class Query implements INotifyClass {
     /**
      * Add a custom query against specified key.
      *
-     * @param key   key.
-     * @param value value.
+     * @param key
+     *         key.
+     * @param value
+     *         value.
      * @return {@link Query} object, so you can chain this call.
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();
      *          csQuery.addQuery("query_param_key", "query_param_value");
@@ -150,14 +155,15 @@ public class Query implements INotifyClass {
     /**
      * Remove provided query key from custom query if exist.
      *
-     * @param key Query name to remove.
+     * @param key
+     *         Query name to remove.
      * @return {@linkplain Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         projectQuery.removeQuery("Query_Key");
      *         </pre>
      */
@@ -171,15 +177,15 @@ public class Query implements INotifyClass {
     /**
      * Combines all the queries together using AND operator
      *
-     * @param queryObjects list of {@link Query} instances on which AND query
-     *                     executes.
+     * @param queryObjects
+     *         list of {@link Query} instances on which AND query executes.
      * @return {@link Query} object, so you can chain this call.
      *
-     *         <br>
-     *         <br>
-     *         <b>Example ;</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example ;</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();
      *
@@ -209,15 +215,15 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint to fetch all entries which satisfy <b> any </b> queries.
      *
-     * @param queryObjects list of {@link Query} instances on which OR query
-     *                     executes.
+     * @param queryObjects
+     *         list of {@link Query} instances on which OR query executes.
      * @return {@link Query} object, so you can chain this call.
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();
      *
@@ -251,18 +257,19 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Add a constraint to the query that requires a particular key entry to be less
-     * than the provided value.
+     * Add a constraint to the query that requires a particular key entry to be less than the provided value.
      *
-     * @param key   the key to be constrained.
-     * @param value the value that provides an upper bound.
+     * @param key
+     *         the key to be constrained.
+     * @param value
+     *         the value that provides an upper bound.
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.lessThan("due_date", "2013-06-25T00:00:00+05:30");
@@ -283,18 +290,20 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Add a constraint to the query that requires a particular key entry to be less
-     * than or equal to the provided value.
+     * Add a constraint to the query that requires a particular key entry to be less than or equal to the provided
+     * value.
      *
-     * @param key   The key to be constrained
-     * @param value The value that must be equalled.
+     * @param key
+     *         The key to be constrained
+     * @param value
+     *         The value that must be equalled.
      * @return {@link Query} object, so you can chain this call.
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.lessThanOrEqualTo("due_date", "2013-06-25T00:00:00+05:30");
@@ -315,18 +324,19 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Add a constraint to the query that requires a particular key entry to be
-     * greater than the provided value.
+     * Add a constraint to the query that requires a particular key entry to be greater than the provided value.
      *
-     * @param key   The key to be constrained.
-     * @param value The value that provides an lower bound.
+     * @param key
+     *         The key to be constrained.
+     * @param value
+     *         The value that provides an lower bound.
      * @return {@link Query} object, so you can chain this call.
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.greaterThan("due_date", "2013-06-25T00:00:00+05:30");
@@ -347,18 +357,20 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Add a constraint to the query that requires a particular key entry to be
-     * greater than or equal to the provided value.
+     * Add a constraint to the query that requires a particular key entry to be greater than or equal to the provided
+     * value.
      *
-     * @param key   The key to be constrained.
-     * @param value The value that provides an lower bound.
+     * @param key
+     *         The key to be constrained.
+     * @param value
+     *         The value that provides an lower bound.
      * @return {@link Query} object, so you can chain this call.
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.greaterThanOrEqualTo("due_date", "2013-06-25T00:00:00+05:30");
@@ -379,18 +391,19 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Add a constraint to the query that requires a particular key&#39;s entry to
-     * be not equal to the provided value.
+     * Add a constraint to the query that requires a particular key&#39;s entry to be not equal to the provided value.
      *
-     * @param key   The key to be constrained.
-     * @param value The object that must not be equaled.
+     * @param key
+     *         The key to be constrained.
+     * @param value
+     *         The object that must not be equaled.
      * @return {@link Query} object, so you can chain this call.
      *
-     *         <br>
-     *         <br>
-     *         <b>Example ;</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example ;</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.notEqualTo("due_date", "2013-06-25T00:00:00+05:30");
@@ -411,18 +424,19 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Add a constraint to the query that requires a particular key&#39;s entry to
-     * be contained in the provided array.
+     * Add a constraint to the query that requires a particular key&#39;s entry to be contained in the provided array.
      *
-     * @param key    The key to be constrained.
-     * @param values The possible values for the key&#39;s object.
+     * @param key
+     *         The key to be constrained.
+     * @param values
+     *         The possible values for the key&#39;s object.
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.containedIn("severity", new Object[] { "Show Stopper", "Critical" });
@@ -448,19 +462,21 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Add a constraint to the query that requires a particular key entry&#39;s
-     * value not be contained in the provided array.
+     * Add a constraint to the query that requires a particular key entry&#39;s value not be contained in the provided
+     * array.
      *
-     * @param key    The key to be constrained.
-     * @param values The list of values the key object should not be.
+     * @param key
+     *         The key to be constrained.
+     * @param values
+     *         The list of values the key object should not be.
      * @return {@link Query} object, so you can chain this call.
      *
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.notContainedIn("severity", new Object[] { "Show Stopper", "Critical" });
@@ -488,14 +504,15 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint that requires, a specified key exists in response.
      *
-     * @param key The key to be constrained.
+     * @param key
+     *         The key to be constrained.
      * @return {@link Query} object, so you can chain this call.
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.exists("status");
@@ -518,15 +535,16 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint that requires, a specified key does not exists in response.
      *
-     * @param key The key to be constrained.
+     * @param key
+     *         The key to be constrained.
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.notExists("status");
@@ -550,14 +568,15 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint that requires a particular reference key details.
      *
-     * @param key key that to be constrained.
+     * @param key
+     *         key that to be constrained.
      * @return {@link Query} object, so you can chain this call.
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.includeReference("for_bug");
@@ -574,14 +593,15 @@ public class Query implements INotifyClass {
     /**
      * Include tags with which to search entries.
      *
-     * @param tags Comma separated array of tags with which to search entries.
+     * @param tags
+     *         Comma separated array of tags with which to search entries.
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.tags(new String[] { "tag1", "tag2" });
@@ -598,17 +618,18 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Sort the results in ascending order with the given key. <br>
-     * Sort the returned entries in ascending order of the provided key.
+     * Sort the results in ascending order with the given key. <br> Sort the returned entries in ascending order of the
+     * provided key.
      *
-     * @param key The key to order by.
+     * @param key
+     *         The key to order by.
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.ascending("name");
@@ -621,17 +642,18 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Sort the results in descending order with the given key. <br>
-     * Sort the returned entries in descending order of the provided key.
+     * Sort the results in descending order with the given key. <br> Sort the returned entries in descending order of
+     * the provided key.
      *
-     * @param key The key to order by.
+     * @param key
+     *         The key to order by.
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.descending("name");
@@ -643,18 +665,18 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Specifies list of field uids that would be &#39;excluded&#39; from the
-     * response.
+     * Specifies list of field uids that would be &#39;excluded&#39; from the response.
      *
-     * @param fieldUid field uid which get &#39;excluded&#39; from the response.
+     * @param fieldUid
+     *         field uid which get &#39;excluded&#39; from the response.
      * @return {@link Query} object, so you can chain this call.
      *
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          ArrayList&#60;String&#62; array = new ArrayList&#60;String&#62;();
@@ -676,17 +698,17 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Specifies list of field uids that would be &#39;excluded&#39; from the
-     * response.
+     * Specifies list of field uids that would be &#39;excluded&#39; from the response.
      *
-     * @param fieldIds field uid which get &#39;excluded&#39; from the response.
+     * @param fieldIds
+     *         field uid which get &#39;excluded&#39; from the response.
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.except(new String[]{"name", "description"});
@@ -705,18 +727,17 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Specifies an array of &#39;only&#39; keys in BASE object that would be
-     * &#39;included&#39; in the response.
+     * Specifies an array of &#39;only&#39; keys in BASE object that would be &#39;included&#39; in the response.
      *
-     * @param fieldUid Array of the &#39;only&#39; reference keys to be included in
-     *                 response.
+     * @param fieldUid
+     *         Array of the &#39;only&#39; reference keys to be included in response.
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.only(new String[]{"name"});
@@ -735,20 +756,20 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Specifies an array of &#39;only&#39; keys that would be &#39;included&#39; in
-     * the response.
+     * Specifies an array of &#39;only&#39; keys that would be &#39;included&#39; in the response.
      *
-     * @param fieldUid          Array of the &#39;only&#39; reference keys to be
-     *                          included in response.
-     * @param referenceFieldUid Key who has reference to some other class object.
+     * @param fieldUid
+     *         Array of the &#39;only&#39; reference keys to be included in response.
+     * @param referenceFieldUid
+     *         Key who has reference to some other class object.
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          ArrayList&#60;String&#62; array = new ArrayList&#60;String&#62;();
@@ -774,19 +795,19 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Specifies an array of &#39;except&#39; keys that would be &#39;excluded&#39;
-     * in the response.
+     * Specifies an array of &#39;except&#39; keys that would be &#39;excluded&#39; in the response.
      *
-     * @param fieldUid          Array of the &#39;except&#39; reference keys to be
-     *                          excluded in response.
-     * @param referenceFieldUid Key who has reference to some other class object.
+     * @param fieldUid
+     *         Array of the &#39;except&#39; reference keys to be excluded in response.
+     * @param referenceFieldUid
+     *         Key who has reference to some other class object.
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          ArrayList&#60;String&#62; array = new ArrayList&#60;String&#62;();
@@ -814,15 +835,14 @@ public class Query implements INotifyClass {
     /**
      * Retrieve only count of entries in result.
      *
-     * @return {@link Query} object, so you can chain this call. <b>Note :- </b>
-     *         Call {@link QueryResult#getCount()} method in the success to get
-     *         count of objects. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * @return {@link Query} object, so you can chain this call. <b>Note :- </b> Call {@link QueryResult#getCount()}
+     * method in the success to get count of objects. <br>
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.count();
@@ -836,15 +856,14 @@ public class Query implements INotifyClass {
     /**
      * Retrieve count and data of objects in result
      *
-     * @return {@link Query} object, so you can chain this call. <b>Note :- </b>
-     *         Call {@link QueryResult#getCount()} method in the success to get
-     *         count of objects. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * @return {@link Query} object, so you can chain this call. <b>Note :- </b> Call {@link QueryResult#getCount()}
+     * method in the success to get count of objects. <br>
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.includeCount();
@@ -859,12 +878,12 @@ public class Query implements INotifyClass {
      * Include Content Type of all returned objects along with objects themselves.
      *
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.includeContentType();
@@ -883,12 +902,12 @@ public class Query implements INotifyClass {
      * Include object owner&#39;s profile in the objects data.
      *
      * @return {@linkplain Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.includeOwner();
@@ -902,18 +921,18 @@ public class Query implements INotifyClass {
     /**
      * The number of objects to skip before returning any.
      *
-     * @param number No of objects to skip from returned objects
+     * @param number
+     *         No of objects to skip from returned objects
      * @return {@link Query} object, so you can chain this call.
-     *         <p>
-     *         <b> Note: </b> The skip parameter can be used for pagination,
-     *         &#34;skip&#34; specifies the number of objects to skip in the
-     *         response. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <p>
+     * <b> Note: </b> The skip parameter can be used for pagination,
+     * &#34;skip&#34; specifies the number of objects to skip in the response. <br>
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.skip(2);
@@ -927,18 +946,18 @@ public class Query implements INotifyClass {
     /**
      * A limit on the number of objects to return.
      *
-     * @param number No of objects to limit.
+     * @param number
+     *         No of objects to limit.
      * @return {@link Query} object, so you can chain this call.
-     *         <p>
-     *         <b> Note:</b> The limit parameter can be used for pagination, &#34;
-     *         limit&#34; specifies the number of objects to limit to in the
-     *         response. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <p>
+     * <b> Note:</b> The limit parameter can be used for pagination, &#34;
+     * limit&#34; specifies the number of objects to limit to in the response. <br>
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.limit(2);
@@ -950,18 +969,20 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Add a regular expression constraint for finding string values that match the
-     * provided regular expression. This may be slow for large data sets.
+     * Add a regular expression constraint for finding string values that match the provided regular expression. This
+     * may be slow for large data sets.
      *
-     * @param key   The key to be constrained.
-     * @param regex The regular expression pattern to match.
+     * @param key
+     *         The key to be constrained.
+     * @param regex
+     *         The regular expression pattern to match.
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.regex("name", "^browser");
@@ -983,28 +1004,31 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Add a regular expression constraint for finding string values that match the
-     * provided regular expression. This may be slow for large data sets.
+     * Add a regular expression constraint for finding string values that match the provided regular expression. This
+     * may be slow for large data sets.
      *
-     * @param key       The key to be constrained.
-     * @param regex     The regular expression pattern to match
-     * @param modifiers Any of the following supported Regular expression modifiers.
-     *                  <p>
-     *                  use <b> i </b> for case-insensitive matching.
-     *                  </p>
-     *                  <p>
-     *                  use <b> m </b> for making dot match newlines.
-     *                  </p>
-     *                  <p>
-     *                  use <b> x </b> for ignoring whitespace in regex
-     *                  </p>
+     * @param key
+     *         The key to be constrained.
+     * @param regex
+     *         The regular expression pattern to match
+     * @param modifiers
+     *         Any of the following supported Regular expression modifiers.
+     *         <p>
+     *         use <b> i </b> for case-insensitive matching.
+     *         </p>
+     *         <p>
+     *         use <b> m </b> for making dot match newlines.
+     *         </p>
+     *         <p>
+     *         use <b> x </b> for ignoring whitespace in regex
+     *         </p>
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.regex("name", "^browser", "i");
@@ -1038,13 +1062,14 @@ public class Query implements INotifyClass {
     /**
      * set Language using locale code.
      *
-     * @param locale {@link String} value
+     * @param locale
+     *         {@link String} value
      * @return {@link Query} object, so you can chain this call <br>
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.locale("en-us");
@@ -1058,14 +1083,15 @@ public class Query implements INotifyClass {
     /**
      * This method provides only the entries matching the specified value.
      *
-     * @param value value used to match or compare
+     * @param value
+     *         value used to match or compare
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.search("header");
@@ -1082,16 +1108,16 @@ public class Query implements INotifyClass {
     /**
      * Execute a Query and Caches its result (Optional)
      *
-     * @param callback {@link QueryResultsCallBack} object to notify the application
-     *                 when the request has completed.
+     * @param callback
+     *         {@link QueryResultsCallBack} object to notify the application when the request has completed.
      * @return {@linkplain Query} object, so you can chain this call. <br>
-     * 
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.find(new QueryResultsCallBack() {<br>
@@ -1121,15 +1147,15 @@ public class Query implements INotifyClass {
     /**
      * Execute a Query and Caches its result (Optional)
      *
-     * @param callBack {@link QueryResultsCallBack} object to notify the application
-     *                 when the request has completed.
+     * @param callBack
+     *         {@link QueryResultsCallBack} object to notify the application when the request has completed.
      * @return {@linkplain Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.findOne(new QueryResultsCallBack() {<br>
@@ -1170,7 +1196,7 @@ public class Query implements INotifyClass {
             errorHashMap.put(queryName, e.getLocalizedMessage());
         }
         errorHashMap.put("detail", messageString);
-        logger.warning(messageString);
+        logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
     }
 
     protected void setQueryJson() {
@@ -1210,7 +1236,7 @@ public class Query implements INotifyClass {
             mainJSON.put(QUERY, urlQueries);
             fetchFromNetwork(urlString, mainJSON, callback, callBack);
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
             throwException("find", Constants.QUERY_EXCEPTION, e);
         }
 
@@ -1227,14 +1253,16 @@ public class Query implements INotifyClass {
             if (configInstance.livePreviewHash == null || configInstance.livePreviewHash.isEmpty()) {
                 configInstance.livePreviewHash = "init";
             }
-            this.headers.put("live_preview", configInstance.livePreviewHash);
+            //this.headers.put("live_preview", configInstance.livePreviewHash);
+            urlQueries.put("live_preview", configInstance.livePreviewHash);
+            urlQueries.put("content_type_uid", contentTypeUid);
             this.headers.put("authorization", configInstance.managementToken);
         }
     }
 
     // fetch from network.
     private void fetchFromNetwork(String urlString, JSONObject jsonMain, ResultCallBack callback,
-            SingleQueryResultCallback resultCallback) {
+                                  SingleQueryResultCallback resultCallback) {
         LinkedHashMap<String, Object> urlParams = getUrlParams(jsonMain);
         if (resultCallback != null) {
             new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.SINGLEQUERYOBJECT, urlString,
@@ -1305,15 +1333,17 @@ public class Query implements INotifyClass {
     /**
      * This method adds key and value to an Entry. Parameters:
      *
-     * @param paramKey:   The key as string which needs to be added to the Query
-     * @param paramValue: The value as string which needs to be added to the Query
+     * @param paramKey:
+     *         The key as string which needs to be added to the Query
+     * @param paramValue:
+     *         The value as string which needs to be added to the Query
      * @return - Query
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.addParam("key", "some_value");
@@ -1330,16 +1360,15 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * This method also includes the content type UIDs of the referenced entries
-     * returned in the response
+     * This method also includes the content type UIDs of the referenced entries returned in the response
      *
      * @return {@link Query} <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *          csQuery.includeReferenceContentTypUid();
@@ -1356,18 +1385,20 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Get entries having values based on referenced fields. This query retrieves
-     * all entries that satisfy the query conditions made on referenced fields.
+     * Get entries having values based on referenced fields. This query retrieves all entries that satisfy the query
+     * conditions made on referenced fields.
      *
-     * @param key         The key to be constrained
-     * @param queryObject {@link Query} object, so you can chain this call
+     * @param key
+     *         The key to be constrained
+     * @param queryObject
+     *         {@link Query} object, so you can chain this call
      * @return {@link Query} object, so you can chain this call <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.whereIn("due_date", csQuery);
@@ -1381,19 +1412,20 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Get entries having values based on referenced fields. This query works the
-     * opposite of $in_query and retrieves all entries that does not satisfy query
-     * conditions made on referenced fields.
+     * Get entries having values based on referenced fields. This query works the opposite of $in_query and retrieves
+     * all entries that does not satisfy query conditions made on referenced fields.
      *
-     * @param key         The key to be constrained
-     * @param queryObject {@link Query} object, so you can chain this call
+     * @param key
+     *         The key to be constrained
+     * @param queryObject
+     *         {@link Query} object, so you can chain this call
      * @return {@link Query} object, so you can chain this call
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.whereNotIn("due_date", csQuery);
@@ -1407,16 +1439,15 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Retrieve the published content of the fallback locale if an entry is not
-     * localized in specified locale
+     * Retrieve the published content of the fallback locale if an entry is not localized in specified locale
      *
      * @return {@link Query} object, so you can chain this call. <br>
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", environment);
      *         Query csQuery = stack.contentType("contentTypeUid").query();
      *         csQuery.includeFallback();
@@ -1429,15 +1460,13 @@ public class Query implements INotifyClass {
 
     /**
      * @return {@link Query} object, so you can chain this call. <br>
-     *
-     *
      * @return {@link Query}
-     * 
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
      *
-     *         <pre class="prettyprint">
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", environment);
      *         Query query = stack.contentType("contentTypeUid").query();
      *         query.includeEmbeddedObjects()
@@ -1453,11 +1482,11 @@ public class Query implements INotifyClass {
      *
      * @return {@link Query} object, so you can chain this call. <br>
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
      *
-     *         <pre class="prettyprint">
+     * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query query = stack.contentType("contentTypeUid").query();
      *         entry.includeBranch();

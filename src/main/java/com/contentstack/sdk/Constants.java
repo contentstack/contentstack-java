@@ -2,10 +2,8 @@ package com.contentstack.sdk;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -14,7 +12,7 @@ import java.util.logging.Logger;
 public class Constants {
 
     private static final Logger logger = Logger.getLogger(Constants.class.getSimpleName());
-    protected static final String SDK_VERSION = "1.9.0";
+    protected static final String SDK_VERSION = "1.10.0";
     protected static final String ENVIRONMENT = "environment";
     protected static final String CONTENT_TYPE_UID = "content_type_uid";
     protected static final String SYNCHRONISATION = "stacks/sync";
@@ -23,18 +21,18 @@ public class Constants {
     protected static final String ERROR_MESSAGE = "error_message";
     protected static final String ERRORS = "errors";
     // User-Agents
-    protected static final String X_USER_AGENT = "X-User-Agent";
+    protected static final String X_USER_AGENT_KEY = "X-User-Agent";
+    protected static final String USER_AGENT_KEY = "User-Agent";
+    protected static final String USER_AGENT = userAgent();
     protected static final String CONTENT_TYPE = "Content-Type";
     protected static final String APPLICATION_JSON = "application/json";
-    protected static final String CLIENT_USER_AGENT = userAgent();
-    // Query
+
     protected static final String QUERY = "query";
     protected static final String EXCEPT = "except";
     protected static final String EXISTS = "$exists";
     protected static final String REGEX = "$regex";
     protected static final String LIMIT = "limit";
     protected static final String OPTIONS = "$options";
-
 
 
     protected Constants() {
@@ -58,17 +56,16 @@ public class Constants {
     public static final String FETCHSYNC = "getSync";
     public static final String FETCHCONTENTTYPES = "getContentTypes";
 
-    // ERROR MESSAGE BLOCK
-    public static final String JSON_NOT_PROPER = "Please provide valid JSON.";
     public static final String CONTENT_TYPE_NAME = "Please set contentType name.";
-    public static final String HEADER_IS_MISSING_TO_PROCESS_THE_DATA = "Header is missing to process the data";
     public static final String QUERY_EXCEPTION = "Please provide valid params.";
 
     /**
      * Parse date calendar.
      *
-     * @param date     the date
-     * @param timeZone the time zone
+     * @param date
+     *         the date
+     * @param timeZone
+     *         the time zone
      * @return the calendar
      */
     public static Calendar parseDate(String date, TimeZone timeZone) {
@@ -89,7 +86,7 @@ public class Constants {
             try {
                 return parseDate(date, formatString, timeZone);
             } catch (ParseException e) {
-                logger.warning(e.getLocalizedMessage());
+                logger.log(Level.WARNING, e.getLocalizedMessage(), e);
             }
         }
         return null;
@@ -98,11 +95,15 @@ public class Constants {
     /**
      * Parse date calendar.
      *
-     * @param date       the date
-     * @param dateFormat the date format
-     * @param timeZone   the time zone
+     * @param date
+     *         the date
+     * @param dateFormat
+     *         the date format
+     * @param timeZone
+     *         the time zone
      * @return the calendar
-     * @throws ParseException the parse exception
+     * @throws ParseException
+     *         the parse exception
      */
     public static Calendar parseDate(String date, String dateFormat, TimeZone timeZone) throws ParseException {
         Calendar cal = Calendar.getInstance();
@@ -131,4 +132,5 @@ public class Constants {
         agentStr = agentStr + "/" + SDK_VERSION;
         return agentStr;
     }
+
 }
