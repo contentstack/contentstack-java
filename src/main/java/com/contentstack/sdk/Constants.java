@@ -2,10 +2,7 @@ package com.contentstack.sdk;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,11 +21,12 @@ public class Constants {
     protected static final String ERROR_MESSAGE = "error_message";
     protected static final String ERRORS = "errors";
     // User-Agents
-    protected static final String X_USER_AGENT = "X-User-Agent";
+    protected static final String X_USER_AGENT_KEY = "X-User-Agent";
+    protected static final String USER_AGENT_KEY = "User-Agent";
+    protected static final String USER_AGENT = userAgent();
     protected static final String CONTENT_TYPE = "Content-Type";
     protected static final String APPLICATION_JSON = "application/json";
-    protected static final String CLIENT_USER_AGENT = userAgent();
-    // Query
+
     protected static final String QUERY = "query";
     protected static final String EXCEPT = "except";
     protected static final String EXISTS = "$exists";
@@ -58,10 +56,7 @@ public class Constants {
     public static final String FETCHSYNC = "getSync";
     public static final String FETCHCONTENTTYPES = "getContentTypes";
 
-    // ERROR MESSAGE BLOCK
-    public static final String JSON_NOT_PROPER = "Please provide valid JSON.";
     public static final String CONTENT_TYPE_NAME = "Please set contentType name.";
-    public static final String HEADER_IS_MISSING_TO_PROCESS_THE_DATA = "Header is missing to process the data";
     public static final String QUERY_EXCEPTION = "Please provide valid params.";
 
     /**
@@ -137,4 +132,5 @@ public class Constants {
         agentStr = agentStr + "/" + SDK_VERSION;
         return agentStr;
     }
+
 }
