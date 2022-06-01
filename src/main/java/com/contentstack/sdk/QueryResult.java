@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class QueryResult {
@@ -108,7 +109,7 @@ public class QueryResult {
             }
 
         } catch (Exception e) {
-            logger.severe(e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
         }
     }
 

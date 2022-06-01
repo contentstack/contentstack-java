@@ -42,7 +42,6 @@ class TestAssetLibrary {
                 Assertions.assertTrue(model.getCreatedBy().startsWith("blt"));
                 assertEquals("gregory", model.getUpdateAt().getCalendarType());
                 Assertions.assertTrue(model.getUpdatedBy().startsWith("sys"));
-                Assertions.assertNull(model.getDeleteAt());
                 assertEquals("", model.getDeletedBy());
                 logger.info("passed...");
             }

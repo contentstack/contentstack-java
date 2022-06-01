@@ -69,7 +69,7 @@ class TestContentType {
         Entry entry = contentType.entry("just-fake-it");
         Assertions.assertEquals("product", entry.getContentType());
         Assertions.assertEquals("just-fake-it", entry.uid);
-        Assertions.assertEquals(5, entry.headers.size());
+        Assertions.assertEquals(6, entry.headers.size());
         logger.info("passed...");
     }
 
@@ -78,7 +78,7 @@ class TestContentType {
         ContentType contentType = stack.contentType("product");
         Query query = contentType.query();
         Assertions.assertEquals("product", query.getContentType());
-        Assertions.assertEquals(5, query.headers.size());
+        Assertions.assertEquals(6, query.headers.size());
         logger.info("passed...");
     }
 
