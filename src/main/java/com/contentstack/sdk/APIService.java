@@ -9,7 +9,6 @@ import retrofit2.http.Url;
 import java.util.LinkedHashMap;
 
 public interface APIService {
-
     @GET
     Call<ResponseBody> getRequest(@Url String url, @HeaderMap LinkedHashMap<String, Object> headers);
 }
