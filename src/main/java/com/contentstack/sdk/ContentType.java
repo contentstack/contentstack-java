@@ -9,8 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
 /**
- * <a
- * href="https://www.contentstack.com/docs/developers/apis/content-delivery-api/#single-content-type">ContentType</a>
+ * <a href="https://www.contentstack.com/docs/developers/apis/content-delivery-api/#single-content-type">ContentType</a>
  * This call returns information of a specific content type. It returns the content type schema, but does not include
  * its entries.
  *
@@ -125,7 +124,7 @@ public class ContentType {
      * @param callback
      *         the callback of type {@link ContentTypesCallback}
      */
-    public void fetch(@NotNull JSONObject params, final ContentTypesCallback callback) {
+    public void fetch(@NotNull JSONObject params, final ContentTypesCallback callback) throws IllegalAccessException {
         String urlString = "content_types/" + contentTypeUid;
         Iterator<String> keys = params.keys();
         while (keys.hasNext()) {
@@ -134,12 +133,8 @@ public class ContentType {
             params.put(key, value);
         }
         params.put("environment", headers.get("environment"));
-        if (contentTypeUid != null && !contentTypeUid.isEmpty()) {
-            try {
-                throw new IllegalAccessException("contentTypeUid is required");
-            } catch (Exception e) {
-                logger.warning("contentTypeUid is required");
-            }
+        if (contentTypeUid == null || contentTypeUid.isEmpty()) {
+            throw new IllegalAccessException("contentTypeUid is required");
         }
         fetchContentTypes(urlString, params, headers, callback);
     }
