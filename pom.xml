@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.10.0-SNAPSHOT</version>
+    <version>1.10.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>contentstack-java</name>
     <description>Java SDK for Contentstack Content Delivery API</description>
@@ -12,16 +13,15 @@
 
 
     <properties>
-        <sdk.version.snapshot>1.10.0-SNAPSHOT</sdk.version.snapshot>
-        <sdk.version.release>1.10.0</sdk.version.release>
+        <sdk.version.release>1.10.1-SNAPSHOT</sdk.version.release>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <surefire-report-plugin.version>2.22.0</surefire-report-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
-        <dotenv-source.version>2.2.3</dotenv-source.version>
-        <rxjava-source.version>3.1.4</rxjava-source.version>
+        <dotenv-source.version>2.2.4</dotenv-source.version>
+        <rxjava-source.version>3.1.5</rxjava-source.version>
         <retrofit-source.version>2.9.0</retrofit-source.version>
         <converter-gson-source.version>2.9.0</converter-gson-source.version>
         <loggin.version>4.9.3</loggin.version>
@@ -41,7 +41,7 @@
         <jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
         <maven-release-plugin-version>2.5.3</maven-release-plugin-version>
         <nexus-staging-maven-plugin-version>1.6.7</nexus-staging-maven-plugin-version>
-        <contentstack-utils-version>1.1.1</contentstack-utils-version>
+        <contentstack-utils-version>1.1.2</contentstack-utils-version>
     </properties>
 
     <parent>

@@ -83,7 +83,7 @@ class TestContentType {
     }
 
     @Test
-    void testContentTypeFetch() {
+    void testContentTypeFetch() throws IllegalAccessException {
         ContentType contentType = stack.contentType("product");
         JSONObject paramObj = new JSONObject();
         paramObj.put("ctKeyOne", "ctKeyValue1");
@@ -98,7 +98,7 @@ class TestContentType {
     }
 
     @Test
-    void testContentTypesFetch() {
+    void testContentTypesFetch() throws IllegalAccessException {
         ContentType contentType = stack.contentType("product");
         JSONObject paramObj = new JSONObject();
         paramObj.put("ctKeyOne", "ctKeyValue1");
@@ -112,11 +112,5 @@ class TestContentType {
         });
     }
 
-    @Test
-    void toCoverageCheckHeader() {
-        Map<String, Object> mapHeader = new HashMap<>();
-        CSBackgroundTask backgroundTask = new CSBackgroundTask();
-        backgroundTask.checkHeader(mapHeader);
-    }
 
 }
