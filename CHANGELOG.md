@@ -2,9 +2,10 @@
 
 ## v1.10.1
 
-### Date: 11-Jun-2022
+### Date: 17-Jun-2022
 
-- compileJava issue in Gradle build ecosystem (contentstack-utils)
+- #57 CompileJava issue in Gradle build ecosystem (contentstack-utils)
+- #58 content_type : Invalid warning for contentTypeUid
 
 ---
 
