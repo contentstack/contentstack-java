@@ -1,17 +1,27 @@
 # CHANGELOG
 
-## Version 1.10.0
+## v1.10.1
 
-### Date: 16-May-2022
+### Date: 17-Jun-2022
+
+- #57 CompileJava issue in Gradle build ecosystem (contentstack-utils)
+- #58 content_type : Invalid warning for contentTypeUid
+
+---
+
+## v1.10.0
+
+### Date: 03-Jun-2022
 
 - High increase in memory consumption & thread count when updated to the 1.9.0 version
 - Setting Proxy in config [#52](https://github.com/contentstack/contentstack-java/issues/52)
 - Adding query parameter for the Live Preview
-- Enhancement in logger for the different class ( Suggested through a pull request ) [#51](https://github.com/contentstack/contentstack-java/pull/51)
+- Enhancement in logger for the different class ( Suggested through a pull
+  request ) [#51](https://github.com/contentstack/contentstack-java/pull/51)
 
 ---
 
-## Version 1.9.0
+## v1.9.0
 
 ### Date: 16-Mar-2022
 
@@ -21,7 +31,7 @@
 
 ---
 
-## Version 1.8.1
+## v1.8.1
 
 ### Date: 27-Jan-2022
 
@@ -31,7 +41,7 @@
 
 ---
 
-## Version 1.8.0
+## v1.8.0
 
 ### Date: 01-Nov-2021
 
@@ -44,7 +54,7 @@
 
 ---
 
-## Version 1.7.0
+## v1.7.0
 
 ### Date: 12-JUL-2021
 
@@ -54,7 +64,7 @@
 
 ---
 
-## Version 1.6.0
+## v1.6.0
 
 ### Date: 05-APR-2021
 
@@ -63,7 +73,7 @@
 
 ---
 
-## Version 1.5.7
+## v1.5.7
 
 ### Date: 20-Feb-2021
 
@@ -71,7 +81,7 @@ Document updated
 
 ---
 
-## Version 1.5.6
+## v1.5.6
 
 ### Date: 27-Jan-2021
 
@@ -82,7 +92,7 @@ New Features:
 
 ---
 
-## Version 1.5.5
+## v1.5.5
 
 ### Date: 22-Jan-2021
 
@@ -103,7 +113,7 @@ New Features:
 
 ---
 
-## Version 1.5.4
+## v1.5.4
 
 ### Date: 08-DEC-2020
 
@@ -116,7 +126,7 @@ New Features:
 
 ---
 
-## Version 1.5.3
+## v1.5.3
 
 ### Date: 28-July-2020
 
@@ -124,7 +134,7 @@ New Features:
 
 ---
 
-## Version 1.5.2
+## v1.5.2
 
 ### Date: 23-July-2020
 
@@ -134,7 +144,7 @@ New Features:
 
 ---
 
-## Version 1.5.1
+## v1.5.1
 
 ### Date: 13-Jan-2020
 
@@ -142,7 +152,7 @@ New Features:
 
 ---
 
-## Version 1.5.0
+## v1.5.0
 
 ### Date: 15-Nov-2019
 
@@ -153,7 +163,7 @@ New Features:
 
 ---
 
-## Version 1.4.2
+## v1.4.2
 
 ### Date: 03-Sept-2019
 
@@ -161,7 +171,7 @@ New Features:
 
 ---
 
-## Version 1.4.1
+## v1.4.1
 
 ### Date: 21-August-2019
 
@@ -170,7 +180,7 @@ New Features:
 
 ---
 
-## Version 1.4.0
+## v1.4.0
 
 ### Date: 26-July-2019
 
@@ -184,7 +194,7 @@ New Features:
 
 ---
 
-## Version 1.3.3
+## v1.3.3
 
 ### Date: 21-June-2019
 
@@ -192,7 +202,7 @@ New Features:
 
 ---
 
-## Version 1.3.2
+## v1.3.2
 
 ### Date: 13-May-2019
 
@@ -201,7 +211,7 @@ New Features:
 
 ---
 
-## Version 1.3.1
+## v1.3.1
 
 ### Date: May-02-2019
 
@@ -210,7 +220,7 @@ New Features:
 
 ---
 
-## Version 1.3.0
+## v1.3.0
 
 ### Date: Apr-12-2019
 
@@ -228,7 +238,7 @@ Below two support from the Config class has been removed permanently
 
 ---
 
-## Version 1.2.1
+## v1.2.1
 
 ### Date: 14-Mar-2019
 
@@ -240,7 +250,7 @@ Folder structure modified.
 
 ---
 
-## Version 1.2.0
+## v1.2.0
 
 ### Date: 15-Dec-2017
 
@@ -254,7 +264,7 @@ Folder structure modified.
 
 ---
 
-## Version 1.1.0
+## v1.1.0
 
 ### Date: 10-Nov-2017
 
