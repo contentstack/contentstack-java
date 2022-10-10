@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.10.0-SNAPSHOT</version>
+    <version>1.10.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>contentstack-java</name>
     <description>Java SDK for Contentstack Content Delivery API</description>
@@ -20,16 +21,16 @@
         <surefire-report-plugin.version>2.22.0</surefire-report-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
-        <dotenv-source.version>2.2.3</dotenv-source.version>
-        <rxjava-source.version>3.1.4</rxjava-source.version>
+        <dotenv-source.version>2.2.4</dotenv-source.version>
+        <rxjava-source.version>3.1.5</rxjava-source.version>
         <retrofit-source.version>2.9.0</retrofit-source.version>
         <converter-gson-source.version>2.9.0</converter-gson-source.version>
-        <loggin.version>4.9.3</loggin.version>
+        <loggin.version>4.10.0</loggin.version>
         <jococo-plugin.version>0.8.5</jococo-plugin.version>
         <lombok-source.version>1.18.24</lombok-source.version>
-        <junit-jupiter.version>5.8.2</junit-jupiter.version>
+        <junit-jupiter.version>5.9.0</junit-jupiter.version>
         <junit-jupiter-engine.version>5.8.0-M1</junit-jupiter-engine.version>
-        <junit-vintage-engine.version>5.8.2</junit-vintage-engine.version>
+        <junit-vintage-engine.version>5.9.0</junit-vintage-engine.version>
         <gson.version>2.8.8</gson.version>
         <json-simple-version>1.1.1</json-simple-version>
         <maven-site-plugin.version>3.3</maven-site-plugin.version>
@@ -37,11 +38,11 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <json-version>20220320</json-version>
+        <json-version>20220924</json-version>
         <jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
         <maven-release-plugin-version>2.5.3</maven-release-plugin-version>
         <nexus-staging-maven-plugin-version>1.6.7</nexus-staging-maven-plugin-version>
-        <contentstack-utils-version>1.1.1</contentstack-utils-version>
+        <contentstack-utils-version>1.2.0</contentstack-utils-version>
     </properties>
 
     <parent>
@@ -342,6 +343,7 @@
                         <exclude>src/main/java/com/contentstack/sdk/FetchResultCallback.class</exclude>
                         <exclude>src/main/java/com/contentstack/sdk/EntryResultCallBack.class</exclude>
                         <exclude>src/main/java/com/contentstack/sdk/FetchResultCallback.class</exclude>
+                        <exclude>src/main/java/com/contentstack/sdk/TestLivePreview.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>

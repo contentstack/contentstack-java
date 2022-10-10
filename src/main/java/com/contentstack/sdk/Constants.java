@@ -15,6 +15,9 @@ public class Constants {
     protected static final String SDK_VERSION = "1.10.0";
     protected static final String ENVIRONMENT = "environment";
     protected static final String CONTENT_TYPE_UID = "content_type_uid";
+    protected static final String ENTRY_UID = "entry_uid";
+    protected static final String LIVE_PREVIEW = "live_preview";
+
     protected static final String SYNCHRONISATION = "stacks/sync";
     // Errors
     protected static final String ERROR_CODE = "error_code";

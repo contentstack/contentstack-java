@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 import static com.contentstack.sdk.Constants.*;
 
@@ -28,6 +29,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
     private LinkedHashMap<String, Object> headers;
     private String info;
     private APIService service;
+    private Config config;
     private ResultCallBack callBackObject;
     private JSONObject responseJSON;
     private HashMap<String, Object> formParams;
@@ -187,8 +189,12 @@ public class CSHttpConnection implements IURLRequestHTTP {
         Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
         if (response.isSuccessful()) {
             assert response.body() != null;
-            String resp = response.body().string();
-            responseJSON = new JSONObject(resp);
+            // String resp = response.body().string();
+            responseJSON = new JSONObject(response.body().string());
+            // LivePreviewAgent to validate If LivePreview Response is there for mapping
+            if (this.config.livePreviewEntry != null) {
+                livePreviewAgent();
+            }
             connectionRequest.onRequestFinished(CSHttpConnection.this);
         } else {
             assert response.errorBody() != null;
@@ -196,6 +202,30 @@ public class CSHttpConnection implements IURLRequestHTTP {
         }
 
     }
+
+    private void livePreviewAgent() {
+        if (!responseJSON.isEmpty() && responseJSON.has("entries")) {
+            mapLPreviewToQuery(responseJSON.optJSONArray("entries"));
+        }
+        if (responseJSON.has("entry")) {
+            mapLPreviewToEntry(responseJSON.optJSONObject("entry"), 0);
+        }
+        //  TODO: responseJSON
+    }
+
+    private void mapLPreviewToEntry(JSONObject entry, int idx) {
+        System.out.println(entry);
+        if (entry.opt("uid").equals(this.config.livePreviewEntry.opt("uid"))){
+            System.out.println("Equal------");
+        }
+    }
+
+    private void mapLPreviewToQuery(JSONArray entries) {
+        IntStream.range(0, entries.length())
+                .forEach(idx -> mapLPreviewToEntry((JSONObject) entries.get(idx), idx)
+                );
+    }
+
 
     void setError(String errResp) {
         logger.info(errResp);
@@ -209,5 +239,9 @@ public class CSHttpConnection implements IURLRequestHTTP {
 
     public void setAPIService(APIService service) {
         this.service = service;
+    }
+
+    public void setConfig(Config config) {
+        this.config = config;
     }
 }
