@@ -2,10 +2,13 @@ package com.contentstack.sdk;
 
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import java.io.IOException;
 import java.net.Proxy;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,6 +28,7 @@ public class Stack {
     protected LinkedHashMap<String, Object> headers;
     protected Config config;
     protected String contentType;
+    protected String livePreviewEndpoint;
     protected APIService service;
     protected String apiKey;
     protected JSONObject syncParams = null;
@@ -82,20 +86,8 @@ public class Stack {
 
 
     private void includeLivePreview() {
-        try {
-            if (config.enableLivePreview) {
-                if (config.managementToken == null || config.managementToken.isEmpty()) {
-                    throw new IllegalAccessException("managementToken is required");
-                }
-                if (config.livePreviewHost == null || config.livePreviewHost.isEmpty()) {
-                    throw new IllegalAccessException("host is required");
-                }
-                config.host = config.livePreviewHost;
-            }
-        } catch (Exception e) {
-            String info = "To enable live preview, managementToken and host are required";
-            logger.warning(info);
-            throw new IllegalArgumentException(e.getLocalizedMessage());
+        if (config.enableLivePreview) {
+            this.livePreviewEndpoint = "https://".concat(config.livePreviewHost).concat("/v3/content_types/");
         }
     }
 
@@ -121,10 +113,29 @@ public class Stack {
      * <p>
      * stack.livePreviewQuery(queryMap)
      */
-    public Stack livePreviewQuery(Map<String, String> query) {
-        if (this.config.enableLivePreview) {
-            config.livePreviewHash = query.get("live_preview");
-            config.livePreviewContentType = query.get(CONTENT_TYPE_UID);
+    public Stack livePreviewQuery(Map<String, String> query) throws IOException {
+        config.livePreviewHash = query.get(LIVE_PREVIEW);
+        config.livePreviewEntryUid = query.get(ENTRY_UID);
+        config.livePreviewContentType = query.get(CONTENT_TYPE_UID);
+
+        String _uRL = this.livePreviewEndpoint.concat(config.livePreviewContentType).concat("/entries/" + config.livePreviewEntryUid);
+        if (_uRL.contains("/null/")) {
+            throw new IllegalStateException("Malformed Preview Url");
+        }
+        Response<ResponseBody> response = null;
+        try {
+            LinkedHashMap<String, Object> liveHeader = new LinkedHashMap<>();
+            liveHeader.put("api_key", this.headers.get("api_key"));
+            liveHeader.put("authorization", config.managementToken);
+            response = this.service.getRequest(_uRL, liveHeader).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (response.isSuccessful()) {
+            assert response.body() != null;
+            String resp = response.body().string();
+            JSONObject liveResponse = new JSONObject(resp);
+            config.setLivePreviewEntry(liveResponse.getJSONObject("entry"));
         }
         return this;
     }
@@ -358,8 +369,8 @@ public class Stack {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                                                                                                                     stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
-     *                                                                                                                                                                                     </pre>
+     *                                                                                                                                                                                                                                                                                                                     stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
+     *                                                                                                                                                                                                                                                                                                                     </pre>
      */
     public void syncToken(String syncToken, SyncResultCallBack syncCallBack) {
         this.sync(null);
@@ -381,11 +392,11 @@ public class Stack {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                                                                                                                     final Date start_date = sdf.parse("2018-10-07"); <P>
-     *                                                                                                                                                                                     stack.syncFromDate(start_date, SyncResultCallBack()) {
+     *                                                                                                                                                                                                                                                                                                                     final Date start_date = sdf.parse("2018-10-07"); <P>
+     *                                                                                                                                                                                                                                                                                                                     stack.syncFromDate(start_date, SyncResultCallBack()) {
      *
-     *                                                                                                                                                                                     }
-     *                                                                                                                                                                                     </pre>
+     *                                                                                                                                                                                                                                                                                                                     }
+     *                                                                                                                                                                                                                                                                                                                     </pre>
      */
     public void syncFromDate(@NotNull Date fromDate, SyncResultCallBack syncCallBack) {
         String newFromDate = convertUTCToISO(fromDate);
@@ -463,8 +474,8 @@ public class Stack {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                                                                                                                     stackInstance.syncPublishType(Stack.PublishType.entry_published, new SyncResultCallBack()) { }
-     *                                                                                                                                                                                     </pre>
+     *                                                                                                                                                                                                                                                                                                                     stackInstance.syncPublishType(Stack.PublishType.entry_published, new SyncResultCallBack()) { }
+     *                                                                                                                                                                                                                                                                                                                     </pre>
      */
     public void syncPublishType(PublishType publishType, SyncResultCallBack syncCallBack) {
         this.sync(null);
@@ -493,7 +504,8 @@ public class Stack {
      *         <b>Example :</b><br>
      */
     public void sync(
-            String contentType, Date fromDate, String localeCode, PublishType publishType, SyncResultCallBack syncCallBack) {
+            String contentType, Date fromDate, String localeCode, PublishType publishType, SyncResultCallBack
+            syncCallBack) {
         String newDate = convertUTCToISO(fromDate);
         this.sync(null);
         syncParams.put("start_from", newDate);
@@ -510,7 +522,8 @@ public class Stack {
         fetchFromNetwork(SYNCHRONISATION, syncParams, this.headers, callback);
     }
 
-    private void fetchContentTypes(String urlString, JSONObject contentTypeParam, HashMap<String, Object> headers,
+    private void fetchContentTypes(String urlString, JSONObject
+            contentTypeParam, HashMap<String, Object> headers,
                                    ContentTypesCallback callback) {
         if (callback != null) {
             HashMap<String, Object> queryParam = getUrlParams(contentTypeParam);

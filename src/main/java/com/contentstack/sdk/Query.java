@@ -61,10 +61,10 @@ public class Query implements INotifyClass {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                      Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
-     *                                      Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *                                      csQuery.setHeader("custom_key", "custom_value");
-     *                                      </pre>
+     *                                         <pre> Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
+     *                                         Query csQuery = stack.contentType("contentTypeUid").query();
+     *                                         csQuery.setHeader("custom_key", "custom_value");
+     *                                         </pre>
      */
     public void setHeader(@NotNull String key, @NotNull String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
@@ -76,17 +76,14 @@ public class Query implements INotifyClass {
      * Remove header key @param key custom_header_key
      *
      * @param key
-     *         {@link String} <br>
-     *
-     *         <br>
-     *         <br>
+     *         {@link String}
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                    Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
-     *                                    Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *                                    csQuery.removeHeader("custom_key");
-     *                                    </pre>
+     *           Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
+     *           Query csQuery = stack.contentType("contentTypeUid").query();<br>
+     *           csQuery.removeHeader("custom_key");
+     *           </pre>
      */
     public void removeHeader(@NotNull String key) {
         if (!key.isEmpty()) {
@@ -959,8 +956,8 @@ public class Query implements INotifyClass {
      *
      * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
-     *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *          csQuery.limit(2);
+     *          Query query = stack.contentType("contentTypeUid").query();<br>
+     *          query.limit(2);
      *         </pre>
      */
     public Query limit(int number) {
@@ -984,8 +981,8 @@ public class Query implements INotifyClass {
      *
      * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
-     *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *          csQuery.regex("name", "^browser");
+     *          Query query = stack.contentType("contentTypeUid").query();<br>
+     *          query.regex("name", "^browser");
      *         </pre>
      */
 
@@ -1030,8 +1027,8 @@ public class Query implements INotifyClass {
      *
      * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
-     *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *          csQuery.regex("name", "^browser", "i");
+     *          Query query = stack.contentType("contentTypeUid").query();<br>
+     *          query.regex("name", "^browser", "i");
      *         </pre>
      */
 
@@ -1071,8 +1068,8 @@ public class Query implements INotifyClass {
      *
      * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
-     *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *          csQuery.locale("en-us");
+     *          Query query = stack.contentType("contentTypeUid").query();<br>
+     *          query.locale("en-us");
      *         </pre>
      */
     public Query locale(@NotNull String locale) {
@@ -1093,8 +1090,8 @@ public class Query implements INotifyClass {
      *
      * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
-     *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *          csQuery.search("header");
+     *          Query query = stack.contentType("contentTypeUid").query();<br>
+     *          query.search("header");
      *         </pre>
      */
 
@@ -1119,8 +1116,8 @@ public class Query implements INotifyClass {
      *
      * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
-     *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
-     *          csQuery.find(new QueryResultsCallBack() {<br>
+     *          Query query = stack.contentType("contentTypeUid").query();<br>
+     *          query.find(new QueryResultsCallBack() {<br>
      *              &#64;Override
      *          public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {<br>
      *              }
@@ -1239,30 +1236,21 @@ public class Query implements INotifyClass {
             logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
             throwException("find", Constants.QUERY_EXCEPTION, e);
         }
-
     }
+
 
     private void includeLivePreview() {
         Config configInstance = contentTypeInstance.stackInstance.config;
         if (configInstance.enableLivePreview
                 && configInstance.livePreviewContentType.equalsIgnoreCase(contentTypeUid)) {
-            configInstance.setHost(configInstance.livePreviewHost); // Check host and replace with new host
-            this.headers.remove("access_token");
-            urlQueries.remove(Constants.ENVIRONMENT);
-            this.headers.remove(Constants.ENVIRONMENT);
             if (configInstance.livePreviewHash == null || configInstance.livePreviewHash.isEmpty()) {
                 configInstance.livePreviewHash = "init";
             }
-            //this.headers.put("live_preview", configInstance.livePreviewHash);
-            urlQueries.put("live_preview", configInstance.livePreviewHash);
-            urlQueries.put("content_type_uid", contentTypeUid);
-            this.headers.put("authorization", configInstance.managementToken);
         }
     }
 
     // fetch from network.
-    private void fetchFromNetwork(String urlString, JSONObject jsonMain, ResultCallBack callback,
-                                  SingleQueryResultCallback resultCallback) {
+    private void fetchFromNetwork(String urlString, JSONObject jsonMain, ResultCallBack callback, SingleQueryResultCallback resultCallback) {
         LinkedHashMap<String, Object> urlParams = getUrlParams(jsonMain);
         if (resultCallback != null) {
             new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.SINGLEQUERYOBJECT, urlString,

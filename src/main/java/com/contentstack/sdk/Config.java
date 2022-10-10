@@ -2,6 +2,7 @@ package com.contentstack.sdk;
 
 import okhttp3.ConnectionPool;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
@@ -14,12 +15,14 @@ public class Config {
 
     protected String livePreviewHash = null;
     protected String livePreviewContentType = null;
+    protected String livePreviewEntryUid = null;
     protected String host = "cdn.contentstack.io";
     protected String version = "v3";
     protected String scheme = "https://";
     protected String endpoint;
     protected boolean enableLivePreview = false;
     protected String livePreviewHost;
+    protected JSONObject livePreviewEntry = null;
     protected ContentstackRegion region = ContentstackRegion.US;
     protected String managementToken;
     protected String branch;
@@ -43,9 +46,8 @@ public class Config {
      *         <br><br><b>Example:</b><br><br>
      *         <code>
      *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP,  new InetSocketAddress("proxyHost", "proxyPort"));
-     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80));
-     *         Config config = new Config();
-     *         config.setProxy(proxy);
+     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80)); Config
+     *         config = new Config(); config.setProxy(proxy);
      *         </code>
      */
     public void setProxy(Proxy proxy) {
@@ -161,6 +163,11 @@ public class Config {
      */
     public Config setLivePreviewHost(@NotNull String livePreviewHost) {
         this.livePreviewHost = livePreviewHost;
+        return this;
+    }
+
+    protected Config setLivePreviewEntry(@NotNull JSONObject livePreviewEntry) {
+        this.livePreviewEntry = livePreviewEntry;
         return this;
     }
 
