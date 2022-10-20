@@ -36,7 +36,8 @@ class CSBackgroundTask {
         csConnectionRequest.setQueryInstance(queryInstance);
         csConnectionRequest.setURLQueries(urlQueries);
         this.service = stackInstance.service;
-        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service, stackInstance.config);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service,
+                stackInstance.config);
 
     }
 

@@ -118,24 +118,26 @@ public class Stack {
         config.livePreviewEntryUid = query.get(ENTRY_UID);
         config.livePreviewContentType = query.get(CONTENT_TYPE_UID);
 
-        String _uRL = this.livePreviewEndpoint.concat(config.livePreviewContentType).concat("/entries/" + config.livePreviewEntryUid);
-        if (_uRL.contains("/null/")) {
-            throw new IllegalStateException("Malformed Preview Url");
+        String livePreviewUrl = this.livePreviewEndpoint.concat(config.livePreviewContentType).concat("/entries/" + config.livePreviewEntryUid);
+        if (livePreviewUrl.contains("/null/")) {
+            throw new IllegalStateException("Malformed Query Url");
         }
         Response<ResponseBody> response = null;
         try {
             LinkedHashMap<String, Object> liveHeader = new LinkedHashMap<>();
             liveHeader.put("api_key", this.headers.get("api_key"));
             liveHeader.put("authorization", config.managementToken);
-            response = this.service.getRequest(_uRL, liveHeader).execute();
+            response = this.service.getRequest(livePreviewUrl, liveHeader).execute();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("IO Exception while executing the Live Preview url");
         }
         if (response.isSuccessful()) {
             assert response.body() != null;
             String resp = response.body().string();
-            JSONObject liveResponse = new JSONObject(resp);
-            config.setLivePreviewEntry(liveResponse.getJSONObject("entry"));
+            if (!resp.isEmpty()) {
+                JSONObject liveResponse = new JSONObject(resp);
+                config.setLivePreviewEntry(liveResponse.getJSONObject("entry"));
+            }
         }
         return this;
     }
@@ -347,6 +349,8 @@ public class Stack {
      *         can be used to restart the sync process from where it was interrupted. <br>
      *         <br>
      *         <b>Example :</b><br>
+     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *         stack.syncPaginationToken("paginationToken)
      */
     public void syncPaginationToken(@NotNull String paginationToken, SyncResultCallBack syncCallBack) {
         this.sync(null);
@@ -367,10 +371,11 @@ public class Stack {
      *         content that was deleted or updated. <br>
      *         <br>
      *         <b>Example :</b><br>
-     *
      *         <pre class="prettyprint">
-     *                                                                                                                                                                                                                                                                                                                     stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
-     *                                                                                                                                                                                                                                                                                                                     </pre>
+     *                                                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                                     stack.syncToken("syncToken")
+     *                                                                                                                                                                                                                                                                                                                                                                             stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
+     *                                                                                                                                                                                                                                                                                                                                                                             </pre>
      */
     public void syncToken(String syncToken, SyncResultCallBack syncCallBack) {
         this.sync(null);
@@ -390,13 +395,9 @@ public class Stack {
      *         and specify the start date as its value. <br>
      *         <br>
      *         <b>Example :</b><br>
-     *
-     *         <pre class="prettyprint">
-     *                                                                                                                                                                                                                                                                                                                     final Date start_date = sdf.parse("2018-10-07"); <P>
-     *                                                                                                                                                                                                                                                                                                                     stack.syncFromDate(start_date, SyncResultCallBack()) {
-     *
-     *                                                                                                                                                                                                                                                                                                                     }
-     *                                                                                                                                                                                                                                                                                                                     </pre>
+     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *         stack.syncFromDate("fromDate")
+     *         </pre>
      */
     public void syncFromDate(@NotNull Date fromDate, SyncResultCallBack syncCallBack) {
         String newFromDate = convertUTCToISO(fromDate);
@@ -426,6 +427,7 @@ public class Stack {
      *         <br>
      *         <b>Example :</b>
      *         <p>
+     *         <p>
      *         stack.syncContentType(String content_type, new SyncResultCallBack()){ }
      */
     public void syncContentType(@NotNull String contentType, SyncResultCallBack syncCallBack) {
@@ -447,6 +449,8 @@ public class Stack {
      *         entries of the specified locales. <br>
      *         <br>
      *         <b>Example :</b><br>
+     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment"); stack.syncContentType(String
+     *         content_type, new SyncResultCallBack()){ }
      */
     public void syncLocale(String localeCode, SyncResultCallBack syncCallBack) {
         this.sync(null);
@@ -472,10 +476,11 @@ public class Stack {
      *         <br>
      *         <br>
      *         <b>Example :</b><br>
-     *
      *         <pre class="prettyprint">
-     *                                                                                                                                                                                                                                                                                                                     stackInstance.syncPublishType(Stack.PublishType.entry_published, new SyncResultCallBack()) { }
-     *                                                                                                                                                                                                                                                                                                                     </pre>
+     *                                                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                                     stack.syncPublishType(PublishType)
+     *                                                                                                                                                                                                                                                                                                                                                                             stackInstance.syncPublishType(Stack.PublishType.entry_published, new SyncResultCallBack()) { }
+     *                                                                                                                                                                                                                                                                                                                                                                             </pre>
      */
     public void syncPublishType(PublishType publishType, SyncResultCallBack syncCallBack) {
         this.sync(null);

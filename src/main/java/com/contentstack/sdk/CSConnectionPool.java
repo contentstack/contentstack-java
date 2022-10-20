@@ -4,7 +4,6 @@ import okhttp3.ConnectionPool;
 
 import java.util.concurrent.TimeUnit;
 
-
 public class CSConnectionPool {
 
     ConnectionPool create() {

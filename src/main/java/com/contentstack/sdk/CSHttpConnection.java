@@ -189,10 +189,9 @@ public class CSHttpConnection implements IURLRequestHTTP {
         Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
         if (response.isSuccessful()) {
             assert response.body() != null;
-            // String resp = response.body().string();
             responseJSON = new JSONObject(response.body().string());
             // LivePreviewAgent to validate If LivePreview Response is there for mapping
-            if (this.config.livePreviewEntry != null) {
+            if (this.config.livePreviewEntry != null && !this.config.livePreviewEntry.isEmpty()) {
                 livePreviewAgent();
             }
             connectionRequest.onRequestFinished(CSHttpConnection.this);
@@ -210,22 +209,48 @@ public class CSHttpConnection implements IURLRequestHTTP {
         if (responseJSON.has("entry")) {
             mapLPreviewToEntry(responseJSON.optJSONObject("entry"), 0);
         }
-        //  TODO: responseJSON
     }
 
     private void mapLPreviewToEntry(JSONObject entry, int idx) {
-        System.out.println(entry);
-        if (entry.opt("uid").equals(this.config.livePreviewEntry.opt("uid"))){
-            System.out.println("Equal------");
+        if (entry.opt("uid").equals(this.config.livePreviewEntry.opt("uid"))) {
+            filterToUpdate(entry, idx);
+        }
+    }
+
+    // How to merge the JSONObject key value to another key?
+    // JSONObject a = new JSONObject("{\"data\": [ {\"empId\": 1,\"deptId\":
+    // 2},{\"empId\": 3,\"deptId\": 4}]}");
+    // JSONObject b = new JSONObject("{\"data\": [ {\"empId\": 7,\"deptId\":
+    // 8},{\"empId\": 9,\"deptId\": 10}]}");
+
+    // JSONArray jArr_A= a.getJSONArray("data");
+
+    // JSONArray jArr= new JSONArray();
+    // for(int i=0;i<jArr_A.length();i++){
+    // jArr.put(jArr_A.getJSONObject(i));
+    // }
+
+    // jArr_A= b.getJSONArray("data");
+
+    // for(int i=0;i<jArr_A.length();i++){
+    // jArr.put(jArr_A.getJSONObject(i));
+    // }
+
+    // JSONObject mainJson = new JSONObject();
+    // mainJson.put("data", jArr);
+
+    private void filterToUpdate(JSONObject entry, int idx) {
+        JSONObject rec = responseJSON.optJSONArray("entries").getJSONObject(idx);
+        if (rec.has("uid") && entry.opt("uid").equals(rec.opt("uid"))) {
+            responseJSON.optJSONArray("entries").getJSONObject(idx).put(String.valueOf(entry), idx);
+            // System.out.println();
+            // TODO: Check again before commit.
         }
     }
 
     private void mapLPreviewToQuery(JSONArray entries) {
-        IntStream.range(0, entries.length())
-                .forEach(idx -> mapLPreviewToEntry((JSONObject) entries.get(idx), idx)
-                );
+        IntStream.range(0, entries.length()).forEach(idx -> mapLPreviewToEntry((JSONObject) entries.get(idx), idx));
     }
-
 
     void setError(String errResp) {
         logger.info(errResp);
