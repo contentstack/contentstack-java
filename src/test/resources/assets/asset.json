@@ -1,46 +1,44 @@
 {
-  "asset": {
-    "uid": "fake-uid-inserted",
-    "created_at": "2016-04-06T11:06:10.601Z",
-    "updated_at": "2016-12-16T12:36:33.961Z",
-    "created_by": "fake-crater",
-    "updated_by": "fake-crater",
-    "content_type": "image/jpeg",
-    "file_size": "482141",
-    "tags": [
-      "abc",
-      "pqr",
-      "xyz"
-    ],
-    "filename": "phoenix2.jpg",
-    "url": "https://images.contentstack.io/v3/assets/phoenix2.jpg",
-    "ACL": {
-      "roles": [],
-      "others": {
-        "read": false,
-        "create": false,
-        "update": false,
-        "delete": false,
-        "sub_acl": {
-          "read": false,
-          "create": false,
-          "update": false,
-          "delete": false,
-          "publish": false
-        }
-      }
-    },
-    "is_dir": false,
-    "_version": 1,
-    "title": "phoenix2.jpg",
-    "publish_details": [
-      {
-        "environment": "fake-crater",
-        "locale": "en-us",
-        "version": 1,
-        "user": "fake-crater",
-        "time": "2016-12-16T12:36:35.781Z"
-      }
-    ]
-  }
+    "asset": {
+        "uid": "fake-uid-inserted",
+        "created_at": "2016-04-06T11:06:10.601Z",
+        "updated_at": "2016-12-16T12:36:33.961Z",
+        "created_by": "fake-crater",
+        "updated_by": "fake-crater",
+        "content_type": "image/jpeg",
+        "file_size": "482141",
+        "tags": [
+            "abc",
+            "pqr",
+            "xyz"
+        ],
+        "filename": "phoenix2.jpg",
+        "url": "https://images.contentstack.io/v3/assets/phoenix2.jpg",
+        "ACL": {
+            "roles": [],
+            "others": {
+                "read": false,
+                "create": false,
+                "update": false,
+                "delete": false,
+                "sub_acl": {
+                    "read": false,
+                    "create": false,
+                    "update": false,
+                    "delete": false,
+                    "publish": false
+                }
+            }
+        },
+        "is_dir": false,
+        "_version": 1,
+        "title": "phoenix2.jpg",
+        "publish_details": [{
+            "environment": "fake-crater",
+            "locale": "en-us",
+            "version": 1,
+            "user": "fake-crater",
+            "time": "2016-12-16T12:36:35.781Z"
+        }]
+    }
 }

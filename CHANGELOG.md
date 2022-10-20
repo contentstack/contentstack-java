@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## Version 1.10.2
+
+### Date: 27-Oct-2022
+
+- LivePreview internal function implementation updated
+- Jsoup dependency updated
+- Json version updated
+
+---
+
+## Version 1.10.1
+
+### Date: 18-June-2022
+
+- Compile Issue With Gradle
+
+---
+
 ## Version 1.10.0
 
 ### Date: 16-May-2022

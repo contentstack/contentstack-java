@@ -37,7 +37,6 @@ public class Constants {
     protected static final String LIMIT = "limit";
     protected static final String OPTIONS = "$options";
 
-
     protected Constants() {
         logger.warning("Not Allowed");
     }
@@ -62,13 +61,15 @@ public class Constants {
     public static final String CONTENT_TYPE_NAME = "Please set contentType name.";
     public static final String QUERY_EXCEPTION = "Please provide valid params.";
 
+
+
     /**
      * Parse date calendar.
      *
      * @param date
-     *         the date
+     *                 the date
      * @param timeZone
-     *         the time zone
+     *                 the time zone
      * @return the calendar
      */
     public static Calendar parseDate(String date, TimeZone timeZone) {
@@ -99,14 +100,14 @@ public class Constants {
      * Parse date calendar.
      *
      * @param date
-     *         the date
+     *                   the date
      * @param dateFormat
-     *         the date format
+     *                   the date format
      * @param timeZone
-     *         the time zone
+     *                   the time zone
      * @return the calendar
      * @throws ParseException
-     *         the parse exception
+     *                        the parse exception
      */
     public static Calendar parseDate(String date, String dateFormat, TimeZone timeZone) throws ParseException {
         Calendar cal = Calendar.getInstance();
