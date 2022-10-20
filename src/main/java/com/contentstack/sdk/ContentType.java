@@ -9,7 +9,15 @@ import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
 /**
- * The type Content type.
+ * <a href=
+ * "https://www.contentstack.com/docs/developers/apis/content-delivery-api/#single-content-type">ContentType</a>
+ * This call returns information of a specific content type. It returns the
+ * content type schema, but does not include
+ * its entries.
+ *
+ * @author Shailesh Mishra
+ * @version 1.0.0
+ * @since 01-11-2017
  */
 public class ContentType {
 
@@ -61,7 +69,9 @@ public class ContentType {
      * An entry is the actual piece of content created using one of the defined
      * content types.
      * <p>
-     * The Get a single entry request fetches a particular entry of a content type.
+     * You can now pass the branch header in the API request to fetch or manage
+     * modules located within specific branches
+     * of the stack.
      *
      * @param entryUid
      *                 the entry unique ID of the entry that you want to fetch.
@@ -123,7 +133,7 @@ public class ContentType {
      * @param callback
      *                 the callback
      */
-    public void fetch(@NotNull JSONObject params, final ContentTypesCallback callback) {
+    public void fetch(@NotNull JSONObject params, final ContentTypesCallback callback) throws IllegalAccessException {
         String urlString = "content_types/" + contentTypeUid;
         Iterator<String> keys = params.keys();
         while (keys.hasNext()) {
@@ -132,12 +142,8 @@ public class ContentType {
             params.put(key, value);
         }
         params.put("environment", headers.get("environment"));
-        if (contentTypeUid != null && !contentTypeUid.isEmpty()) {
-            try {
-                throw new IllegalAccessException("contentTypeUid is required");
-            } catch (Exception e) {
-                logger.warning("contentTypeUid is required");
-            }
+        if (contentTypeUid == null || contentTypeUid.isEmpty()) {
+            throw new IllegalAccessException("contentTypeUid is required");
         }
         fetchContentTypes(urlString, params, headers, callback);
     }
