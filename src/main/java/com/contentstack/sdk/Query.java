@@ -13,9 +13,23 @@ import static com.contentstack.sdk.Constants.*;
 /**
  * Contentstack provides certain queries that you can use to fetch filtered
  * results. You can use queries for Entries and
+ * <a href=
+ * "https://www.contentstack.com/docs/developers/apis/content-delivery-api/#queries">Queries</a>
+ * Contentstack provides certain queries that you can use to fetch filtered
+ * results. You can use queries for Entries and
  * Assets API requests.
+ * <p>
+ * You can now pass the branch header in the API request to fetch or manage
+ * modules located within specific branches of
+ * the stack.
+ * <p>
+ * <b>Note</b> Branches is a plan-based feature that is available only in the
+ * new Contentstack interface.
+ *
+ * @author Shailesh Mishra
+ * @version 1.0.0
+ * @since 01-11-2017
  */
-
 public class Query implements INotifyClass {
 
     protected static final Logger logger = Logger.getLogger(Query.class.getSimpleName());
@@ -56,8 +70,7 @@ public class Query implements INotifyClass {
      *              header name.
      * @param value
      *              header value against given header name. <br>
-     *
-     *
+     * 
      *              <br>
      *              <br>
      *              <b>Example :</b><br>
@@ -67,6 +80,16 @@ public class Query implements INotifyClass {
      *                                         Query csQuery = stack.contentType("contentTypeUid").query();
      *                                         csQuery.setHeader("custom_key", "custom_value");
      *              </pre>
+     * 
+     *              =======
+     *              <b>Example :</b><br>
+     *
+     *              <pre class="prettyprint">
+     *          <pre> Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
+     *          Query csQuery = stack.contentType("contentTypeUid").query();
+     *          csQuery.setHeader("custom_key", "custom_value");
+     *              </pre>
+     * 
      */
     public void setHeader(@NotNull String key, @NotNull String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
@@ -81,11 +104,22 @@ public class Query implements INotifyClass {
      *            {@link String}
      *            <b>Example :</b><br>
      *
+     *            <<<<<<< HEAD
+     * 
      *            <pre class="prettyprint">
      *           Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
      *           Query csQuery = stack.contentType("contentTypeUid").query();<br>
      *           csQuery.removeHeader("custom_key");
      *            </pre>
+     * 
+     *            =======
+     * 
+     *            <pre class="prettyprint">
+     *          Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
+     *          Query csQuery = stack.contentType("contentTypeUid").query();<br>
+     *          csQuery.removeHeader("custom_key");
+     *            </pre>
+     * 
      */
     public void removeHeader(@NotNull String key) {
         if (!key.isEmpty()) {

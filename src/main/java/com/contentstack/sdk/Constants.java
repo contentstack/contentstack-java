@@ -7,12 +7,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The type Constants.
+ * The type Constants for Internal Uses.
+ *
+ * @author Shailesh Mishra
+ * @version 1.0.0
+ * @since 01-11-2017
  */
 public class Constants {
 
     private static final Logger logger = Logger.getLogger(Constants.class.getSimpleName());
-    protected static final String SDK_VERSION = "1.10.0";
+    protected static final String SDK_VERSION = "1.10.1";
     protected static final String ENVIRONMENT = "environment";
     protected static final String CONTENT_TYPE_UID = "content_type_uid";
     protected static final String ENTRY_UID = "entry_uid";
