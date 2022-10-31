@@ -218,16 +218,28 @@ public class CSHttpConnection implements IURLRequestHTTP {
         if (!jsonObj.isEmpty()) {
             if (jsonObj.has("uid") && jsonObj.opt("uid").equals(this.config.livePreviewEntry.opt("uid"))) {
                 arrayEntry.put(idx, this.config.livePreviewEntry);
-            } else {
-                Iterator<String> unmachedKeys = jsonObj.keys();
-                unmachedKeys.forEachRemaining(key -> {
-                    JSONObject jsonBYKey = (JSONObject) jsonObj.opt(key);
-                    handleJSONObject(arrayEntry, jsonBYKey, idx);
-                });
             }
         }
         responseJSON = new JSONObject().put("entries", arrayEntry);
     }
+
+    private void deepMergeElse(JSONArray arrayEntry, JSONObject jsonObj, int idx) {
+
+        do {
+            String k = jsonObj.keySet().iterator().next();
+            if (jsonObj.opt(k) instanceof JSONArray) {
+                JSONArray subArray = (JSONArray) jsonObj.opt(k);
+                IntStream.range(0, subArray.length()).forEach(pos -> {
+                    JSONObject objJSON = (JSONObject) subArray.get(pos);
+                    handleJSONObject(subArray, objJSON, pos);
+                });
+            }
+            if (jsonObj.opt(k) instanceof JSONObject) {
+                handleJSONObject(arrayEntry, ((JSONObject) jsonObj.opt(k)), idx);
+            }
+        } while (jsonObj.keySet().iterator().hasNext());
+    }
+
 
     void setError(String errResp) {
         logger.info(errResp);
