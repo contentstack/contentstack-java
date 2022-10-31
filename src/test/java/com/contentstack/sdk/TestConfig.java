@@ -43,7 +43,8 @@ public class TestConfig {
     void testsConnectionPool() {
         ConnectionPool pool = config.connectionPool;
         pool.connectionCount();
-        pool.idleConnectionCount();;
+        pool.idleConnectionCount();
+        ;
         Assertions.assertNotNull(pool);
     }
 
