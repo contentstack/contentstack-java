@@ -2,13 +2,11 @@ package com.contentstack.sdk;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
-// SuperEntry is used as the common class that caould be consumed by Entry and Query
-public class SuperEntry {
-
+public class Utils {
 
     /**
      * Merge "source" into "target". If fields have equal name, merge them recursively. Null values in source will
@@ -43,15 +41,24 @@ public class SuperEntry {
     }
 
 
-    /**
-     * simple test
-     */
-    public static void main(String[] args) {
-        JsonParser parser = new JsonParser();
-        JsonObject sourse = parser.parse("{offer: {issue1: null, issue2: null}, accept: true, reject: null}").getAsJsonObject();
-        JsonObject target = parser.parse("{offer: {issue2: value2}, reject: false}").getAsJsonObject();
-        System.out.println(deepMerge(sourse, target));
+    public <T> T merge(T local, T remote) throws IllegalAccessException, InstantiationException {
+        Class<?> clazz = local.getClass();
+        Object merged = clazz.newInstance();
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
+            Object localValue = field.get(local);
+            Object remoteValue = field.get(remote);
+            if (localValue != null) {
+                switch (localValue.getClass().getSimpleName()) {
+                    case "Default":
+                    case "Detail":
+                        field.set(merged, this.merge(localValue, remoteValue));
+                        break;
+                    default:
+                        field.set(merged, (remoteValue != null) ? remoteValue : localValue);
+                }
+            }
+        }
+        return (T) merged;
     }
-
-
 }
