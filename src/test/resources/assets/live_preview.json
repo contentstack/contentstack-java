@@ -1,0 +1,60 @@
+{
+  "entries": [
+    {
+      "publish_details": {
+        "environment": "blt232b9b5897933fb4",
+        "time": "2022-09-23T11:13:39.756Z",
+        "locale": "en-us",
+        "user": "bltc11e668e0295477f"
+      },
+      "link": {
+        "href": "/data_structure_is_storage",
+        "title": "A data structure is a storage"
+      },
+      "created_at": "2022-09-23T11:12:55.694Z",
+      "ACL": {},
+      "locale": "en-us",
+      "title": "A data structure is a storage that is used to store and organize data",
+      "created_by": "bltc11e668e0295477f",
+      "rich_text_editor": "<p>A <strong>data structure</strong> is a storage that is used to store and organize data. It is a way of arranging data on a computer so that it can be <del>accessed and updated </del>efficiently.</p><p>A <em>data structure is a storage that</em> is used to store and organize data. It is a way of arranging data on a <strong>computer</strong> so that it can be accessed and updated efficiently.A data structure is a storage that is used to store and organize data. It is a way of arranging data on a computer so that it can be accessed and updated efficiently.</p><br/><br/><img asset_uid=\"bltacb1184de45e0857\" src=\"https://images.contentstack.io/v3/assets/***REMOVED***/bltacb1184de45e0857/60783ff7f84ec668d64ea9de/pexels.jpg\" height=\"auto\"/><br/><br/><br/><br/><br/><br/><p></p>",
+      "url": "/data_structure",
+      "tags": [
+        "data structure"
+      ],
+      "uid": "bltc365833e25e676f3",
+      "updated_at": "2022-09-23T11:13:38.080Z",
+      "updated_by": "bltc11e668e0295477f",
+      "_version": 2
+    },
+    {
+      "publish_details": {
+        "environment": "blt232b9b5897933fb4",
+        "time": "2022-09-22T11:55:20.616Z",
+        "locale": "en-us",
+        "user": "bltc11e668e0295477f"
+      },
+      "link": {
+        "href": "https://images.pexels.com/photos/7276703/pexels-photo-7276703.jpeg?cs=srgb&dl=pexels-alejandro-peralta-7276703.jpg&fm=jpg",
+        "title": " What is Lorem Ipsum"
+      },
+      "created_at": "2021-04-15T10:51:10.292Z",
+      "ACL": {},
+      "locale": "en-us",
+      "title": "What is Lorem Ipsum",
+      "created_by": "bltc11e668e0295477f",
+      "rich_text_editor": "<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p><p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, <strong>looked up one of the more obscure Latin words,</strong> consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de<del> Finibus Bonorum et Malorum</del>\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.</p><br/><strong>There are many variations of passages of Lorem Ipsum available</strong>, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, <u>combined with a handful</u> of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.<p></p><ol><li></li></ol><img asset_uid=\"bltacb1184de45e0857\" src=\"https://images.contentstack.io/v3/assets/***REMOVED***/bltacb1184de45e0857/60783ff7f84ec668d64ea9de/pexels.jpg\" height=\"auto\"/><table colWidths=\"\"><colgroup data-width='0'></colgroup><tbody></tbody></table><p><br/></p><ol><li>camera.</li></ol><p></p><br/><br/><br/>",
+      "url": "/hey-this-is-the-sample",
+      "tags": [
+        "abdn",
+        "shailesh",
+        "ishaileshmishra",
+        "nature",
+        "loves"
+      ],
+      "uid": "blt009591baa60f3f3b",
+      "updated_at": "2022-09-22T11:55:15.103Z",
+      "updated_by": "bltc11e668e0295477f",
+      "_version": 3
+    }
+  ]
+}

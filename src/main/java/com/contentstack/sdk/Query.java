@@ -1342,6 +1342,7 @@ public class Query implements INotifyClass {
     @Override
     public void getResult(Object object, String controller) {
         // It would not be called.
+        //System.out.println(object);
     }
 
     @Override
