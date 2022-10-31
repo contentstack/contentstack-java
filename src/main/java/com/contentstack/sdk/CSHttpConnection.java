@@ -203,15 +203,22 @@ public class CSHttpConnection implements IURLRequestHTTP {
 
 
     void handleJSONArray() {
-        JSONArray entries = new JSONArray();
         if (responseJSON.has("entries") && !responseJSON.optJSONArray("entries").isEmpty()) {
-            entries = responseJSON.optJSONArray("entries");
+            JSONArray finalEntries = responseJSON.optJSONArray("entries");
+            IntStream.range(0, finalEntries.length()).forEach(idx -> {
+                JSONObject objJSON = (JSONObject) finalEntries.get(idx);
+                handleJSONObject(finalEntries, objJSON, idx);
+            });
         }
-        JSONArray finalEntries = entries;
-        IntStream.range(0, entries.length()).forEach(idx -> {
-            JSONObject objJSON = (JSONObject) finalEntries.get(idx);
-            handleJSONObject(finalEntries, objJSON, idx);
-        });
+        if (responseJSON.has("entry") && !responseJSON.optJSONObject("entry").isEmpty()) {
+            JSONObject entry = responseJSON.optJSONObject("entry");
+            if (!entry.isEmpty()) {
+                if (entry.has("uid") && entry.opt("uid").equals(this.config.livePreviewEntry.opt("uid"))) {
+                    responseJSON = new JSONObject().put("entry", this.config.livePreviewEntry);
+                }
+            }
+        }
+
     }
 
     void handleJSONObject(JSONArray arrayEntry, JSONObject jsonObj, int idx) {
@@ -221,23 +228,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
             }
         }
         responseJSON = new JSONObject().put("entries", arrayEntry);
-    }
-
-    private void deepMergeElse(JSONArray arrayEntry, JSONObject jsonObj, int idx) {
-
-        do {
-            String k = jsonObj.keySet().iterator().next();
-            if (jsonObj.opt(k) instanceof JSONArray) {
-                JSONArray subArray = (JSONArray) jsonObj.opt(k);
-                IntStream.range(0, subArray.length()).forEach(pos -> {
-                    JSONObject objJSON = (JSONObject) subArray.get(pos);
-                    handleJSONObject(subArray, objJSON, pos);
-                });
-            }
-            if (jsonObj.opt(k) instanceof JSONObject) {
-                handleJSONObject(arrayEntry, ((JSONObject) jsonObj.opt(k)), idx);
-            }
-        } while (jsonObj.keySet().iterator().hasNext());
     }
 
 
