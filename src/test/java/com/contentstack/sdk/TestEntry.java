@@ -393,7 +393,7 @@ class TestEntry {
     @Test
     @Order(42)
     void entryExcept() {
-        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
+        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
         Entry initEntry = stack.contentType("product").entry(entryUid);
         initEntry.except(arrField);
         Assertions.assertEquals(3, initEntry.exceptFieldArray.length());
@@ -413,7 +413,7 @@ class TestEntry {
     @Test
     @Order(44)
     void entryIncludeReferenceList() {
-        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
+        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
         Entry initEntry = stack.contentType("product").entry(entryUid);
         initEntry.includeReference(arrField);
         Assertions.assertEquals(3, initEntry.referenceArray.length());
@@ -424,7 +424,7 @@ class TestEntry {
     @Test
     @Order(45)
     void entryOnlyList() {
-        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
+        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
         Entry initEntry = stack.contentType("product").entry(entryUid);
         initEntry.only(arrField);
         Assertions.assertEquals(3, initEntry.objectUidForOnly.length());
