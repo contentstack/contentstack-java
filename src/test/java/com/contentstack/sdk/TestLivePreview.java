@@ -156,23 +156,5 @@ public class TestLivePreview {
         Assertions.assertNotNull(entry);
     }
 
-    @Test()
-    void testUpdatedLivePreviewQuery() throws Exception {
-        Config livePreviewEnablerConfig = new Config().enableLivePreview(true)
-                .setLivePreviewHost("api.contentstack.io")
-                .setManagementToken("***REMOVED***");
-        Stack stack = Contentstack.stack("***REMOVED***", "***REMOVED***", "development", livePreviewEnablerConfig);
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("content_type_uid", "bugfixes");
-        hashMap.put("entry_uid", "blt009591baa60f3f3b");
-        stack.livePreviewQuery(hashMap);
-        Query entry = stack.contentType("bugfixes").query();
-        entry.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                Assertions.assertNotNull(entry);
-            }
-        });
-        Assertions.assertNotNull(entry);
-    }
+
 }
