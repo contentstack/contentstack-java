@@ -76,7 +76,8 @@ class CSConnectionRequest implements IRequestModelHTTP {
         }
         this.service = (APIService) objects[5];
         if (objects.length > 6) {
-            this.config = (Config) objects[6];
+            this.stackInstance = (Stack) objects[6];
+            this.config = this.stackInstance.config;
         }
         sendRequest();
     }
@@ -89,6 +90,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
         connection.setInfo(requestInfo);
         connection.setAPIService(this.service);
         connection.setConfig(this.config);
+        connection.setStack(this.stackInstance);
         connection.setCallBackObject(resultCallBack);
         if (urlQueries != null && urlQueries.size() > 0) {
             connection.setFormParams(urlQueries);
