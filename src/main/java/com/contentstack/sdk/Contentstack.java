@@ -36,12 +36,12 @@ public class Contentstack {
      *         <b>Example</b>
      *
      *         <pre>
-     *                   {
-     *                     &#64;Code
-     *                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                   }
+     *                                                   {
+     *                                                     &#64;Code
+     *                                                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                                   }
      *
-     *                   </pre>
+     *                                                   </pre>
      */
     public static Stack stack(String stackApiKey, String deliveryToken, String environment)
             throws IllegalAccessException {
@@ -75,6 +75,7 @@ public class Contentstack {
         return initializeStack(stackApiKey, deliveryToken, environment, config);
     }
 
+
     private static void validateCredentials(String stackApiKey, String deliveryToken, String environment)
             throws IllegalAccessException {
         Objects.requireNonNull(stackApiKey, "API Key can not be null");
@@ -92,6 +93,7 @@ public class Contentstack {
         }
     }
 
+
     private static Stack initializeStack(String stackApiKey, String deliveryToken, String environment, Config config) {
         Stack stack = new Stack(stackApiKey.trim());
         stack.setHeader("api_key", stackApiKey);
@@ -100,6 +102,7 @@ public class Contentstack {
         if (config.getBranch() != null && !config.getBranch().isEmpty()) {
             stack.setHeader("branch", config.getBranch());
         }
+        // TODO: implement plugins
         stack.setConfig(config);
         return stack;
     }
