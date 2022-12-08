@@ -30,7 +30,7 @@ public class Config {
     protected Proxy proxy = null;
     protected ConnectionPool connectionPool = new ConnectionPool();
 
-    protected ArrayList<ContentstackPlugin> plugins;
+    protected ArrayList<ContentstackPlugin> plugins = null;
 
     public String getBranch() {
         return branch;
