@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.net.Proxy;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
@@ -28,6 +29,8 @@ public class Config {
     protected String branch;
     protected Proxy proxy = null;
     protected ConnectionPool connectionPool = new ConnectionPool();
+
+    protected ArrayList<ContentstackPlugin> plugins;
 
     public String getBranch() {
         return branch;
@@ -110,6 +113,10 @@ public class Config {
     protected String setEndpoint(@NotNull String endpoint) {
         this.endpoint = endpoint;
         return this.endpoint;
+    }
+
+    public void setPlugins(ArrayList<ContentstackPlugin> plugins) {
+        this.plugins = plugins;
     }
 
     /**

@@ -1,9 +1,11 @@
 package com.contentstack.sdk;
 
+import okhttp3.Request;
 import okhttp3.ResponseBody;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.IOException;
@@ -30,6 +32,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
     private String info;
     private APIService service;
     private Config config;
+    private Stack stackInstance;
     private ResultCallBack callBackObject;
     private JSONObject responseJSON;
     private HashMap<String, Object> formParams;
@@ -186,9 +189,15 @@ public class CSHttpConnection implements IURLRequestHTTP {
         this.headers.put(X_USER_AGENT_KEY, "contentstack-java/" + SDK_VERSION);
         this.headers.put(USER_AGENT_KEY, USER_AGENT);
         this.headers.put(CONTENT_TYPE, APPLICATION_JSON);
+
+        Request request = pluginRequestImp(requestUrl);
+
+        //Call call = client.newCall(request);
         Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
         if (response.isSuccessful()) {
             assert response.body() != null;
+            // TODO: On Response result
+            response = pluginResponseImp(request, response);
             responseJSON = new JSONObject(response.body().string());
             if (this.config.livePreviewEntry != null && !this.config.livePreviewEntry.isEmpty()) {
                 handleJSONArray();
@@ -199,6 +208,18 @@ public class CSHttpConnection implements IURLRequestHTTP {
             setError(response.errorBody().string());
         }
 
+    }
+
+    private Request pluginRequestImp(String requestUrl) {
+        Call<ResponseBody> call = this.service.getRequest(requestUrl, this.headers);
+        Request request = call.request();
+        this.config.plugins.forEach(plugin -> plugin.onRequest(this.stackInstance, request));
+        return request;
+    }
+
+    private Response<ResponseBody> pluginResponseImp(Request request, Response<ResponseBody> response) {
+        this.config.plugins.forEach(plugin -> plugin.onResponse(this.stackInstance, request, response));
+        return response;
     }
 
 
@@ -247,5 +268,9 @@ public class CSHttpConnection implements IURLRequestHTTP {
 
     public void setConfig(Config config) {
         this.config = config;
+    }
+
+    public void setStack(Stack stackInstance) {
+        this.stackInstance = stackInstance;
     }
 }
