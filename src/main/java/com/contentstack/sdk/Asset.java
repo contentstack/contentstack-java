@@ -87,10 +87,10 @@ public class Asset {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *         Asset asset = stack.asset(asset_uid);
-     *         asset.setHeader();
-     *         </pre>
+     *                         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *                         Asset asset = stack.asset(asset_uid);
+     *                         asset.setHeader();
+     *                 </pre>
      */
     public void setHeader(@NotNull String headerKey, @NotNull String headerValue) {
         headers.put(headerKey, headerValue);
@@ -108,10 +108,10 @@ public class Asset {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *         Asset asset = stack.asset(asset_uid);
-     *         asset.removeHeader();
-     *        </pre>
+     *                         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *                         Asset asset = stack.asset(asset_uid);
+     *                         asset.removeHeader();
+     *                        </pre>
      */
     public void removeHeader(@NotNull String headerKey) {
         headers.remove(headerKey);
