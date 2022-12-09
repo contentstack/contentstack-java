@@ -65,14 +65,19 @@ class TestContentstackPlugin {
             plugins.add(plugin1);
             plugins.add(plugin2);
 
-
             // Create a config instance:
             Config config = new Config();
             config.setPlugins(plugins);
 
             Stack stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
             ContentType contentType = stack.contentType("fakeCT");
-            Entry entry = contentType.entry();
+            Entry entry = contentType.entry("something_demo");
+            entry.fetch(new EntryResultCallBack() {
+                @Override
+                public void onCompletion(ResponseType responseType, Error error) {
+
+                }
+            });
 
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);

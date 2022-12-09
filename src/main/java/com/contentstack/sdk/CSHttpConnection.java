@@ -191,20 +191,21 @@ public class CSHttpConnection implements IURLRequestHTTP {
         this.headers.put(CONTENT_TYPE, APPLICATION_JSON);
 
         Request request = null;
-        if (this.config.plugins!=null){
+        if (this.config.plugins != null) {
             request = pluginRequestImp(requestUrl);
-            //this.headers = request.headers();
-            //requestUrl = request.url();
+            this.headers.clear();
+            Request finalRequest = request;
+            request.headers().names().forEach(key -> {
+                this.headers.put(key, finalRequest.headers().get(key));
+            });
+            requestUrl = request.url().toString();
         }
 
-        //Call call = client.newCall(request);
         Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
         if (response.isSuccessful()) {
             assert response.body() != null;
-
-            // TODO: On Response result
-            if (request!=null){
-                response = pluginResponseImp( request, response);
+            if (request != null) {
+                response = pluginResponseImp(request, response);
             }
             responseJSON = new JSONObject(response.body().string());
             if (this.config.livePreviewEntry != null && !this.config.livePreviewEntry.isEmpty()) {
