@@ -132,6 +132,7 @@ public class ContentType {
      *                 the params
      * @param callback
      *                 the callback
+     * @throws IllegalAccessException illegal access exception
      */
     public void fetch(@NotNull JSONObject params, final ContentTypesCallback callback) throws IllegalAccessException {
         String urlString = "content_types/" + contentTypeUid;
