@@ -64,7 +64,6 @@ public class Stack {
         includeLivePreview();
         String endpoint = config.scheme + config.host;
         this.config.setEndpoint(endpoint);
-
         client(endpoint);
     }
 
@@ -106,12 +105,14 @@ public class Stack {
      * <p>
      * <b>Example</b>
      * <p>
-     * <p>
      * stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
      * <p>
      * HashMap queryMap = new HashMap();
      * <p>
      * stack.livePreviewQuery(queryMap)
+     * <p>
+     * @throws IOException
+     *         IO Exception
      */
     public Stack livePreviewQuery(Map<String, String> query) throws IOException {
         config.livePreviewHash = query.get(LIVE_PREVIEW);
@@ -372,10 +373,10 @@ public class Stack {
      *         <br>
      *         <b>Example :</b><br>
      *         <pre class="prettyprint">
-     *                                                                                                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                                                                                     stack.syncToken("syncToken")
-     *                                                                                                                                                                                                                                                                                                                                                                                                                             stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
-     *                                                                                                                                                                                                                                                                                                                                                                                                                             </pre>
+     *                                                                                                                                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                                                                                                                     stack.syncToken("syncToken")
+     *                                                                                                                                                                                                                                                                                                                                                                                                                                                             stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
+     *                                                                                                                                                                                                                                                                                                                                                                                                                                                             </pre>
      */
     public void syncToken(String syncToken, SyncResultCallBack syncCallBack) {
         this.sync(null);
@@ -397,7 +398,6 @@ public class Stack {
      *         <b>Example :</b><br>
      *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
      *         stack.syncFromDate("fromDate")
-     *         </pre>
      */
     public void syncFromDate(@NotNull Date fromDate, SyncResultCallBack syncCallBack) {
         String newFromDate = convertUTCToISO(fromDate);
@@ -426,7 +426,6 @@ public class Stack {
      *         include the entries of the specified content_type. <br>
      *         <br>
      *         <b>Example :</b>
-     *         <p>
      *         <p>
      *         stack.syncContentType(String content_type, new SyncResultCallBack()){ }
      */
@@ -477,10 +476,9 @@ public class Stack {
      *         <br>
      *         <b>Example :</b><br>
      *         <pre class="prettyprint">
-     *                                                                                                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                                                                                     stack.syncPublishType(PublishType)
-     *                                                                                                                                                                                                                                                                                                                                                                                                                             stackInstance.syncPublishType(Stack.PublishType.entry_published, new SyncResultCallBack()) { }
-     *                                                                                                                                                                                                                                                                                                                                                                                                                             </pre>
+     *                                 Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                 stack.syncPublishType(PublishType)
+     *                                 </pre>
      */
     public void syncPublishType(PublishType publishType, SyncResultCallBack syncCallBack) {
         this.sync(null);

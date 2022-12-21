@@ -13,14 +13,14 @@
 
 
     <properties>
-        <sdk.version.release>1.10.1-SNAPSHOT</sdk.version.release>
+        <sdk.version.release>1.10.2-SNAPSHOT</sdk.version.release>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <surefire-report-plugin.version>2.22.0</surefire-report-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
-        <dotenv-source.version>2.2.4</dotenv-source.version>
+        <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
+        <dotenv-source.version>2.3.1</dotenv-source.version>
         <rxjava-source.version>3.1.5</rxjava-source.version>
         <retrofit-source.version>2.9.0</retrofit-source.version>
         <converter-gson-source.version>2.9.0</converter-gson-source.version>
@@ -35,12 +35,10 @@
         <maven-site-plugin.version>3.3</maven-site-plugin.version>
         <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
-        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <json-version>20220924</json-version>
         <jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
         <maven-release-plugin-version>2.5.3</maven-release-plugin-version>
-        <nexus-staging-maven-plugin-version>1.6.7</nexus-staging-maven-plugin-version>
         <contentstack-utils-version>1.2.0</contentstack-utils-version>
     </properties>
 
@@ -211,6 +209,8 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
+                            <stylesheetfile>${basedir}/src/main/javadoc/stylesheet.css</stylesheetfile>
+                            <show>public</show>
                             <additionalOptions>-Xdoclint:none</additionalOptions>
                             <use>false</use>
                             <use>false</use>
