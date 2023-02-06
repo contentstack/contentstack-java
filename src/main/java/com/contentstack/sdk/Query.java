@@ -1216,8 +1216,8 @@ public class Query implements INotifyClass {
         Config ci = contentTypeInstance.stackInstance.config;
         if (ci.enableLivePreview
                 && ci.livePreviewContentType.equalsIgnoreCase(contentTypeUid)
-                && ci.livePreviewHash == null
-                || ci.livePreviewHash.isEmpty()) {
+                && (ci.livePreviewHash == null
+                || ci.livePreviewHash.isEmpty())) {
             ci.livePreviewHash = "init";
         }
     }
