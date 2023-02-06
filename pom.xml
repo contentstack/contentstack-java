@@ -24,7 +24,7 @@
         <rxjava-source.version>3.1.5</rxjava-source.version>
         <retrofit-source.version>2.9.0</retrofit-source.version>
         <converter-gson-source.version>2.9.0</converter-gson-source.version>
-        <loggin.version>4.10.0</loggin.version>
+        <loggin.version>4.9.2</loggin.version>
         <jococo-plugin.version>0.8.5</jococo-plugin.version>
         <lombok-source.version>1.18.24</lombok-source.version>
         <junit-jupiter.version>5.9.1</junit-jupiter.version>
@@ -197,7 +197,8 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <!--Generate overview.html file-->
+            <!-- -overview "/Users/shaileshmishra/Documents/workspace/contentstack/javaspace/contentstack-java/src/main/overview.html" -bottom  "<b>Copyright © 2012-2022 Contentstack </b><sup>TM</sup>" -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -279,7 +280,7 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>${nexus-staging-maven-plugin-version}</version>
+                <version>${nexus-staging-maven-plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>

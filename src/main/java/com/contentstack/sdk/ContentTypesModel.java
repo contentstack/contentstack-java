@@ -3,6 +3,9 @@ package com.contentstack.sdk;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * The ContentTypesModel that contains content type response
+ */
 public class ContentTypesModel {
 
     private Object response;

@@ -5,12 +5,13 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.net.Proxy;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
 /**
- * The type Config. enables optional parameters while passing from stack
+ * The Config enables optional parameters while passing from stack. You can set different configs params to the stack
+ * like host, version, livePreview, endpoint, region, branch etc
  */
 public class Config {
 
@@ -30,7 +31,7 @@ public class Config {
     protected Proxy proxy = null;
     protected ConnectionPool connectionPool = new ConnectionPool();
 
-    protected ArrayList<ContentstackPlugin> plugins = null;
+    protected List<ContentstackPlugin> plugins = null;
 
     public String getBranch() {
         return branch;
@@ -110,12 +111,11 @@ public class Config {
         return endpoint + "/" + getVersion() + "/";
     }
 
-    protected String setEndpoint(@NotNull String endpoint) {
+    protected void setEndpoint(@NotNull String endpoint) {
         this.endpoint = endpoint;
-        return this.endpoint;
     }
 
-    public void setPlugins(ArrayList<ContentstackPlugin> plugins) {
+    public void setPlugins(List<ContentstackPlugin> plugins) {
         this.plugins = plugins;
     }
 

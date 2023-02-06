@@ -1,14 +1,14 @@
 package com.contentstack.sdk;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.util.logging.Logger;
 
 class TestAzureRegion {
 
-    @Test
-    void testAzureRegion() {
-        Assertions.assertTrue(true);
-    }
 
     @Test
     void testAzureRegionBehaviourUS() {

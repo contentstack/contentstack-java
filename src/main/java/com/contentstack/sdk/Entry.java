@@ -1,9 +1,9 @@
 package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import retrofit2.Retrofit;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -11,12 +11,21 @@ import java.util.logging.Logger;
 
 import static com.contentstack.sdk.Constants.ENVIRONMENT;
 
+/**
+ * The Get a single
+ * <a href="https://www.contentstack.com/docs/developers/apis/content-delivery-api/#single-entry">Entry</a> request
+ * fetches a particular entry of a content type.
+ *
+ * @author Shailesh Mishra
+ * @version 1.0.0
+ * @since 01-11-2017
+ */
 public class Entry {
 
     protected static final Logger logger = Logger.getLogger(Entry.class.getSimpleName());
     protected JSONObject params;
     protected LinkedHashMap<String, Object> headers = null;
-    protected HashMap<String, Object> owner = null;
+
     protected String uid = null;
     protected JSONObject publishDetails;
     protected JSONObject resultJson = null;
@@ -32,7 +41,6 @@ public class Entry {
     protected JSONObject onlyJsonObject;
     protected JSONObject exceptJsonObject;
     protected String rteContent = null;
-    protected Retrofit retrofit;
 
     protected Entry() throws IllegalAccessException {
         throw new IllegalAccessException("Can Not Access Private Modifier");
@@ -72,10 +80,7 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                      Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *                                                                                      Entry entry = stack.contentType("form_name").entry("entry_uid");
-     *                                                                                      entry.setHeader("custom_header_key", "custom_header_value");
-     *                                                                                      </pre>
+     *         </pre>
      */
 
     public void setHeader(String key, String value) {
@@ -93,10 +98,10 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                    Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *                                                                                    Entry entry = stack.contentType("form_name").entry("entry_uid");
-     *                                                                                    entry.removeHeader("custom_header_key");
-     *                                                                                    </pre>
+     *                                                         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *                                                         Entry entry = stack.contentType("form_name").entry("entry_uid");
+     *                                                         entry.removeHeader("custom_header_key");
+     *                                                         </pre>
      */
 
     public void removeHeader(String key) {
@@ -214,15 +219,10 @@ public class Entry {
         return this;
     }
 
-    @Deprecated
-    public Map<String, Object> getOwner() {
-        return owner;
-    }
-
     /**
      * Get entry representation in json
      *
-     * @return JSONObject @resultJson <br>
+     * @return resultJson <br>
      * <br>
      * <b>Example :</b><br>
      *
@@ -244,8 +244,8 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                    Object obj = entry.get("key");
-     *                                                                                    </pre>
+     *                                                                                                                                                                                    Object obj = entry.get("key");
+     *                                                                                                                                                                                    </pre>
      * @return Object @resultJson
      */
     public Object get(@NotNull String key) {
@@ -261,8 +261,8 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                    String value = entry.getString("key");
-     *                                                                                    </pre>
+     *                                                                                                                                                                                    String value = entry.getString("key");
+     *                                                                                                                                                                                    </pre>
      * @return String @getString
      */
 
@@ -283,8 +283,8 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                    Boolean value = entry.getBoolean("key");
-     *                                                                                    </pre>
+     *                                                                                                                                                                                    Boolean value = entry.getBoolean("key");
+     *                                                                                                                                                                                    </pre>
      * @return boolean @getBoolean
      */
 
@@ -305,8 +305,8 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                    JSONArray value = entry.getJSONArray("key");
-     *                                                                                    </pre>
+     *                                                                                                                                                                                    JSONArray value = entry.getJSONArray("key");
+     *                                                                                                                                                                                    </pre>
      * @return JSONArray @getJSONArray
      */
 
@@ -327,8 +327,8 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                    JSONObject value = entry.getJSONObject("key");
-     *                                                                                    </pre>
+     *                                                                                                                                                                                    JSONObject value = entry.getJSONObject("key");
+     *                                                                                                                                                                                    </pre>
      * @return JSONObject @getJSONObject
      */
     public JSONObject getJSONObject(@NotNull String key) {
@@ -348,8 +348,8 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                    JSONObject value = entry.getJSONObject("key");
-     *                                                                                    </pre>
+     *                                                                                                                                                                                    JSONObject value = entry.getJSONObject("key");
+     *                                                                                                                                                                                    </pre>
      * @return Number @getNumber
      */
 
@@ -370,8 +370,8 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                    int value = entry.getInt("key");
-     *                                                                                    </pre>
+     *                                                                                                                                                                                    int value = entry.getInt("key");
+     *                                                                                                                                                                                    </pre>
      * @return int @getInt
      */
 
@@ -436,8 +436,8 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                    long value = entry.getLong("key");
-     *                                                                                    </pre>
+     *                                                                                                                                                                                    long value = entry.getLong("key");
+     *                                                                                                                                                                                    </pre>
      * @return long @getLong
      */
 
@@ -460,8 +460,8 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                    short value = entry.getShort("key");
-     *                                                                                    </pre>
+     *                                                                                                                                                                                    short value = entry.getShort("key");
+     *                                                                                                                                                                                    </pre>
      * @return short @getShort
      */
     public short getShort(@NotNull String key) {
@@ -481,8 +481,8 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                    Calendar value = entry.getDate("key");
-     *                                                                                    </pre>
+     *                                                                                                                                                                                    Calendar value = entry.getDate("key");
+     *                                                                                                                                                                                    </pre>
      * @return Calendar @getDate
      */
 
@@ -664,9 +664,9 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                     Group innerGroup = entry.getGroup("key");
-     *                                                                                     return null
-     *                                                                                    </pre>
+     *                                                                                                                                                                                     Group innerGroup = entry.getGroup("key");
+     *                                                                                                                                                                                     return null
+     *                                                                                                                                                                                    </pre>
      * @return {@link Group}
      */
     public Group getGroup(String key) {
@@ -725,7 +725,7 @@ public class Entry {
      *          &#64;Override
      *          public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {<br>
      *              if(error == null){
-     *                  List&#60;Entry&#62; list = builtqueryresult.getResultObjects();
+     *                  List&#60;Entry&#62; list = queryResult.getResultObjects();
      *                   for (int i = 0; i < list.queueSize(); i++) {
      *                         Entry   entry   = list.get(i);
      *                         Entry taskEntry = entry.getAllEntries("for_task", "task");
@@ -736,7 +736,7 @@ public class Entry {
      *      }<br>
      *         </pre>
      */
-    public ArrayList<Entry> getAllEntries(String refKey, String refContentType) {
+    public List<Entry> getAllEntries(String refKey, String refContentType) {
         ArrayList<Entry> entryContainer = new ArrayList<>();
         if (resultJson != null) {
             Object resultArr = resultJson.opt(refKey);
@@ -763,19 +763,10 @@ public class Entry {
     }
 
     /**
-     * Specifies list of field uids that would be &#39;excluded&#39; from the response.
+     * Specifies list of field ids that would be &#39;excluded&#39; from the response.
      *
      * @param fieldUid
      *         field uid which get &#39;excluded&#39; from the response.
-     * @return {@link Entry} object, so you can chain this call. <br>
-     * <br>
-     * <b>Example :</b><br>
-     *
-     * <pre class="prettyprint">
-     *          Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *          Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
-     *          entry.except(new String[]{"name", "description"});
-     *         </pre>
      */
 
     public Entry except(@NotNull String[] fieldUid) {
@@ -795,15 +786,6 @@ public class Entry {
      *
      * @param referenceField
      *         key that to be constrained.
-     * @return {@link Entry} object, so you can chain this call. <br>
-     * <br>
-     * <b>Example :</b><br>
-     *
-     * <pre class="prettyprint">
-     *          Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *          Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
-     *          entry.includeReference("referenceUid");
-     *         </pre>
      */
     public Entry includeReference(@NotNull String referenceField) {
         if (!referenceField.isEmpty()) {
@@ -821,15 +803,6 @@ public class Entry {
      *
      * @param referenceFields
      *         array key that to be constrained.
-     * @return {@link Entry} object, so you can chain this call. <br>
-     * <br>
-     * <b>Example :</b><br>
-     *
-     * <pre class="prettyprint">
-     *           Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *          Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
-     *          entry.includeReference(new String[]{"referenceUid_A", "referenceUid_B"});
-     *         </pre>
      */
     public Entry includeReference(@NotNull String[] referenceFields) {
         if (referenceFields.length > 0) {
@@ -877,29 +850,15 @@ public class Entry {
      * @param fieldUid
      *         Array of the &#39;only&#39; reference keys to be included in response.
      * @param referenceFieldUid
-     *         Key who has reference to some other class object..
-     * @return {@link Entry} object, so you can chain this call. <br>
-     * <br>
-     * <b>Example :</b><br>
-     *
-     * <pre class="prettyprint">
-     * Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *          Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
-     *          ArrayList&#60;String&#62; array = new ArrayList&#60;String&#62;();
-     *          array.add("description");
-     *          array.add("name");
-     *          entry.onlyWithReferenceUid(array, "referenceUid");
-     *         </pre>
+     *         Key who has reference to some other class object.
      */
 
-    public Entry onlyWithReferenceUid(@NotNull ArrayList<String> fieldUid, @NotNull String referenceFieldUid) {
+    public Entry onlyWithReferenceUid(@NotNull List<String> fieldUid, @NotNull String referenceFieldUid) {
         if (onlyJsonObject == null) {
             onlyJsonObject = new JSONObject();
         }
         JSONArray fieldValueArray = new JSONArray();
-        fieldUid.forEach(field -> {
-            fieldValueArray.put(field);
-        });
+        fieldUid.forEach(fieldValueArray::put);
         onlyJsonObject.put(referenceFieldUid, fieldValueArray);
         includeReference(referenceFieldUid);
         return this;
@@ -912,27 +871,13 @@ public class Entry {
      *         Array of the &#39;except&#39; reference keys to be excluded in response.
      * @param referenceFieldUid
      *         Key who has reference to some other class object.
-     * @return {@link Entry} object, so you can chain this call.
-     *
-     * <br>
-     * <br>
-     * <b>Example :</b><br>
-     *
-     * <pre class="prettyprint">
-     *          Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *          Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
-     *          ArrayList&#60;String&#62; array = new ArrayList&#60;String&#62;();
-     *          array.add("description");
-     *          array.add("name");<br>
-     *          entry.onlyWithReferenceUid(array, "referenceUid");
-     *         </pre>
      */
-    public Entry exceptWithReferenceUid(@NotNull ArrayList<String> fieldUid, @NotNull String referenceFieldUid) {
+    public Entry exceptWithReferenceUid(@NotNull List<String> fieldUid, @NotNull String referenceFieldUid) {
         if (exceptJsonObject == null) {
             exceptJsonObject = new JSONObject();
         }
         JSONArray fieldValueArray = new JSONArray();
-        fieldUid.forEach(field -> fieldValueArray.put(field));
+        fieldUid.forEach(fieldValueArray::put);
         exceptJsonObject.put(referenceFieldUid, fieldValueArray);
         includeReference(referenceFieldUid);
         return this;
@@ -947,16 +892,16 @@ public class Entry {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                         {@code
-     *                                                                                         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *                                                                                         Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
-     *                                                                                         entry.fetch(new EntryResultCallBack() {<br>
-     *                                                                                         &#64;Override
-     *                                                                                         public void onCompletion(ResponseType responseType, Error error) {
-     *                                                                                         }<br>
-     *                                                                                         });<br>
-     *                                                                                         }
-     *                                                                                         </pre>
+     *                                          {@code
+     *                                          Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *                                          Entry entry = stack.contentType("form_name").entry("entry_uid");<br>
+     *                                          entry.fetch(new EntryResultCallBack() {<br>
+     *                                          &#64;Override
+     *                                          public void onCompletion(ResponseType responseType, Error error) {
+     *                                          }<br>
+     *                                          });<br>
+     *                                          }
+     *                                         </pre>
      */
 
     public void fetch(EntryResultCallBack callback) {
@@ -970,7 +915,6 @@ public class Entry {
         String urlString = "content_types/" + contentTypeUid + "/entries/" + uid;
         JSONObject urlQueries = new JSONObject();
         urlQueries.put(ENVIRONMENT, headers.get(ENVIRONMENT));
-        includeLivePreview();
         fetchFromNetwork(urlString, urlQueries, callback);
     }
 
@@ -988,25 +932,14 @@ public class Entry {
         }
     }
 
-    private void includeLivePreview() {
-        Config configInstance = contentType.stackInstance.config;
-        if (configInstance.enableLivePreview
-                && configInstance.livePreviewContentType.equalsIgnoreCase(contentTypeUid)) {
-            if (configInstance.livePreviewHash == null || configInstance.livePreviewHash.isEmpty()) {
-                configInstance.livePreviewHash = "init";
-            }
-            // TODO: Do Some calculations, Set a livePreviewFlag
-        }
-    }
-
 
     private LinkedHashMap<String, Object> getUrlParams(JSONObject jsonMain) {
         JSONObject queryJSON = jsonMain.optJSONObject("query");
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<>();
         if (queryJSON != null && queryJSON.length() > 0) {
-            Iterator<String> iter = queryJSON.keys();
-            while (iter.hasNext()) {
-                String key = iter.next();
+            Iterator<String> itr = queryJSON.keys();
+            while (itr.hasNext()) {
+                String key = itr.next();
                 Object value = queryJSON.opt(key);
                 hashMap.put(key, value);
             }
@@ -1043,7 +976,7 @@ public class Entry {
         }
     }
 
-    private void throwException(String errorMsg, Exception e, EntryResultCallBack callBack) {
+    private void throwException(@Nullable String errorMsg, Exception e, EntryResultCallBack callBack) {
         Error error = new Error();
         if (errorMsg != null) {
             error.setErrorMessage(errorMsg);
@@ -1087,24 +1020,6 @@ public class Entry {
 
     /**
      * This method also includes the content type UIDs of the referenced entries returned in the response
-     *
-     * @return {@link Entry}
-     *
-     * <br>
-     * <b>Example :</b><br>
-     *
-     * <pre class="prettyprint">
-     *          {@code
-     *          Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *          final Entry entry = stack.contentType("user").entry("entryUid"); <br>
-     *          entry.includeReferenceContentTypeUID; <br>
-     *          entry.fetch(new EntryResultCallBack() {
-     *          <br>&#64;Override
-     *          public void onCompletion(ResponseType responseType, Error error) {
-     *          }<br>
-     *          });<br>
-     *          }
-     *         </pre>
      */
     public Entry includeReferenceContentTypeUID() {
         params.put("include_reference_content_type_uid", "true");
@@ -1113,16 +1028,6 @@ public class Entry {
 
     /**
      * Include Content Type of all returned objects along with objects themselves.
-     *
-     * @return {@link Entry} object, so you can chain this call. <br>
-     * <br>
-     * <b>Example :</b><br>
-     *
-     * <pre class="prettyprint">
-     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *         final Entry entry = stack.contentType("user").entry("entryUid");
-     *         entry.includeContentType();
-     *         </pre>
      */
     public Entry includeContentType() {
         params.remove("include_schema");
@@ -1152,16 +1057,6 @@ public class Entry {
     /**
      * includeEmbeddedItems instance of Entry Include Embedded Objects (Entries and Assets) along with entry/entries
      * details.<br>
-     *
-     * @return {@link Entry} object, so you can chain this call. <br>
-     * <br>
-     * <b>Example :</b><br>
-     *
-     * <pre class="prettyprint">
-     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *         final Entry entry = stack.contentType("user").entry("entryUid");
-     *         entry.includeEmbeddedItems();
-     *         </pre>
      */
     public Entry includeEmbeddedItems() {
         params.put("include_embedded_items[]", "BASE");

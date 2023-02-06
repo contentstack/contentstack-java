@@ -118,12 +118,16 @@ public class TestLivePreview {
         }
     }
 
+    /**
+     *
+     */
     @Test()
     void testMissingHostToEnableLivePreview() {
         Config livePreviewEnablerConfig = new Config().enableLivePreview(true)
                 .setManagementToken("management_token_123456");
         try {
-            Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
+            Stack cs = Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
+            Assertions.assertNotNull(cs);
         } catch (Exception e) {
             logger.severe(e.getLocalizedMessage());
         }
@@ -155,7 +159,6 @@ public class TestLivePreview {
         entry.find(null);
         Assertions.assertNotNull(entry);
     }
-
 
 
 }
