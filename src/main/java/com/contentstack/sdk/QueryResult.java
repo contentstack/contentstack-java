@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * QueryResult works as the Query Response that works as getter as per the Json Key
+ */
 public class QueryResult {
 
     protected static final Logger logger = Logger.getLogger(QueryResult.class.getSimpleName());
@@ -18,10 +21,10 @@ public class QueryResult {
 
     /**
      * @return List of {@link Entry} objects list. <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      * List&#60;Entry&#62; list = queryResultObject.getResultObjects();<br>
      *         </pre>
      */
@@ -35,10 +38,10 @@ public class QueryResult {
      * {@link Query#count()} should be added in {@link Query} while querying.
      *
      * @return int count <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      * int count = queryResultObject.getCount();<br>
      *         </pre>
      */
@@ -51,10 +54,10 @@ public class QueryResult {
      * Returns class&#39;s schema if call to fetch schema executed successfully.
      *
      * @return JSONArray schema Array <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      * JSONArray schemaArray = queryResultObject.getSchema();<br>
      *         </pre>
      */
@@ -63,14 +66,13 @@ public class QueryResult {
     }
 
     /**
-     * Returns class&#39;s content type if call to fetch contentType executed
-     * successfully.
+     * Returns class&#39;s content type if call to fetch contentType executed successfully.
      *
      * @return JSONObject contentObject <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      * JSONObject contentObject = queryResultObject.getContentType();<br>
      *         </pre>
      */
@@ -78,39 +80,57 @@ public class QueryResult {
         return contentObject;
     }
 
-    protected void setJSON(JSONObject jsonobject, List<Entry> objectList) {
-        receiveJson = jsonobject;
+
+    public void setJSON(JSONObject jsonObject, List<Entry> objectList) {
+        receiveJson = jsonObject;
         resultObjects = objectList;
+        extractSchemaArray();
+        extractContentObject();
+        extractCount();
+    }
+
+    private void extractSchemaArray() {
         try {
-            if (receiveJson != null) {
-                if (receiveJson.has("schema")) {
-                    JSONArray jsonarray = receiveJson.getJSONArray("schema");
-                    if (jsonarray != null) {
-                        schemaArray = jsonarray;
-                    }
-                }
-
-                if (receiveJson.has("content_type")) {
-                    JSONObject jsonObject = receiveJson.getJSONObject("content_type");
-                    if (jsonObject != null) {
-                        contentObject = jsonObject;
-                    }
-                }
-
-                if (receiveJson.has("count")) {
-                    count = receiveJson.optInt("count");
-                }
-
-                if (count == 0) {
-                    if (receiveJson.has("entries")) {
-                        count = receiveJson.optInt("entries");
-                    }
+            if (receiveJson != null && receiveJson.has("schema")) {
+                JSONArray jsonArray = receiveJson.getJSONArray("schema");
+                if (jsonArray != null) {
+                    schemaArray = jsonArray;
                 }
             }
-
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+            logException(e);
         }
     }
+
+    private void extractContentObject() {
+        try {
+            if (receiveJson != null && receiveJson.has("content_type")) {
+                JSONObject jsonObject = receiveJson.getJSONObject("content_type");
+                if (jsonObject != null) {
+                    contentObject = jsonObject;
+                }
+            }
+        } catch (Exception e) {
+            logException(e);
+        }
+    }
+
+    private void extractCount() {
+        try {
+            if (receiveJson != null) {
+                count = receiveJson.optInt("count");
+                if (count == 0 && receiveJson.has("entries")) {
+                    count = receiveJson.optInt("entries");
+                }
+            }
+        } catch (Exception e) {
+            logException(e);
+        }
+    }
+
+    private void logException(Exception e) {
+        logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+    }
+
 
 }

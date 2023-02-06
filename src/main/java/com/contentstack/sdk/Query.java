@@ -1,6 +1,7 @@
 package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -73,16 +74,16 @@ public class Query implements INotifyClass {
      *         <p>
      *         tack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment"); Query query =
      *         stack.contentType("contentTypeUid").query(); query.setHeader("custom_key", "custom_value");
-     *
      *         <b>Example :</b><br>
      *         <p>
      *         Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment"); Query csQuery =
      *         stack.contentType("contentTypeUid").query(); csQuery.setHeader("custom_key", "custom_value");
      */
-    public void setHeader(@NotNull String key, @NotNull String value) {
+    public Query setHeader(@NotNull String key, @NotNull String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
             this.headers.put(key, value);
         }
+        return this;
     }
 
     /**
@@ -95,10 +96,11 @@ public class Query implements INotifyClass {
      *         Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment"); Query csQuery =
      *         stack.contentType("contentTypeUid").query();<br> csQuery.removeHeader("custom_key");
      */
-    public void removeHeader(@NotNull String key) {
+    public Query removeHeader(@NotNull String key) {
         if (!key.isEmpty()) {
             this.headers.remove(key);
         }
+        return this;
     }
 
     public String getContentType() {
@@ -160,7 +162,7 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Remove provided query key from custom query if exist.
+     * Remove provided query key from custom query if existed.
      *
      * @param key
      *         Query name to remove.
@@ -195,20 +197,17 @@ public class Query implements INotifyClass {
      * <pre class="prettyprint">
      *          Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();
-     *
      *          Query query = projectClass.query();
      *          query.where('username','something');
-     *
      *          Query subQuery = projectClass.query();
      *          subQuery.where('email_address','something@email.com');
-     *
      *          ArrayList&#60;Query&#62; array = new ArrayList&#60;Query&#62;();<br>
      *          array.add(query);
      *          array.add(subQuery);<br>
      *          projectQuery.and(array);
      *         </pre>
      */
-    public Query and(@NotNull ArrayList<Query> queryObjects) {
+    public Query and(@NotNull List<Query> queryObjects) {
         if (!queryObjects.isEmpty()) {
             JSONArray orValueJson = new JSONArray();
             queryObjects.forEach(obj -> orValueJson.put(obj.queryValueJSON));
@@ -233,20 +232,17 @@ public class Query implements INotifyClass {
      * <pre class="prettyprint">
      *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
      *          Query csQuery = stack.contentType("contentTypeUid").query();
-     *
      *          Query query = projectClass.query();
      *          query.where('username','something');
-     *
      *          Query subQuery = projectClass.query();
      *          subQuery.where('email_address','something@email.com');
-     *
      *          ArrayList&#60;Query&#62; array = new ArrayList&#60;Query&#62;();
      *          array.add(query);
      *          array.add(subQuery);<br>
      *          csQuery.or(array);
      *         </pre>
      */
-    public Query or(ArrayList<Query> queryObjects) {
+    public Query or(List<Query> queryObjects) {
         if (queryObjects != null && !queryObjects.isEmpty()) {
             try {
                 JSONArray orValueJson = new JSONArray();
@@ -336,7 +332,7 @@ public class Query implements INotifyClass {
      * @param key
      *         The key to be constrained.
      * @param value
-     *         The value that provides an lower bound.
+     *         The value that provides a lower bound.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -370,7 +366,7 @@ public class Query implements INotifyClass {
      * @param key
      *         The key to be constrained.
      * @param value
-     *         The value that provides an lower bound.
+     *         The value that provides a lower bound.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -451,9 +447,8 @@ public class Query implements INotifyClass {
      */
     public Query containedIn(@NotNull String key, Object[] values) {
         JSONArray valuesArray = new JSONArray();
-        int length = values.length;
-        for (int i = 0; i < length; i++) {
-            valuesArray.put(values[i]);
+        for (Object value : values) {
+            valuesArray.put(value);
         }
         if (queryValueJSON.isNull(key)) {
             if (queryValue.length() > 0) {
@@ -478,7 +473,6 @@ public class Query implements INotifyClass {
      *         The list of values the key object should not be.
      * @return {@link Query} object, so you can chain this call.
      *
-     *
      * <br>
      * <br>
      * <b>Example :</b><br>
@@ -491,9 +485,8 @@ public class Query implements INotifyClass {
      */
     public Query notContainedIn(@NotNull String key, Object[] values) {
         JSONArray valuesArray = new JSONArray();
-        int length = values.length;
-        for (int i = 0; i < length; i++) {
-            valuesArray.put(values[i]);
+        for (Object value : values) {
+            valuesArray.put(value);
         }
         if (queryValueJSON.isNull(key)) {
             if (queryValue.length() > 0) {
@@ -540,7 +533,7 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Add a constraint that requires, a specified key does not exists in response.
+     * Add a constraint that requires, a specified key does not exist in response.
      *
      * @param key
      *         The key to be constrained.
@@ -615,12 +608,8 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query tags(@NotNull String[] tags) {
-        String tagsvalue = null;
-        int count = tags.length;
-        for (int i = 0; i < count; i++) {
-            tagsvalue = tagsvalue + "," + tags[i];
-        }
-        urlQueries.put("tags", tagsvalue);
+        String tagstr = String.join(",", tags);
+        urlQueries.put("tags", tagstr);
         return this;
     }
 
@@ -672,12 +661,11 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Specifies list of field uids that would be &#39;excluded&#39; from the response.
+     * Specifies list of field ids that would be &#39;excluded&#39; from the response.
      *
      * @param fieldUid
      *         field uid which get &#39;excluded&#39; from the response.
      * @return {@link Query} object, so you can chain this call.
-     *
      *
      * <br>
      * <br>
@@ -692,7 +680,7 @@ public class Query implements INotifyClass {
      *          csQuery.except(array);
      *         </pre>
      */
-    public Query except(@NotNull ArrayList<String> fieldUid) {
+    public Query except(@NotNull List<String> fieldUid) {
         if (!fieldUid.isEmpty()) {
             if (objectUidForExcept == null) {
                 objectUidForExcept = new JSONArray();
@@ -705,7 +693,7 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Specifies list of field uids that would be &#39;excluded&#39; from the response.
+     * Specifies list of field ids that would be &#39;excluded&#39; from the response.
      *
      * @param fieldIds
      *         field uid which get &#39;excluded&#39; from the response.
@@ -785,7 +773,7 @@ public class Query implements INotifyClass {
      *          csQuery.onlyWithReferenceUid(array, "for_bug");
      *         </pre>
      */
-    public Query onlyWithReferenceUid(@NotNull ArrayList<String> fieldUid, @NotNull String referenceFieldUid) {
+    public Query onlyWithReferenceUid(@NotNull List<String> fieldUid, @NotNull String referenceFieldUid) {
         if (onlyJsonObject == null) {
             onlyJsonObject = new JSONObject();
         }
@@ -823,7 +811,7 @@ public class Query implements INotifyClass {
      *          csQuery.exceptWithReferenceUid(array, "for_bug");
      *         </pre>
      */
-    public Query exceptWithReferenceUid(@NotNull ArrayList<String> fieldUid, @NotNull String referenceFieldUid) {
+    public Query exceptWithReferenceUid(@NotNull List<String> fieldUid, @NotNull String referenceFieldUid) {
         if (exceptJsonObject == null) {
             exceptJsonObject = new JSONObject();
         }
@@ -1116,7 +1104,7 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query find(QueryResultsCallBack callback) {
-        Error error = null;
+        Error error;
         if (isJsonProper) {
             if (!contentTypeUid.isEmpty()) {
                 execQuery(null, callback);
@@ -1155,7 +1143,6 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query findOne(SingleQueryResultCallback callBack) {
-
         if (isJsonProper) {
             if (!contentTypeUid.isEmpty()) {
                 int limit = -1;
@@ -1176,7 +1163,7 @@ public class Query implements INotifyClass {
         return this;
     }
 
-    private void throwException(String queryName, String messageString, Exception e) {
+    private void throwException(String queryName, String messageString, @Nullable Exception e) {
         HashMap<String, Object> errorHashMap = new HashMap<>();
         isJsonProper = false;
         errorString = messageString;
@@ -1184,6 +1171,7 @@ public class Query implements INotifyClass {
             errorHashMap.put(queryName, e.getLocalizedMessage());
         }
         errorHashMap.put("detail", messageString);
+        assert e != null;
         logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
     }
 
@@ -1214,34 +1202,28 @@ public class Query implements INotifyClass {
     }
 
     protected void execQuery(SingleQueryResultCallback callBack, QueryResultsCallBack callback) {
-        try {
-            String urlString = "content_types/" + contentTypeUid + "/entries";
-            queryResultCallback = callback;
-            singleQueryResultCallback = callBack;
-            setQueryJson();
-            urlQueries.put(Constants.ENVIRONMENT, this.headers.get(Constants.ENVIRONMENT));
-            includeLivePreview();
-            mainJSON.put(QUERY, urlQueries);
-            fetchFromNetwork(urlString, mainJSON, callback, callBack);
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
-            throwException("find", Constants.QUERY_EXCEPTION, e);
-        }
+        String urlString = "content_types/" + contentTypeUid + "/entries";
+        queryResultCallback = callback;
+        singleQueryResultCallback = callBack;
+        setQueryJson();
+        urlQueries.put(Constants.ENVIRONMENT, this.headers.get(Constants.ENVIRONMENT));
+        includeLivePreview();
+        mainJSON.put(QUERY, urlQueries);
+        fetchFromNetwork(urlString, mainJSON, callback, callBack);
     }
 
     private void includeLivePreview() {
-        Config configInstance = contentTypeInstance.stackInstance.config;
-        if (configInstance.enableLivePreview
-                && configInstance.livePreviewContentType.equalsIgnoreCase(contentTypeUid)) {
-            if (configInstance.livePreviewHash == null || configInstance.livePreviewHash.isEmpty()) {
-                configInstance.livePreviewHash = "init";
-            }
+        Config ci = contentTypeInstance.stackInstance.config;
+        if (ci.enableLivePreview
+                && ci.livePreviewContentType.equalsIgnoreCase(contentTypeUid)
+                && ci.livePreviewHash == null
+                || ci.livePreviewHash.isEmpty()) {
+            ci.livePreviewHash = "init";
         }
     }
 
     // fetch from network.
-    private void fetchFromNetwork(String urlString, JSONObject jsonMain, ResultCallBack callback,
-                                  SingleQueryResultCallback resultCallback) {
+    private void fetchFromNetwork(String urlString, JSONObject jsonMain, ResultCallBack callback, SingleQueryResultCallback resultCallback) {
         LinkedHashMap<String, Object> urlParams = getUrlParams(jsonMain);
         if (resultCallback != null) {
             new CSBackgroundTask(this, contentTypeInstance.stackInstance, Constants.SINGLEQUERYOBJECT, urlString,
@@ -1256,9 +1238,9 @@ public class Query implements INotifyClass {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<>();
         JSONObject queryJSON = jsonMain.optJSONObject(QUERY);
         if (queryJSON != null && queryJSON.length() > 0) {
-            Iterator<String> iter = queryJSON.keys();
-            while (iter.hasNext()) {
-                String key = iter.next();
+            Iterator<String> itr = queryJSON.keys();
+            while (itr.hasNext()) {
+                String key = itr.next();
                 Object value = queryJSON.opt(key);
                 hashMap.put(key, value);
             }
@@ -1275,20 +1257,19 @@ public class Query implements INotifyClass {
     @Override
     public void getResultObject(List<Object> objects, JSONObject jsonObject, boolean isSingleEntry) {
         List<Entry> objectList = new ArrayList<>();
-        int countObject = objects.size();
-        for (int i = 0; i < countObject; i++) {
-            Entry entry = null;
+        for (Object object : objects) {
+            Entry entry;
             try {
                 entry = contentTypeInstance.stackInstance.contentType(contentTypeUid)
-                        .entry(((EntryModel) objects.get(i)).uid);
+                        .entry(((EntryModel) object).uid);
             } catch (Exception e) {
                 entry = new Entry(contentTypeUid);
             }
-            entry.setUid(((EntryModel) objects.get(i)).uid);
-            entry.resultJson = ((EntryModel) objects.get(i)).jsonObject;
-            entry.title = ((EntryModel) objects.get(i)).title;
-            entry.url = ((EntryModel) objects.get(i)).url;
-            entry.setTags(((EntryModel) objects.get(i)).tags);
+            entry.setUid(((EntryModel) object).uid);
+            entry.resultJson = ((EntryModel) object).jsonObject;
+            entry.title = ((EntryModel) object).title;
+            entry.url = ((EntryModel) object).url;
+            entry.setTags(((EntryModel) object).tags);
             objectList.add(entry);
         }
 
@@ -1440,7 +1421,6 @@ public class Query implements INotifyClass {
 
     /**
      * @return {@link Query} object, so you can chain this call. <br>
-     * @return {@link Query}
      *
      * <br>
      * <br>

@@ -6,7 +6,10 @@ import retrofit2.Response;
 
 public interface ContentstackPlugin {
 
-    void onRequest(Stack stack, Request request);
+    default void onRequest(Stack stack, Request request) {
+    }
 
-    Response<ResponseBody> onResponse(Stack stack, Request request, Response response);
+    default Response<ResponseBody> onResponse(Stack stack, Request request, Response<ResponseBody> response) {
+        return response;
+    }
 }

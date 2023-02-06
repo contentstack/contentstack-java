@@ -1,5 +1,8 @@
 package com.contentstack.sdk;
 
+/**
+ * The callback for Content Types that contains ContentTypesModel and Error
+ */
 public abstract class ContentTypesCallback implements ResultCallBack {
 
     public abstract void onCompletion(ContentTypesModel contentTypesModel, Error error);

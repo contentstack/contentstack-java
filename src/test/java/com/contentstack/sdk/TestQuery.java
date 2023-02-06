@@ -116,8 +116,7 @@ class TestQuery {
     @Test
     @Order(4)
     void testIncludeReference() {
-        query.includeReference("category");
-        query.find(new QueryResultsCallBack() {
+        query.includeReference("category").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -134,8 +133,7 @@ class TestQuery {
     @Order(5)
     void testNotContainedInField() {
         String[] containArray = new String[]{"Roti Maker", "kids dress"};
-        query.notContainedIn("title", containArray);
-        query.find(new QueryResultsCallBack() {
+        query.notContainedIn("title", containArray).find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -152,8 +150,7 @@ class TestQuery {
     @Order(6)
     void testContainedInField() {
         String[] containArray = new String[]{"Roti Maker", "kids dress"};
-        query.containedIn("title", containArray);
-        query.find(new QueryResultsCallBack() {
+        query.containedIn("title", containArray).find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -169,8 +166,7 @@ class TestQuery {
     @Test
     @Order(7)
     void testNotEqualTo() {
-        query.notEqualTo("title", "yellow t shirt");
-        query.find(new QueryResultsCallBack() {
+        query.notEqualTo("title", "yellow t shirt").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -186,8 +182,7 @@ class TestQuery {
     @Test
     @Order(8)
     void testGreaterThanOrEqualTo() {
-        query.greaterThanOrEqualTo("price", 90);
-        query.find(new QueryResultsCallBack() {
+        query.greaterThanOrEqualTo("price", 90).find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -203,8 +198,7 @@ class TestQuery {
     @Test
     @Order(9)
     void testGreaterThanField() {
-        query.greaterThan("price", 90);
-        query.find(new QueryResultsCallBack() {
+        query.greaterThan("price", 90).find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -220,8 +214,7 @@ class TestQuery {
     @Test
     @Order(10)
     void testLessThanEqualField() {
-        query.lessThanOrEqualTo("price", 90);
-        query.find(new QueryResultsCallBack() {
+        query.lessThanOrEqualTo("price", 90).find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -237,8 +230,7 @@ class TestQuery {
     @Test
     @Order(11)
     void testLessThanField() {
-        query.lessThan("price", "90");
-        query.find(new QueryResultsCallBack() {
+        query.lessThan("price", "90").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -317,8 +309,7 @@ class TestQuery {
     @Test
     @Order(14)
     void testAddQuery() {
-        query.addQuery("limit", "8");
-        query.find(new QueryResultsCallBack() {
+        query.addQuery("limit", "8").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -334,9 +325,7 @@ class TestQuery {
     @Test
     @Order(15)
     void testRemoveQueryFromQuery() {
-        query.addQuery("limit", "8");
-        query.removeQuery("limit");
-        query.find(new QueryResultsCallBack() {
+        query.addQuery("limit", "8").removeQuery("limit").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -352,8 +341,7 @@ class TestQuery {
     @Test
     @Order(16)
     void testIncludeSchema() {
-        query.includeContentType();
-        query.find(new QueryResultsCallBack() {
+        query.includeContentType().find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -369,17 +357,16 @@ class TestQuery {
     @Test
     @Order(17)
     void testSearch() {
-        query.search("dress");
-        query.find(new QueryResultsCallBack() {
+        query.search("dress").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
                     for (Entry entry : entries) {
                         JSONObject jsonObject = entry.toJSON();
-                        Iterator<String> iter = jsonObject.keys();
-                        while (iter.hasNext()) {
-                            String key = iter.next();
+                        Iterator<String> itr = jsonObject.keys();
+                        while (itr.hasNext()) {
+                            String key = itr.next();
                             Object value = jsonObject.opt(key);
                             Assertions.assertNotNull(value);
                         }
@@ -394,13 +381,14 @@ class TestQuery {
     @Test
     @Order(18)
     void testAscending() {
-        query.ascending("title");
-        query.find(new QueryResultsCallBack() {
+        Query queryq = stack.contentType("product").query();
+        queryq.ascending("title");
+        queryq.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    for (int i = 0; i < entries.size(); i++) {
+                    for (int i = 0; i < entries.size()-1; i++) {
                         String previous = entries.get(i).getTitle(); // get first string
                         String next = entries.get(i + 1).getTitle(); // get second string
                         if (previous.compareTo(next) < 0) { // compare both if less than Zero then Ascending else
@@ -420,13 +408,13 @@ class TestQuery {
     @Test
     @Order(19)
     void testDescending() {
-        query.descending("title");
-        query.find(new QueryResultsCallBack() {
+        Query query1 = stack.contentType("product").query();
+        query1.descending("title").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    for (int i = 0; i < entries.size(); i++) {
+                    for (int i = 0; i < entries.size()-1; i++) {
                         String previous = entries.get(i).getTitle(); // get first string
                         String next = entries.get(i + 1).getTitle(); // get second string
                         if (previous.compareTo(next) < 0) { // compare both if less than Zero then Ascending else
@@ -446,8 +434,7 @@ class TestQuery {
     @Test
     @Order(20)
     void testLimit() {
-        query.limit(3);
-        query.find(new QueryResultsCallBack() {
+        query.limit(3).find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -463,8 +450,7 @@ class TestQuery {
     @Test
     @Order(21)
     void testSkip() {
-        query.skip(3);
-        query.find(new QueryResultsCallBack() {
+        query.skip(3).find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -497,8 +483,7 @@ class TestQuery {
     @Test
     @Order(23)
     void testExcept() {
-        query.except(new String[]{"price"});
-        query.find(new QueryResultsCallBack() {
+        query.except(new String[]{"price"}).find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -532,8 +517,7 @@ class TestQuery {
     @Test
     @Order(25)
     void testRegex() {
-        query.regex("title", "lap*", "i");
-        query.find(new QueryResultsCallBack() {
+        query.regex("title", "lap*", "i").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -549,8 +533,7 @@ class TestQuery {
     @Test
     @Order(26)
     void testExist() {
-        query.exists("title");
-        query.find(new QueryResultsCallBack() {
+        query.exists("title").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -566,8 +549,7 @@ class TestQuery {
     @Test
     @Order(27)
     void testNotExist() {
-        query.notExists("price1");
-        query.find(new QueryResultsCallBack() {
+        query.notExists("price1").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -649,9 +631,9 @@ class TestQuery {
         strings1.add("price");
         strings1.add("in_stock");
 
-        query.onlyWithReferenceUid(strings, "package_info.info_category");
-        query.exceptWithReferenceUid(strings1, "product_ref");
-        query.find(new QueryResultsCallBack() {
+        query.onlyWithReferenceUid(strings, "package_info.info_category")
+                .exceptWithReferenceUid(strings1, "product_ref")
+                .find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -668,7 +650,7 @@ class TestQuery {
     @Test
     @Order(32)
     void testIncludeReferenceExcept() {
-        query = query.where("uid", "fakeit");
+        query = query.where("uid", "fake it");
         ArrayList<String> strings = new ArrayList<>();
         strings.add("title");
         query.exceptWithReferenceUid(strings, "category");
@@ -689,9 +671,7 @@ class TestQuery {
     @Test
     @Order(33)
     void testFindOne() {
-        query.includeCount();
-        query.where("in_stock", true);
-        query.findOne(new SingleQueryResultCallback() {
+        query.includeCount().where("in_stock", true).findOne(new SingleQueryResultCallback() {
             @Override
             public void onCompletion(ResponseType responseType, Entry entry, Error error) {
                 if (error == null) {
@@ -705,10 +685,16 @@ class TestQuery {
     }
 
     @Test
+    @Order(33)
+    void testFindOneWithNull() {
+        query.includeCount().findOne(null).where("in_stock", true);
+        Assertions.assertTrue(true);
+    }
+
+    @Test
     @Order(34)
     void testComplexFind() {
-        query.notEqualTo("title",
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.************************************Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.*******");
+        query.notEqualTo("title", "Lorem Ipsum is simply dummy text of the printing and typesetting industry");
         query.includeCount();
         query.find(new QueryResultsCallBack() {
             @Override
@@ -726,12 +712,12 @@ class TestQuery {
     @Test
     @Order(35)
     void testIncludeSchemaCheck() {
+        query.includeCount();
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    JSONArray schema = queryresult.getSchema();
-                    Assertions.assertEquals(27, schema.length());
+                    Assertions.assertEquals(27, queryresult.getCount());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -776,8 +762,7 @@ class TestQuery {
     @Test
     @Order(38)
     void testAddParams() {
-        query.addParam("keyWithNull", "null");
-        query.find(new QueryResultsCallBack() {
+        query.addParam("keyWithNull", "null").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {

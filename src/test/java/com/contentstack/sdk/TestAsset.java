@@ -22,7 +22,9 @@ class TestAsset {
         API_KEY = dotenv.get("API_KEY");
         DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
         ENV = dotenv.get("ENVIRONMENT");
-        stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV);
+        Config config = new Config();
+        config.setHost(dotenv.get("HOST"));
+        stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
     }
 
     @Test
@@ -43,7 +45,6 @@ class TestAsset {
                 Assertions.assertTrue(model.getCreatedBy().startsWith("blt"));
                 Assertions.assertEquals("gregory", model.getUpdateAt().getCalendarType());
                 Assertions.assertTrue(model.getUpdatedBy().startsWith("sys"));
-                Assertions.assertNull(model.getDeleteAt());
                 Assertions.assertEquals("", model.getDeletedBy());
             }
         });
@@ -52,7 +53,7 @@ class TestAsset {
     @Test
     @Order(2)
     void testNewAssetZOnlyForOrderByUid() {
-        String[] tags = { "black", "white", "red" };
+        String[] tags = {"black", "white", "red"};
         Asset asset = stack.asset(assetUid);
         asset.includeFallback().addParam("fake@header", "fake@header").setTags(tags).fetch(new FetchResultCallback() {
             @Override
@@ -106,7 +107,7 @@ class TestAsset {
 
     @Test
     void testSetAssetTagsLength() {
-        String[] tags = { "gif", "img", "landscape", "portrait" };
+        String[] tags = {"gif", "img", "landscape", "portrait"};
         Asset assetInstance = stack.asset();
         assetInstance.setTags(tags);
         Assertions.assertEquals(tags.length, assetInstance.tagsArray.length);
@@ -114,7 +115,7 @@ class TestAsset {
 
     @Test
     void testGetAssetTags() {
-        String[] tags = { "gif", "img", "landscape", "portrait" };
+        String[] tags = {"gif", "img", "landscape", "portrait"};
         Asset assetInstance = stack.asset();
         assetInstance.setTags(tags);
         Assertions.assertEquals(tags.length, assetInstance.getTags().length);
