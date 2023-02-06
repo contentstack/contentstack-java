@@ -67,7 +67,6 @@ class TestContentstack {
     @Test
     void initStackWithEmptyAPIKey() {
         try {
-
             Contentstack.stack("", DELIVERY_TOKEN, ENV);
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());

@@ -102,7 +102,6 @@ public class Asset {
      * @param headerKey
      *         the header key
      *
-     *
      *         <br>
      *         <br>
      *         <b>Example :</b><br>
