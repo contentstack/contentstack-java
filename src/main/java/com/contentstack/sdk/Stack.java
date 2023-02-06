@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 import static com.contentstack.sdk.Constants.*;
 
 /**
- * A stack is a repository or a container that holds all the content/assets of your site. It allows multiple users to
- * create, edit, approve, and publish their content within a single space.
+ * Stack call fetches comprehensive details of a specific stack, It allows multiple users to get content of stack
+ * information based on user credentials.
  */
 public class Stack {
 
@@ -65,6 +65,7 @@ public class Stack {
         String endpoint = config.scheme + config.host;
         this.config.setEndpoint(endpoint);
         client(endpoint);
+        logger.fine("Info: configs set");
     }
 
     //Setting a global client with the connection pool configuration solved the issue
@@ -223,15 +224,6 @@ public class Stack {
         return apiKey;
     }
 
-    /**
-     * @return {@link Stack} accessToken
-     * @deprecated This method is no longer acceptable to get access token.
-     * <p> Use getDeliveryToken instead.
-     */
-    @Deprecated
-    public String getAccessToken() {
-        return (String) headers.get("access_token");
-    }
 
     /**
      * Returns deliveryToken of particular stack
@@ -373,10 +365,10 @@ public class Stack {
      *         <br>
      *         <b>Example :</b><br>
      *         <pre class="prettyprint">
-     *                                                                                                                                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                                                                                                                     stack.syncToken("syncToken")
-     *                                                                                                                                                                                                                                                                                                                                                                                                                                                             stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
-     *                                                                                                                                                                                                                                                                                                                                                                                                                                                             </pre>
+     *                                                                                                                                                                                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                                                                                                                                                                     stack.syncToken("syncToken")
+     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
+     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </pre>
      */
     public void syncToken(String syncToken, SyncResultCallBack syncCallBack) {
         this.sync(null);
@@ -476,13 +468,13 @@ public class Stack {
      *         <br>
      *         <b>Example :</b><br>
      *         <pre class="prettyprint">
-     *                                 Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                 stack.syncPublishType(PublishType)
-     *                                 </pre>
+     *                                                                                 Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                                                                 stack.syncPublishType(PublishType)
+     *                                                                                 </pre>
      */
     public void syncPublishType(PublishType publishType, SyncResultCallBack syncCallBack) {
         this.sync(null);
-        syncParams.put("type", publishType.name());
+        syncParams.put("type", publishType.name().toLowerCase());
         this.requestSync(syncCallBack);
     }
 
@@ -561,8 +553,15 @@ public class Stack {
      * The enum Publish type.
      */
     public enum PublishType {
-        asset_deleted, asset_published, asset_unpublished, content_type_deleted, entry_deleted, entry_published,
-        entry_unpublished
+        //asset_deleted, asset_published, asset_unpublished, content_type_deleted, entry_deleted, entry_published,
+        // Breaking change in v3.10.2
+        ASSET_DELETED,
+        ASSET_PUBLISHED,
+        ASSET_UNPUBLISHED,
+        CONTENT_TYPE_DELETED,
+        ENTRY_DELETED,
+        ENTRY_PUBLISHED,
+        ENTRY_UNPUBLISHED
     }
 
 }

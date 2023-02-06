@@ -22,7 +22,9 @@ class TestAssetLibrary {
         API_KEY = dotenv.get("API_KEY");
         DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
         ENV = dotenv.get("ENVIRONMENT");
-        stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV);
+        Config config = new Config();
+        config.setHost(dotenv.get("HOST"));
+        stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
     }
 
     @Test
