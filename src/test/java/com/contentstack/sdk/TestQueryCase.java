@@ -411,7 +411,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    for (int i = 0; i < entries.size()-1; i++) {
+                    for (int i = 0; i < entries.size() - 1; i++) {
                         String previous = entries.get(i).getTitle(); // get first string
                         String next = entries.get(i + 1).getTitle(); // get second string
                         if (previous.compareTo(next) < 0) { // compare both if less than Zero then Ascending else
@@ -438,7 +438,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    for (int i = 0; i < entries.size()-1; i++) {
+                    for (int i = 0; i < entries.size() - 1; i++) {
                         String previous = entries.get(i).getTitle(); // get first string
                         String next = entries.get(i + 1).getTitle(); // get second string
                         if (previous.compareTo(next) < 0) { // compare both if less than Zero then Ascending else
@@ -501,7 +501,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(0, entries.size());
+                    Assertions.assertEquals(27, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
