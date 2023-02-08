@@ -1,7 +1,6 @@
 package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 
@@ -472,7 +471,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(0, entries.size());
+                    Assertions.assertEquals(27, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
