@@ -36,12 +36,12 @@ public class Contentstack {
      *         <b>Example</b>
      *
      *         <pre>
-     *                                                   {
-     *                                                     &#64;Code
-     *                                                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                                   }
+     *                                                           {
+     *                                                             &#64;Code
+     *                                                             Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                                           }
      *
-     *                                                   </pre>
+     *                                                           </pre>
      */
     public static Stack stack(String stackApiKey, String deliveryToken, String environment)
             throws IllegalAccessException {
