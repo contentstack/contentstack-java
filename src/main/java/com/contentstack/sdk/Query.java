@@ -1294,9 +1294,9 @@ public class Query implements INotifyClass {
     /**
      * This method adds key and value to an Entry. Parameters:
      *
-     * @param paramKey:
+     * @param key:
      *         The key as string which needs to be added to the Query
-     * @param paramValue:
+     * @param value:
      *         The value as string which needs to be added to the Query
      * @return - Query
      *
@@ -1315,8 +1315,8 @@ public class Query implements INotifyClass {
      *         });
      *         </pre>
      */
-    public Query addParam(@NotNull String paramKey, @NotNull String paramValue) {
-        urlQueries.put(paramKey, paramValue);
+    public Query addParam(@NotNull String key, @NotNull String value) {
+        urlQueries.put(key, value);
         return this;
     }
 
