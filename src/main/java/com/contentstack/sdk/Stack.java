@@ -554,7 +554,7 @@ public class Stack {
      */
     public enum PublishType {
         //asset_deleted, asset_published, asset_unpublished, content_type_deleted, entry_deleted, entry_published,
-        // Breaking change in v3.10.2
+        // Breaking change in v3.11.0
         ASSET_DELETED,
         ASSET_PUBLISHED,
         ASSET_UNPUBLISHED,
