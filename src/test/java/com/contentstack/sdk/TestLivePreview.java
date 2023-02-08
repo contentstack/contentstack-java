@@ -74,7 +74,6 @@ public class TestLivePreview {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("live_preview", "hash167673");
         hashMap.put("content_type_uid", "contentType");
-        //stack.livePreviewQuery(hashMap);
         ContentType contentType = stack.contentType("contentType");
         Query queryInstance = contentType.query();
         Assertions.assertNotNull(queryInstance);
@@ -88,7 +87,6 @@ public class TestLivePreview {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("live_preview", "hash167673");
         hashMap.put("content_type_uid", "contentType");
-        //stack.livePreviewQuery(hashMap);
         ContentType contentType = stack.contentType("contentType");
         Entry entryInstance = contentType.entry("entryUid478748374");
         Assertions.assertNotNull(entryInstance);

@@ -3,17 +3,14 @@ package com.contentstack.sdk;
 import io.github.cdimascio.dotenv.Dotenv;
 import okhttp3.Request;
 import org.junit.jupiter.api.*;
-import retrofit2.Response;
-
 import java.util.ArrayList;
-import java.util.logging.Logger;
+
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestContentstackPlugin {
 
     protected String API_KEY, DELIVERY_TOKEN, ENV;
-    private final Logger logger = Logger.getLogger(TestContentstackPlugin.class.getName());
 
     @BeforeAll
     public void initBeforeTests() {
@@ -27,13 +24,16 @@ class TestContentstackPlugin {
 
 
         @Override
-        public void onRequest(Stack stack, Request request) {
-
+        public Request onRequest(Stack stack, Request request) {
+            return request;
         }
 
         @Override
-        public Response onResponse(Stack stack, Request request, retrofit2.Response response) {
-            return null;
+        public retrofit2.Response<okhttp3.ResponseBody> onResponse(
+                Stack stack,
+                Request request,
+                retrofit2.Response<okhttp3.ResponseBody> response) {
+            return response;
         }
     }
 
@@ -42,12 +42,12 @@ class TestContentstackPlugin {
 
 
         @Override
-        public void onRequest(Stack stack, Request request) {
-
+        public Request onRequest(Stack stack, Request request) {
+            return request;
         }
 
         @Override
-        public Response onResponse(Stack stack, Request request, Response response) {
+        public retrofit2.Response<okhttp3.ResponseBody> onResponse(Stack stack, Request request, retrofit2.Response<okhttp3.ResponseBody> response) {
             return response;
         }
     }
