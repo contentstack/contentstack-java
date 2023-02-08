@@ -12,6 +12,9 @@ class CSBackgroundTask {
 
     protected APIService service;
 
+    /**
+     * The protected constructor is useful for the unit testing
+     */
     protected CSBackgroundTask() {
     }
 
