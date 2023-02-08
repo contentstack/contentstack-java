@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.11.0
+
+### Date: 09-FEB-2023
+
+- Addition of Plugin Support,
+- #67 error handling infinite loop issue
+- Breaking changes: Enums PublishType changed to snake-case to CAPITAL
+- Basic improvements
+
 ## v1.10.2
 
 ### Date: 22-Oct-2022

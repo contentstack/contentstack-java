@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class Constants {
 
     private static final Logger logger = Logger.getLogger(Constants.class.getSimpleName());
-    protected static final String SDK_VERSION = "1.10.2";
+    protected static final String SDK_VERSION = "1.11.0";
     protected static final String ENVIRONMENT = "environment";
     protected static final String CONTENT_TYPE_UID = "content_type_uid";
     protected static final String ENTRY_UID = "entry_uid";
