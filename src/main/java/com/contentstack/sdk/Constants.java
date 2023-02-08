@@ -109,7 +109,7 @@ public class Constants {
      */
     public static Calendar parseDate(@NotNull String date, TimeZone timeZone) {
         // Use the ISO-8601 format to parse the date string
-        if (date.isEmpty()){
+        if (date.isEmpty()) {
             return null;
         }
         Calendar cal = toCalendar(date);

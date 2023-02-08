@@ -323,9 +323,9 @@ public class Group {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                                                                      {@code List<Asset> asset = group.getAssets("key"); }
-     *                                                                                                                                      @return ArrayList of {@link Asset}
-     *                                                                                                                                    </pre>
+     *                                                                                                                                              {@code List<Asset> asset = group.getAssets("key"); }
+     *                                                                                                                                              @return ArrayList of {@link Asset}
+     *                                                                                                                                            </pre>
      */
     public List<Asset> getAssets(String key) {
         List<Asset> assets = new ArrayList<>();
@@ -347,10 +347,10 @@ public class Group {
      *         <br>
      *         <b>Example :</b><br>
      *         <pre class="prettyprint">
-     *                                                                                                          Group innerGroup = group.getGroup("key");
-     *                                                                                                          &#64;return Group
-     *                                                                                                          object
-     *                                                                                                          </pre>
+     *                                                                                                                  Group innerGroup = group.getGroup("key");
+     *                                                                                                                  &#64;return Group
+     *                                                                                                                  object
+     *                                                                                                                  </pre>
      * @return the group
      */
     public Group getGroup(String key) {
@@ -371,9 +371,9 @@ public class Group {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                                                                                                                                      Group innerGroup = group.getGroups("key");
-     *                                                                                                                                 @return List of {@link Group}
-     *                                                                                                                                    </pre>
+     *                                                                                                                                              Group innerGroup = group.getGroups("key");
+     *                                                                                                                                         @return List of {@link Group}
+     *                                                                                                                                            </pre>
      */
     public List<Group> getGroups(String key) {
         List<Group> groupList = new ArrayList<>();
