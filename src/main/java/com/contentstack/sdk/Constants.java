@@ -70,16 +70,14 @@ public class Constants {
     public static final String CONTENT_TYPE_NAME = "Please set contentType name.";
     public static final String QUERY_EXCEPTION = "Please provide valid params.";
 
-
     /**
      * @param dateString
-     *         the date in string format
+     *                   the date in string format
      * @param zoneId
-     *         the string zoneId
+     *                   the string zoneId
      * @return Calendar
      */
     public static Calendar parseDateToTimeZone(@NotNull String dateString, @NotNull String zoneId) {
-        //String dateString = "2016-12-16T12:36:33.961Z";
         Instant instant = Instant.parse(dateString);
         // Define the target time zone
         ZoneId targetTimeZone = ZoneId.of(zoneId);
@@ -87,7 +85,8 @@ public class Constants {
         ZonedDateTime dateTime = instant.atZone(targetTimeZone);
         // Extract the year, month, day, hour, minute, and second
         Calendar cal = Calendar.getInstance();
-        cal.set(dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth(), dateTime.getHour(), dateTime.getMinute(), dateTime.getSecond());
+        cal.set(dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth(), dateTime.getHour(),
+                dateTime.getMinute(), dateTime.getSecond());
         return cal;
     }
 
@@ -99,16 +98,15 @@ public class Constants {
         return cal;
     }
 
-
     /**
      * @param date
-     *         The date in string format like (String dateString = "2016-12-16T12:36:33.961Z";)
+     *                 The date in string format like (String dateString =
+     *                 "2016-12-16T12:36:33.961Z";)
      * @param timeZone
-     *         the time zone as string
+     *                 the time zone as string
      * @return calendar @{@link Calendar}
      */
     public static Calendar parseDate(@NotNull String date, TimeZone timeZone) {
-        // Use the ISO-8601 format to parse the date string
         if (date.isEmpty()) {
             return null;
         }
