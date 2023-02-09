@@ -115,7 +115,6 @@ class TestStack {
         assertTrue(stack.getDeliveryToken().startsWith("blt"));
     }
 
-
     @Test
     @Order(15)
     void testRemoveHeader() {

@@ -231,7 +231,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
         return response;
     }
 
-
     void handleJSONArray() {
         if (responseJSON.has("entries") && !responseJSON.optJSONArray("entries").isEmpty()) {
             JSONArray finalEntries = responseJSON.optJSONArray("entries");
@@ -259,7 +258,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
         }
         responseJSON = new JSONObject().put("entries", arrayEntry);
     }
-
 
     void setError(String errResp) {
         logger.info(errResp);
