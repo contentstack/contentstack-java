@@ -4,10 +4,8 @@ import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -312,7 +310,6 @@ class TestEntry {
         logger.info("passed...");
     }
 
-
     @Test
     @Order(35)
     void entryGetCreateAt() {
@@ -374,7 +371,7 @@ class TestEntry {
     @Test
     @Order(42)
     void entryExcept() {
-        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
+        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
         Entry initEntry = stack.contentType("product").entry(entryUid).except(arrField);
         Assertions.assertEquals(3, initEntry.exceptFieldArray.length());
         logger.info("passed...");
@@ -392,7 +389,7 @@ class TestEntry {
     @Test
     @Order(44)
     void entryIncludeReferenceList() {
-        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
+        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
         Entry initEntry = stack.contentType("product").entry(entryUid).includeReference(arrField);
         Assertions.assertEquals(3, initEntry.referenceArray.length());
         Assertions.assertTrue(initEntry.params.has("include[]"));
@@ -402,7 +399,7 @@ class TestEntry {
     @Test
     @Order(45)
     void entryOnlyList() {
-        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
+        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
         Entry initEntry = stack.contentType("product").entry(entryUid);
         initEntry.only(arrField);
         Assertions.assertEquals(3, initEntry.objectUidForOnly.length());
@@ -416,7 +413,8 @@ class TestEntry {
         strList.add("fieldOne");
         strList.add("fieldTwo");
         strList.add("fieldThree");
-        Entry initEntry = stack.contentType("product").entry(entryUid).onlyWithReferenceUid(strList, "reference@fakeit");
+        Entry initEntry = stack.contentType("product").entry(entryUid).onlyWithReferenceUid(strList,
+                "reference@fakeit");
         Assertions.assertTrue(initEntry.onlyJsonObject.has("reference@fakeit"));
         int size = initEntry.onlyJsonObject.optJSONArray("reference@fakeit").length();
         Assertions.assertEquals(strList.size(), size);

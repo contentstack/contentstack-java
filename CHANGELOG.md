@@ -6,8 +6,8 @@
 
 - Addition of Plugin Support,
 - #67 error handling infinite loop issue
-- Breaking changes: Enums PublishType changed to snake-case to CAPITAL
-- Basic improvements
+- Breaking change: Enums PublishType changed from snake-case to ALL_CAPS
+- Basic Improvements
 
 ## v1.10.2
 
