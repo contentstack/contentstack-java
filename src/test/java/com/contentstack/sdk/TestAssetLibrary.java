@@ -69,8 +69,7 @@ class TestAssetLibrary {
 
     @Test
     void testAssetSortAscending() {
-        AssetLibrary assetLibrary = stack.assetLibrary();
-        assetLibrary.sort("ascending", AssetLibrary.ORDERBY.ASCENDING);
+        AssetLibrary assetLibrary = stack.assetLibrary().sort("ascending", AssetLibrary.ORDERBY.ASCENDING);
         Assertions.assertFalse(assetLibrary.headers.containsKey("asc"));
         logger.info("passed...");
     }
@@ -85,8 +84,7 @@ class TestAssetLibrary {
 
     @Test
     void testAssetIncludeCount() {
-        AssetLibrary assetLibrary = stack.assetLibrary();
-        assetLibrary.includeCount();
+        AssetLibrary assetLibrary = stack.assetLibrary().includeCount();
         Assertions.assertFalse(assetLibrary.headers.containsKey("include_count"));
         logger.info("passed...");
     }
@@ -101,16 +99,14 @@ class TestAssetLibrary {
 
     @Test
     void testAssetGetCount() {
-        AssetLibrary assetLibrary = stack.assetLibrary();
-        assetLibrary.includeRelativeUrl();
+        AssetLibrary assetLibrary = stack.assetLibrary().includeRelativeUrl();
         Assertions.assertEquals(0, assetLibrary.getCount());
         logger.info("passed...");
     }
 
     @Test
     void testIncludeFallback() {
-        AssetLibrary assetLibrary = stack.assetLibrary();
-        assetLibrary.includeFallback();
+        AssetLibrary assetLibrary = stack.assetLibrary().includeFallback();
         Assertions.assertFalse(assetLibrary.headers.containsKey("include_fallback"));
         logger.info("passed...");
     }
