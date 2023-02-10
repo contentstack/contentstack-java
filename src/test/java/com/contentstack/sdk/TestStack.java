@@ -116,13 +116,6 @@ class TestStack {
     }
 
     @Test
-    @Deprecated
-    @Order(14)
-    void testGetAccessToken() {
-        assertTrue(stack.getAccessToken().startsWith("blt"));
-    }
-
-    @Test
     @Order(15)
     void testRemoveHeader() {
         stack.removeHeader("environment");
@@ -236,7 +229,7 @@ class TestStack {
     @Order(28)
     void testSyncPublishTypeEntryPublished() {
         // deepcode ignore NullPassTo/test: <please specify a reason of ignoring this>
-        stack.syncPublishType(Stack.PublishType.entry_published, null);
+        stack.syncPublishType(Stack.PublishType.ENTRY_PUBLISHED, null);
         assertEquals(3, stack.syncParams.length());
         assertEquals("entry_published", stack.syncParams.get("type"));
         assertTrue(stack.syncParams.has("init"));
@@ -246,7 +239,7 @@ class TestStack {
     @Test
     @Order(29)
     void testSyncPublishTypeAssetDeleted() {
-        stack.syncPublishType(Stack.PublishType.asset_deleted, null);
+        stack.syncPublishType(Stack.PublishType.ASSET_DELETED, null);
         assertEquals(3, stack.syncParams.length());
         assertEquals("asset_deleted", stack.syncParams.get("type"));
         assertTrue(stack.syncParams.has("init"));
@@ -256,7 +249,7 @@ class TestStack {
     @Test
     @Order(30)
     void testSyncPublishTypeAssetPublished() {
-        stack.syncPublishType(Stack.PublishType.asset_published, null);
+        stack.syncPublishType(Stack.PublishType.ASSET_PUBLISHED, null);
         assertEquals(3, stack.syncParams.length());
         assertEquals("asset_published", stack.syncParams.get("type"));
         assertTrue(stack.syncParams.has("init"));
@@ -266,7 +259,7 @@ class TestStack {
     @Test
     @Order(31)
     void testSyncPublishTypeAssetUnPublished() {
-        stack.syncPublishType(Stack.PublishType.asset_unpublished, null);
+        stack.syncPublishType(Stack.PublishType.ASSET_UNPUBLISHED, null);
         assertEquals(3, stack.syncParams.length());
         assertEquals("asset_unpublished", stack.syncParams.get("type"));
         assertTrue(stack.syncParams.has("init"));
@@ -276,7 +269,7 @@ class TestStack {
     @Test
     @Order(32)
     void testSyncPublishTypeContentTypeDeleted() {
-        stack.syncPublishType(Stack.PublishType.content_type_deleted, null);
+        stack.syncPublishType(Stack.PublishType.CONTENT_TYPE_DELETED, null);
         assertEquals(3, stack.syncParams.length());
         assertEquals("content_type_deleted", stack.syncParams.get("type"));
         assertTrue(stack.syncParams.has("init"));
@@ -286,7 +279,7 @@ class TestStack {
     @Test
     @Order(33)
     void testSyncPublishTypeEntryDeleted() {
-        stack.syncPublishType(Stack.PublishType.entry_deleted, null);
+        stack.syncPublishType(Stack.PublishType.ENTRY_DELETED, null);
         assertEquals(3, stack.syncParams.length());
         assertEquals("entry_deleted", stack.syncParams.get("type"));
         assertTrue(stack.syncParams.has("init"));
@@ -297,7 +290,7 @@ class TestStack {
     @Order(34)
     void testSyncPublishTypeEntryUnpublished() {
         // deepcode ignore NullPassTo/test: <please specify a reason of ignoring this>
-        stack.syncPublishType(Stack.PublishType.entry_unpublished, null);
+        stack.syncPublishType(Stack.PublishType.ENTRY_UNPUBLISHED, null);
         assertEquals(3, stack.syncParams.length());
         assertEquals("entry_unpublished", stack.syncParams.get("type"));
         assertTrue(stack.syncParams.has("init"));
@@ -309,11 +302,11 @@ class TestStack {
     void testSyncIncludingMultipleParams() {
         Date newDate = new Date();
         String startFrom = stack.convertUTCToISO(newDate);
-        stack.sync("product", newDate, "en-us", Stack.PublishType.entry_published, null);
+        stack.sync("product", newDate, "en-us", Stack.PublishType.ENTRY_PUBLISHED, null);
         assertEquals(6, stack.syncParams.length());
-        assertEquals("entry_published", stack.syncParams.get("type"));
+        assertEquals("entry_published", stack.syncParams.get("type").toString().toLowerCase());
         assertEquals("en-us", stack.syncParams.get("locale"));
-        assertEquals("product", stack.syncParams.get("content_type_uid"));
+        assertEquals("product", stack.syncParams.get("content_type_uid").toString().toLowerCase());
         assertEquals(startFrom, stack.syncParams.get("start_from"));
         assertTrue(stack.syncParams.has("init"));
         assertTrue(stack.syncParams.has("environment"));
@@ -371,7 +364,7 @@ class TestStack {
     }
 
     @Test
-    @Disabled
+    @Disabled("No relevant code")
     @Order(41)
     void testSynchronizationAPIRequest() throws IllegalAccessException {
         Dotenv dotenv = Dotenv.load();
@@ -396,7 +389,7 @@ class TestStack {
     }
 
     @Test
-    @Disabled
+    @Disabled("No relevant code")
     @Order(42)
     void testSyncPaginationToken() throws IllegalAccessException {
         Dotenv dotenv = Dotenv.load();

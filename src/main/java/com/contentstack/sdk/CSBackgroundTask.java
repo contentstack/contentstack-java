@@ -12,6 +12,9 @@ class CSBackgroundTask {
 
     protected APIService service;
 
+    /**
+     * The protected constructor is useful for the unit testing
+     */
     protected CSBackgroundTask() {
     }
 
@@ -23,7 +26,7 @@ class CSBackgroundTask {
         csConnectionRequest.setStackInstance(stackInstance);
         csConnectionRequest.setURLQueries(urlParams);
         this.service = stackInstance.service;
-        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service, stackInstance);
 
     }
 
@@ -36,7 +39,8 @@ class CSBackgroundTask {
         csConnectionRequest.setQueryInstance(queryInstance);
         csConnectionRequest.setURLQueries(urlQueries);
         this.service = stackInstance.service;
-        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service,
+                stackInstance);
 
     }
 
@@ -48,7 +52,7 @@ class CSBackgroundTask {
         CSConnectionRequest csConnectionRequest = new CSConnectionRequest(entryInstance);
         csConnectionRequest.setURLQueries(urlQueries);
         this.service = stackInstance.service;
-        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callBack, this.service);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callBack, this.service, stackInstance);
     }
 
     protected CSBackgroundTask(AssetLibrary assetLibrary, Stack stackInstance, String controller, String url,
@@ -59,7 +63,7 @@ class CSBackgroundTask {
         CSConnectionRequest csConnectionRequest = new CSConnectionRequest(assetLibrary);
         csConnectionRequest.setURLQueries(urlQueries);
         this.service = stackInstance.service;
-        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service, stackInstance);
 
     }
 
@@ -71,7 +75,7 @@ class CSBackgroundTask {
         CSConnectionRequest csConnectionRequest = new CSConnectionRequest(asset);
         csConnectionRequest.setURLQueries(urlQueries);
         this.service = stackInstance.service;
-        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service, stackInstance);
     }
 
     protected CSBackgroundTask(ContentType contentType, Stack stackInstance, String controller, String url,
@@ -82,7 +86,7 @@ class CSBackgroundTask {
         CSConnectionRequest csConnectionRequest = new CSConnectionRequest(contentType);
         csConnectionRequest.setURLQueries(urlParams);
         this.service = stackInstance.service;
-        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service);
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service, stackInstance);
     }
 
     protected void checkHeader(@NotNull Map<String, Object> headers) {

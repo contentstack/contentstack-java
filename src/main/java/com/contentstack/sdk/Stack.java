@@ -2,10 +2,13 @@ package com.contentstack.sdk;
 
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import java.io.IOException;
 import java.net.Proxy;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,8 +19,8 @@ import java.util.stream.Collectors;
 import static com.contentstack.sdk.Constants.*;
 
 /**
- * A stack is a repository or a container that holds all the content/assets of your site. It allows multiple users to
- * create, edit, approve, and publish their content within a single space.
+ * Stack call fetches comprehensive details of a specific stack, It allows multiple users to get content of stack
+ * information based on user credentials.
  */
 public class Stack {
 
@@ -25,6 +28,7 @@ public class Stack {
     protected LinkedHashMap<String, Object> headers;
     protected Config config;
     protected String contentType;
+    protected String livePreviewEndpoint;
     protected APIService service;
     protected String apiKey;
     protected JSONObject syncParams = null;
@@ -60,8 +64,8 @@ public class Stack {
         includeLivePreview();
         String endpoint = config.scheme + config.host;
         this.config.setEndpoint(endpoint);
-
         client(endpoint);
+        logger.fine("Info: configs set");
     }
 
     //Setting a global client with the connection pool configuration solved the issue
@@ -82,20 +86,8 @@ public class Stack {
 
 
     private void includeLivePreview() {
-        try {
-            if (config.enableLivePreview) {
-                if (config.managementToken == null || config.managementToken.isEmpty()) {
-                    throw new IllegalAccessException("managementToken is required");
-                }
-                if (config.livePreviewHost == null || config.livePreviewHost.isEmpty()) {
-                    throw new IllegalAccessException("host is required");
-                }
-                config.host = config.livePreviewHost;
-            }
-        } catch (Exception e) {
-            String info = "To enable live preview, managementToken and host are required";
-            logger.warning(info);
-            throw new IllegalArgumentException(e.getLocalizedMessage());
+        if (config.enableLivePreview) {
+            this.livePreviewEndpoint = "https://".concat(config.livePreviewHost).concat("/v3/content_types/");
         }
     }
 
@@ -114,17 +106,40 @@ public class Stack {
      * <p>
      * <b>Example</b>
      * <p>
-     * <p>
      * stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
      * <p>
      * HashMap queryMap = new HashMap();
      * <p>
      * stack.livePreviewQuery(queryMap)
+     * <p>
+     * @throws IOException
+     *         IO Exception
      */
-    public Stack livePreviewQuery(Map<String, String> query) {
-        if (this.config.enableLivePreview) {
-            config.livePreviewHash = query.get("live_preview");
-            config.livePreviewContentType = query.get(CONTENT_TYPE_UID);
+    public Stack livePreviewQuery(Map<String, String> query) throws IOException {
+        config.livePreviewHash = query.get(LIVE_PREVIEW);
+        config.livePreviewEntryUid = query.get(ENTRY_UID);
+        config.livePreviewContentType = query.get(CONTENT_TYPE_UID);
+
+        String livePreviewUrl = this.livePreviewEndpoint.concat(config.livePreviewContentType).concat("/entries/" + config.livePreviewEntryUid);
+        if (livePreviewUrl.contains("/null/")) {
+            throw new IllegalStateException("Malformed Query Url");
+        }
+        Response<ResponseBody> response = null;
+        try {
+            LinkedHashMap<String, Object> liveHeader = new LinkedHashMap<>();
+            liveHeader.put("api_key", this.headers.get("api_key"));
+            liveHeader.put("authorization", config.managementToken);
+            response = this.service.getRequest(livePreviewUrl, liveHeader).execute();
+        } catch (IOException e) {
+            throw new IllegalStateException("IO Exception while executing the Live Preview url");
+        }
+        if (response.isSuccessful()) {
+            assert response.body() != null;
+            String resp = response.body().string();
+            if (!resp.isEmpty()) {
+                JSONObject liveResponse = new JSONObject(resp);
+                config.setLivePreviewEntry(liveResponse.getJSONObject("entry"));
+            }
         }
         return this;
     }
@@ -209,15 +224,6 @@ public class Stack {
         return apiKey;
     }
 
-    /**
-     * @return {@link Stack} accessToken
-     * @deprecated This method is no longer acceptable to get access token.
-     * <p> Use getDeliveryToken instead.
-     */
-    @Deprecated
-    public String getAccessToken() {
-        return (String) headers.get("access_token");
-    }
 
     /**
      * Returns deliveryToken of particular stack
@@ -336,6 +342,8 @@ public class Stack {
      *         can be used to restart the sync process from where it was interrupted. <br>
      *         <br>
      *         <b>Example :</b><br>
+     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *         stack.syncPaginationToken("paginationToken)
      */
     public void syncPaginationToken(@NotNull String paginationToken, SyncResultCallBack syncCallBack) {
         this.sync(null);
@@ -356,10 +364,11 @@ public class Stack {
      *         content that was deleted or updated. <br>
      *         <br>
      *         <b>Example :</b><br>
-     *
      *         <pre class="prettyprint">
-     *                                                                                                                                                                                     stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
-     *                                                                                                                                                                                     </pre>
+     *                                                                                                                                                                                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                                                                                                                                                                     stack.syncToken("syncToken")
+     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
+     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </pre>
      */
     public void syncToken(String syncToken, SyncResultCallBack syncCallBack) {
         this.sync(null);
@@ -379,13 +388,8 @@ public class Stack {
      *         and specify the start date as its value. <br>
      *         <br>
      *         <b>Example :</b><br>
-     *
-     *         <pre class="prettyprint">
-     *                                                                                                                                                                                     final Date start_date = sdf.parse("2018-10-07"); <P>
-     *                                                                                                                                                                                     stack.syncFromDate(start_date, SyncResultCallBack()) {
-     *
-     *                                                                                                                                                                                     }
-     *                                                                                                                                                                                     </pre>
+     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *         stack.syncFromDate("fromDate")
      */
     public void syncFromDate(@NotNull Date fromDate, SyncResultCallBack syncCallBack) {
         String newFromDate = convertUTCToISO(fromDate);
@@ -436,6 +440,8 @@ public class Stack {
      *         entries of the specified locales. <br>
      *         <br>
      *         <b>Example :</b><br>
+     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment"); stack.syncContentType(String
+     *         content_type, new SyncResultCallBack()){ }
      */
     public void syncLocale(String localeCode, SyncResultCallBack syncCallBack) {
         this.sync(null);
@@ -461,14 +467,14 @@ public class Stack {
      *         <br>
      *         <br>
      *         <b>Example :</b><br>
-     *
      *         <pre class="prettyprint">
-     *                                                                                                                                                                                     stackInstance.syncPublishType(Stack.PublishType.entry_published, new SyncResultCallBack()) { }
-     *                                                                                                                                                                                     </pre>
+     *                                                                                 Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                                                                 stack.syncPublishType(PublishType)
+     *                                                                                 </pre>
      */
     public void syncPublishType(PublishType publishType, SyncResultCallBack syncCallBack) {
         this.sync(null);
-        syncParams.put("type", publishType.name());
+        syncParams.put("type", publishType.name().toLowerCase());
         this.requestSync(syncCallBack);
     }
 
@@ -492,8 +498,8 @@ public class Stack {
      *         <br>
      *         <b>Example :</b><br>
      */
-    public void sync(
-            String contentType, Date fromDate, String localeCode, PublishType publishType, SyncResultCallBack syncCallBack) {
+    public void sync(String contentType, Date fromDate, String localeCode,
+                     PublishType publishType, SyncResultCallBack syncCallBack) {
         String newDate = convertUTCToISO(fromDate);
         this.sync(null);
         syncParams.put("start_from", newDate);
@@ -510,7 +516,8 @@ public class Stack {
         fetchFromNetwork(SYNCHRONISATION, syncParams, this.headers, callback);
     }
 
-    private void fetchContentTypes(String urlString, JSONObject contentTypeParam, HashMap<String, Object> headers,
+    private void fetchContentTypes(String urlString, JSONObject
+            contentTypeParam, HashMap<String, Object> headers,
                                    ContentTypesCallback callback) {
         if (callback != null) {
             HashMap<String, Object> queryParam = getUrlParams(contentTypeParam);
@@ -520,8 +527,8 @@ public class Stack {
         }
     }
 
-    private void fetchFromNetwork(String urlString, JSONObject urlQueries, HashMap<String, Object> headers,
-                                  SyncResultCallBack callback) {
+    private void fetchFromNetwork(String urlString, JSONObject urlQueries,
+                                  HashMap<String, Object> headers, SyncResultCallBack callback) {
         if (callback != null) {
             HashMap<String, Object> urlParams = getUrlParams(urlQueries);
             String requestInfo = REQUEST_CONTROLLER.SYNC.toString();
@@ -546,8 +553,15 @@ public class Stack {
      * The enum Publish type.
      */
     public enum PublishType {
-        asset_deleted, asset_published, asset_unpublished, content_type_deleted, entry_deleted, entry_published,
-        entry_unpublished
+        //asset_deleted, asset_published, asset_unpublished, content_type_deleted, entry_deleted, entry_published,
+        // Breaking change in v3.11.0
+        ASSET_DELETED,
+        ASSET_PUBLISHED,
+        ASSET_UNPUBLISHED,
+        CONTENT_TYPE_DELETED,
+        ENTRY_DELETED,
+        ENTRY_PUBLISHED,
+        ENTRY_UNPUBLISHED
     }
 
 }

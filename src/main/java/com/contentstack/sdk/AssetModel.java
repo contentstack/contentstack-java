@@ -21,8 +21,10 @@ class AssetModel {
     /**
      * Instantiates a new Asset model.
      *
-     * @param response the response
-     * @param isArray  the is array
+     * @param response
+     *                 the response
+     * @param isArray
+     *                 the is array
      */
     public AssetModel(JSONObject response, boolean isArray) {
 

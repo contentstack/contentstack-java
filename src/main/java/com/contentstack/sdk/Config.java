@@ -2,29 +2,36 @@ package com.contentstack.sdk;
 
 import okhttp3.ConnectionPool;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 import java.net.Proxy;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-
 /**
- * The type Config. enables optional parameters while passing from stack
+ * The Config enables optional parameters while passing from stack. You can set
+ * different configs params to the stack
+ * like host, version, livePreview, endpoint, region, branch etc
  */
 public class Config {
 
     protected String livePreviewHash = null;
     protected String livePreviewContentType = null;
+    protected String livePreviewEntryUid = null;
     protected String host = "cdn.contentstack.io";
     protected String version = "v3";
     protected String scheme = "https://";
     protected String endpoint;
     protected boolean enableLivePreview = false;
     protected String livePreviewHost;
+    protected JSONObject livePreviewEntry = null;
     protected ContentstackRegion region = ContentstackRegion.US;
     protected String managementToken;
     protected String branch;
     protected Proxy proxy = null;
     protected ConnectionPool connectionPool = new ConnectionPool();
+
+    protected List<ContentstackPlugin> plugins = null;
 
     public String getBranch() {
         return branch;
@@ -34,18 +41,20 @@ public class Config {
         this.branch = branch;
     }
 
-
     /**
      * Proxy can be set like below.
      *
      * @param proxy
-     *         Proxy setting, typically a type (http, socks) and a socket address. A Proxy is an immutable object
-     *         <br><br><b>Example:</b><br><br>
-     *         <code>
+     *              Proxy setting, typically a type (http, socks) and a socket
+     *              address. A Proxy is an immutable object
+     *              <br>
+     *              <br>
+     *              <b>Example:</b><br>
+     *              <br>
+     *              <code>
      *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP,  new InetSocketAddress("proxyHost", "proxyPort"));
-     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80));
-     *         Config config = new Config();
-     *         config.setProxy(proxy);
+     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80)); Config
+     *         config = new Config(); config.setProxy(proxy);
      *         </code>
      */
     public void setProxy(Proxy proxy) {
@@ -61,18 +70,19 @@ public class Config {
         return this.proxy;
     }
 
-
     /**
-     * Manages reuse of HTTP and HTTP/2 connections for reduced network latency. HTTP requests that * share the same
-     * {@link okhttp3.Address} may share a {@link okhttp3.Connection}. This class implements the policy * of which
+     * Manages reuse of HTTP and HTTP/2 connections for reduced network latency.
+     * HTTP requests that * share the same
+     * {@link okhttp3.Address} may share a {@link okhttp3.Connection}. This class
+     * implements the policy * of which
      * connections to keep open for future use.
      *
      * @param maxIdleConnections
-     *         the maxIdleConnections default value is 5
+     *                           the maxIdleConnections default value is 5
      * @param keepAliveDuration
-     *         the keepAliveDuration default value is 5
+     *                           the keepAliveDuration default value is 5
      * @param timeUnit
-     *         the timeUnit default value is TimeUnit.MINUTES
+     *                           the timeUnit default value is TimeUnit.MINUTES
      * @return ConnectionPool
      */
     public ConnectionPool connectionPool(int maxIdleConnections, long keepAliveDuration, TimeUnit timeUnit) {
@@ -93,7 +103,7 @@ public class Config {
      * Sets region.
      *
      * @param region
-     *         the region
+     *               the region
      * @return the region
      */
     public ContentstackRegion setRegion(ContentstackRegion region) {
@@ -105,9 +115,12 @@ public class Config {
         return endpoint + "/" + getVersion() + "/";
     }
 
-    protected String setEndpoint(@NotNull String endpoint) {
+    protected void setEndpoint(@NotNull String endpoint) {
         this.endpoint = endpoint;
-        return this.endpoint;
+    }
+
+    public void setPlugins(List<ContentstackPlugin> plugins) {
+        this.plugins = plugins;
     }
 
     /**
@@ -123,7 +136,7 @@ public class Config {
      * Sets host.
      *
      * @param hostName
-     *         the host name
+     *                 the host name
      */
     public void setHost(String hostName) {
         if (hostName != null && !hostName.isEmpty()) {
@@ -144,7 +157,7 @@ public class Config {
      * Enable live preview config.
      *
      * @param enableLivePreview
-     *         to enable live preview
+     *                          to enable live preview
      * @return the config
      */
     public Config enableLivePreview(boolean enableLivePreview) {
@@ -156,7 +169,7 @@ public class Config {
      * Sets live preview host.
      *
      * @param livePreviewHost
-     *         the live preview host
+     *                        the live preview host
      * @return the live preview host
      */
     public Config setLivePreviewHost(@NotNull String livePreviewHost) {
@@ -164,11 +177,16 @@ public class Config {
         return this;
     }
 
+    protected Config setLivePreviewEntry(@NotNull JSONObject livePreviewEntry) {
+        this.livePreviewEntry = livePreviewEntry;
+        return this;
+    }
+
     /**
      * Sets management token.
      *
      * @param managementToken
-     *         the management token
+     *                        the management token
      * @return the management token
      */
     public Config setManagementToken(@NotNull String managementToken) {
@@ -177,7 +195,8 @@ public class Config {
     }
 
     /**
-     * The enum Contentstack region. for now contentstack supports [US, EU, AZURE_NA]
+     * The enum Contentstack region. for now contentstack supports [US, EU,
+     * AZURE_NA]
      */
     public enum ContentstackRegion {
         US, EU, AZURE_NA

@@ -6,11 +6,6 @@ import org.junit.jupiter.api.Test;
 class TestAzureRegion {
 
     @Test
-    void testAzureRegion() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
     void testAzureRegionBehaviourUS() {
         Config config = new Config();
         Config.ContentstackRegion region = Config.ContentstackRegion.US;
