@@ -1,9 +1,11 @@
 package com.contentstack.sdk;
 
+import okhttp3.Request;
 import okhttp3.ResponseBody;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 import static com.contentstack.sdk.Constants.*;
 
@@ -28,6 +31,8 @@ public class CSHttpConnection implements IURLRequestHTTP {
     private LinkedHashMap<String, Object> headers;
     private String info;
     private APIService service;
+    private Config config;
+    private Stack stackInstance;
     private ResultCallBack callBackObject;
     private JSONObject responseJSON;
     private HashMap<String, Object> formParams;
@@ -184,17 +189,74 @@ public class CSHttpConnection implements IURLRequestHTTP {
         this.headers.put(X_USER_AGENT_KEY, "contentstack-java/" + SDK_VERSION);
         this.headers.put(USER_AGENT_KEY, USER_AGENT);
         this.headers.put(CONTENT_TYPE, APPLICATION_JSON);
+
+        Request request = null;
+        if (this.config.plugins != null) {
+            request = pluginRequestImp(requestUrl);
+            this.headers.clear();
+            Request finalRequest = request;
+            request.headers().names().forEach(key -> {
+                this.headers.put(key, finalRequest.headers().get(key));
+            });
+            requestUrl = request.url().toString();
+        }
+
         Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
         if (response.isSuccessful()) {
             assert response.body() != null;
-            String resp = response.body().string();
-            responseJSON = new JSONObject(resp);
+            if (request != null) {
+                response = pluginResponseImp(request, response);
+            }
+            responseJSON = new JSONObject(response.body().string());
+            if (this.config.livePreviewEntry != null && !this.config.livePreviewEntry.isEmpty()) {
+                handleJSONArray();
+            }
             connectionRequest.onRequestFinished(CSHttpConnection.this);
         } else {
             assert response.errorBody() != null;
             setError(response.errorBody().string());
         }
 
+    }
+
+    private Request pluginRequestImp(String requestUrl) {
+        Call<ResponseBody> call = this.service.getRequest(requestUrl, this.headers);
+        Request request = call.request();
+        this.config.plugins.forEach(plugin -> plugin.onRequest(this.stackInstance, request));
+        return request;
+    }
+
+    private Response<ResponseBody> pluginResponseImp(Request request, Response<ResponseBody> response) {
+        this.config.plugins.forEach(plugin -> plugin.onResponse(this.stackInstance, request, response));
+        return response;
+    }
+
+    void handleJSONArray() {
+        if (responseJSON.has("entries") && !responseJSON.optJSONArray("entries").isEmpty()) {
+            JSONArray finalEntries = responseJSON.optJSONArray("entries");
+            IntStream.range(0, finalEntries.length()).forEach(idx -> {
+                JSONObject objJSON = (JSONObject) finalEntries.get(idx);
+                handleJSONObject(finalEntries, objJSON, idx);
+            });
+        }
+        if (responseJSON.has("entry") && !responseJSON.optJSONObject("entry").isEmpty()) {
+            JSONObject entry = responseJSON.optJSONObject("entry");
+            if (!entry.isEmpty()) {
+                if (entry.has("uid") && entry.opt("uid").equals(this.config.livePreviewEntry.opt("uid"))) {
+                    responseJSON = new JSONObject().put("entry", this.config.livePreviewEntry);
+                }
+            }
+        }
+
+    }
+
+    void handleJSONObject(JSONArray arrayEntry, JSONObject jsonObj, int idx) {
+        if (!jsonObj.isEmpty()) {
+            if (jsonObj.has("uid") && jsonObj.opt("uid").equals(this.config.livePreviewEntry.opt("uid"))) {
+                arrayEntry.put(idx, this.config.livePreviewEntry);
+            }
+        }
+        responseJSON = new JSONObject().put("entries", arrayEntry);
     }
 
     void setError(String errResp) {
@@ -209,5 +271,13 @@ public class CSHttpConnection implements IURLRequestHTTP {
 
     public void setAPIService(APIService service) {
         this.service = service;
+    }
+
+    public void setConfig(Config config) {
+        this.config = config;
+    }
+
+    public void setStack(Stack stackInstance) {
+        this.stackInstance = stackInstance;
     }
 }

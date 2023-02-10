@@ -1,8 +1,7 @@
 package com.contentstack.sdk;
 
 /**
- * If there is something wrong with the API request, Contentstack returns an
- * error.
+ * If there is something wrong with the API request, Contentstack returns an error.
  */
 
 public class Error {
@@ -21,14 +20,13 @@ public class Error {
     }
 
     /**
-     *
      * Returns error in string format.
-     * 
+     *
      * @return String error message <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         String errorString = error.getErrorMessage();
      *         </pre>
      */
@@ -42,12 +40,12 @@ public class Error {
 
     /**
      * Returns error code
-     * 
+     *
      * @return int value. <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         int errorCode = error.getErrorCode();
      *         </pre>
      */
@@ -61,12 +59,12 @@ public class Error {
 
     /**
      * Returns error details in {@linkplain String}
-     * 
+     *
      * @return String <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     * 
-     *         <pre class="prettyprint">
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
      *         String error = error.getErrorDetail();
      *         </pre>
      */

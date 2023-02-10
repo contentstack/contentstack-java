@@ -11,6 +11,7 @@ import java.util.List;
  * Synchronization: The Sync API takes care of syncing your Contentstack data
  * with your app and ensures that the data is always up-to-date by providing
  * delta updates
+ *
  */
 public class SyncStack {
 

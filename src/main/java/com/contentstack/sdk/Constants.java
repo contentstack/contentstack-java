@@ -1,9 +1,14 @@
 package com.contentstack.sdk;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.logging.Level;
+import org.jetbrains.annotations.NotNull;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 /**
@@ -16,9 +21,12 @@ import java.util.logging.Logger;
 public class Constants {
 
     private static final Logger logger = Logger.getLogger(Constants.class.getSimpleName());
-    protected static final String SDK_VERSION = "1.10.1";
+    protected static final String SDK_VERSION = "1.11.0";
     protected static final String ENVIRONMENT = "environment";
     protected static final String CONTENT_TYPE_UID = "content_type_uid";
+    protected static final String ENTRY_UID = "entry_uid";
+    protected static final String LIVE_PREVIEW = "live_preview";
+
     protected static final String SYNCHRONISATION = "stacks/sync";
     // Errors
     protected static final String ERROR_CODE = "error_code";
@@ -37,7 +45,6 @@ public class Constants {
     protected static final String REGEX = "$regex";
     protected static final String LIMIT = "limit";
     protected static final String OPTIONS = "$options";
-
 
     protected Constants() {
         logger.warning("Not Allowed");
@@ -64,69 +71,51 @@ public class Constants {
     public static final String QUERY_EXCEPTION = "Please provide valid params.";
 
     /**
-     * Parse date calendar.
-     *
-     * @param date
-     *         the date
-     * @param timeZone
-     *         the time zone
-     * @return the calendar
+     * @param dateString
+     *                   the date in string format
+     * @param zoneId
+     *                   the string zoneId
+     * @return Calendar
      */
-    public static Calendar parseDate(String date, TimeZone timeZone) {
-        ArrayList<String> knownPatterns = new ArrayList<>();
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm:ssZ");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm.ss'Z'");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mmZ");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm'Z'");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm'Z'");
-        knownPatterns.add("yyyy-MM-dd'T'HH:mm:ss");
-        knownPatterns.add("yyyy-MM-dd' 'HH:mm:ss");
-        knownPatterns.add("yyyy-MM-dd");
-        knownPatterns.add("HH:mm:ssZ");
-        knownPatterns.add("HH:mm:ss'Z'");
+    public static Calendar parseDateToTimeZone(@NotNull String dateString, @NotNull String zoneId) {
+        Instant instant = Instant.parse(dateString);
+        // Define the target time zone
+        ZoneId targetTimeZone = ZoneId.of(zoneId);
+        // Convert the instant to the target time zone
+        ZonedDateTime dateTime = instant.atZone(targetTimeZone);
+        // Extract the year, month, day, hour, minute, and second
+        Calendar cal = Calendar.getInstance();
+        cal.set(dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth(), dateTime.getHour(),
+                dateTime.getMinute(), dateTime.getSecond());
+        return cal;
+    }
 
-        for (String formatString : knownPatterns) {
-            try {
-                return parseDate(date, formatString, timeZone);
-            } catch (ParseException e) {
-                logger.log(Level.WARNING, e.getLocalizedMessage(), e);
-            }
-        }
-        return null;
+    private static Calendar toCalendar(@NotNull String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        LocalDateTime dt = LocalDateTime.parse(date, formatter);
+        Calendar cal = Calendar.getInstance();
+        cal.set(dt.getYear(), dt.getMonthValue(), dt.getDayOfMonth(), dt.getHour(), dt.getMinute(), dt.getSecond());
+        return cal;
     }
 
     /**
-     * Parse date calendar.
-     *
      * @param date
-     *         the date
-     * @param dateFormat
-     *         the date format
+     *                 The date in string format like (String dateString =
+     *                 "2016-12-16T12:36:33.961Z";)
      * @param timeZone
-     *         the time zone
-     * @return the calendar
-     * @throws ParseException
-     *         the parse exception
+     *                 the time zone as string
+     * @return calendar @{@link Calendar}
      */
-    public static Calendar parseDate(String date, String dateFormat, TimeZone timeZone) throws ParseException {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat);
-        Date dateObject = dateFormatter.parse(date);
-        String month = new SimpleDateFormat("MM").format(dateObject);
-        String day = new SimpleDateFormat("dd").format(dateObject);
-        String year = new SimpleDateFormat("yyyy").format(dateObject);
-        String hourOfDay = new SimpleDateFormat("HH").format(dateObject);
-        String min = new SimpleDateFormat("mm").format(dateObject);
-        String sec = new SimpleDateFormat("ss").format(dateObject);
-
+    public static Calendar parseDate(@NotNull String date, TimeZone timeZone) {
+        if (date.isEmpty()) {
+            return null;
+        }
+        Calendar cal = toCalendar(date);
         if (timeZone != null) {
             cal.setTimeZone(timeZone);
         } else {
             cal.setTimeZone(TimeZone.getDefault());
         }
-        cal.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day), Integer.parseInt(hourOfDay),
-                Integer.parseInt(min), Integer.parseInt(sec));
         return cal;
     }
 

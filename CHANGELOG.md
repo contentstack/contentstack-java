@@ -1,6 +1,27 @@
 # CHANGELOG
 
+## v1.11.0
+
+### Date: 09-FEB-2023
+
+- Addition of Plugin Support,
+- #67 error handling infinite loop issue
+- Breaking change: Enums PublishType changed from snake-case to ALL_CAPS
+- Basic Improvements
+
+## v1.10.2
+
+### Date: 22-Oct-2022
+
+- LivePreview internal function implementation updated
+- Jsoup dependency updated
+- Json version updated
+
 ## v1.10.1
+
+### Date: 18-June-2022
+
+- Compile Issue With Gradle
 
 ### Date: 17-Jun-2022
 
