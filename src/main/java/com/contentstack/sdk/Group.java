@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+/**
+ * Group is to get different types of DataType of data fromt the JSON response
+ */
 public class Group {
 
     protected static final Logger logger = Logger.getLogger(Group.class.getSimpleName());
@@ -319,9 +323,9 @@ public class Group {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                      {@code List<Asset> asset = group.getAssets("key"); }
-     *                      @return ArrayList of {@link Asset}
-     *                    </pre>
+     *                                                                                                                                              {@code List<Asset> asset = group.getAssets("key"); }
+     *                                                                                                                                              @return ArrayList of {@link Asset}
+     *                                                                                                                                            </pre>
      */
     public List<Asset> getAssets(String key) {
         List<Asset> assets = new ArrayList<>();
@@ -342,11 +346,11 @@ public class Group {
      *         field_uid as key. <br>
      *         <br>
      *         <b>Example :</b><br>
-     *
      *         <pre class="prettyprint">
-     *                      Group innerGroup = group.getGroup("key");            &#64;return Group
-     *                 object
-     *                    </pre>
+     *                                                                                                                  Group innerGroup = group.getGroup("key");
+     *                                                                                                                  &#64;return Group
+     *                                                                                                                  object
+     *                                                                                                                  </pre>
      * @return the group
      */
     public Group getGroup(String key) {
@@ -367,9 +371,9 @@ public class Group {
      *         <b>Example :</b><br>
      *
      *         <pre class="prettyprint">
-     *                      Group innerGroup = group.getGroups("key");
-     *                 @return List of {@link Group}
-     *                    </pre>
+     *                                                                                                                                              Group innerGroup = group.getGroups("key");
+     *                                                                                                                                         @return List of {@link Group}
+     *                                                                                                                                            </pre>
      */
     public List<Group> getGroups(String key) {
         List<Group> groupList = new ArrayList<>();
@@ -394,35 +398,38 @@ public class Group {
      * @return {@link ArrayList} of {@link Entry} instances. Also specified contentType value will be set as class uid
      * for all {@link Entry} instance.
      */
-    public ArrayList<Entry> getAllEntries(String refKey, String refContentType) {
+    public List<Entry> getAllEntries(String refKey, String refContentType) {
         ArrayList<Entry> entryContainer = new ArrayList<>();
         try {
-
-            if (resultJson != null) {
-                if (resultJson.get(refKey) instanceof JSONArray) {
-                    int count = ((JSONArray) resultJson.get(refKey)).length();
-                    for (int i = 0; i < count; i++) {
-                        EntryModel model = new EntryModel(((JSONArray) resultJson.get(refKey)).getJSONObject(i));
-                        Entry entryInstance = null;
-                        try {
-                            entryInstance = stackInstance.contentType(refContentType).entry();
-                        } catch (Exception e) {
-                            entryInstance = new Entry(refContentType);
-                            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
-                        }
-                        entryInstance.setUid(model.uid);
-                        entryInstance.resultJson = model.jsonObject;
-                        entryInstance.setTags(model.tags);
-                        entryContainer.add(entryInstance);
-                    }
-                    return entryContainer;
+            if (resultJson != null && resultJson.get(refKey) instanceof JSONArray) {
+                JSONArray toArray = ((JSONArray) resultJson.get(refKey));
+                for (Object entry : toArray) {
+                    EntryModel model = new EntryModel((JSONObject) entry);
+                    Entry entryInstance = entryInstance(refContentType);
+                    entryInstance.setUid(model.uid);
+                    entryInstance.resultJson = model.jsonObject;
+                    entryInstance.setTags(model.tags);
+                    entryContainer.add(entryInstance);
                 }
+                return entryContainer;
             }
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
             return entryContainer;
         }
         return entryContainer;
     }
 
+    private Entry entryInstance(String ct) {
+        Entry entryInstance = null;
+        try {
+            entryInstance = stackInstance.contentType(ct).entry();
+        } catch (Exception e) {
+            entryInstance = new Entry(ct);
+        }
+        return entryInstance;
+    }
+
 }
+
+
+

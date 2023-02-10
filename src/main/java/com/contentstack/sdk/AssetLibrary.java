@@ -10,7 +10,11 @@ import java.util.logging.Logger;
 import static com.contentstack.sdk.Constants.ENVIRONMENT;
 
 /**
- * The type Asset library.
+ * The Asset library is used to get list of assets available in the stack, We
+ * can apply filters on the assets also.
+ * The Get all assets request fetches the list of all the assets of a particular
+ * stack. It returns the content of each
+ * asset in JSON format.
  */
 public class AssetLibrary implements INotifyClass {
 
@@ -20,8 +24,6 @@ public class AssetLibrary implements INotifyClass {
     protected LinkedHashMap<String, Object> headers;
     protected FetchAssetsCallback callback;
     protected int count;
-    protected Retrofit retrofit;
-
     protected AssetLibrary() {
         this.urlQueries = new JSONObject();
     }
@@ -34,8 +36,10 @@ public class AssetLibrary implements INotifyClass {
     /**
      * Sets header.
      *
-     * @param headerKey   the header key
-     * @param headerValue the header value
+     * @param headerKey
+     *                    the header key
+     * @param headerValue
+     *                    the header value
      */
     public void setHeader(@NotNull String headerKey, @NotNull String headerValue) {
         this.headers.put(headerKey, headerValue);
@@ -44,7 +48,8 @@ public class AssetLibrary implements INotifyClass {
     /**
      * Remove header.
      *
-     * @param headerKey the header key
+     * @param headerKey
+     *                  the header key
      */
     public void removeHeader(@NotNull String headerKey) {
         if (!headerKey.isEmpty()) {
@@ -55,8 +60,10 @@ public class AssetLibrary implements INotifyClass {
     /**
      * Sort asset library.
      *
-     * @param keyOrderBy the key order by
-     * @param orderby    the orderby
+     * @param keyOrderBy
+     *                   the key order by
+     * @param orderby
+     *                   the orderby
      * @return the asset library
      */
     public AssetLibrary sort(String keyOrderBy, ORDERBY orderby) {
@@ -95,7 +102,7 @@ public class AssetLibrary implements INotifyClass {
      * @return {@link AssetLibrary} object, so you can chain this call. <br>
      *         <br>
      *         <b>Example :</b><br>
-     * 
+     *
      *         <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         AssetLibrary assetLibObject = stack.assetLibrary();
@@ -119,7 +126,8 @@ public class AssetLibrary implements INotifyClass {
     /**
      * Fetch all.
      *
-     * @param callback the callback
+     * @param callback
+     *                 the callback
      */
     public void fetchAll(FetchAssetsCallback callback) {
         this.callback = callback;
