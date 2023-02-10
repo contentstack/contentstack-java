@@ -33,7 +33,7 @@ public class TestConfig {
 
     @Test
     void testsSetProxy() {
-        java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.thefakevpn.io", 80));
+        java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.shaileshmishra.io", 80));
         config.setProxy(proxy);
         Proxy newProxy = config.getProxy();
         Assertions.assertNotNull(newProxy.address().toString());
@@ -43,8 +43,16 @@ public class TestConfig {
     void testsConnectionPool() {
         ConnectionPool pool = config.connectionPool;
         pool.connectionCount();
-        pool.idleConnectionCount();;
+        pool.idleConnectionCount();
         Assertions.assertNotNull(pool);
     }
+
+    @Test
+    void testsTags() {
+        String[] tags = {"Java", "Programming", "Code"};
+        String joinedTags = String.join(", ", tags);
+        Assertions.assertNotNull(joinedTags);
+    }
+
 
 }

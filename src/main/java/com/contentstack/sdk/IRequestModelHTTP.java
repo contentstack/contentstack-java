@@ -2,6 +2,9 @@ package com.contentstack.sdk;
 
 import org.json.JSONObject;
 
+/**
+ * IRequestModelHTTP Interface
+ */
 public interface IRequestModelHTTP {
 
     void sendRequest();

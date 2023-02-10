@@ -20,6 +20,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
     private INotifyClass notifyClass;
     private AssetLibrary assetLibrary;
     private APIService service;
+    private Config config;
     private Entry entryInstance;
     private Asset assetInstance;
     private Stack stackInstance;
@@ -74,6 +75,10 @@ class CSConnectionRequest implements IRequestModelHTTP {
             resultCallBack = (ResultCallBack) objects[4];
         }
         this.service = (APIService) objects[5];
+        if (objects.length > 6) {
+            this.stackInstance = (Stack) objects[6];
+            this.config = this.stackInstance.config;
+        }
         sendRequest();
     }
 
@@ -84,6 +89,8 @@ class CSConnectionRequest implements IRequestModelHTTP {
         connection.setHeaders(header);
         connection.setInfo(requestInfo);
         connection.setAPIService(this.service);
+        connection.setConfig(this.config);
+        connection.setStack(this.stackInstance);
         connection.setCallBackObject(resultCallBack);
         if (urlQueries != null && urlQueries.size() > 0) {
             connection.setFormParams(urlQueries);
