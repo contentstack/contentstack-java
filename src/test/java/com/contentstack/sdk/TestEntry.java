@@ -504,6 +504,16 @@ class TestEntry {
     }
 
     @Test
+    @Order(54)
+    void testEntryIncludeOwner() {
+        Entry initEntry = stack.contentType("product").entry(entryUid);
+        initEntry.includeOwner();
+        Assertions.assertTrue(initEntry.params.has("include_owner"));
+        Assertions.assertEquals(true, initEntry.params.opt("include_owner"));
+        logger.info("passed...");
+    }
+
+    @Test
     @Order(55)
     void testEntryPassConfigBranchIncludeBranch() throws IllegalAccessException {
         Config config = new Config();

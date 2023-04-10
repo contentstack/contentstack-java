@@ -110,4 +110,11 @@ class TestAssetLibrary {
         Assertions.assertFalse(assetLibrary.headers.containsKey("include_fallback"));
         logger.info("passed...");
     }
+
+    @Test
+    void testIncludeOwner() {
+        AssetLibrary assetLibrary = stack.assetLibrary().includeOwner();
+        Assertions.assertFalse(assetLibrary.headers.containsKey("include_owner"));
+        logger.info("passed...");
+    }
 }
