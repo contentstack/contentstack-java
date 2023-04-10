@@ -9,14 +9,6 @@
 - Breaking change: Enums PublishType changed from snake-case to ALL_CAPS
 - Basic Improvements
 
-## v1.10.2
-
-### Date: 22-Oct-2022
-
-- LivePreview internal function implementation updated
-- Jsoup dependency updated
-- Json version updated
-
 ## v1.10.1
 
 ### Date: 18-June-2022
