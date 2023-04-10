@@ -371,7 +371,7 @@ class TestEntry {
     @Test
     @Order(42)
     void entryExcept() {
-        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
+        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
         Entry initEntry = stack.contentType("product").entry(entryUid).except(arrField);
         Assertions.assertEquals(3, initEntry.exceptFieldArray.length());
         logger.info("passed...");
@@ -389,7 +389,7 @@ class TestEntry {
     @Test
     @Order(44)
     void entryIncludeReferenceList() {
-        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
+        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
         Entry initEntry = stack.contentType("product").entry(entryUid).includeReference(arrField);
         Assertions.assertEquals(3, initEntry.referenceArray.length());
         Assertions.assertTrue(initEntry.params.has("include[]"));
@@ -399,7 +399,7 @@ class TestEntry {
     @Test
     @Order(45)
     void entryOnlyList() {
-        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
+        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
         Entry initEntry = stack.contentType("product").entry(entryUid);
         initEntry.only(arrField);
         Assertions.assertEquals(3, initEntry.objectUidForOnly.length());
@@ -507,9 +507,9 @@ class TestEntry {
     @Order(54)
     void testEntryIncludeOwner() {
         Entry initEntry = stack.contentType("product").entry(entryUid);
-        initEntry.includeOwner();
-        Assertions.assertTrue(initEntry.params.has("include_owner"));
-        Assertions.assertEquals(true, initEntry.params.opt("include_owner"));
+        initEntry.includeMetadata();
+        Assertions.assertTrue(initEntry.params.has("include_metadata"));
+        Assertions.assertEquals(true, initEntry.params.opt("include_metadata"));
         logger.info("passed...");
     }
 
@@ -532,253 +532,4 @@ class TestEntry {
         logger.info("passed...");
     }
 
-    @Test
-    void setContentType() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void configure() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void setHeader() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void removeHeader() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getTitle() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getURL() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getTags() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void setTags() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getContentType() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getUid() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void setUid() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getLocale() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void setLocale() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void toJSON() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void get() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getString() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getBoolean() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getJSONArray() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getJSONObject() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getNumber() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getInt() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getFloat() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getDouble() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getLong() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getShort() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getDate() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getCreateAt() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getCreatedBy() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getUpdateAt() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getUpdatedBy() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getDeleteAt() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getDeletedBy() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getAsset() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getAssets() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getGroup() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getGroups() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void getAllEntries() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void except() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void includeReference() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void testIncludeReference() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void only() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void onlyWithReferenceUid() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void exceptWithReferenceUid() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void fetch() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void addParam() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void includeReferenceContentTypeUID() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void includeContentType() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void includeFallback() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void includeEmbeddedItems() {
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    void includeBranch() {
-        Assertions.assertTrue(true);
-    }
 }

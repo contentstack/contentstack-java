@@ -1013,14 +1013,14 @@ class TestQueryCase {
 
     @Test
     void testIncludeOwner() {
-        query.includeOwner();
-        Assertions.assertTrue(query.urlQueries.has("include_owner"));
+        query.includeMetadata();
+        Assertions.assertTrue(query.urlQueries.has("include_metadata"));
     }
 
     @Test
     void testIncludeOwnerValue() {
-        query.includeOwner();
-        Assertions.assertTrue(query.urlQueries.getBoolean("include_owner"));
+        query.includeMetadata();
+        Assertions.assertTrue(query.urlQueries.getBoolean("include_metadata"));
     }
 
 }
