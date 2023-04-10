@@ -113,7 +113,7 @@ class TestAssetLibrary {
 
     @Test
     void testIncludeOwner() {
-        AssetLibrary assetLibrary = stack.assetLibrary().includeOwner();
+        AssetLibrary assetLibrary = stack.assetLibrary().includeMetadata();
         Assertions.assertFalse(assetLibrary.headers.containsKey("include_owner"));
         logger.info("passed...");
     }

@@ -186,8 +186,8 @@ class TestAsset {
     @Test
     void testAssetIncludeOwner() {
         Asset asset = stack.asset("fake@uid");
-        asset.includeOwner();
-        Assertions.assertTrue(asset.urlQueries.has("include_owner"));
+        asset.includeMetadata();
+        Assertions.assertTrue(asset.urlQueries.has("include_metadata"));
     }
 
 }
