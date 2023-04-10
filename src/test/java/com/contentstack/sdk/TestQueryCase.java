@@ -1010,4 +1010,17 @@ class TestQueryCase {
         Assertions.assertTrue(query.queryValueJSON.has("fakeIt"));
     }
 
+
+    @Test
+    void testIncludeOwner() {
+        query.includeOwner();
+        Assertions.assertTrue(query.urlQueries.has("include_owner"));
+    }
+
+    @Test
+    void testIncludeOwnerValue() {
+        query.includeOwner();
+        Assertions.assertTrue(query.urlQueries.getBoolean("include_owner"));
+    }
+
 }

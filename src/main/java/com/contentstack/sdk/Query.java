@@ -1457,4 +1457,23 @@ public class Query implements INotifyClass {
         return this;
     }
 
+    /**
+     * Includes Owner in the entry response
+     *
+     * @return {@link Query} object, so you can chain this call. <br>
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Query query = stack.contentType("contentTypeUid").query();
+     *         entry.includeOwner();
+     *         </pre>
+     */
+    public Query includeOwner() {
+        urlQueries.put("include_owner", true);
+        return this;
+    }
 }

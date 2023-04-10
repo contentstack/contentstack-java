@@ -614,6 +614,22 @@ class TestQuery {
     }
 
     @Test
+    @Order(30)
+    void testIncludeOwner() {
+        query.includeOwner();
+        query.find(new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
+                if (error == null) {
+                    Assertions.assertTrue(queryresult.receiveJson.has("include_owner"));
+                } else {
+                    Assertions.fail("Failing, Verify credentials");
+                }
+            }
+        });
+    }
+
+    @Test
     @Order(31)
     void testIncludeReferenceOnly() {
 
