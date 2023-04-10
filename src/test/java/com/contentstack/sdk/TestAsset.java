@@ -53,7 +53,7 @@ class TestAsset {
     @Test
     @Order(2)
     void testNewAssetZOnlyForOrderByUid() {
-        String[] tags = { "black", "white", "red" };
+        String[] tags = {"black", "white", "red"};
         Asset asset = stack.asset(assetUid);
         asset.includeFallback().addParam("fake@header", "fake@header").setTags(tags).fetch(new FetchResultCallback() {
             @Override
@@ -107,7 +107,7 @@ class TestAsset {
 
     @Test
     void testSetAssetTagsLength() {
-        String[] tags = { "gif", "img", "landscape", "portrait" };
+        String[] tags = {"gif", "img", "landscape", "portrait"};
         Asset assetInstance = stack.asset();
         assetInstance.setTags(tags);
         Assertions.assertEquals(tags.length, assetInstance.tagsArray.length);
@@ -115,7 +115,7 @@ class TestAsset {
 
     @Test
     void testGetAssetTags() {
-        String[] tags = { "gif", "img", "landscape", "portrait" };
+        String[] tags = {"gif", "img", "landscape", "portrait"};
         Asset assetInstance = stack.asset();
         assetInstance.setTags(tags);
         Assertions.assertEquals(tags.length, assetInstance.getTags().length);
@@ -181,6 +181,13 @@ class TestAsset {
         Asset asset = stack.asset("fake@uid");
         asset.includeBranch();
         Assertions.assertTrue(asset.urlQueries.has("include_branch"));
+    }
+
+    @Test
+    void testAssetIncludeOwner() {
+        Asset asset = stack.asset("fake@uid");
+        asset.includeOwner();
+        Assertions.assertTrue(asset.urlQueries.has("include_owner"));
     }
 
 }
