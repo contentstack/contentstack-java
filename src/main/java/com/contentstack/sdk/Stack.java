@@ -351,7 +351,7 @@ public class Stack {
      *         stack.syncPaginationToken("paginationToken)
      */
     public void syncPaginationToken(@NotNull String paginationToken, SyncResultCallBack syncCallBack) {
-        this.sync(null);
+        syncParams = new JSONObject();
         syncParams.put("pagination_token", paginationToken);
         this.requestSync(syncCallBack);
     }
@@ -370,13 +370,13 @@ public class Stack {
      *         <br>
      *         <b>Example :</b><br>
      *         <pre class="prettyprint">
-     *                                                                                                                                                                                                             Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                                                                                                                                                                                             stack.syncToken("syncToken")
-     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
-     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </pre>
+     *                                                                                                                                                                                                                             Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                                                                                                                                                                                                             stack.syncToken("syncToken")
+     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
+     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </pre>
      */
     public void syncToken(String syncToken, SyncResultCallBack syncCallBack) {
-        this.sync(null);
+        syncParams = new JSONObject();
         syncParams.put("sync_token", syncToken);
         this.requestSync(syncCallBack);
     }
@@ -398,7 +398,8 @@ public class Stack {
      */
     public void syncFromDate(@NotNull Date fromDate, SyncResultCallBack syncCallBack) {
         String newFromDate = convertUTCToISO(fromDate);
-        this.sync(null);
+        syncParams = new JSONObject();
+        syncParams.put("init", true);
         syncParams.put("start_from", newFromDate);
         this.requestSync(syncCallBack);
     }
@@ -427,7 +428,8 @@ public class Stack {
      *         stack.syncContentType(String content_type, new SyncResultCallBack()){ }
      */
     public void syncContentType(@NotNull String contentType, SyncResultCallBack syncCallBack) {
-        this.sync(null);
+        syncParams = new JSONObject();
+        syncParams.put("init", true);
         syncParams.put(CONTENT_TYPE_UID, contentType);
         this.requestSync(syncCallBack);
     }
@@ -449,7 +451,8 @@ public class Stack {
      *         content_type, new SyncResultCallBack()){ }
      */
     public void syncLocale(String localeCode, SyncResultCallBack syncCallBack) {
-        this.sync(null);
+        syncParams = new JSONObject();
+        syncParams.put("init", true);
         syncParams.put("locale", localeCode);
         this.requestSync(syncCallBack);
     }
@@ -472,13 +475,14 @@ public class Stack {
      *         <br>
      *         <br>
      *         <b>Example :</b><br>
-     *         <pre class="prettyprint">
-     *                                                                                                         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                                                                                         stack.syncPublishType(PublishType)
-     *                                                                                                         </pre>
+     *         <code>
+     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment"); *
+     *         stack.syncPublishType(PublishType)
+     *         </code>
      */
     public void syncPublishType(PublishType publishType, SyncResultCallBack syncCallBack) {
-        this.sync(null);
+        syncParams = new JSONObject();
+        syncParams.put("init", true);
         syncParams.put("type", publishType.name().toLowerCase());
         this.requestSync(syncCallBack);
     }
@@ -506,7 +510,8 @@ public class Stack {
     public void sync(String contentType, Date fromDate, String localeCode,
                      PublishType publishType, SyncResultCallBack syncCallBack) {
         String newDate = convertUTCToISO(fromDate);
-        this.sync(null);
+        syncParams = new JSONObject();
+        syncParams.put("init", true);
         syncParams.put("start_from", newDate);
         syncParams.put("content_type_uid", contentType);
         syncParams.put("type", publishType.name());

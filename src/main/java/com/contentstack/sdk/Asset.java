@@ -531,7 +531,7 @@ public class Asset {
     }
 
     /**
-     * Includes Owner in the asset response
+     * Includes Metadata in the asset response
      *
      * @return {@link Asset} object, so you can chain this call. <br>
      *
@@ -542,11 +542,11 @@ public class Asset {
      * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Asset asset = stack.asset(asset_uid);
-     *         asset.includeOwner();
+     *         asset.includeMetadata();
      *         </pre>
      */
-    public Asset includeOwner() {
-        urlQueries.put("include_owner", true);
+    public Asset includeMetadata() {
+        urlQueries.put("include_metadata", true);
         return this;
     }
 
