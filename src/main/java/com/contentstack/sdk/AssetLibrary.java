@@ -112,7 +112,7 @@ public class AssetLibrary implements INotifyClass {
     }
 
     /**
-     * Retrieve an owner in the response
+     * Retrieve Metadata in the response
      *
      * @return {@link AssetLibrary} object, so you can chain this call. <br>
      * <br>
@@ -121,11 +121,11 @@ public class AssetLibrary implements INotifyClass {
      * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         AssetLibrary assetLibObject = stack.includeOwner();
-     *         AssetLibrary.includeFallback();
+     *         AssetLibrary.includeMetadata();
      *         </pre>
      */
-    public AssetLibrary includeOwner() {
-        urlQueries.put("include_owner", true);
+    public AssetLibrary includeMetadata() {
+        urlQueries.put("include_metadata", true);
         return this;
     }
 

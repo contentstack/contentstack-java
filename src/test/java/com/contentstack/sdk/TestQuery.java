@@ -616,7 +616,7 @@ class TestQuery {
     @Test
     @Order(30)
     void testIncludeOwner() {
-        query.includeOwner();
+        query.includeMetadata();
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {

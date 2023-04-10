@@ -1458,7 +1458,7 @@ public class Query implements INotifyClass {
     }
 
     /**
-     * Includes Owner in the entry response
+     * Includes Metadata in the entry response
      *
      * @return {@link Query} object, so you can chain this call. <br>
      *
@@ -1469,11 +1469,11 @@ public class Query implements INotifyClass {
      * <pre class="prettyprint">
      *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
      *         Query query = stack.contentType("contentTypeUid").query();
-     *         entry.includeOwner();
+     *         entry.includeMetadata();
      *         </pre>
      */
-    public Query includeOwner() {
-        urlQueries.put("include_owner", true);
+    public Query includeMetadata() {
+        urlQueries.put("include_metadata", true);
         return this;
     }
 }

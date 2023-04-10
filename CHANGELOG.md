@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.12.0
+
+### Date: 25-APR-2023
+
+- Include metadata support for Asset, Entry and Query,
+- Region support for Azure-EU added
+
 ## v1.11.0
 
 ### Date: 09-FEB-2023
