@@ -13,7 +13,6 @@
 
 
     <properties>
-        <sdk.version.release>1.11.0-SNAPSHOT</sdk.version.release>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -197,7 +196,7 @@
                 </executions>
             </plugin>
             <!--Generate overview.html file-->
-            <!-- -overview "/Users/shaileshmishra/Documents/workspace/contentstack/javaspace/contentstack-java/src/main/overview.html" -bottom  "<b>Copyright © 2012-2022 Contentstack </b><sup>TM</sup>" -->
+            <!-- -overview "/Users/shaileshmishra/Documents/workspace/contentstack/javaspace/contentstack-java/src/main/overview.html" -bottom  "<b>Copyright © 2012-2023 Contentstack </b><sup>TM</sup>" -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -224,23 +223,16 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.3</version>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <version>3.0.0-M2</version>
             </plugin>
-            <!--
-            Signs all of a project's attached artifacts with GnuPG.
-            You need to have previously configured the default key.
-            gpg also needs to be on the search path.
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -255,12 +247,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
-            Sometimes when you may need to compile a certain project to a different
-            version than what you are currently using. The javac can accept such command
-            using -source and -target. The Compiler Plugin can also be configured to
-            provide these options during compilation
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
