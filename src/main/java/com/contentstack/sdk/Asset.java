@@ -85,12 +85,11 @@ public class Asset {
      *         <br>
      *         <br>
      *         <b>Example :</b><br>
-     *
-     *         <pre class="prettyprint">
-     *                                                            Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *                                                            Asset asset = stack.asset(asset_uid);
-     *                                                            asset.setHeader();
-     *                                                            </pre>
+     *         <p>
+     *         <code>
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment"); Asset asset =
+     *         stack.asset(asset_uid); asset.setHeader();
+     *         </code>
      */
     public void setHeader(@NotNull String headerKey, @NotNull String headerValue) {
         headers.put(headerKey, headerValue);
@@ -104,13 +103,12 @@ public class Asset {
      *
      *         <br>
      *         <br>
-     *         <b>Example :</b><br>
-     *
-     *         <pre class="prettyprint">
-     *                                                          Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *                                                          Asset asset = stack.asset(asset_uid);
-     *                                                          asset.removeHeader();
-     *                                                          </pre>
+     *         <b>Example :</b>
+     *         <p>
+     *         <code>
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment"); Asset asset =
+     *         stack.asset(asset_uid); asset.removeHeader();
+     *         <code>
      */
     public void removeHeader(@NotNull String headerKey) {
         headers.remove(headerKey);
@@ -131,17 +129,12 @@ public class Asset {
      * <br>
      * <b>Example :</b><br>
      *
-     * <pre class="prettyprint">
-     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *         Asset asset = stack.asset(asset_uid);
-     *         asset.fetch(new FetchResultCallback() {
-     *             &#64;Override
-     *             public void onCompletion(ResponseType responseType, Error error) {
-     *                 asset.getAssetUid();
-     *             }
-     *         });
+     * <code>
+     * Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment"); Asset asset = stack.asset(asset_uid);
+     * asset.fetch(new FetchResultCallback() { &#64;Override public void onCompletion(ResponseType responseType, Error
+     * error) { asset.getAssetUid(); } });
      *
-     *         </pre>
+     * </code>
      */
     public String getAssetUid() {
         return assetUid;
@@ -157,16 +150,10 @@ public class Asset {
      * <b>Example :</b><br>
      *
      * <pre class="prettyprint">
-     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *         Asset asset = stack.asset(asset_uid);
-     *         asset.fetch(new FetchResultCallback() {
-     *             &#64;Override
-     *             public void onCompletion(ResponseType responseType, Error error) {
-     *                 asset.getFileType();
-     *             }
-     *         });
-     *
-     *         </pre>
+     * Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment"); Asset asset = stack.asset(asset_uid);
+     * asset.fetch(new FetchResultCallback() { &#64;Override public void onCompletion(ResponseType responseType, Error
+     * error) { asset.getFileType(); } });
+     * </pre>
      */
     public String getFileType() {
         return contentType;
@@ -519,11 +506,10 @@ public class Asset {
      * <br>
      * <b>Example :</b><br>
      *
-     * <pre class="prettyprint">
-     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *         Asset asset = stack.asset(asset_uid);
-     *         asset.includeBranch();
-     *         </pre>
+     * <code>
+     * Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment"); Asset asset = stack.asset(asset_uid);
+     * asset.includeBranch();
+     * </code>
      */
     public Asset includeBranch() {
         urlQueries.put("include_branch", true);
@@ -539,11 +525,10 @@ public class Asset {
      * <br>
      * <b>Example :</b><br>
      *
-     * <pre class="prettyprint">
-     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
-     *         Asset asset = stack.asset(asset_uid);
-     *         asset.includeMetadata();
-     *         </pre>
+     * <code>
+     * Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment"); Asset asset = stack.asset(asset_uid);
+     * asset.includeMetadata();
+     * </code>
      */
     public Asset includeMetadata() {
         urlQueries.put("include_metadata", true);
