@@ -1010,4 +1010,17 @@ class TestQueryCase {
         Assertions.assertTrue(query.queryValueJSON.has("fakeIt"));
     }
 
+
+    @Test
+    void testIncludeOwner() {
+        query.includeMetadata();
+        Assertions.assertTrue(query.urlQueries.has("include_metadata"));
+    }
+
+    @Test
+    void testIncludeOwnerValue() {
+        query.includeMetadata();
+        Assertions.assertTrue(query.urlQueries.getBoolean("include_metadata"));
+    }
+
 }

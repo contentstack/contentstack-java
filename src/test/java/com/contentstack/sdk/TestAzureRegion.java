@@ -24,12 +24,21 @@ class TestAzureRegion {
     }
 
     @Test
-    void testAzureRegionBehaviourAzure() {
+    void testAzureRegionBehaviourAzureNA() {
         Config config = new Config();
         Config.ContentstackRegion region = Config.ContentstackRegion.AZURE_NA;
         config.setRegion(region);
         Assertions.assertFalse(config.region.name().isEmpty());
         Assertions.assertEquals("AZURE_NA", config.region.name());
+    }
+
+    @Test
+    void testAzureRegionBehaviourAzureEU() {
+        Config config = new Config();
+        Config.ContentstackRegion region = Config.ContentstackRegion.AZURE_EU;
+        config.setRegion(region);
+        Assertions.assertFalse(config.region.name().isEmpty());
+        Assertions.assertEquals("AZURE_EU", config.region.name());
     }
 
     @Test
@@ -42,6 +51,18 @@ class TestAzureRegion {
         Assertions.assertEquals("AZURE_NA", stack.config.region.name());
     }
 
+
+    @Test
+    void testAzureEURegionBehaviourAzureStack() throws IllegalAccessException {
+        Config config = new Config();
+        Config.ContentstackRegion region = Config.ContentstackRegion.AZURE_EU;
+        config.setRegion(region);
+        Stack stack = Contentstack.stack("fakeApiKey", "fakeDeliveryToken", "fakeEnvironment", config);
+        Assertions.assertFalse(config.region.name().isEmpty());
+        Assertions.assertEquals("AZURE_EU", stack.config.region.name());
+    }
+
+
     @Test
     void testAzureRegionBehaviourAzureStackHost() throws IllegalAccessException {
         Config config = new Config();
@@ -50,6 +71,17 @@ class TestAzureRegion {
         Stack stack = Contentstack.stack("fakeApiKey", "fakeDeliveryToken", "fakeEnvironment", config);
         Assertions.assertFalse(config.region.name().isEmpty());
         Assertions.assertEquals("azure-na-cdn.contentstack.com", stack.config.host);
+    }
+
+
+    @Test
+    void testAzureEURegionBehaviourAzureStackHost() throws IllegalAccessException {
+        Config config = new Config();
+        Config.ContentstackRegion region = Config.ContentstackRegion.AZURE_EU;
+        config.setRegion(region);
+        Stack stack = Contentstack.stack("fakeApiKey", "fakeDeliveryToken", "fakeEnvironment", config);
+        Assertions.assertFalse(config.region.name().isEmpty());
+        Assertions.assertEquals("azure-eu-cdn.contentstack.com", stack.config.host);
     }
 
     @Test
