@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.12.0
+
+### Date: 25-APR-2023
+
+- Include metadata support for Asset, Entry and Query,
+- Region support for Azure-EU added
+
 ## v1.11.0
 
 ### Date: 09-FEB-2023
@@ -8,14 +15,6 @@
 - #67 error handling infinite loop issue
 - Breaking change: Enums PublishType changed from snake-case to ALL_CAPS
 - Basic Improvements
-
-## v1.10.2
-
-### Date: 22-Oct-2022
-
-- LivePreview internal function implementation updated
-- Jsoup dependency updated
-- Json version updated
 
 ## v1.10.1
 
