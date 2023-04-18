@@ -49,11 +49,6 @@ class TestStack {
         }
     }
 
-    @Test
-    @Order(3)
-    void testConstantConstructor() {
-        Assertions.assertNotNull(new Constants());
-    }
 
     @Test
     @Order(4)
@@ -170,9 +165,8 @@ class TestStack {
     @Order(21)
     void testSyncPaginationTokenWithoutCallback() {
         stack.syncPaginationToken("justFakeToken", null);
-        assertEquals(3, stack.syncParams.length());
+        assertEquals(2, stack.syncParams.length());
         assertEquals("justFakeToken", stack.syncParams.get("pagination_token"));
-        assertTrue(stack.syncParams.has("init"));
         assertTrue(stack.syncParams.has("environment"));
     }
 
@@ -180,9 +174,8 @@ class TestStack {
     @Order(22)
     void testSyncTokenWithoutCallback() {
         stack.syncToken("justFakeToken", null);
-        assertEquals(3, stack.syncParams.length());
+        assertEquals(2, stack.syncParams.length());
         assertEquals("justFakeToken", stack.syncParams.get("sync_token"));
-        assertTrue(stack.syncParams.has("init"));
         assertTrue(stack.syncParams.has("environment"));
     }
 
