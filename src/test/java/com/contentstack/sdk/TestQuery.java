@@ -131,7 +131,7 @@ class TestQuery {
     @Test
     @Order(5)
     void testNotContainedInField() {
-        String[] containArray = new String[] { "Roti Maker", "kids dress" };
+        String[] containArray = new String[]{"Roti Maker", "kids dress"};
         query.notContainedIn("title", containArray).find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
@@ -148,7 +148,7 @@ class TestQuery {
     @Test
     @Order(6)
     void testContainedInField() {
-        String[] containArray = new String[] { "Roti Maker", "kids dress" };
+        String[] containArray = new String[]{"Roti Maker", "kids dress"};
         query.containedIn("title", containArray).find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
@@ -253,7 +253,7 @@ class TestQuery {
         query.lessThan("price", 90);
 
         Query subQuery = ct.query();
-        subQuery.containedIn("discount", new Integer[] { 20, 45 });
+        subQuery.containedIn("discount", new Integer[]{20, 45});
 
         ArrayList<Query> array = new ArrayList<>();
         array.add(query);
@@ -285,7 +285,7 @@ class TestQuery {
         query.lessThan("price", 90);
 
         Query subQuery = ct.query();
-        subQuery.containedIn("discount", new Integer[] { 20, 45 });
+        subQuery.containedIn("discount", new Integer[]{20, 45});
 
         ArrayList<Query> array = new ArrayList<>();
         array.add(query);
@@ -465,7 +465,7 @@ class TestQuery {
     @Test
     @Order(22)
     void testOnly() {
-        query.only(new String[] { "price" });
+        query.only(new String[]{"price"});
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
@@ -482,7 +482,7 @@ class TestQuery {
     @Test
     @Order(23)
     void testExcept() {
-        query.except(new String[] { "price" }).find(new QueryResultsCallBack() {
+        query.except(new String[]{"price"}).find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
@@ -564,7 +564,7 @@ class TestQuery {
     @Test
     @Order(28)
     void testTags() {
-        query.tags(new String[] { "pink" });
+        query.tags(new String[]{"pink"});
         query.find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
@@ -606,6 +606,22 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     Assertions.assertTrue(queryresult.receiveJson.has("count"));
+                } else {
+                    Assertions.fail("Failing, Verify credentials");
+                }
+            }
+        });
+    }
+
+    @Test
+    @Order(30)
+    void testIncludeOwner() {
+        query.includeMetadata();
+        query.find(new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
+                if (error == null) {
+                    Assertions.assertFalse(queryresult.receiveJson.has("include_owner"));
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
