@@ -23,7 +23,7 @@
         <rxjava-source.version>3.1.6</rxjava-source.version>
         <retrofit-source.version>2.9.0</retrofit-source.version>
         <converter-gson-source.version>2.9.0</converter-gson-source.version>
-        <loggin.version>4.10.0</loggin.version>
+        <loggin.version>4.11.0</loggin.version>
         <jococo-plugin.version>0.8.5</jococo-plugin.version>
         <lombok-source.version>1.18.26</lombok-source.version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
