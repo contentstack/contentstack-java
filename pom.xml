@@ -37,7 +37,7 @@
         <json-version>20230227</json-version>
         <jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
         <maven-release-plugin-version>2.5.3</maven-release-plugin-version>
-        <contentstack-utils-version>1.2.0</contentstack-utils-version>
+        <contentstack-utils-version>1.2.1</contentstack-utils-version>
     </properties>
 
     <parent>
