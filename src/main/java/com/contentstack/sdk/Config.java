@@ -78,7 +78,7 @@ public class Config {
      * @param keepAliveDuration
      *         the keepAliveDuration default value is 5
      * @param timeUnit
-     *         the timeUnit default value is TimeUnit.MINUTES
+     *         the timeUnit default value is TimeUnit. MINUTES
      * @return ConnectionPool
      */
     public ConnectionPool connectionPool(int maxIdleConnections, long keepAliveDuration, TimeUnit timeUnit) {

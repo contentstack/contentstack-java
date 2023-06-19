@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class Constants {
 
     private static final Logger logger = Logger.getLogger(Constants.class.getSimpleName());
-    protected static final String SDK_VERSION = "1.11.0";
+    protected static final String SDK_VERSION = "1.12.1";
     protected static final String ENVIRONMENT = "environment";
     protected static final String CONTENT_TYPE_UID = "content_type_uid";
     protected static final String ENTRY_UID = "entry_uid";
@@ -71,9 +71,9 @@ public class Constants {
 
     /**
      * @param dateString
-     *                   the date in string format
+     *         the date in string format
      * @param zoneId
-     *                   the string zoneId
+     *         the string zoneId
      * @return Calendar
      */
     public static Calendar parseDateToTimeZone(@NotNull String dateString, @NotNull String zoneId) {
@@ -99,10 +99,9 @@ public class Constants {
 
     /**
      * @param date
-     *                 The date in string format like (String dateString =
-     *                 "2016-12-16T12:36:33.961Z";)
+     *         The date in string format like (String dateString = "2016-12-16T12:36:33.961Z";)
      * @param timeZone
-     *                 the time zone as string
+     *         the time zone as string
      * @return calendar @{@link Calendar}
      */
     public static Calendar parseDate(@NotNull String date, TimeZone timeZone) {
