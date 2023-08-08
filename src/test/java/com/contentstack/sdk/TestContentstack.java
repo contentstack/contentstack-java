@@ -1,6 +1,5 @@
 package com.contentstack.sdk;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,10 +15,9 @@ class TestContentstack {
 
     @BeforeAll
     public void initBeforeTests() {
-        Dotenv dotenv = Dotenv.load();
-        API_KEY = dotenv.get("API_KEY");
-        DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
-        ENV = dotenv.get("ENVIRONMENT");
+        API_KEY = Credentials.API_KEY;
+        DELIVERY_TOKEN = Credentials.DELIVERY_TOKEN;
+        ENV = Credentials.ENVIRONMENT;
     }
 
     @Test
@@ -35,7 +33,6 @@ class TestContentstack {
     @Test
     void initStackWithNullAPIKey() {
         try {
-
             Contentstack.stack(null, DELIVERY_TOKEN, ENV);
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());
