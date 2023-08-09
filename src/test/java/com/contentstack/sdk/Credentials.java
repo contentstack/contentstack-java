@@ -3,8 +3,6 @@ package com.contentstack.sdk;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvException;
 
-import java.io.File;
-import java.io.IOException;
 import java.rmi.AccessException;
 
 public class Credentials {
@@ -34,18 +32,24 @@ public class Credentials {
      * @return Dotenv
      */
     public static Dotenv getEnv() {
+        String currentDirectory = System.getProperty("user.dir");
+        //File envFile = new File(currentDirectory, "env");
+        env = Dotenv.configure()
+                .directory("src/test/resources")
+                .filename("env") // instead of '.env', use 'env'
+                .load();
         try {
             env = Dotenv.load();
         } catch (DotenvException ex) {
-            String currentDirectory = System.getProperty("user.dir");
-            File envFile = new File(currentDirectory, ".env");
-            try {
-                // Create .env file in the current directory
-                envFile.createNewFile();
-            } catch (IOException e) {
-                System.err.println("An error occurred while creating .env file.");
-                e.printStackTrace();
-            }
+            System.out.println("Could not load from local .env");
+//            File envFile = new File(currentDirectory, ".env");
+//            try {
+//                // Create .env file in the current directory
+//                envFile.createNewFile();
+//            } catch (IOException e) {
+//                System.err.println("An error occurred while creating .env file.");
+//                e.printStackTrace();
+//            }
         }
         return env;
     }
