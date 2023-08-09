@@ -104,24 +104,28 @@
             <version>${contentstack-utils-version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>${json-version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>dotenv-java</artifactId>
             <version>${dotenv-source.version}</version>
-            <scope>runtime</scope>
+            <!--            <scope>runtime</scope>-->
         </dependency>
+
         <dependency>
             <groupId>io.reactivex.rxjava3</groupId>
             <artifactId>rxjava</artifactId>
             <version>${rxjava-source.version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
