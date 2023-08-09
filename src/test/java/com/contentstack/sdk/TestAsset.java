@@ -12,12 +12,25 @@ class TestAsset {
 
     private final Logger logger = Logger.getLogger(TestAsset.class.getName());
     private String assetUid;
-    private Stack stack = Credentials.getStack();
+    private final Stack stack = Credentials.getStack();
 
+    private String envChecker() {
+        String githubActions = System.getenv("GITHUB_ACTIONS");
+        if (githubActions != null && githubActions.equals("true")) {
+            System.out.println("Tests are running in GitHub Actions environment.");
+            String mySecretKey = System.getenv("API_KEY");
+            System.out.println("My Secret Key: " + mySecretKey);
+            return "GitHub";
+        } else {
+            System.out.println("Tests are running in a local environment.");
+            return "local";
+        }
+    }
 
     @Test
     @Order(1)
     void testNewAssetLibrary() {
+        envChecker();
         AssetLibrary assets = stack.assetLibrary();
         assets.fetchAll(new FetchAssetsCallback() {
             @Override
