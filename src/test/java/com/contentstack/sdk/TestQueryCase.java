@@ -1,6 +1,5 @@
 package com.contentstack.sdk;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
@@ -8,7 +7,6 @@ import org.junit.jupiter.api.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,24 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TestQueryCase {
 
     private final Logger logger = Logger.getLogger(TestQueryCase.class.getName());
-    private Stack stack;
+    private final Stack stack = Credentials.getStack();
     private Query query;
     private String entryUid;
-
-    @BeforeAll
-    public void beforeAll() throws IllegalAccessException {
-        logger.setLevel(Level.FINE);
-        Dotenv dotenv = Dotenv.load();
-        String DEFAULT_API_KEY = dotenv.get("API_KEY");
-        String DEFAULT_DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
-        String DEFAULT_ENV = dotenv.get("ENVIRONMENT");
-        String DEFAULT_HOST = dotenv.get("HOST");
-        Config config = new Config();
-        config.setHost(DEFAULT_HOST);
-        //config.setRegion(Config.ContentstackRegion.US);
-        assert DEFAULT_API_KEY != null;
-        stack = Contentstack.stack(DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV, config);
-    }
 
     @BeforeEach
     public void beforeEach() {
