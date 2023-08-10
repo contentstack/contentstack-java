@@ -1,6 +1,5 @@
 package com.contentstack.sdk;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 
@@ -11,25 +10,27 @@ import java.util.logging.Logger;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestAsset {
 
-    protected String API_KEY, DELIVERY_TOKEN, ENV;
     private final Logger logger = Logger.getLogger(TestAsset.class.getName());
     private String assetUid;
-    private Stack stack;
+    private final Stack stack = Credentials.getStack();
 
-    @BeforeAll
-    public void initBeforeTests() throws IllegalAccessException {
-        Dotenv dotenv = Dotenv.load();
-        API_KEY = dotenv.get("API_KEY");
-        DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
-        ENV = dotenv.get("ENVIRONMENT");
-        Config config = new Config();
-        config.setHost(dotenv.get("HOST"));
-        stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
+    private String envChecker() {
+        String githubActions = System.getenv("GITHUB_ACTIONS");
+        if (githubActions != null && githubActions.equals("true")) {
+            System.out.println("Tests are running in GitHub Actions environment.");
+            String mySecretKey = System.getenv("API_KEY");
+            System.out.println("My Secret Key: " + mySecretKey);
+            return "GitHub";
+        } else {
+            System.out.println("Tests are running in a local environment.");
+            return "local";
+        }
     }
 
     @Test
     @Order(1)
     void testNewAssetLibrary() {
+        envChecker();
         AssetLibrary assets = stack.assetLibrary();
         assets.fetchAll(new FetchAssetsCallback() {
             @Override
