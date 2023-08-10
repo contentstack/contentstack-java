@@ -11,10 +11,10 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
-      - name: Import GPG Key
-        run: |
-          echo "$GPG_PRIVATE_KEY" | gpg --import
-          echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --edit-key KEY_ID trust
+#      - name: Import GPG Key
+#        run: |
+#          echo "$GPG_PRIVATE_KEY" | gpg --import
+#          echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --edit-key KEY_ID trust
       - name: Set GPG_TTY
         run: echo "GPG_TTY=$(tty)" >> $GITHUB_ENV
       - name: Set up Maven Central Repository
