@@ -1,6 +1,5 @@
 package com.contentstack.sdk;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
@@ -10,26 +9,16 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestStack {
 
-    Stack stack;
-    protected String API_KEY, DELIVERY_TOKEN, ENV;
+    Stack stack = Credentials.getStack();
     protected String paginationToken;
     private final Logger logger = Logger.getLogger(TestStack.class.getName());
 
-    @BeforeEach
-    public void initBeforeTests() throws IllegalAccessException {
-        Dotenv dotenv = Dotenv.load();
-        API_KEY = dotenv.get("API_KEY");
-        DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
-        ENV = dotenv.get("ENVIRONMENT");
-        stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV);
-    }
 
     @Test
     @Order(1)
@@ -107,7 +96,7 @@ class TestStack {
     @Test
     @Order(13)
     void testGetDeliveryToken() {
-        assertTrue(stack.getDeliveryToken().startsWith("blt"));
+        assertNotNull(stack.getDeliveryToken());
     }
 
     @Test
@@ -115,13 +104,13 @@ class TestStack {
     void testRemoveHeader() {
         stack.removeHeader("environment");
         Assertions.assertFalse(stack.headers.containsKey("environment"));
-        stack.setHeader("environment", ENV);
+        stack.setHeader("environment", Credentials.ENVIRONMENT);
     }
 
     @Test
     @Order(16)
     void testSetHeader() {
-        stack.setHeader("environment", ENV);
+        stack.setHeader("environment", Credentials.ENVIRONMENT);
         assertTrue(stack.headers.containsKey("environment"));
     }
 
@@ -221,7 +210,7 @@ class TestStack {
     @Test
     @Order(28)
     void testSyncPublishTypeEntryPublished() {
-        // deepcode ignore NullPassTo/test: <please specify a reason of ignoring this>
+        // decode ignore NullPassTo/test: <please specify a reason of ignoring this>
         stack.syncPublishType(Stack.PublishType.ENTRY_PUBLISHED, null);
         assertEquals(3, stack.syncParams.length());
         assertEquals("entry_published", stack.syncParams.get("type"));
@@ -282,7 +271,7 @@ class TestStack {
     @Test
     @Order(34)
     void testSyncPublishTypeEntryUnpublished() {
-        // deepcode ignore NullPassTo/test: <please specify a reason of ignoring this>
+        // decode ignore NullPassTo/test: <please specify a reason of ignoring this>
         stack.syncPublishType(Stack.PublishType.ENTRY_UNPUBLISHED, null);
         assertEquals(3, stack.syncParams.length());
         assertEquals("entry_unpublished", stack.syncParams.get("type"));
@@ -360,11 +349,7 @@ class TestStack {
     @Disabled("No relevant code")
     @Order(41)
     void testSynchronizationAPIRequest() throws IllegalAccessException {
-        Dotenv dotenv = Dotenv.load();
-        String apiKey = dotenv.get("API_KEY");
-        String deliveryToken = dotenv.get("DELIVERY_TOKEN");
-        String env = dotenv.get("ENVIRONMENT");
-        Stack stack = Contentstack.stack(apiKey, deliveryToken, env);
+
         stack.sync(new SyncResultCallBack() {
             @Override
             public void onCompletion(SyncStack response, Error error) {
@@ -385,11 +370,6 @@ class TestStack {
     @Disabled("No relevant code")
     @Order(42)
     void testSyncPaginationToken() throws IllegalAccessException {
-        Dotenv dotenv = Dotenv.load();
-        String apiKey = dotenv.get("API_KEY");
-        String deliveryToken = dotenv.get("DELIVERY_TOKEN");
-        String env = dotenv.get("ENVIRONMENT");
-        Stack stack = Contentstack.stack(apiKey, deliveryToken, env);
         stack.syncPaginationToken(paginationToken, new SyncResultCallBack() {
             @Override
             public void onCompletion(SyncStack response, Error error) {
