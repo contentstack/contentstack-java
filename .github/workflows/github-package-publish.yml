@@ -1,8 +1,8 @@
 name: Publishing to GitHub Packages
-on: [ push ]  # Trigger the workflow when a push (commit) event occurs
-#on:
-#  release:
-#    types: [ created ]
+#on: [ push ]  # Trigger the workflow when a push (commit) event occurs
+on:
+  release:
+    types: [ created ]
 jobs:
   publish-github:
     runs-on: ubuntu-latest
