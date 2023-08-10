@@ -57,8 +57,7 @@ public class Asset {
     /**
      * Configure asset.
      *
-     * @param jsonObject
-     *         the json object
+     * @param jsonObject the json object
      * @return the asset
      */
     public Asset configure(JSONObject jsonObject) {
@@ -77,19 +76,17 @@ public class Asset {
     /**
      * Sets header.
      *
-     * @param headerKey
-     *         the header key
-     * @param headerValue
-     *         the header value
+     * @param headerKey   the header key
+     * @param headerValue the header value
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     *         <p>
-     *         <code>
-     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment"); Asset asset =
-     *         stack.asset(asset_uid); asset.setHeader();
-     *         </code>
+     *                    <br>
+     *                    <br>
+     *                    <b>Example :</b><br>
+     *                    <p>
+     *                    <code>
+     *                    Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment"); Asset asset =
+     *                    stack.asset(asset_uid); asset.setHeader();
+     *                    </code>
      */
     public void setHeader(@NotNull String headerKey, @NotNull String headerValue) {
         headers.put(headerKey, headerValue);
@@ -98,17 +95,16 @@ public class Asset {
     /**
      * Remove header.
      *
-     * @param headerKey
-     *         the header key
+     * @param headerKey the header key
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b>
-     *         <p>
-     *         <code>
-     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment"); Asset asset =
-     *         stack.asset(asset_uid); asset.removeHeader();
-     *         <code>
+     *                  <br>
+     *                  <br>
+     *                  <b>Example :</b>
+     *                  <p>
+     *                  <code>
+     *                  Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment"); Asset asset =
+     *                  stack.asset(asset_uid); asset.removeHeader();
+     *                  <code>
      */
     public void removeHeader(@NotNull String headerKey) {
         headers.remove(headerKey);
@@ -457,10 +453,8 @@ public class Asset {
     /**
      * Add param asset.
      *
-     * @param paramKey
-     *         the param key
-     * @param paramValue
-     *         the param value
+     * @param paramKey   the param key
+     * @param paramValue the param value
      * @return the asset
      *
      * <br>
@@ -538,8 +532,7 @@ public class Asset {
     /**
      * Fetch.
      *
-     * @param callback
-     *         the callback
+     * @param callback the callback
      */
     public void fetch(FetchResultCallback callback) {
         urlQueries.put(ENVIRONMENT, this.headers.get(ENVIRONMENT));
