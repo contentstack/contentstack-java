@@ -15,6 +15,8 @@ jobs:
         run: |
           echo "$GPG_PRIVATE_KEY" | gpg --import
           echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --edit-key KEY_ID trust
+      - name: Set GPG_TTY
+        run: echo "GPG_TTY=$(tty)" >> $GITHUB_ENV
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v3
         with:
