@@ -11,11 +11,11 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
-      - name: Import private gpg key
-        run: |
-          gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
-        env:
-          GPG_TTY: $(tty)
+#      - name: Import private gpg key
+#        run: |
+#          gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
+#        env:
+#          GPG_TTY: $(tty)
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v3
         with:
