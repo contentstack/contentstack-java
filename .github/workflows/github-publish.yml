@@ -22,4 +22,6 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Publish package
-        run: mvn --batch-mode deploy
+        run: mvn clean deploy -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/contentstack/contentstack-java
+
+#        run: mvn --batch-mode deploy
