@@ -1,8 +1,8 @@
-name: Publish package to the Maven Central Repository
-#on: [ push ]  # Trigger the workflow when a push (commit) event occurs
-on:
-  release:
-    types: [ created ]
+name: Publish package to the Github Repository
+on: [ push ]  # Trigger the workflow when a push (commit) event occurs
+#on:
+#  release:
+#    types: [ created ]
 jobs:
   publish-maven:
     runs-on: ubuntu-latest
