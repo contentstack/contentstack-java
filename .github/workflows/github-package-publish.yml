@@ -15,6 +15,6 @@ jobs:
           distribution: 'adopt'
           server-id: github
       - name: Publish to GitHub Packages
-        run: mvn clean deploy -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/contentstack/contentstack-java
+        run: mvn --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
