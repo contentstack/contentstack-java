@@ -94,16 +94,16 @@
         </snapshotRepository>
 
         <!--        GitHub Packages-->
-        <!--        <repository>-->
-        <!--            <id>github</id>-->
-        <!--            <url>https://maven.pkg.github.com/contentstack/contentstack-java</url>-->
-        <!--        </repository>-->
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/contentstack/contentstack-java</url>
+        </repository>
 
         <!--                Maven Release Repository-->
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
+<!--        <repository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+<!--        </repository>-->
 
     </distributionManagement>
 
