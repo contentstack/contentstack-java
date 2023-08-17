@@ -356,7 +356,7 @@ class TestEntry {
     @Test
     @Order(42)
     void entryExcept() {
-        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
+        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
         Entry initEntry = stack.contentType("product").entry(entryUid).except(arrField);
         Assertions.assertEquals(3, initEntry.exceptFieldArray.length());
         logger.info("passed...");
@@ -374,7 +374,7 @@ class TestEntry {
     @Test
     @Order(44)
     void entryIncludeReferenceList() {
-        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
+        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
         Entry initEntry = stack.contentType("product").entry(entryUid).includeReference(arrField);
         Assertions.assertEquals(3, initEntry.referenceArray.length());
         Assertions.assertTrue(initEntry.params.has("include[]"));
@@ -384,7 +384,7 @@ class TestEntry {
     @Test
     @Order(45)
     void entryOnlyList() {
-        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
+        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
         Entry initEntry = stack.contentType("product").entry(entryUid);
         initEntry.only(arrField);
         Assertions.assertEquals(3, initEntry.objectUidForOnly.length());
@@ -503,7 +503,8 @@ class TestEntry {
     void testEntryPassConfigBranchIncludeBranch() throws IllegalAccessException {
         Config config = new Config();
         config.setBranch("feature_branch");
-        Stack branchStack = Contentstack.stack(Credentials.API_KEY, Credentials.DELIVERY_TOKEN, Credentials.ENVIRONMENT, config);
+        Stack branchStack = Contentstack.stack(Credentials.API_KEY, Credentials.DELIVERY_TOKEN, Credentials.ENVIRONMENT,
+                config);
         Entry entry = branchStack.contentType("product").entry(entryUid);
         entry.includeBranch().fetch(new EntryResultCallBack() {
             @Override
