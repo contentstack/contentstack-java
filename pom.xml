@@ -87,17 +87,17 @@
 
     <distributionManagement>
 
-        <!-- Maven Snapshot Repository -->
+        <!--         Maven Snapshot Repository -->
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
 
         <!--GitHub Packages-->
-        <!--   <repository>-->
-        <!--     <id>github</id>-->
-        <!--     <url>https://maven.pkg.github.com/contentstack/contentstack-java</url>-->
-        <!--   </repository>-->
+        <!--        <snapshotRepository>-->
+        <!--            <id>github</id>-->
+        <!--            <url>https://maven.pkg.github.com/contentstack/contentstack-java</url>-->
+        <!--        </snapshotRepository>-->
         <!--Maven Release Repository-->
         <repository>
             <id>ossrh</id>
@@ -292,9 +292,14 @@
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <version>${nexus-staging-maven-plugin.version}</version>
                 <extensions>true</extensions>
+                <!--                <configuration>-->
+                <!--                    <serverId>github</serverId>-->
+                <!--                    <nexusUrl>https://maven.pkg.github.com/contentstack/contentstack-java</nexusUrl>-->
+                <!--                    <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+                <!--                </configuration>-->
                 <configuration>
-                    <serverId>github</serverId>
-                    <nexusUrl>https://maven.pkg.github.com/contentstack/contentstack-java</nexusUrl>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
