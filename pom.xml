@@ -54,19 +54,19 @@
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>http://github.com/contentstack/contentstack-java/issues</url>
+        <url>https://github.com/contentstack/contentstack-java/issues</url>
     </issueManagement>
 
     <licenses>
         <license>
             <name>MIT</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <url>https://www.opensource.org/licenses/mit-license.php</url>
         </license>
     </licenses>
 
     <organization>
-        <name>Contentstack.</name>
-        <url>http://contentstack.com</url>
+        <name>Contentstack</name>
+        <url>https://contentstack.com</url>
     </organization>
 
     <developers>
@@ -94,12 +94,11 @@
         </snapshotRepository>
 
         <!--GitHub Packages-->
-        <!--        <repository>-->
-        <!--            <id>github</id>-->
-        <!--            <url>https://maven.pkg.github.com/contentstack/contentstack-java</url>-->
-        <!--        </repository>-->
-
-        <!--        Maven Release Repository-->
+        <!--   <repository>-->
+        <!--     <id>github</id>-->
+        <!--     <url>https://maven.pkg.github.com/contentstack/contentstack-java</url>-->
+        <!--   </repository>-->
+        <!--Maven Release Repository-->
         <repository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
@@ -127,7 +126,7 @@
             <groupId>io.github.cdimascio</groupId>
             <artifactId>dotenv-java</artifactId>
             <version>${dotenv-source.version}</version>
-            <!--            <scope>runtime</scope>-->
+            <!--<scope>runtime</scope>-->
         </dependency>
 
         <dependency>
@@ -185,38 +184,9 @@
         </dependency>
     </dependencies>
 
-
-    <profiles>
-        <profile>
-            <id>release-sign-artifacts</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven-gpg-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <build>
+
+
         <plugins>
             <!--
             # Run tests and generate .xml reports
@@ -241,7 +211,7 @@
                 </executions>
             </plugin>
             <!--Generate overview.html file-->
-            <!-- -overview "/Users/shaileshmishra/Documents/workspace/contentstack/javaspace/contentstack-java/src/main/overview.html" -bottom  "<b>Copyright © 2012-2023 Contentstack </b><sup>TM</sup>" -->
+            <!--overview "/Users/shaileshmishra/Documents/workspace/contentstack/workspace/GitHub/contentstack-java/src/main/overview.html" -bottom  "<b>Copyright © 2012-2023 Contentstack </b><sup>TM</sup>" -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -260,14 +230,24 @@
                             <use>false</use>
                             <source>1.8</source>
                             <links>
-                                <link>http://docs.oracle.com/javase/7/docs/api/</link>
-                                <link>http://docs.oracle.com/javase/7/docs/api/</link>
+                                <link>https://docs.oracle.com/javase/7/docs/api/</link>
+                                <link>https://docs.oracle.com/javase/7/docs/api/</link>
                             </links>
                             <doclint>none</doclint>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -278,20 +258,20 @@
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <version>3.0.0-M2</version>
             </plugin>
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-gpg-plugin</artifactId>-->
-            <!--                <version>1.6</version>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>sign-artifacts</id>-->
-            <!--                        <phase>verify</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>sign</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
