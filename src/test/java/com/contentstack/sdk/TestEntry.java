@@ -1,6 +1,5 @@
 package com.contentstack.sdk;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 
@@ -15,24 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TestEntry {
 
     private final Logger logger = Logger.getLogger(TestEntry.class.getName());
-    private String DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV;
-    private final String CONTENT_TYPE = "product";
-    private String entryUid = "justFakeIt";
-    private Stack stack;
+    private String entryUid = Credentials.ENTRY_UID;
+    private final Stack stack = Credentials.getStack();
     private Entry entry;
-
-    @BeforeAll
-    public void intOnceBeforeAll() throws Exception {
-        Dotenv dotenv = Dotenv.load();
-        DEFAULT_API_KEY = dotenv.get("API_KEY");
-        DEFAULT_DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
-        DEFAULT_ENV = dotenv.get("ENVIRONMENT");
-        String DEFAULT_HOST = dotenv.get("HOST");
-        Config config = new Config();
-        config.setHost(DEFAULT_HOST);
-        assert DEFAULT_API_KEY != null;
-        stack = Contentstack.stack(DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV, config);
-    }
+    private final String CONTENT_TYPE = Credentials.CONTENT_TYPE;
 
     @Test
     @Order(1)
@@ -371,7 +356,7 @@ class TestEntry {
     @Test
     @Order(42)
     void entryExcept() {
-        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
+        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
         Entry initEntry = stack.contentType("product").entry(entryUid).except(arrField);
         Assertions.assertEquals(3, initEntry.exceptFieldArray.length());
         logger.info("passed...");
@@ -389,7 +374,7 @@ class TestEntry {
     @Test
     @Order(44)
     void entryIncludeReferenceList() {
-        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
+        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
         Entry initEntry = stack.contentType("product").entry(entryUid).includeReference(arrField);
         Assertions.assertEquals(3, initEntry.referenceArray.length());
         Assertions.assertTrue(initEntry.params.has("include[]"));
@@ -399,7 +384,7 @@ class TestEntry {
     @Test
     @Order(45)
     void entryOnlyList() {
-        String[] arrField = {"fieldOne", "fieldTwo", "fieldThree"};
+        String[] arrField = { "fieldOne", "fieldTwo", "fieldThree" };
         Entry initEntry = stack.contentType("product").entry(entryUid);
         initEntry.only(arrField);
         Assertions.assertEquals(3, initEntry.objectUidForOnly.length());
@@ -518,7 +503,8 @@ class TestEntry {
     void testEntryPassConfigBranchIncludeBranch() throws IllegalAccessException {
         Config config = new Config();
         config.setBranch("feature_branch");
-        Stack branchStack = Contentstack.stack(DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV, config);
+        Stack branchStack = Contentstack.stack(Credentials.API_KEY, Credentials.DELIVERY_TOKEN, Credentials.ENVIRONMENT,
+                config);
         Entry entry = branchStack.contentType("product").entry(entryUid);
         entry.includeBranch().fetch(new EntryResultCallBack() {
             @Override
