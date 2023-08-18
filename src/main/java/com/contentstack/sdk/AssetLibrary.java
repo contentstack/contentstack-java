@@ -34,10 +34,8 @@ public class AssetLibrary implements INotifyClass {
     /**
      * Sets header.
      *
-     * @param headerKey
-     *         the header key
-     * @param headerValue
-     *         the header value
+     * @param headerKey   the header key
+     * @param headerValue the header value
      */
     public void setHeader(@NotNull String headerKey, @NotNull String headerValue) {
         this.headers.put(headerKey, headerValue);
@@ -46,8 +44,7 @@ public class AssetLibrary implements INotifyClass {
     /**
      * Remove header.
      *
-     * @param headerKey
-     *         the header key
+     * @param headerKey the header key
      */
     public void removeHeader(@NotNull String headerKey) {
         if (!headerKey.isEmpty()) {
@@ -58,10 +55,8 @@ public class AssetLibrary implements INotifyClass {
     /**
      * Sort asset library.
      *
-     * @param keyOrderBy
-     *         the key order by
-     * @param orderby
-     *         the orderby
+     * @param keyOrderBy the key order by
+     * @param orderby    the orderby
      * @return the asset library
      */
     public AssetLibrary sort(String keyOrderBy, ORDERBY orderby) {
@@ -141,8 +136,7 @@ public class AssetLibrary implements INotifyClass {
     /**
      * Fetch all.
      *
-     * @param callback
-     *         the callback
+     * @param callback the callback
      */
     public void fetchAll(FetchAssetsCallback callback) {
         this.callback = callback;
