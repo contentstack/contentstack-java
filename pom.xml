@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.12.1-SNAPSHOT</version>
+    <version>1.12.2</version>
     <packaging>jar</packaging>
     <name>contentstack-java</name>
     <description>Java SDK for Contentstack Content Delivery API</description>
@@ -22,7 +22,6 @@
         <dotenv-source.version>3.0.0</dotenv-source.version>
         <rxjava-source.version>3.1.6</rxjava-source.version>
         <retrofit-source.version>2.9.0</retrofit-source.version>
-        <converter-gson-source.version>2.9.0</converter-gson-source.version>
         <loggin.version>4.11.0</loggin.version>
         <jococo-plugin.version>0.8.5</jococo-plugin.version>
         <lombok-source.version>1.18.28</lombok-source.version>
@@ -37,7 +36,7 @@
         <json-version>20230227</json-version>
         <jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
         <maven-release-plugin-version>2.5.3</maven-release-plugin-version>
-        <contentstack-utils-version>1.2.2</contentstack-utils-version>
+        <contentstack-utils-version>1.2.3</contentstack-utils-version>
     </properties>
 
     <parent>
@@ -87,14 +86,25 @@
     </developers>
 
     <distributionManagement>
+
+        <!-- Maven Snapshot Repository -->
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+
+        <!--GitHub Packages-->
+        <!--        <repository>-->
+        <!--            <id>github</id>-->
+        <!--            <url>https://maven.pkg.github.com/contentstack/contentstack-java</url>-->
+        <!--        </repository>-->
+
+        <!--        Maven Release Repository-->
         <repository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
+
     </distributionManagement>
 
 
@@ -105,36 +115,41 @@
             <version>${contentstack-utils-version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>${json-version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>dotenv-java</artifactId>
             <version>${dotenv-source.version}</version>
-            <scope>runtime</scope>
+            <!--            <scope>runtime</scope>-->
         </dependency>
+
         <dependency>
             <groupId>io.reactivex.rxjava3</groupId>
             <artifactId>rxjava</artifactId>
             <version>${rxjava-source.version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
             <version>${retrofit-source.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson -->
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>converter-gson</artifactId>
-            <version>${converter-gson-source.version}</version>
-            <scope>compile</scope>
+            <version>${retrofit-source.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>logging-interceptor</artifactId>
@@ -170,6 +185,36 @@
         </dependency>
     </dependencies>
 
+
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -233,20 +278,20 @@
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <version>3.0.0-M2</version>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-gpg-plugin</artifactId>-->
+            <!--                <version>1.6</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>sign-artifacts</id>-->
+            <!--                        <phase>verify</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>sign</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -268,8 +313,8 @@
                 <version>${nexus-staging-maven-plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <serverId>github</serverId>
+                    <nexusUrl>https://maven.pkg.github.com/contentstack/contentstack-java</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
