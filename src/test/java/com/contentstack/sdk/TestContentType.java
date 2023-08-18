@@ -1,6 +1,5 @@
 package com.contentstack.sdk;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
@@ -11,18 +10,8 @@ import java.util.logging.Logger;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestContentType {
 
-    protected String API_KEY, DELIVERY_TOKEN, ENV;
     private final Logger logger = Logger.getLogger(TestContentType.class.getName());
-    private Stack stack;
-
-    @BeforeAll
-    public void initBeforeTests() throws IllegalAccessException {
-        Dotenv dotenv = Dotenv.load();
-        API_KEY = dotenv.get("API_KEY");
-        DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
-        ENV = dotenv.get("ENVIRONMENT");
-        stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV);
-    }
+    private final Stack stack = Credentials.getStack();
 
     @Test
     @Order(1)

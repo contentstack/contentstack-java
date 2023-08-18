@@ -1,13 +1,11 @@
 package com.contentstack.sdk;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,28 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TestQuery {
 
     private final Logger logger = Logger.getLogger(TestQuery.class.getName());
-    private String DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV;
-    private Stack stack;
+    private final Stack stack = Credentials.getStack();
+    private final String contentType = Credentials.CONTENT_TYPE;
     private Query query;
     private String entryUid;
 
-    @BeforeAll
-    public void beforeAll() throws IllegalAccessException {
-        logger.setLevel(Level.FINE);
-        Dotenv dotenv = Dotenv.load();
-        DEFAULT_API_KEY = dotenv.get("API_KEY");
-        DEFAULT_DELIVERY_TOKEN = dotenv.get("DELIVERY_TOKEN");
-        DEFAULT_ENV = dotenv.get("ENVIRONMENT");
-        String DEFAULT_HOST = dotenv.get("HOST");
-        Config config = new Config();
-        config.setHost(DEFAULT_HOST);
-        assert DEFAULT_API_KEY != null;
-        stack = Contentstack.stack(DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV, config);
-    }
-
     @BeforeEach
     public void beforeEach() {
-        query = stack.contentType("product").query();
+        query = stack.contentType(contentType).query();
     }
 
     @Test
@@ -863,7 +847,7 @@ class TestQuery {
     void testQueryPassConfigBranchIncludeBranch() throws IllegalAccessException {
         Config config = new Config();
         config.setBranch("feature_branch");
-        Stack branchStack = Contentstack.stack(DEFAULT_API_KEY, DEFAULT_DELIVERY_TOKEN, DEFAULT_ENV, config);
+        Stack branchStack = Contentstack.stack(Credentials.API_KEY, Credentials.DELIVERY_TOKEN, Credentials.ENVIRONMENT, config);
         Query query = branchStack.contentType("product").query();
         query.includeBranch().find(new QueryResultsCallBack() {
             @Override
@@ -874,7 +858,6 @@ class TestQuery {
         Assertions.assertTrue(query.urlQueries.has("include_branch"));
         Assertions.assertEquals(true, query.urlQueries.opt("include_branch"));
         Assertions.assertTrue(query.headers.containsKey("branch"));
-        logger.info("passed...");
     }
 
 }

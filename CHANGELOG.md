@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v1.12.2
+
+### Date: 08-AUG-2023
+
+- Updated Utils SDK to v1.2.3
+
+## v1.12.1
+
+### Date: 07-Jun-2023
+
+- Added Support For Nested Assets
+- General Code Improvement
+
 ## v1.12.0
 
 ### Date: 25-APR-2023
