@@ -20,12 +20,12 @@
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
         <dotenv-source.version>3.0.0</dotenv-source.version>
-        <rxjava-source.version>3.1.6</rxjava-source.version>
+        <rxjava-source.version>3.1.7</rxjava-source.version>
         <retrofit-source.version>2.9.0</retrofit-source.version>
-        <loggin.version>4.11.0</loggin.version>
+        <loggin.version>5.0.0-alpha.11</loggin.version>
         <jococo-plugin.version>0.8.5</jococo-plugin.version>
         <lombok-source.version>1.18.28</lombok-source.version>
-        <junit-jupiter.version>5.9.2</junit-jupiter.version>
+        <junit-jupiter.version>5.10.0</junit-jupiter.version>
         <junit-jupiter-engine.version>5.8.0-M1</junit-jupiter-engine.version>
         <gson.version>2.8.8</gson.version>
         <json-simple-version>1.1.1</json-simple-version>
@@ -33,7 +33,7 @@
         <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-        <json-version>20230227</json-version>
+        <json-version>20230618</json-version>
         <jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
         <maven-release-plugin-version>2.5.3</maven-release-plugin-version>
         <contentstack-utils-version>1.2.3</contentstack-utils-version>
