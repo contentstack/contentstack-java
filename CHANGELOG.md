@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.12.3
+
+### Date: 28-SEP-2023
+
+- Updated Latest version of Utils SDK
+- Snyk Issues fixed
+
 ## v1.12.2
 
 ### Date: 08-AUG-2023
