@@ -32,21 +32,6 @@ public class Config {
     @Setter
     @Getter
     protected String branch;
-    /**
-     * -- SETTER --
-     *  Proxy can be set like below.
-     *
-     * @param proxy Proxy setting, typically a type (http, socks) and a socket address. A Proxy is an immutable object
-     *              <br>
-     *              <br>
-     *              <b>Example:</b><br>
-     *              <br>
-     *              <code>
-     *              java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP,  new InetSocketAddress("proxyHost", "proxyPort"));
-     *              java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80)); Config
-     *              config = new Config(); config.setProxy(proxy);
-     *              </code>
-     */
     @Setter
     protected Proxy proxy = null;
     protected ConnectionPool connectionPool = new ConnectionPool();
