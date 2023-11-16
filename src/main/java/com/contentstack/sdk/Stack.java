@@ -276,7 +276,7 @@ public class Stack {
      * @return the string
      */
     public String imageTransform(@NotNull String imageUrl, @NotNull Map<String, Object> parameters) {
-        if (parameters.size() == 0) {
+        if (parameters.isEmpty()) {
             return imageUrl;
         }
         String query = getQueryParam(parameters);
