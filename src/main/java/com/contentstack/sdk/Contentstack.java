@@ -31,27 +31,23 @@ public class Contentstack {
      * key of your stack. <br>
      * Find Your Stack Credentials from Contentstack .
      *
-     * @param stackApiKey
-     *                      The API Key is a unique key assigned to each stack.
-     * @param deliveryToken
-     *                      The Delivery Token is a read-only credential that you
+     * @param stackApiKey   The API Key is a unique key assigned to each stack.
+     * @param deliveryToken The Delivery Token is a read-only credential that you
      *                      can create for different environments of your
      *                      stack
-     * @param environment
-     *                      the environment for the stack
+     * @param environment   the environment for the stack
      * @return the stack
-     * @throws IllegalAccessException
-     *                                the illegal access exception
+     * @throws IllegalAccessException the illegal access exception
      *                                <p>
      *                                <b>Example</b>
      *
      *                                <pre>
-     *                                {
-     *                                    &#64;Code
-     *                                    Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                }
+     *                                                                                              {
+     *                                                                                                  &#64;Code
+     *                                                                                                  Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                                                                                              }
      *
-     *                                </pre>
+     *                                                                                              </pre>
      */
     public static Stack stack(String stackApiKey, String deliveryToken, String environment)
             throws IllegalAccessException {
@@ -66,19 +62,14 @@ public class Contentstack {
      * create content structures, content entries, users, etc. related to the
      * project.
      *
-     * @param stackApiKey
-     *                      The API Key is a unique key assigned to each stack.
-     * @param deliveryToken
-     *                      The Delivery Token is a read-only credential that you
+     * @param stackApiKey   The API Key is a unique key assigned to each stack.
+     * @param deliveryToken The Delivery Token is a read-only credential that you
      *                      can create for different environments of your
      *                      stack
-     * @param environment
-     *                      the environment for the stack
-     * @param config
-     *                      the config
+     * @param environment   the environment for the stack
+     * @param config        the config
      * @return the stack
-     * @throws IllegalAccessException
-     *                                the illegal access exception <b>Example</b>
+     * @throws IllegalAccessException the illegal access exception <b>Example</b>
      *                                <p>
      *                                { @Code Stack stack =
      *                                contentstack.Stack("apiKey", "deliveryToken",
@@ -114,6 +105,10 @@ public class Contentstack {
         stack.setHeader("environment", environment);
         if (config.getBranch() != null && !config.getBranch().isEmpty()) {
             stack.setHeader("branch", config.getBranch());
+        }
+        if (config.getEarlyAccess() != null && config.getEarlyAccess().length > 0) {
+            String eaValues = String.join(",", config.earlyAccess).replace("\"", "");
+            stack.setHeader("x-header-ea", eaValues);
         }
         stack.setConfig(config);
         return stack;
