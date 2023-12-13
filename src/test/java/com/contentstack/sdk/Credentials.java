@@ -15,7 +15,6 @@ public class Credentials {
         if (githubActions != null && githubActions.equals("true")) {
             System.out.println("Tests are running in GitHub Actions environment.");
             String mySecretKey = System.getenv("API_KEY");
-            System.out.println("My Secret Key: " + mySecretKey);
             return "GitHub";
         } else {
             System.out.println("Tests are running in a local environment.");
@@ -65,13 +64,14 @@ public class Credentials {
     public static Stack getStack() {
         if (stack == null) {
             var envCheck = envChecker();
-            System.out.println(envCheck);
+            System.out.println("idendified env file detected " + envCheck);
             synchronized (Credentials.class) {
                 if (stack == null) {
                     try {
                         Config config = new Config();
                         config.setHost(HOST);
                         stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENVIRONMENT, config);
+                        System.out.println(stack);
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
