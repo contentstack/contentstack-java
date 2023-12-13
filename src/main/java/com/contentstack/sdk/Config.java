@@ -168,7 +168,8 @@ public class Config {
 
 
     /**
-     * The configuration for the contentstack that contains support for Early Access Feature
+     * To initialize the SDK with the latest features offered in the early access phase,
+     * include the early access parameter as shown in the following code:
      *
      * @param earlyAccessFeatures The list of Early Access Features
      *                            {@code
