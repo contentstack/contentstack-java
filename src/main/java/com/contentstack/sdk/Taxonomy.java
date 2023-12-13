@@ -2,12 +2,14 @@ package com.contentstack.sdk;
 
 import okhttp3.Request;
 import okhttp3.ResponseBody;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -86,7 +88,75 @@ public class Taxonomy {
      * @return instance of {@link Taxonomy}
      */
     public Taxonomy query(Map<String, Object> queryParams) {
-        query.putAll(queryParams);
+        this.query.putAll(queryParams);
+        return this;
+    }
+
+
+    /**
+     * Get all entries for a specific taxonomy that satisfy the given conditions provided in the query.
+     *
+     * @param key         the key of the taxonomy to query
+     * @param listOfItems the list of taxonomy fields
+     *                    Example: If you want to retrieve entries with the color taxonomy applied and linked to the term red and/or yellow.
+     *                    <code>
+     *                    String key = "taxonomies.taxonomy_uid";
+     *                    String[] listOfItem = {"term_uid1", "term_uid2"};
+     *                    taxonomy.in(key, listOfItem);
+     *                    taxonomy.query(query).find(new TaxonomyCallback() {
+     * @Override public void onFailure(Request request, ResponseBody errorMessage) {
+     * System.out.println("Failing API call : " + errorMessage.toString());
+     * <p>
+     * }
+     * @Override public void onResponse(ResponseBody response) {
+     * System.out.println("Response : " + response.toString());
+     * <p>
+     * }
+     * });
+     * </code>
+     */
+    public Taxonomy in(@NotNull String key, @NotNull String[] listOfItems) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("$in", listOfItems);
+        this.query.put(key, param);
+        return this;
+    }
+
+
+    public Taxonomy or(@NotNull List<HashMap<String, String>> listOfItems) {
+        for (int i = 0; i < listOfItems.size(); i++) {
+            HashMap<String, String> param = listOfItems.get(i);
+
+            if (i > 0) {
+                this.query.put("$or", listOfItems.toArray());
+            }
+
+            this.query.put("$or", param);
+        }
+
+        return this;
+    }
+
+
+    public Taxonomy and(@NotNull List<HashMap<String, String>> listOfItems) {
+        for (int i = 0; i < listOfItems.size(); i++) {
+            HashMap<String, String> param = listOfItems.get(i);
+
+            if (i > 0) {
+                this.query.put("$and", listOfItems.toArray());
+            }
+
+            this.query.put("$and", param);
+        }
+
+        return this;
+    }
+
+
+    public Taxonomy exists(@NotNull String name, @NotNull Boolean value) {
+        HashMap<String, Boolean> param = new HashMap<>();
+        param.put("$exists", value);
+        this.query.put(name, param);
         return this;
     }
 
@@ -120,6 +190,8 @@ public class Taxonomy {
             throw new RuntimeException(e);
         }
     }
+
+
 }
 
 
