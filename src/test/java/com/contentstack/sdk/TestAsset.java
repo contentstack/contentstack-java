@@ -14,16 +14,14 @@ class TestAsset {
     private String assetUid;
     private final Stack stack = Credentials.getStack();
 
-    private String envChecker() {
+    private void envChecker() {
         String githubActions = System.getenv("GITHUB_ACTIONS");
         if (githubActions != null && githubActions.equals("true")) {
             System.out.println("Tests are running in GitHub Actions environment.");
             String mySecretKey = System.getenv("API_KEY");
             System.out.println("My Secret Key: " + mySecretKey);
-            return "GitHub";
         } else {
             System.out.println("Tests are running in a local environment.");
-            return "local";
         }
     }
 
