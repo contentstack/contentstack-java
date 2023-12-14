@@ -4,6 +4,7 @@ import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import retrofit2.Call;
+import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -303,8 +304,21 @@ public class Taxonomy {
      */
     public void find(TaxonomyCallback callback) {
         try {
-            ResponseBody response = makeRequest().execute().body();
-            callback.onResponse(response);
+            Response<ResponseBody> response = makeRequest().execute();
+
+            if (response.isSuccessful()) {
+                JSONObject responseJSON = new JSONObject(response.body().string());
+                callback.onResponse(responseJSON, null);
+            } else {
+                JSONObject responseJSON = new JSONObject(response.errorBody().string());
+                Error error = new Error();
+                error.setErrorMessage(responseJSON.optString("error_message"));
+                error.setErrorCode(responseJSON.optInt("error_code"));
+                error.setErrorDetail(responseJSON.optString("errors"));
+
+                callback.onResponse(null, error);
+            }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
