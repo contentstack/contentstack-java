@@ -71,7 +71,6 @@ public class Credentials {
                         Config config = new Config();
                         config.setHost(HOST);
                         stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENVIRONMENT, config);
-                        System.out.println(stack);
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
