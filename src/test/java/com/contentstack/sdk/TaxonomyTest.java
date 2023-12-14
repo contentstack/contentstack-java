@@ -1,15 +1,11 @@
 package com.contentstack.sdk;
 
-import okhttp3.HttpUrl;
 import okhttp3.Request;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -25,99 +21,104 @@ public class TaxonomyTest {
     @Test
     void operationIn() {
         Taxonomy taxonomy = stack.taxonomy();
-        String[] listOfItem = {"red", "yellow"};
-        Request req = taxonomy.in("taxonomies.color", listOfItem).makeRequest().request();
-
+        List<String> listOfItems = new ArrayList<>();
+        listOfItems.add("red");
+        listOfItems.add("yellow");
+        Request req = taxonomy.in("taxonomies.color", listOfItems).makeRequest().request();
         Assertions.assertEquals(3, req.headers().size());
         Assertions.assertEquals("GET", req.method());
         Assertions.assertEquals("cdn.contentstack.io", req.url().host());
         Assertions.assertEquals("/v3/taxonomies/entries", req.url().encodedPath());
-        Assertions.assertEquals("[query]", req.url().queryParameterNames().toString());
+        Assertions.assertEquals("query={\"taxonomies.color\":{\"$in\":[\"red\",\"yellow\"]}}", req.url().query());
     }
 
 
     @Test
     void operationOr() {
+
+//        query={ $or: [
+//        { "taxonomies.taxonomy_uid_1" : "term_uid1" },
+//        { "taxonomies.taxonomy_uid_2" : "term_uid2" }
+//        ]}
+
         Taxonomy taxonomy = stack.taxonomy();
 
-        List<HashMap<String, String>> listOfItems = new ArrayList<>();
-        HashMap<String, String> items = new HashMap<>();
-        items.put("taxonomies.taxonomy_uid_1", "term_uid1");
-        items.put("taxonomies.taxonomy_uid_2", "term_uid2");
-        listOfItems.add(items);
+        List<JSONObject> listOfItems = new ArrayList<>();
+        JSONObject item1 = new JSONObject();
+        item1.put("taxonomies.color", "yellow");
+        JSONObject item2 = new JSONObject();
+        item2.put("taxonomies.size", "small");
+        listOfItems.add(item1);
+        listOfItems.add(item2);
         taxonomy.or(listOfItems);
         Request req = taxonomy.makeRequest().request();
 
-        Assertions.assertEquals("[query]", req.url().queryParameterNames().toString());
+        Assertions.assertEquals("query={\"$or\":[{\"taxonomies.color\":\"yellow\"},{\"taxonomies.size\":\"small\"}]}", req.url().query());
 
-    }
-
-    public static String decodeUrl(HttpUrl encodedUrl) {
-        String decodedUrl = null;
-        try {
-            decodedUrl = URLDecoder.decode(encodedUrl.toString(), StandardCharsets.UTF_8.toString());
-            return decodedUrl;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace(); // Handle the exception according to your requirements
-        }
-        return decodedUrl;
     }
 
     @Test
     void operatorAnd() {
         Taxonomy taxonomy = stack.taxonomy();
-        List<HashMap<String, String>> listOfItems = new ArrayList<>();
-        HashMap<String, String> items = new HashMap<>();
-        items.put("taxonomies.taxonomy_uid_1", "term_uid1");
-        items.put("taxonomies.taxonomy_uid_2", "term_uid2");
-        listOfItems.add(items);
+        List<JSONObject> listOfItems = new ArrayList<>();
+        JSONObject items1 = new JSONObject();
+        items1.put("taxonomies.color", "green");
+        JSONObject items2 = new JSONObject();
+        items2.put("taxonomies.computers", "laptop");
+        listOfItems.add(items1);
+        listOfItems.add(items2);
         taxonomy.and(listOfItems);
 
+        // {$and: [{"taxonomies.color" : "green" }, { "taxonomies.computers" : "laptop" }]}
         Request req = taxonomy.makeRequest().request();
+        Assertions.assertEquals("query={\"$and\":\"[{\\\"taxonomies.color\\\":\\\"green\\\"}, {\\\"taxonomies.computers\\\":\\\"laptop\\\"}]\"}", req.url().query());
     }
 
 
     @Test
     void operationExists() {
         // create instance of taxonomy
-        Taxonomy taxonomy = stack.taxonomy().exists("listOfItems", true);
+        Taxonomy taxonomy = stack.taxonomy().exists("taxonomies.color", true);
         Request req = taxonomy.makeRequest().request();
-        Assertions.assertEquals("query={$or={taxonomies.taxonomy_uid_2=term_uid2, taxonomies.taxonomy_uid_1=term_uid1}}", req.url().query());
+        //{"taxonomies.color" : { "$exists": true }}
+        //{"taxonomies.color":{"$exists":true}}
+        Assertions.assertEquals("query={\"taxonomies.color\":{\"$exists\":true}}", req.url().query());
     }
 
 
     @Test
     void operationEqualAndBelow() {
         // create instance of taxonomy
-        Taxonomy taxonomy = stack.taxonomy().equalAndBelow("listOfItems", "uid1");
+        Taxonomy taxonomy = stack.taxonomy().equalAndBelow("taxonomies.color", "blue");
         Request req = taxonomy.makeRequest().request();
-        Assertions.assertEquals("query={$or={taxonomies.taxonomy_uid_2=term_uid2, taxonomies.taxonomy_uid_1=term_uid1}}", req.url().query());
+        // {"taxonomies.color" : { "$eq_below": "blue" }}
+        Assertions.assertEquals("query={\"taxonomies.color\":{\"$eq_below\":\"blue\"}}", req.url().query());
     }
 
 
     @Test
-    void operationBelow() {
-        Taxonomy taxonomy = stack.taxonomy().equalAndBelowWithLevel("listOfItems", "uid1", 3);
+    void operationBelowWithLevel() {
+        Taxonomy taxonomy = stack.taxonomy().equalAndBelowWithLevel("taxonomies.color", "blue", 3);
         Request req = taxonomy.makeRequest().request();
-        Assertions.assertEquals("query={$or={taxonomies.taxonomy_uid_2=term_uid2, taxonomies.taxonomy_uid_1=term_uid1}}", req.url().query());
+        Assertions.assertEquals("query={\"taxonomies.color\":{\"$eq_below\":\"blue, level: 3\"}}", req.url().query());
 
     }
 
 
     @Test
     void operationEqualAbove() {
-        Taxonomy taxonomy = stack.taxonomy().equalAbove("listOfItems", "uid1");
+        Taxonomy taxonomy = stack.taxonomy().equalAbove("taxonomies.appliances", "led");
         Request req = taxonomy.makeRequest().request();
-        Assertions.assertEquals("query={$or={taxonomies.taxonomy_uid_2=term_uid2, taxonomies.taxonomy_uid_1=term_uid1}}", req.url().query());
+        Assertions.assertEquals("query={\"taxonomies.appliances\":{\"$eq_above\":\"led\"}}", req.url().query());
 
     }
 
 
     @Test
     void above() {
-        Taxonomy taxonomy = stack.taxonomy().above("listOfItems", "uid1");
+        Taxonomy taxonomy = stack.taxonomy().above("taxonomies.appliances", "led");
         Request req = taxonomy.makeRequest().request();
-        Assertions.assertEquals("query={$or={taxonomies.taxonomy_uid_2=term_uid2, taxonomies.taxonomy_uid_1=term_uid1}}", req.url().query());
+        Assertions.assertEquals("query={\"taxonomies.appliances\":{\"$above\":\"led\"}}", req.url().query());
 
     }
 
