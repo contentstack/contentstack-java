@@ -23,5 +23,5 @@ public interface APIService {
     @GET("v3/taxonomies/entries")
     Call<ResponseBody> getTaxonomy(
             @HeaderMap Map<String, Object> headers,
-            @QueryMap(encoded = true) Map<String, Object> query);
+            @QueryMap Map<String, Object> query);
 }

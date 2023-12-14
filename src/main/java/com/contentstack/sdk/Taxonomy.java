@@ -7,10 +7,8 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The type Taxonomy.
@@ -38,134 +36,265 @@ public class Taxonomy {
         this.config = config;
     }
 
-    /**
-     * You can retrieve filtered entries using taxonomy through two different endpoints:
-     *
-     * @param queryParams the query parameters should be like below
-     *                                       <ul>
-     *                                                          <li> <code> <b>IN Operator</b> : Get all entries for a specific taxonomy that satisfy the given conditions provided in the '$in' query.<br>                                                          Your query should be as follows:<br>                                                          <code> {"taxonomies.taxonomy_uid" : { "$in" : ["term_uid1" , "term_uid2" ] }} </code>                                                          </li>                                                          <br>                                                          <li>                                                                <code> <b>OR Operator</b> :                                                                Get all entries for a specific taxonomy that satisfy at least one of the given conditions provided in the “$or” query. <br>                                                                Your query should be as follows: <br>                                                                <code> query={                    $or: [                    { "taxonomies.taxonomy_uid_1" : "term_uid1" },                    { "taxonomies.taxonomy_uid_2" : "term_uid2" }                    ]                    }</code>
-     *                                                          </li>
-     *                                       <br>
-     *                                                          <li>
-     *                                                              <b>AND Operator :</b><br>
-     *                                                                  Get all entries for a specific taxonomy that satisfy all the conditions provided in the “$and” query.<br>
-     *                    <p>
-     *                                                                  Your query should be as follows: <br>
-     *                                                          <code>
-     *                                                          {
-     *                                         $and: [
-     *                                           { "taxonomies.taxonomy_uid_1" : "term_uid1" },
-     *                                           { "taxonomies.taxonomy_uid_2" : "term_uid2" }
-     *                                         ]
-     *                                       }
-     *
-     *                                                          </code>
-     *                                                          </li>
-     *                                       <br>
-     *
-     *                                       <li>
-     *                                        <b>Exists Operator :</b>   <br>
-     *                                        Get all entries for a specific taxonomy that if the value of the field, mentioned in the condition, exists. <br>
-     *                    <p>
-     *                    Your query should be as follows:
-     *                                       <code>
-     *                                       <code>{"taxonomies.taxonomy_uid" : { "$exists": true }}
-     *                                       </code>
-     *                                       </li><br>
-     *                                       <li>
-     *                                              <b>Equal and Below Operator :</b>   <br>
-     *                                              Get all entries for a specific taxonomy that match a specific term and all its descendant terms, requiring only the target term and a specified level. <br>
-     *                    <p>
-     *                          Your query should be as follows:
-     *                                             <code>
-     *                                             <code>{
-     *                      "taxonomies.taxonomy_uid" : { "$eq_below": "term_uid", "level" : 2}}
-     *                                             </code>
-     *                                             </li>
-     *
-     *
-     *                                       </ul>
-     * @return instance of {@link Taxonomy}
-     */
-    public Taxonomy query(Map<String, Object> queryParams) {
-        this.query.putAll(queryParams);
-        return this;
-    }
-
 
     /**
-     * Get all entries for a specific taxonomy that satisfy the given conditions provided in the query.
+     * Get all entries for a specific taxonomy that satisfy the given conditions provided in the '$in' query.
+     * Your query should be as follows:
+     * <p>
+     * <pre>
+     * {"taxonomies.taxonomy_uid" : { "$in" : ["term_uid1" , "term_uid2" ] }}
+     * </pre>
+     * <p>
+     * <b>Example:</b> If you want to retrieve entries with the color taxonomy applied and linked to the term red and/or yellow.
+     * <p>
+     * <pre>
+     * {"taxonomies.color" : { "$in" : ["red" , "yellow" ] }}
+     * </pre>
      *
-     * @param key         the key of the taxonomy to query
+     * @param taxonomy    the key of the taxonomy to query
      * @param listOfItems the list of taxonomy fields
-     *                    Example: If you want to retrieve entries with the color taxonomy applied and linked to the term red and/or yellow.
-     *                    <code>
-     *                    String key = "taxonomies.taxonomy_uid";
-     *                    String[] listOfItem = {"term_uid1", "term_uid2"};
-     *                    taxonomy.in(key, listOfItem);
-     *                    taxonomy.query(query).find(new TaxonomyCallback() {
-     * @Override public void onFailure(Request request, ResponseBody errorMessage) {
-     * System.out.println("Failing API call : " + errorMessage.toString());
-     * <p>
-     * }
-     * @Override public void onResponse(ResponseBody response) {
-     * System.out.println("Response : " + response.toString());
-     * <p>
-     * }
-     * });
-     * </code>
+     * @return an instance of the Taxonomy with the specified conditions added to the query
      */
-    public Taxonomy in(@NotNull String key, @NotNull String[] listOfItems) {
-        HashMap<String, Object> param = new HashMap<>();
-        param.put("$in", listOfItems);
-        this.query.put(key, param);
+    public Taxonomy in(String taxonomy, String[] listOfItems) {
+        String formattedValues = Arrays.stream(listOfItems).map(value -> "\"" + value.trim() + "\"").collect(Collectors.joining(" , "));
+
+        String stringify = "{ \"$in\" : [" + formattedValues + "] }}";
+        this.query.put(taxonomy, stringify);
         return this;
     }
 
 
+    /**
+     * <b>OR Operator :</b>
+     * <p>
+     * Get all entries for a specific taxonomy that satisfy at least one of the given conditions provided in the “$or” query.
+     * <p>
+     * Your query should be as follows:
+     * <p>
+     * <pre>
+     *
+     * { $or: [
+     * { "taxonomies.taxonomy_uid_1" : "term_uid1" },
+     * { "taxonomies.taxonomy_uid_2" : "term_uid2" }
+     * ]}
+     *
+     * </pre>
+     * Example: If you want to retrieve entries with either the color or size taxonomy applied and linked to the terms yellow and small, respectively.
+     * <br>
+     * <pre>
+     *
+     * {$or: [
+     * { "taxonomies.color" : "yellow" },
+     * { "taxonomies.size" : "small" }
+     * ]}
+     *
+     *
+     * </pre>
+     *
+     * @param listOfItems
+     * @return
+     */
     public Taxonomy or(@NotNull List<HashMap<String, String>> listOfItems) {
         for (int i = 0; i < listOfItems.size(); i++) {
             HashMap<String, String> param = listOfItems.get(i);
-
             if (i > 0) {
                 this.query.put("$or", listOfItems.toArray());
             }
-
             this.query.put("$or", param);
         }
-
         return this;
     }
 
 
+    /**
+     * <b>AND Operator :</b>
+     * <p>
+     * Get all entries for a specific taxonomy that satisfy all the conditions provided in the “$and” query.
+     * <p>
+     * Your query should be as follows:
+     *
+     * <pre>
+     * {
+     * $and: [
+     * { "taxonomies.taxonomy_uid_1" : "term_uid1" },
+     * { "taxonomies.taxonomy_uid_2" : "term_uid2" }
+     * ]
+     * }
+     * </pre>
+     * <b>Example:</b> If you want to retrieve entries with the color and computers taxonomies applied and linked to the terms red and laptop, respectively.
+     *
+     * <pre>
+     * {
+     * $and: [
+     * { "taxonomies.color" : "red" },
+     * { "taxonomies.computers" : "laptop" }
+     * ]
+     * }
+     * </pre>
+     *
+     * @param listOfItems the list of items to that you want to include in the query string
+     * @return instance of the Taxonomy
+     */
     public Taxonomy and(@NotNull List<HashMap<String, String>> listOfItems) {
         for (int i = 0; i < listOfItems.size(); i++) {
             HashMap<String, String> param = listOfItems.get(i);
-
             if (i > 0) {
                 this.query.put("$and", listOfItems.toArray());
             }
-
             this.query.put("$and", param);
         }
-
         return this;
     }
 
 
-    public Taxonomy exists(@NotNull String name, @NotNull Boolean value) {
+    /**
+     * <b>Exists Operator :</b>
+     * <p>
+     * Get all entries for a specific taxonomy that if the value of the field, mentioned in the condition, exists.
+     * <p>
+     * Your query should be as follows:
+     * <pre>
+     * {"taxonomies.taxonomy_uid" : { "$exists": true }}
+     * </pre>
+     * Example: If you want to retrieve entries with the color taxonomy applied.
+     * <pre>
+     * {"taxonomies.color" : { "$exists": true }}
+     * </pre>
+     *
+     * @param taxonomy the taxonomy
+     * @param value    the value of the field
+     * @return instance of Taxonomy
+     */
+    public Taxonomy exists(@NotNull String taxonomy, @NotNull Boolean value) {
         HashMap<String, Boolean> param = new HashMap<>();
         param.put("$exists", value);
-        this.query.put(name, param);
+        this.query.put(taxonomy, param);
+        return this;
+    }
+
+
+    /**
+     * <b>Equal and Below Operator :</b>
+     * <p>
+     * Get all entries for a specific taxonomy that match a specific term and all its descendant terms, requiring only the target term and a specified level.
+     * <p>
+     * Note: If you don't specify the level, the default behavior is to retrieve terms up to level 10.
+     *
+     * <pre>{"taxonomies.taxonomy_uid" : { "$eq_below": "term_uid", "level" : 2}}</pre>
+     *
+     * <b>Example:</b> If you want to retrieve all entries with terms nested under blue, such as navy blue and sky blue, while also matching entries with the target term blue.
+     *
+     * <pre>{"taxonomies.color" : { "$eq_below": "blue" }}</pre>
+     *
+     * @param taxonomy the taxonomy
+     * @param termsUid the term uid
+     * @return instance of Taxonomy
+     */
+    public Taxonomy equalAndBelow(@NotNull String taxonomy, @NotNull String termsUid) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("$eq_below", termsUid);
+        this.query.put(taxonomy, param);
         return this;
     }
 
     /**
-     * Make request call.
+     * Note: If you don't specify the level, the default behavior is to retrieve terms up to level 10.
      *
-     * @return the call
+     * @param taxonomy the taxonomy
+     * @param termsUid the terms
+     * @param level    the level to retrieve terms up to mentioned level
+     * @return instance of Taxonomy
      */
-    Call<ResponseBody> makeRequest() {
+    public Taxonomy equalAndBelowWithLevel(@NotNull String taxonomy, @NotNull String termsUid, @NotNull int level) {
+        Map<String, Object> innerMap = new HashMap<>();
+        innerMap.put("$eq_below", termsUid + ", level: " + level);
+        this.query.put(taxonomy, innerMap);
+        return this;
+    }
+
+
+    /**
+     * <b>Below Operator</b>
+     * <br>
+     * <p>
+     * Get all entries for a specific taxonomy that match all of their descendant terms by specifying only the target term and a specific level.
+     * <br>
+     * <b>Note:</b> If you don't specify the level, the default behavior is to retrieve terms up to level 10.
+     * <br>
+     * <pre>{"taxonomies.taxonomy_uid" : { "$below": "term_uid", "level" : 2}}</pre>
+     *
+     * <b>Example:</b> If you want to retrieve all entries containing terms nested under blue, such as navy blue and sky blue, but exclude entries that solely have the target term blue.
+     *
+     * <pre>{"taxonomies.color" : { "$below": "blue" }}</pre>
+     *
+     * @param taxonomy the taxonomy
+     * @param termsUid the  terms uid
+     * @return instance of Taxonomy
+     */
+    public Taxonomy below(@NotNull String taxonomy, @NotNull String termsUid) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("$below", termsUid);
+        this.query.put(taxonomy, param);
+        return this;
+    }
+
+
+    /**
+     * <b>Equal and Above Operator :</b>
+     * <p>
+     * Get all entries for a specific taxonomy that match a specific term and all its ancestor terms, requiring only the target term and a specified level.
+     *
+     * <b>Note:</b> If you don't specify the level, the default behavior is to retrieve terms up to level 10.
+     * <p>
+     * <pre>{"taxonomies.taxonomy_uid": { "$eq_above": "term_uid", "level": 2 }}</pre>
+     * <p>
+     * Example: If you want to obtain all entries that include the term led and its parent term tv.
+     * <p>
+     * <pre>{"taxonomies.appliances": { "$eq_above": "led"}}</pre>
+     *
+     * @param taxonomy the taxonomy
+     * @param termUid  the term uid
+     * @return instance of Taxonomy
+     */
+    public Taxonomy equalAbove(@NotNull String taxonomy, @NotNull String termUid) {
+        Map<String, Object> innerMap = new HashMap<>();
+        innerMap.put("$eq_above", termUid);
+        this.query.put(taxonomy, innerMap);
+        return this;
+    }
+
+
+    /**
+     * <b>Above Operator :</b>
+     * <p>
+     * Get all entries for a specific taxonomy that match only the parent term(s) of a specified target term, excluding the target term itself. You can also specify a specific level.
+     * <p>
+     * Note: If you don't specify the level, the default behavior is to retrieve terms up to level 10.
+     *
+     * <pre>{ "taxonomies.taxonomy_uid": { "$above": "term_uid", "level": 2 }}</pre>
+     * <p>
+     * Example: If you wish to match entries with the term tv but exclude the target term led.
+     *
+     * <pre>{"taxonomies.appliances": { "$above": "led" }}</pre>
+     *
+     * @param taxonomy the taxonomy
+     * @param termUid  the term uid
+     * @return instance of {@link Taxonomy}
+     */
+    public Taxonomy above(@NotNull String taxonomy, @NotNull String termUid) {
+        Map<String, Object> innerMap = new HashMap<>();
+        innerMap.put("$above", termUid);
+        this.query.put(taxonomy, innerMap);
+        return this;
+    }
+
+
+    /**
+     * To verify the payload
+     *
+     * @return instance of Call<ResponseBody>
+     */
+    protected Call<ResponseBody> makeRequest() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("query", query);
         return this.service.getTaxonomy(this.headers, map);
