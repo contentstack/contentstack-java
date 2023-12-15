@@ -116,7 +116,6 @@ class TestContentstack {
         Assertions.assertEquals(earlyAccess[0], config.earlyAccess[0]);
         Assertions.assertNotNull(stack.headers.containsKey("x-header-ea"));
         Assertions.assertEquals("Taxonomy", stack.headers.get("x-header-ea"));
-
     }
 
     @Test
