@@ -37,16 +37,15 @@ public class Contentstack {
      * @param environment   the environment for the stack
      * @return the stack
      * @throws IllegalAccessException the illegal access exception
-     *                                <p>
-     *                                <b>Example</b>
+     *   <p>
+     *   <b>Example</b>
      *
-     *                                <pre>
-     *                                                                                              {
-     *                                                                                                  &#64;Code
-     *                                                                                                  Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                                                                              }
-     *
-     *                                                                                              </pre>
+     *   <pre>
+     *   {
+     *     &#64;Code
+     *     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *   }
+     *   </pre>
      */
     public static Stack stack(String stackApiKey, String deliveryToken, String environment)
             throws IllegalAccessException {
