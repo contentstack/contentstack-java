@@ -1,7 +1,5 @@
 package com.contentstack.sdk;
 
-import lombok.Getter;
-import lombok.Setter;
 import okhttp3.ConnectionPool;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -23,23 +21,37 @@ public class Config {
     protected String version = "v3";
     protected String scheme = "https://";
     protected String endpoint;
+    protected String[] earlyAccess;
     protected boolean enableLivePreview = false;
     protected String livePreviewHost;
     protected JSONObject livePreviewEntry = null;
     protected ContentstackRegion region = ContentstackRegion.US;
     protected String managementToken;
-    @Setter
-    @Getter
     protected String branch;
-    @Setter
     protected Proxy proxy = null;
     protected ConnectionPool connectionPool = new ConnectionPool();
 
     protected List<ContentstackPlugin> plugins = null;
 
+
     /**
-     * The configuration for the contentstack that contains support for
+     * Get early access
+     * @return array of String
      */
+    public String[] getEarlyAccess() {
+        return this.earlyAccess;
+    }
+
+    /**
+     * Get early access
+     * @param earlyAccess type of String[]
+     * @return instance of {@link Config}
+     */
+    public Config setEarlyAccess(String[] earlyAccess) {
+        this.earlyAccess = earlyAccess;
+        return this;
+    }
+
     public String getBranch() {
         return branch;
     }
@@ -51,20 +63,20 @@ public class Config {
     /**
      * Proxy can be set like below.
      *
-     * @param proxy
-     *         Proxy setting, typically a type (http, socks) and a socket address. A Proxy is an immutable object
-     *         <br>
-     *         <br>
-     *         <b>Example:</b><br>
-     *         <br>
-     *         <code>
-     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP,  new InetSocketAddress("proxyHost", "proxyPort"));
-     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80)); Config
-     *         config = new Config(); config.setProxy(proxy);
-     *         </code>
+     * @param proxy Proxy setting, typically a type (http, socks) and a socket address. A Proxy is an immutable object
+     *              <br>
+     *              <br>
+     *              <b>Example:</b><br>
+     *              <br>
+     *              <code>
+     *              java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP,  new InetSocketAddress("proxyHost", "proxyPort"));
+     *              java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80)); Config
+     *              config = new Config(); config.setProxy(proxy);
+     *              </code>
      */
-    @Getter
-    protected String[] earlyAccess;
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
+    }
 
     /**
      * Returns the Proxy instance
@@ -122,8 +134,13 @@ public class Config {
         this.plugins = plugins;
     }
 
-    public void setPlugins(List<ContentstackPlugin> plugins) {
-        this.plugins = plugins;
+    /**
+     * Gets host.
+     *
+     * @return the host
+     */
+    public String getHost() {
+        return host;
     }
 
     /**
@@ -189,26 +206,6 @@ public class Config {
      */
     public enum ContentstackRegion {
         US, EU, AZURE_NA, AZURE_EU
-    }
-
-
-    /**
-     * To initialize the SDK with the latest features offered in the early access phase,
-     * include the early access parameter as shown in the following code:
-     *
-     * @param earlyAccessFeatures The list of Early Access Features
-     *                            {@code
-     *                            Config config = new Config();
-     *                            String[] earlyAccess = {"Taxonomy", "Teams", "Terms", "LivePreview"};
-     *                            config.earlyAccess(earlyAccess);
-     *                            Stack stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
-     *                            <p>
-     *                            }
-     * @return Config
-     */
-    public Config earlyAccess(@NotNull String[] earlyAccessFeatures) {
-        this.earlyAccess = earlyAccessFeatures;
-        return this;
     }
 
 }
