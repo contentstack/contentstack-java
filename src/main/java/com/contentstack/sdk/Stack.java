@@ -321,19 +321,21 @@ public class Stack {
     /**
      * Sync pagination token.
      *
-     * @param paginationToken If the response is paginated, use the pagination token under this parameter.
-     * @param syncCallBack    returns callback for sync result
-     *                        <p>
-     *                        If the result of the initial sync (or subsequent sync) contains more than 100 records, the response would
-     *                        be paginated. It provides pagination token in the response. However, you do not have to use the
-     *                        pagination token manually to get the next batch, the SDK does that automatically until the sync is
-     *                        complete. Pagination token can be used in case you want to fetch only selected batches. It is especially
-     *                        useful if the sync process is interrupted midway (due to network issues, etc.). In such cases, this token
-     *                        can be used to restart the sync process from where it was interrupted. <br>
-     *                        <br>
-     *                        <b>Example :</b><br>
-     *                        Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                        stack.syncPaginationToken("paginationToken)
+     * @param paginationToken
+     *         If the response is paginated, use the pagination token under this parameter.
+     * @param syncCallBack
+     *         returns callback for sync result
+     *         <p>
+     *         If the result of the initial sync (or subsequent sync) contains more than 100 records, the response would
+     *         be paginated. It provides pagination token in the response. However, you do not have to use the
+     *         pagination token manually to get the next batch, the SDK does that automatically until the sync is
+     *         complete. Pagination token can be used in case you want to fetch only selected batches. It is especially
+     *         useful if the sync process is interrupted midway (due to network issues, etc.). In such cases, this token
+     *         can be used to restart the sync process from where it was interrupted. <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *         stack.syncPaginationToken("paginationToken)
      */
     public void syncPaginationToken(@NotNull String paginationToken, SyncResultCallBack syncCallBack) {
         syncParams = new JSONObject();
@@ -344,6 +346,7 @@ public class Stack {
     /**
      * Sync token.
      *
+
      * @param syncToken    Use the sync token that you received in the previous/initial sync under this parameter.
      * @param syncCallBack returns callback for sync result
      *                     <p>
@@ -353,10 +356,7 @@ public class Stack {
      *                     <br>
      *                     <b>Example :</b><br>
      *                     <pre class="prettyprint">
-     *                                                                                                                                                                                                                                                                                                                                                         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                                                                                                                                                                                                                                                                                                                                         stack.syncToken("syncToken")
-     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
-     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </pre>
+     *   Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </pre>
      */
     public void syncToken(String syncToken, SyncResultCallBack syncCallBack) {
         syncParams = new JSONObject();
@@ -537,8 +537,10 @@ public class Stack {
 
     /**
      * The enum Publish type.
+     * @since v3.11.0
      */
     public enum PublishType {
+        //asset_deleted, asset_published, asset_unpublished, content_type_deleted, entry_deleted, entry_published,
         // Breaking change in v3.11.0
         ASSET_DELETED,
         ASSET_PUBLISHED,

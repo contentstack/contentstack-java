@@ -89,11 +89,13 @@ public class Query implements INotifyClass {
     /**
      * Remove header key @param key custom_header_key
      *
-     * @param key {@link String}
-     *            <b>Example :</b><br>
-     *            <p>
-     *            Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment"); Query csQuery =
-     *            stack.contentType("contentTypeUid").query();<br> csQuery.removeHeader("custom_key");
+     * @param key
+     *         {@link String}
+     *         <b>Example :</b><br>
+     *         <p>
+     *         Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment"); Query csQuery =
+     *         stack.contentType("contentTypeUid").query();<br> csQuery.removeHeader("custom_key");
+
      */
     public Query removeHeader(@NotNull String key) {
         if (!key.isEmpty()) {

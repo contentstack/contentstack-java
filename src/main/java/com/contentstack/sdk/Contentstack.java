@@ -62,14 +62,20 @@ public class Contentstack {
      * create content structures, content entries, users, etc. related to the
      * project.
      *
-     * @param stackApiKey   The API Key is a unique key assigned to each stack.
-     * @param deliveryToken The Delivery Token is a read-only credential that you
+
+     * @param stackApiKey
+     *                      The API Key is a unique key assigned to each stack.
+     * @param deliveryToken
+     *                      The Delivery Token is a read-only credential that you
      *                      can create for different environments of your
      *                      stack
-     * @param environment   the environment for the stack
-     * @param config        the config
+     * @param environment
+     *                      the environment for the stack
+     * @param config
+     *                      the config
      * @return the stack
-     * @throws IllegalAccessException the illegal access exception <b>Example</b>
+     * @throws IllegalAccessException
+     *                                the illegal access exception <b>Example</b>
      *                                <p>
      *                                { @Code Stack stack =
      *                                contentstack.Stack("apiKey", "deliveryToken",

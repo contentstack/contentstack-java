@@ -2,7 +2,6 @@ package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvException;
-
 import java.rmi.AccessException;
 
 public class Credentials {
@@ -11,6 +10,11 @@ public class Credentials {
     private static String envChecker() {
         String githubActions = System.getenv("GITHUB_ACTIONS");
         if (githubActions != null && githubActions.equals("true")) {
+            return "GitHub";
+        } else {
+            System.out.println("Tests are running in GitHub Actions environment.");
+            String mySecretKey = System.getenv("API_KEY");
+            System.out.println("My Secret Key: " + mySecretKey);
             return "GitHub";
         } else {
             return "local";
@@ -26,7 +30,6 @@ public class Credentials {
             env = Dotenv.load();
         } catch (DotenvException ex) {
             ex.getLocalizedMessage();
-        }
         return env;
     }
 
