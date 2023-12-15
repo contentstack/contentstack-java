@@ -17,7 +17,6 @@ import java.util.Objects;
  */
 public class Contentstack {
 
-    // Modifier Protected
     protected Contentstack() throws IllegalAccessException {
         throw new IllegalAccessException("Can Not Access Private Modifier");
     }
