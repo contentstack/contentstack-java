@@ -19,7 +19,6 @@ public class Config {
     protected String livePreviewHash = null;
     protected String livePreviewContentType = null;
     protected String livePreviewEntryUid = null;
-    @Getter
     protected String host = "cdn.contentstack.io";
     protected String version = "v3";
     protected String scheme = "https://";
@@ -39,8 +38,30 @@ public class Config {
     protected List<ContentstackPlugin> plugins = null;
 
     /**
-     * -- GETTER --
      * The configuration for the contentstack that contains support for
+     */
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    /**
+     * Proxy can be set like below.
+     *
+     * @param proxy
+     *         Proxy setting, typically a type (http, socks) and a socket address. A Proxy is an immutable object
+     *         <br>
+     *         <br>
+     *         <b>Example:</b><br>
+     *         <br>
+     *         <code>
+     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP,  new InetSocketAddress("proxyHost", "proxyPort"));
+     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80)); Config
+     *         config = new Config(); config.setProxy(proxy);
+     *         </code>
      */
     @Getter
     protected String[] earlyAccess;
@@ -95,6 +116,10 @@ public class Config {
 
     protected void setEndpoint(@NotNull String endpoint) {
         this.endpoint = endpoint;
+    }
+
+    public void setPlugins(List<ContentstackPlugin> plugins) {
+        this.plugins = plugins;
     }
 
     public void setPlugins(List<ContentstackPlugin> plugins) {
