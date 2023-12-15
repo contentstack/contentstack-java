@@ -69,7 +69,7 @@ public class Contentstack {
      * @return the stack
      * @throws IllegalAccessException the illegal access exception <b>Example</b>
      *                                <p>
-     *                                { @Code Stack stack =
+     *                                { @Code stack =
      *                                contentstack.Stack("apiKey", "deliveryToken",
      *                                "environment"); }
      */
