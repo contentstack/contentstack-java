@@ -63,21 +63,21 @@ public class Query implements INotifyClass {
     /**
      * To set headers for Built.io Contentstack rest calls. <br> Scope is limited to this object and followed classes.
      *
-     * @param key
-     *         header name.
-     * @param value
-     *         header value against given header name. <br>
+     * @param key   header name.
+     * @param value header value against given header name. <br>
      *
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     *         <p>
-     *         tack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment"); Query query =
-     *         stack.contentType("contentTypeUid").query(); query.setHeader("custom_key", "custom_value");
-     *         <b>Example :</b><br>
-     *         <p>
-     *         Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment"); Query csQuery =
-     *         stack.contentType("contentTypeUid").query(); csQuery.setHeader("custom_key", "custom_value");
+     *              <br>
+     *              <br>
+     *              <b>Example :</b><br>
+     *              <pre>
+     *                                            Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
+     *                                            <br>
+     *                                            Query query = stack.contentType("contentTypeUid").query(); query.setHeader("custom_key", "custom_value");
+     *                                        <br>
+     *                                            Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
+     *                                            <br>
+     *                                            Query csQuery = stack.contentType("contentTypeUid").query(); <br>csQuery.setHeader("custom_key", "custom_value");
+     *                                        </pre>
      */
     public Query setHeader(@NotNull String key, @NotNull String value) {
         if (!key.isEmpty() && !value.isEmpty()) {
@@ -89,12 +89,11 @@ public class Query implements INotifyClass {
     /**
      * Remove header key @param key custom_header_key
      *
-     * @param key
-     *         {@link String}
-     *         <b>Example :</b><br>
-     *         <p>
-     *         Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment"); Query csQuery =
-     *         stack.contentType("contentTypeUid").query();<br> csQuery.removeHeader("custom_key");
+     * @param key {@link String}
+     *            <b>Example :</b><br>
+     *            <p>
+     *            Stack stack = Contentstack..stack( "apiKey", "deliveryToken", "environment"); Query csQuery =
+     *            stack.contentType("contentTypeUid").query();<br> csQuery.removeHeader("custom_key");
      */
     public Query removeHeader(@NotNull String key) {
         if (!key.isEmpty()) {
@@ -110,10 +109,8 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint to fetch all entries that contains given value against specified key
      *
-     * @param key
-     *         field uid.
-     * @param value
-     *         field value which get &#39;included&#39; from the response.
+     * @param key   field uid.
+     * @param value field value which get &#39;included&#39; from the response.
      * @return {@link Query} object, so you can chain this call.
      * <p>
      * <b>Note :</b> for group field provide key in a
@@ -138,10 +135,8 @@ public class Query implements INotifyClass {
     /**
      * Add a custom query against specified key.
      *
-     * @param key
-     *         key.
-     * @param value
-     *         value.
+     * @param key   key.
+     * @param value value.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -164,8 +159,7 @@ public class Query implements INotifyClass {
     /**
      * Remove provided query key from custom query if existed.
      *
-     * @param key
-     *         Query name to remove.
+     * @param key Query name to remove.
      * @return {@linkplain Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -186,8 +180,7 @@ public class Query implements INotifyClass {
     /**
      * Combines all the queries together using AND operator
      *
-     * @param queryObjects
-     *         list of {@link Query} instances on which AND query executes.
+     * @param queryObjects list of {@link Query} instances on which AND query executes.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -221,8 +214,7 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint to fetch all entries which satisfy <b> any </b> queries.
      *
-     * @param queryObjects
-     *         list of {@link Query} instances on which OR query executes.
+     * @param queryObjects list of {@link Query} instances on which OR query executes.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -262,10 +254,8 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint to the query that requires a particular key entry to be less than the provided value.
      *
-     * @param key
-     *         the key to be constrained.
-     * @param value
-     *         the value that provides an upper bound.
+     * @param key   the key to be constrained.
+     * @param value the value that provides an upper bound.
      * @return {@link Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -280,7 +270,7 @@ public class Query implements INotifyClass {
      */
     public Query lessThan(@NotNull String key, @NotNull Object value) {
         if (queryValueJSON.isNull(key)) {
-            if (queryValue.length() > 0) {
+            if (!queryValue.isEmpty()) {
                 queryValue = new JSONObject();
             }
             queryValue.put("$lt", value);
@@ -296,10 +286,8 @@ public class Query implements INotifyClass {
      * Add a constraint to the query that requires a particular key entry to be less than or equal to the provided
      * value.
      *
-     * @param key
-     *         The key to be constrained
-     * @param value
-     *         The value that must be equalled.
+     * @param key   The key to be constrained
+     * @param value The value that must be equalled.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -314,7 +302,7 @@ public class Query implements INotifyClass {
      */
     public Query lessThanOrEqualTo(@NotNull String key, Object value) {
         if (queryValueJSON.isNull(key)) {
-            if (queryValue.length() > 0) {
+            if (!queryValue.isEmpty()) {
                 queryValue = new JSONObject();
             }
             queryValue.put("$lte", value);
@@ -329,10 +317,8 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint to the query that requires a particular key entry to be greater than the provided value.
      *
-     * @param key
-     *         The key to be constrained.
-     * @param value
-     *         The value that provides a lower bound.
+     * @param key   The key to be constrained.
+     * @param value The value that provides a lower bound.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -347,7 +333,7 @@ public class Query implements INotifyClass {
      */
     public Query greaterThan(@NotNull String key, Object value) {
         if (queryValueJSON.isNull(key)) {
-            if (queryValue.length() > 0) {
+            if (!queryValue.isEmpty()) {
                 queryValue = new JSONObject();
             }
             queryValue.put("$gt", value);
@@ -363,10 +349,8 @@ public class Query implements INotifyClass {
      * Add a constraint to the query that requires a particular key entry to be greater than or equal to the provided
      * value.
      *
-     * @param key
-     *         The key to be constrained.
-     * @param value
-     *         The value that provides a lower bound.
+     * @param key   The key to be constrained.
+     * @param value The value that provides a lower bound.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -396,10 +380,8 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint to the query that requires a particular key&#39;s entry to be not equal to the provided value.
      *
-     * @param key
-     *         The key to be constrained.
-     * @param value
-     *         The object that must not be equaled.
+     * @param key   The key to be constrained.
+     * @param value The object that must not be equaled.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -429,10 +411,8 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint to the query that requires a particular key&#39;s entry to be contained in the provided array.
      *
-     * @param key
-     *         The key to be constrained.
-     * @param values
-     *         The possible values for the key&#39;s object.
+     * @param key    The key to be constrained.
+     * @param values The possible values for the key&#39;s object.
      * @return {@link Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -467,10 +447,8 @@ public class Query implements INotifyClass {
      * Add a constraint to the query that requires a particular key entry&#39;s value not be contained in the provided
      * array.
      *
-     * @param key
-     *         The key to be constrained.
-     * @param values
-     *         The list of values the key object should not be.
+     * @param key    The key to be constrained.
+     * @param values The list of values the key object should not be.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -504,8 +482,7 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint that requires, a specified key exists in response.
      *
-     * @param key
-     *         The key to be constrained.
+     * @param key The key to be constrained.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -535,8 +512,7 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint that requires, a specified key does not exist in response.
      *
-     * @param key
-     *         The key to be constrained.
+     * @param key The key to be constrained.
      * @return {@link Query} object, so you can chain this call. <br>
      *
      *
@@ -568,8 +544,7 @@ public class Query implements INotifyClass {
     /**
      * Add a constraint that requires a particular reference key details.
      *
-     * @param key
-     *         key that to be constrained.
+     * @param key key that to be constrained.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -593,8 +568,7 @@ public class Query implements INotifyClass {
     /**
      * Include tags with which to search entries.
      *
-     * @param tags
-     *         Comma separated array of tags with which to search entries.
+     * @param tags Comma separated array of tags with which to search entries.
      * @return {@link Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -617,8 +591,7 @@ public class Query implements INotifyClass {
      * Sort the results in ascending order with the given key. <br> Sort the returned entries in ascending order of the
      * provided key.
      *
-     * @param key
-     *         The key to order by.
+     * @param key The key to order by.
      * @return {@link Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -641,8 +614,7 @@ public class Query implements INotifyClass {
      * Sort the results in descending order with the given key. <br> Sort the returned entries in descending order of
      * the provided key.
      *
-     * @param key
-     *         The key to order by.
+     * @param key The key to order by.
      * @return {@link Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -663,8 +635,7 @@ public class Query implements INotifyClass {
     /**
      * Specifies list of field ids that would be &#39;excluded&#39; from the response.
      *
-     * @param fieldUid
-     *         field uid which get &#39;excluded&#39; from the response.
+     * @param fieldUid field uid which get &#39;excluded&#39; from the response.
      * @return {@link Query} object, so you can chain this call.
      *
      * <br>
@@ -695,8 +666,7 @@ public class Query implements INotifyClass {
     /**
      * Specifies list of field ids that would be &#39;excluded&#39; from the response.
      *
-     * @param fieldIds
-     *         field uid which get &#39;excluded&#39; from the response.
+     * @param fieldIds field uid which get &#39;excluded&#39; from the response.
      * @return {@link Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -724,8 +694,7 @@ public class Query implements INotifyClass {
     /**
      * Specifies an array of &#39;only&#39; keys in BASE object that would be &#39;included&#39; in the response.
      *
-     * @param fieldUid
-     *         Array of the &#39;only&#39; reference keys to be included in response.
+     * @param fieldUid Array of the &#39;only&#39; reference keys to be included in response.
      * @return {@link Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -753,10 +722,8 @@ public class Query implements INotifyClass {
     /**
      * Specifies an array of &#39;only&#39; keys that would be &#39;included&#39; in the response.
      *
-     * @param fieldUid
-     *         Array of the &#39;only&#39; reference keys to be included in response.
-     * @param referenceFieldUid
-     *         Key who has reference to some other class object.
+     * @param fieldUid          Array of the &#39;only&#39; reference keys to be included in response.
+     * @param referenceFieldUid Key who has reference to some other class object.
      * @return {@link Query} object, so you can chain this call. <br>
      *
      *
@@ -792,10 +759,8 @@ public class Query implements INotifyClass {
     /**
      * Specifies an array of &#39;except&#39; keys that would be &#39;excluded&#39; in the response.
      *
-     * @param fieldUid
-     *         Array of the &#39;except&#39; reference keys to be excluded in response.
-     * @param referenceFieldUid
-     *         Key who has reference to some other class object.
+     * @param fieldUid          Array of the &#39;except&#39; reference keys to be excluded in response.
+     * @param referenceFieldUid Key who has reference to some other class object.
      * @return {@link Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -897,8 +862,7 @@ public class Query implements INotifyClass {
     /**
      * The number of objects to skip before returning any.
      *
-     * @param number
-     *         No of objects to skip from returned objects
+     * @param number No of objects to skip from returned objects
      * @return {@link Query} object, so you can chain this call.
      * <p>
      * <b> Note: </b> The skip parameter can be used for pagination,
@@ -922,8 +886,7 @@ public class Query implements INotifyClass {
     /**
      * A limit on the number of objects to return.
      *
-     * @param number
-     *         No of objects to limit.
+     * @param number No of objects to limit.
      * @return {@link Query} object, so you can chain this call.
      * <p>
      * <b> Note:</b> The limit parameter can be used for pagination, &#34;
@@ -948,10 +911,8 @@ public class Query implements INotifyClass {
      * Add a regular expression constraint for finding string values that match the provided regular expression. This
      * may be slow for large data sets.
      *
-     * @param key
-     *         The key to be constrained.
-     * @param regex
-     *         The regular expression pattern to match.
+     * @param key   The key to be constrained.
+     * @param regex The regular expression pattern to match.
      * @return {@link Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -983,21 +944,18 @@ public class Query implements INotifyClass {
      * Add a regular expression constraint for finding string values that match the provided regular expression. This
      * may be slow for large data sets.
      *
-     * @param key
-     *         The key to be constrained.
-     * @param regex
-     *         The regular expression pattern to match
-     * @param modifiers
-     *         Any of the following supported Regular expression modifiers.
-     *         <p>
-     *         use <b> i </b> for case-insensitive matching.
-     *         </p>
-     *         <p>
-     *         use <b> m </b> for making dot match newlines.
-     *         </p>
-     *         <p>
-     *         use <b> x </b> for ignoring whitespace in regex
-     *         </p>
+     * @param key       The key to be constrained.
+     * @param regex     The regular expression pattern to match
+     * @param modifiers Any of the following supported Regular expression modifiers.
+     *                  <p>
+     *                  use <b> i </b> for case-insensitive matching.
+     *                  </p>
+     *                  <p>
+     *                  use <b> m </b> for making dot match newlines.
+     *                  </p>
+     *                  <p>
+     *                  use <b> x </b> for ignoring whitespace in regex
+     *                  </p>
      * @return {@link Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -1038,8 +996,7 @@ public class Query implements INotifyClass {
     /**
      * set Language using locale code.
      *
-     * @param locale
-     *         {@link String} value
+     * @param locale {@link String} value
      * @return {@link Query} object, so you can chain this call <br>
      * <br>
      * <br>
@@ -1059,8 +1016,7 @@ public class Query implements INotifyClass {
     /**
      * This method provides only the entries matching the specified value.
      *
-     * @param value
-     *         value used to match or compare
+     * @param value value used to match or compare
      * @return {@link Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -1084,8 +1040,7 @@ public class Query implements INotifyClass {
     /**
      * Execute a Query and Caches its result (Optional)
      *
-     * @param callback
-     *         {@link QueryResultsCallBack} object to notify the application when the request has completed.
+     * @param callback {@link QueryResultsCallBack} object to notify the application when the request has completed.
      * @return {@linkplain Query} object, so you can chain this call. <br>
      *
      *
@@ -1123,8 +1078,7 @@ public class Query implements INotifyClass {
     /**
      * Execute a Query and Caches its result (Optional)
      *
-     * @param callBack
-     *         {@link QueryResultsCallBack} object to notify the application when the request has completed.
+     * @param callBack {@link QueryResultsCallBack} object to notify the application when the request has completed.
      * @return {@linkplain Query} object, so you can chain this call. <br>
      *
      * <br>
@@ -1294,10 +1248,8 @@ public class Query implements INotifyClass {
     /**
      * This method adds key and value to an Entry. Parameters:
      *
-     * @param key:
-     *         The key as string which needs to be added to the Query
-     * @param value:
-     *         The value as string which needs to be added to the Query
+     * @param key:   The key as string which needs to be added to the Query
+     * @param value: The value as string which needs to be added to the Query
      * @return - Query
      *
      * <br>
@@ -1349,10 +1301,8 @@ public class Query implements INotifyClass {
      * Get entries having values based on referenced fields. This query retrieves all entries that satisfy the query
      * conditions made on referenced fields.
      *
-     * @param key
-     *         The key to be constrained
-     * @param queryObject
-     *         {@link Query} object, so you can chain this call
+     * @param key         The key to be constrained
+     * @param queryObject {@link Query} object, so you can chain this call
      * @return {@link Query} object, so you can chain this call <br>
      *
      * <br>
@@ -1376,10 +1326,8 @@ public class Query implements INotifyClass {
      * Get entries having values based on referenced fields. This query works the opposite of $in_query and retrieves
      * all entries that does not satisfy query conditions made on referenced fields.
      *
-     * @param key
-     *         The key to be constrained
-     * @param queryObject
-     *         {@link Query} object, so you can chain this call
+     * @param key         The key to be constrained
+     * @param queryObject {@link Query} object, so you can chain this call
      * @return {@link Query} object, so you can chain this call
      *
      * <br>
