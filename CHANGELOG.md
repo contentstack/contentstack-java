@@ -2,8 +2,9 @@
 
 ## v1.13.0
 
-### Date: 17-Nov-2023
+### Date: 18-Dec-2023
 
+- Taxonomy Query Support
 - Updated Latest version of Utils SDK to 1.2.6
 - Snyk Issues fixed
 - Updated dependencies
