@@ -261,7 +261,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     void setError(String errResp) {
-        logger.info(errResp);
         responseJSON = new JSONObject(errResp); // Parse error string to JSONObject
         responseJSON.put(ERROR_MESSAGE, responseJSON.optString(ERROR_MESSAGE));
         responseJSON.put(ERROR_CODE, responseJSON.optString(ERROR_CODE));
