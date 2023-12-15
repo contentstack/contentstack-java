@@ -10,6 +10,7 @@
 - Updated dependencies
 - Added support for early access feature
 
+
 ## v1.12.3
 
 ### Date: 28-SEP-2023
