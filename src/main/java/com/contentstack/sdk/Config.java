@@ -21,6 +21,7 @@ public class Config {
     protected String version = "v3";
     protected String scheme = "https://";
     protected String endpoint;
+    protected String[] earlyAccess;
     protected boolean enableLivePreview = false;
     protected String livePreviewHost;
     protected JSONObject livePreviewEntry = null;
@@ -31,6 +32,25 @@ public class Config {
     protected ConnectionPool connectionPool = new ConnectionPool();
 
     protected List<ContentstackPlugin> plugins = null;
+
+
+    /**
+     * Get early access
+     * @return array of String
+     */
+    public String[] getEarlyAccess() {
+        return this.earlyAccess;
+    }
+
+    /**
+     * Get early access
+     * @param earlyAccess type of String[]
+     * @return instance of {@link Config}
+     */
+    public Config setEarlyAccess(String[] earlyAccess) {
+        this.earlyAccess = earlyAccess;
+        return this;
+    }
 
     public String getBranch() {
         return branch;
@@ -43,17 +63,16 @@ public class Config {
     /**
      * Proxy can be set like below.
      *
-     * @param proxy
-     *         Proxy setting, typically a type (http, socks) and a socket address. A Proxy is an immutable object
-     *         <br>
-     *         <br>
-     *         <b>Example:</b><br>
-     *         <br>
-     *         <code>
-     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP,  new InetSocketAddress("proxyHost", "proxyPort"));
-     *         java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80)); Config
-     *         config = new Config(); config.setProxy(proxy);
-     *         </code>
+     * @param proxy Proxy setting, typically a type (http, socks) and a socket address. A Proxy is an immutable object
+     *              <br>
+     *              <br>
+     *              <b>Example:</b><br>
+     *              <br>
+     *              <code>
+     *              java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP,  new InetSocketAddress("proxyHost", "proxyPort"));
+     *              java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sl.theproxyvpn.io", 80)); Config
+     *              config = new Config(); config.setProxy(proxy);
+     *              </code>
      */
     public void setProxy(Proxy proxy) {
         this.proxy = proxy;
@@ -73,12 +92,9 @@ public class Config {
      * {@link okhttp3.Address} may share a {@link okhttp3.Connection}. This class implements the policy * of which
      * connections to keep open for future use.
      *
-     * @param maxIdleConnections
-     *         the maxIdleConnections default value is 5
-     * @param keepAliveDuration
-     *         the keepAliveDuration default value is 5
-     * @param timeUnit
-     *         the timeUnit default value is TimeUnit. MINUTES
+     * @param maxIdleConnections the maxIdleConnections default value is 5
+     * @param keepAliveDuration  the keepAliveDuration default value is 5
+     * @param timeUnit           the timeUnit default value is TimeUnit. MINUTES
      * @return ConnectionPool
      */
     public ConnectionPool connectionPool(int maxIdleConnections, long keepAliveDuration, TimeUnit timeUnit) {
@@ -98,8 +114,7 @@ public class Config {
     /**
      * Sets region.
      *
-     * @param region
-     *         the region
+     * @param region the region
      * @return the region
      */
     public ContentstackRegion setRegion(ContentstackRegion region) {
@@ -131,8 +146,7 @@ public class Config {
     /**
      * Sets host.
      *
-     * @param hostName
-     *         the host name
+     * @param hostName the host name
      */
     public void setHost(String hostName) {
         if (hostName != null && !hostName.isEmpty()) {
@@ -152,8 +166,7 @@ public class Config {
     /**
      * Enable live preview config.
      *
-     * @param enableLivePreview
-     *         to enable live preview
+     * @param enableLivePreview to enable live preview
      * @return the config
      */
     public Config enableLivePreview(boolean enableLivePreview) {
@@ -164,8 +177,7 @@ public class Config {
     /**
      * Sets live preview host.
      *
-     * @param livePreviewHost
-     *         the live preview host
+     * @param livePreviewHost the live preview host
      * @return the live preview host
      */
     public Config setLivePreviewHost(@NotNull String livePreviewHost) {
@@ -181,8 +193,7 @@ public class Config {
     /**
      * Sets management token.
      *
-     * @param managementToken
-     *         the management token
+     * @param managementToken the management token
      * @return the management token
      */
     public Config setManagementToken(@NotNull String managementToken) {

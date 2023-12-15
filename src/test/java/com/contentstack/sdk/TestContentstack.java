@@ -105,4 +105,29 @@ class TestContentstack {
         Assertions.assertEquals("cdn.contentstack.io", config.host);
         Assertions.assertNotNull(stack);
     }
+
+
+    @Test
+    void testConfigEarlyAccessSingleFeature() throws IllegalAccessException {
+        Config config = new Config();
+        String[] earlyAccess = {"Taxonomy"};
+        config.setEarlyAccess(earlyAccess);
+        Stack stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
+        Assertions.assertEquals(earlyAccess[0], config.earlyAccess[0]);
+        Assertions.assertNotNull(stack.headers.containsKey("x-header-ea"));
+        Assertions.assertEquals("Taxonomy", stack.headers.get("x-header-ea"));
+
+    }
+
+    @Test
+    void testConfigEarlyAccessMultipleFeature() throws IllegalAccessException {
+        Config config = new Config();
+        String[] earlyAccess = {"Taxonomy", "Teams", "Terms", "LivePreview"};
+        config.setEarlyAccess(earlyAccess);
+        Stack stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
+        Assertions.assertEquals(4, stack.headers.keySet().size());
+        Assertions.assertEquals(earlyAccess[1], config.earlyAccess[1]);
+        Assertions.assertTrue(stack.headers.containsKey("x-header-ea"));
+        Assertions.assertEquals("Taxonomy,Teams,Terms,LivePreview", stack.headers.get("x-header-ea"));
+    }
 }
