@@ -2,9 +2,7 @@ package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvException;
-import lombok.var;
 
-import java.io.File;
 import java.rmi.AccessException;
 
 public class Credentials {
@@ -27,7 +25,7 @@ public class Credentials {
         try {
             env = Dotenv.load();
         } catch (DotenvException ex) {
-            System.out.println("Could not load.env");
+            ex.getLocalizedMessage();
         }
         return env;
     }
@@ -50,7 +48,7 @@ public class Credentials {
 
     public static Stack getStack() {
         if (stack == null) {
-            var envCheck = envChecker();
+            envChecker();
             synchronized (Credentials.class) {
                 if (stack == null) {
                     try {
