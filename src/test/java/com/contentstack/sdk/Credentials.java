@@ -6,6 +6,7 @@ import java.rmi.AccessException;
 public class Credentials {
     static Dotenv env = getEnv();
 
+
     private static String envChecker() {
         String githubActions = System.getenv("GITHUB_ACTIONS");
         if (githubActions != null && githubActions.equals("true")) {
