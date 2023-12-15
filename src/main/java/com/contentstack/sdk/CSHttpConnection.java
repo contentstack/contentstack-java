@@ -186,7 +186,8 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     private void getService(String requestUrl) throws IOException {
-        this.headers.put(X_USER_AGENT_KEY, "contentstack-java/" + SDK_VERSION);
+
+        this.headers.put(X_USER_AGENT_KEY, "contentstack-delivery-java/" + SDK_VERSION);
         this.headers.put(USER_AGENT_KEY, USER_AGENT);
         this.headers.put(CONTENT_TYPE, APPLICATION_JSON);
 
@@ -260,7 +261,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     void setError(String errResp) {
-        logger.info(errResp);
         responseJSON = new JSONObject(errResp); // Parse error string to JSONObject
         responseJSON.put(ERROR_MESSAGE, responseJSON.optString(ERROR_MESSAGE));
         responseJSON.put(ERROR_CODE, responseJSON.optString(ERROR_CODE));
