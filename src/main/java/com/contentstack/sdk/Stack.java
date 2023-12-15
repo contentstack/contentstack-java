@@ -353,10 +353,7 @@ public class Stack {
      *                     <br>
      *                     <b>Example :</b><br>
      *                     <pre class="prettyprint">
-     *                                                                                                                                                                                                                                                                                                                                                         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                                                                                                                                                                                                                                                                                                                                         stack.syncToken("syncToken")
-     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
-     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </pre>
+     *   Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </pre>
      */
     public void syncToken(String syncToken, SyncResultCallBack syncCallBack) {
         syncParams = new JSONObject();
@@ -537,8 +534,10 @@ public class Stack {
 
     /**
      * The enum Publish type.
+     * @since : v3.11.0
      */
     public enum PublishType {
+        //asset_deleted, asset_published, asset_unpublished, content_type_deleted, entry_deleted, entry_published,
         // Breaking change in v3.11.0
         ASSET_DELETED,
         ASSET_PUBLISHED,
