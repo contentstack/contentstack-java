@@ -122,12 +122,13 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/io.github.cdimascio/java-dotenv -->
         <dependency>
             <groupId>io.github.cdimascio</groupId>
-            <artifactId>dotenv-java</artifactId>
-            <version>${dotenv-source.version}</version>
-            <!--<scope>runtime</scope>-->
+            <artifactId>java-dotenv</artifactId>
+            <version>5.2.2</version>
         </dependency>
+
 
         <dependency>
             <groupId>io.reactivex.rxjava3</groupId>
