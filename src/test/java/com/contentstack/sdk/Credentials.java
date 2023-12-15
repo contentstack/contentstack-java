@@ -2,9 +2,7 @@ package com.contentstack.sdk;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvException;
-import lombok.var;
 
-import java.io.File;
 import java.rmi.AccessException;
 
 public class Credentials {
@@ -13,19 +11,13 @@ public class Credentials {
     private static String envChecker() {
         String githubActions = System.getenv("GITHUB_ACTIONS");
         if (githubActions != null && githubActions.equals("true")) {
-            System.out.println("Tests are running in GitHub Actions environment.");
-            String mySecretKey = System.getenv("API_KEY");
-            System.out.println("My Secret Key: " + mySecretKey);
             return "GitHub";
         } else {
-            System.out.println("Tests are running in a local environment.");
             return "local";
         }
     }
 
     public static Dotenv getEnv() {
-        String currentDirectory = System.getProperty("user.dir");
-        File envFile = new File(currentDirectory, "env");
         env = Dotenv.configure()
                 .directory("src/test/resources")
                 .filename("env") // instead of '.env', use 'env'
@@ -33,15 +25,7 @@ public class Credentials {
         try {
             env = Dotenv.load();
         } catch (DotenvException ex) {
-            System.out.println("Could not load from local .env");
-//            File envFile = new File(currentDirectory, ".env");
-//            try {
-//                // Create .env file in the current directory
-//                envFile.createNewFile();
-//            } catch (IOException e) {
-//                System.err.println("An error occurred while creating .env file.");
-//                e.printStackTrace();
-//            }
+            ex.getLocalizedMessage();
         }
         return env;
     }
@@ -64,8 +48,7 @@ public class Credentials {
 
     public static Stack getStack() {
         if (stack == null) {
-            var envCheck = envChecker();
-            System.out.println(envCheck);
+            envChecker();
             synchronized (Credentials.class) {
                 if (stack == null) {
                     try {
