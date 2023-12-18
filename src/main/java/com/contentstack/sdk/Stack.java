@@ -105,8 +105,7 @@ public class Stack {
      * Contentstack. You can set up the base URL and environment across which you want to preview content.
      * <p>
      *
-     * @param query
-     *         the query of type {@link HashMap}
+     * @param query the query of type {@link HashMap}
      * @return stack
      * <p>
      * <b>Example</b>
@@ -117,8 +116,7 @@ public class Stack {
      * <p>
      * stack.livePreviewQuery(queryMap)
      * <p>
-     * @throws IOException
-     *         IO Exception
+     * @throws IOException IO Exception
      */
     public Stack livePreviewQuery(Map<String, String> query) throws IOException {
         config.livePreviewHash = query.get(LIVE_PREVIEW);
@@ -154,9 +152,8 @@ public class Stack {
      * content for your application, you are required to first create a content type, and then create entries using the
      * content type.
      *
-     * @param contentTypeUid
-     *         Enter the unique ID of the content type of which you want to retrieve the entries. The UID is often based
-     *         on the title of the content type and it is unique across a stack.
+     * @param contentTypeUid Enter the unique ID of the content type of which you want to retrieve the entries. The UID is often based
+     *                       on the title of the content type, and it is unique across a stack.
      * @return the {@link ContentType}
      * <p>
      * <b>Example</b>
@@ -179,8 +176,7 @@ public class Stack {
      * The Get a single asset request fetches the latest version of a specific asset of a particular stack.
      * <p>
      *
-     * @param uid
-     *         uid of {@link Asset}
+     * @param uid uid of {@link Asset}
      * @return {@link Asset} instance <b>Tip:</b> If no version is mentioned, the request will retrieve the latest
      * published version of the asset. To retrieve a specific version, use the version parameter, keep the environment
      * parameter blank, and use the management token instead of the delivery token.
@@ -241,10 +237,9 @@ public class Stack {
     /**
      * Removes Header by key
      *
-     * @param headerKey
-     *         of the header
-     *         <p>
-     *         <b>Example:</b> stack.removeHeader("delivery_token");
+     * @param headerKey of the header
+     *                  <p>
+     *                  <b>Example:</b> stack.removeHeader("delivery_token");
      */
     public void removeHeader(String headerKey) {
         headers.remove(headerKey);
@@ -253,10 +248,8 @@ public class Stack {
     /**
      * Adds header to the stack
      *
-     * @param headerKey
-     *         the header key
-     * @param headerValue
-     *         the header value
+     * @param headerKey   the header key
+     * @param headerValue the header value
      */
     public void setHeader(@NotNull String headerKey, @NotNull String headerValue) {
         if (!headerKey.isEmpty() && !headerValue.isEmpty()) {
@@ -269,14 +262,12 @@ public class Stack {
      * parameters that you can add to the URL to retrieve, manipulate (or convert) image files and display it to your
      * web or mobile properties.
      *
-     * @param imageUrl
-     *         the image url
-     * @param parameters
-     *         the parameters {@link LinkedHashMap}
+     * @param imageUrl   the image url
+     * @param parameters the parameters {@link LinkedHashMap}
      * @return the string
      */
     public String imageTransform(@NotNull String imageUrl, @NotNull Map<String, Object> parameters) {
-        if (parameters.size() == 0) {
+        if (parameters.isEmpty()) {
             return imageUrl;
         }
         String query = getQueryParam(parameters);
@@ -296,11 +287,9 @@ public class Stack {
      * The Get all content types call returns comprehensive information of all the content types available in a
      * particular stack in your account..
      *
-     * @param params
-     *         query parameters
-     * @param callback
-     *         ContentTypesCallback This call returns comprehensive information of all the content types available in a
-     *         particular stack in your account.
+     * @param params   query parameters
+     * @param callback ContentTypesCallback This call returns comprehensive information of all the content types available in a
+     *                 particular stack in your account.
      */
     public void getContentTypes(@NotNull JSONObject params, final ContentTypesCallback callback) {
         Iterator<String> keys = params.keys();
@@ -321,8 +310,7 @@ public class Stack {
      * the specified stack in response. The response also contains a sync token, which you need to store, since this
      * token is used to get subsequent delta
      *
-     * @param syncCallBack
-     *         returns callback for sync result.
+     * @param syncCallBack returns callback for sync result.
      */
     public void sync(SyncResultCallBack syncCallBack) {
         syncParams = new JSONObject();
@@ -333,21 +321,19 @@ public class Stack {
     /**
      * Sync pagination token.
      *
-     * @param paginationToken
-     *         If the response is paginated, use the pagination token under this parameter.
-     * @param syncCallBack
-     *         returns callback for sync result
-     *         <p>
-     *         If the result of the initial sync (or subsequent sync) contains more than 100 records, the response would
-     *         be paginated. It provides pagination token in the response. However, you do not have to use the
-     *         pagination token manually to get the next batch, the SDK does that automatically until the sync is
-     *         complete. Pagination token can be used in case you want to fetch only selected batches. It is especially
-     *         useful if the sync process is interrupted midway (due to network issues, etc.). In such cases, this token
-     *         can be used to restart the sync process from where it was interrupted. <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *         stack.syncPaginationToken("paginationToken)
+     * @param paginationToken If the response is paginated, use the pagination token under this parameter.
+     * @param syncCallBack    returns callback for sync result
+     *                        <p>
+     *                        If the result of the initial sync (or subsequent sync) contains more than 100 records, the response would
+     *                        be paginated. It provides pagination token in the response. However, you do not have to use the
+     *                        pagination token manually to get the next batch, the SDK does that automatically until the sync is
+     *                        complete. Pagination token can be used in case you want to fetch only selected batches. It is especially
+     *                        useful if the sync process is interrupted midway (due to network issues, etc.). In such cases, this token
+     *                        can be used to restart the sync process from where it was interrupted. <br>
+     *                        <br>
+     *                        <b>Example :</b><br>
+     *                        Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                        stack.syncPaginationToken("paginationToken)
      */
     public void syncPaginationToken(@NotNull String paginationToken, SyncResultCallBack syncCallBack) {
         syncParams = new JSONObject();
@@ -358,21 +344,16 @@ public class Stack {
     /**
      * Sync token.
      *
-     * @param syncToken
-     *         Use the sync token that you received in the previous/initial sync under this parameter.
-     * @param syncCallBack
-     *         returns callback for sync result
-     *         <p>
-     *         You can use the sync token (that you receive after initial sync) to get the updated content next time.
-     *         The sync token fetches only the content that was added after your last sync, and the details of the
-     *         content that was deleted or updated. <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     *         <pre class="prettyprint">
-     *                                                                                                                                                                                                                                                                                             Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *                                                                                                                                                                                                                                                                                             stack.syncToken("syncToken")
-     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     stack.syncToken(sync_token, new SyncResultCallBack()                                                                                                                                                                                                               ){ }
-     *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </pre>
+     * @param syncToken    Use the sync token that you received in the previous/initial sync under this parameter.
+     * @param syncCallBack returns callback for sync result
+     *                     <p>
+     *                     You can use the sync token (that you receive after initial sync) to get the updated content next time.
+     *                     The sync token fetches only the content that was added after your last sync, and the details of the
+     *                     content that was deleted or updated. <br>
+     *                     <br>
+     *                     <b>Example :</b><br>
+     *                     <pre class="prettyprint">
+     *   Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </pre>
      */
     public void syncToken(String syncToken, SyncResultCallBack syncCallBack) {
         syncParams = new JSONObject();
@@ -383,17 +364,15 @@ public class Stack {
     /**
      * Sync from date.
      *
-     * @param fromDate
-     *         Enter the start date for initial sync.
-     * @param syncCallBack
-     *         Returns callback for sync result.
-     *         <p>
-     *         You can also initialize sync with entries published after a specific date. To do this, use syncWithDate
-     *         and specify the start date as its value. <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-     *         stack.syncFromDate("fromDate")
+     * @param fromDate     Enter the start date for initial sync.
+     * @param syncCallBack Returns callback for sync result.
+     *                     <p>
+     *                     You can also initialize sync with entries published after a specific date. To do this, use syncWithDate
+     *                     and specify the start date as its value. <br>
+     *                     <br>
+     *                     <b>Example :</b><br>
+     *                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+     *                     stack.syncFromDate("fromDate")
      */
     public void syncFromDate(@NotNull Date fromDate, SyncResultCallBack syncCallBack) {
         String newFromDate = convertUTCToISO(fromDate);
@@ -413,18 +392,16 @@ public class Stack {
     /**
      * Sync content type.
      *
-     * @param contentType
-     *         Provide uid of your content_type
-     * @param syncCallBack
-     *         Returns callback for sync result.
-     *         <p>
-     *         You can also initialize sync with entries of only specific content_type. To do this, use syncContentType
-     *         and specify the content type uid as its value. However, if you do this, the subsequent syncs will only
-     *         include the entries of the specified content_type. <br>
-     *         <br>
-     *         <b>Example :</b>
-     *         <p>
-     *         stack.syncContentType(String content_type, new SyncResultCallBack()){ }
+     * @param contentType  Provide uid of your content_type
+     * @param syncCallBack Returns callback for sync result.
+     *                     <p>
+     *                     You can also initialize sync with entries of only specific content_type. To do this, use syncContentType
+     *                     and specify the content type uid as its value. However, if you do this, the subsequent syncs will only
+     *                     include the entries of the specified content_type. <br>
+     *                     <br>
+     *                     <b>Example :</b>
+     *                     <p>
+     *                     stack.syncContentType(String content_type, new SyncResultCallBack()){ }
      */
     public void syncContentType(@NotNull String contentType, SyncResultCallBack syncCallBack) {
         syncParams = new JSONObject();
@@ -436,18 +413,16 @@ public class Stack {
     /**
      * Sync locale.
      *
-     * @param localeCode
-     *         Select the required locale code.
-     * @param syncCallBack
-     *         Returns callback for sync result.
-     *         <p>
-     *         You can also initialize sync with entries of only specific locales. To do this, use syncLocale and
-     *         specify the locale code as its value. However, if you do this, the subsequent syncs will only include the
-     *         entries of the specified locales. <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment"); stack.syncContentType(String
-     *         content_type, new SyncResultCallBack()){ }
+     * @param localeCode   Select the required locale code.
+     * @param syncCallBack Returns callback for sync result.
+     *                     <p>
+     *                     You can also initialize sync with entries of only specific locales. To do this, use syncLocale and
+     *                     specify the locale code as its value. However, if you do this, the subsequent syncs will only include the
+     *                     entries of the specified locales. <br>
+     *                     <br>
+     *                     <b>Example :</b><br>
+     *                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment"); stack.syncContentType(String
+     *                     content_type, new SyncResultCallBack()){ }
      */
     public void syncLocale(String localeCode, SyncResultCallBack syncCallBack) {
         syncParams = new JSONObject();
@@ -459,25 +434,23 @@ public class Stack {
     /**
      * Sync publish type.
      *
-     * @param publishType
-     *         Use the type parameter to get a specific type of content like
-     *         <p>
-     *         (asset_published, entry_published, asset_unpublished, asset_deleted, entry_unpublished, entry_deleted,
-     *         content_type_deleted.)
-     * @param syncCallBack
-     *         returns callback for sync result.
-     *         <p>
-     *         Use the type parameter to get a specific type of content. You can pass one of the following values:
-     *         asset_published, entry_published, asset_unpublished, asset_deleted, entry_unpublished, entry_deleted,
-     *         content_type_deleted. If you do not specify any value, it will bring all published entries and published
-     *         assets.
-     *         <br>
-     *         <br>
-     *         <b>Example :</b><br>
-     *         <code>
-     *         Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment"); *
-     *         stack.syncPublishType(PublishType)
-     *         </code>
+     * @param publishType  Use the type parameter to get a specific type of content like
+     *                     <p>
+     *                     (asset_published, entry_published, asset_unpublished, asset_deleted, entry_unpublished, entry_deleted,
+     *                     content_type_deleted.)
+     * @param syncCallBack returns callback for sync result.
+     *                     <p>
+     *                     Use the type parameter to get a specific type of content. You can pass one of the following values:
+     *                     asset_published, entry_published, asset_unpublished, asset_deleted, entry_unpublished, entry_deleted,
+     *                     content_type_deleted. If you do not specify any value, it will bring all published entries and published
+     *                     assets.
+     *                     <br>
+     *                     <br>
+     *                     <b>Example :</b><br>
+     *                     <code>
+     *                     Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment"); *
+     *                     stack.syncPublishType(PublishType)
+     *                     </code>
      */
     public void syncPublishType(PublishType publishType, SyncResultCallBack syncCallBack) {
         syncParams = new JSONObject();
@@ -489,22 +462,17 @@ public class Stack {
     /**
      * Sync.
      *
-     * @param contentType
-     *         your content type id
-     * @param fromDate
-     *         start date
-     * @param localeCode
-     *         language as language code
-     * @param publishType
-     *         type as PublishType
-     * @param syncCallBack
-     *         Callback
-     *         <p>
-     *         You can also initialize sync with entries that satisfy multiple parameters. To do this, use syncWith and
-     *         specify the parameters. However, if you do this, the subsequent syncs will only include the entries of
-     *         the specified parameters <br>
-     *         <br>
-     *         <b>Example :</b><br>
+     * @param contentType  your content type id
+     * @param fromDate     start date
+     * @param localeCode   language as language code
+     * @param publishType  type as PublishType
+     * @param syncCallBack Callback
+     *                     <p>
+     *                     You can also initialize sync with entries that satisfy multiple parameters. To do this, use syncWith and
+     *                     specify the parameters. However, if you do this, the subsequent syncs will only include the entries of
+     *                     the specified parameters <br>
+     *                     <br>
+     *                     <b>Example :</b><br>
      */
     public void sync(String contentType, Date fromDate, String localeCode,
                      PublishType publishType, SyncResultCallBack syncCallBack) {
@@ -547,7 +515,7 @@ public class Stack {
 
     private HashMap<String, Object> getUrlParams(JSONObject jsonQuery) {
         HashMap<String, Object> hashMap = new HashMap<>();
-        if (jsonQuery != null && jsonQuery.length() > 0) {
+        if (jsonQuery != null && !jsonQuery.isEmpty()) {
             Iterator<String> iteString = jsonQuery.keys();
             while (iteString.hasNext()) {
                 String key = iteString.next();
@@ -558,8 +526,15 @@ public class Stack {
         return hashMap;
     }
 
+
+    public Taxonomy taxonomy() {
+        return new Taxonomy(this.service,this.config, this.headers);
+    }
+
+
     /**
      * The enum Publish type.
+     * @since : v3.11.0
      */
     public enum PublishType {
         //asset_deleted, asset_published, asset_unpublished, content_type_deleted, entry_deleted, entry_published,
