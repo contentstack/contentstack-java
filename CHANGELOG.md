@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.13.0
+
+### Date: 17-Nov-2023
+
+- Updated Latest version of Utils SDK to 1.2.6
+- Snyk Issues fixed
+- Updated dependencies
+- Added support for early access feature
+
 ## v1.12.3
 
 ### Date: 28-SEP-2023
