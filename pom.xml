@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.13.0</version>
+    <version>1.13.1</version>
     <packaging>jar</packaging>
     <name>contentstack-java</name>
     <description>Java SDK for Contentstack Content Delivery API</description>
