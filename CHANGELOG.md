@@ -1,4 +1,9 @@
 # CHANGELOG
+## v1.13.1
+
+### Date: 16-Apr-2024
+
+-Snyk Issues fixed
 
 ## v1.13.0
 
