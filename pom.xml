@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.contentstack.sdk</groupId>
+    <groupId>org.test.whatever</groupId>
     <artifactId>java</artifactId>
-    <version>1.13.1</version>
+    <version>1.29.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>contentstack-java</name>
     <description>Java SDK for Contentstack Content Delivery API</description>
@@ -270,6 +270,12 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
