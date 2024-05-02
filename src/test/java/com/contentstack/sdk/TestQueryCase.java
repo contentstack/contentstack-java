@@ -542,7 +542,7 @@ class TestQueryCase {
                     Assertions.assertEquals(1, entries.size());
                     // to add in the coverage code execution
                     Group group = new Group(stack, entries.get(0).toJSON());
-//                    doSomeBackgroundTask(group);
+                    doSomeBackgroundTask(group);
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -557,7 +557,7 @@ class TestQueryCase {
         Object titleObj = group.get("title");
         String titleStr = group.getString("title");
         Boolean titleBool = group.getBoolean("in_stock");
-        JSONArray titleJSONArray = group.getJSONArray("image");
+        JSONObject titleImageJSONArray = group.getJSONObject("image");
         JSONObject titleJSONObject = group.getJSONObject("publish_details");
         Object versionNum = group.getNumber("_version");
         Object versionInt = group.getInt("_version");
@@ -568,7 +568,7 @@ class TestQueryCase {
         Assertions.assertNotNull(titleObj);
         Assertions.assertNotNull(titleStr);
         Assertions.assertNotNull(titleBool);
-        Assertions.assertNotNull(titleJSONArray);
+        Assertions.assertNotNull(titleImageJSONArray);
         Assertions.assertNotNull(titleJSONObject);
         Assertions.assertNotNull(versionNum);
         Assertions.assertNotNull(versionInt);
