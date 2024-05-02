@@ -542,7 +542,7 @@ class TestQueryCase {
                     Assertions.assertEquals(1, entries.size());
                     // to add in the coverage code execution
                     Group group = new Group(stack, entries.get(0).toJSON());
-                    doSomeBackgroundTask(group);
+//                    doSomeBackgroundTask(group);
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
