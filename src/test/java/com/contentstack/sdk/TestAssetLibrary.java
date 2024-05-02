@@ -24,13 +24,13 @@ class TestAssetLibrary {
                 Asset model = assets.get(0);
                 Assertions.assertTrue(model.getAssetUid().startsWith("blt"));
                 assertEquals("image/jpeg", model.getFileType());
-                assertEquals("482141", model.getFileSize());
+                assertEquals("1775299", model.getFileSize());
                 assertEquals("phoenix2.jpg", model.getFileName());
                 Assertions.assertTrue(model.getUrl().endsWith("phoenix2.jpg"));
                 Assertions.assertTrue(model.toJSON().has("created_at"));
                 Assertions.assertTrue(model.getCreatedBy().startsWith("blt"));
                 assertEquals("gregory", model.getUpdateAt().getCalendarType());
-                Assertions.assertTrue(model.getUpdatedBy().startsWith("sys"));
+                Assertions.assertTrue(model.getUpdatedBy().startsWith("blt"));
                 assertEquals("", model.getDeletedBy());
                 logger.info("passed...");
             }
