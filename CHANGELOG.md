@@ -1,4 +1,11 @@
 # CHANGELOG
+
+## v1.14.0
+
+### Date: 13-May-2024
+
+-GCP support implementation
+
 ## v1.13.1
 
 ### Date: 16-Apr-2024
