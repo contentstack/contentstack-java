@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>1.13.1</version>
+    <version>1.14.0</version>
     <packaging>jar</packaging>
     <name>contentstack-java</name>
     <description>Java SDK for Contentstack Content Delivery API</description>
@@ -21,10 +21,10 @@
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
         <dotenv-source.version>3.0.0</dotenv-source.version>
         <rxjava-source.version>3.1.8</rxjava-source.version>
-        <retrofit-source.version>2.10.0</retrofit-source.version>
+        <retrofit-source.version>2.11.0</retrofit-source.version>
         <loggin.version>5.0.0-alpha.11</loggin.version>
         <jococo-plugin.version>0.8.5</jococo-plugin.version>
-        <lombok-source.version>1.18.30</lombok-source.version>
+        <lombok-source.version>1.18.32</lombok-source.version>
         <junit-jupiter.version>5.10.1</junit-jupiter.version>
         <junit-jupiter-engine.version>5.8.0-M1</junit-jupiter-engine.version>
         <gson.version>2.8.8</gson.version>
@@ -36,7 +36,7 @@
         <json-version>20240303</json-version>
         <jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
         <maven-release-plugin-version>2.5.3</maven-release-plugin-version>
-        <contentstack-utils-version>1.2.6</contentstack-utils-version>
+        <contentstack-utils-version>1.2.7</contentstack-utils-version>
     </properties>
 
     <parent>
