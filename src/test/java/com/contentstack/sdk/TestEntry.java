@@ -178,7 +178,7 @@ class TestEntry {
     @Test
     @Order(19)
     void entryGetJSONArray() {
-        Object image = entry.getJSONArray("image");
+        Object image = entry.getJSONObject("image");
         Assertions.assertNotNull(image);
         logger.info("passed...");
     }
