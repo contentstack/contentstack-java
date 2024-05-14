@@ -14,13 +14,13 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Install gpg secret key
-        id: install-secret-key
-        run: |
-          # Install gpg secret key
-          cat <(echo -e $SECRET_KEY) | gpg --batch --import
-          # Verify gpg secret key
-          gpg --list-secret-keys --keyid-format LONG
+      # - name: Install gpg secret key
+      #   id: install-secret-key
+      #   run: |
+      #     # Install gpg secret key
+      #     cat <(echo -e $SECRET_KEY) | gpg --batch --import
+      #     # Verify gpg secret key
+      #     gpg --list-secret-keys --keyid-format LONG
       - uses: actions/checkout@v3
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v3
@@ -30,10 +30,10 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: GPG_PASSPHRASE
+          gpg-private-key: $SECRET_KEY
+          gpg-passphrase: contentstack12@
       - name: Publish to Maven Central Repository
-        run: mvn --batch-mode -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} deploy
+        run: mvn --batch-mode -Dgpg.passphrase=contentstack12@ deploy
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
