@@ -3,6 +3,10 @@ name: Publishing to Maven Packages
 on:
   push:
     branches: [fix/DX-563]
+
+env:
+  SECRET_KEY: -----BEGIN PGP PRIVATE KEY BLOCK-----\n\nlIYEZg0XfxYJKwYBBAHaRw8BAQdANvFbdG7yvpe0xAHyZgz27cBCpKBENaopc3Vf\nHXvceQz+BwMCQ/XOS+CDwcH6gK1e6UZ8B8pSmsU0BpGE0nYKXrUpLExlFqrCaAKv\nTkuI5kVYJ1IpXBSYuxaB83cfetV3NBQDWj132T90+j4nUjYlf8ir37QmQ29udGVu\ndHN0YWNrIDxtb2JpbGVAY29udGVudHN0YWNrLmNvbT6ImQQTFgoAQRYhBHQS1LE9\nufQ1UzLCyImI83u5IJcQBQJmDRd/AhsDBQkFo5qABQsJCAcCAiICBhUKCQgLAgQW\nAgMBAh4HAheAAAoJEImI83u5IJcQ9oQA/3NwQd4yLiAQEzHTnLVtq4GKmxlM3dTq\nz+i3Zl9GgRsMAP9t85HLtijmtHSwCpDJT5hLK3lZUuT/6Ce96l563cT0AZyLBGYN\nF38SCisGAQQBl1UBBQEBB0BqGLquxhII9SjKLbf2dEGPBUPPwif/fX8jCEm30dRW\nCAMBCAf+BwMC0eUuj9iXjlv6x/nOeUg/UeVqeOe/Dfl0Fp/m2DwBu6fU3i/bjXte\n+B31CIo+qa8FsI7T1puY5AukzsTZTn/Can70pdT1s3jO+2GiqAfdQYh+BBgWCgAm\nFiEEdBLUsT259DVTMsLIiYjze7kglxAFAmYNF38CGwwFCQWjmoAACgkQiYjze7kg\nlxB2FQD/b39cSUcKsf+KRfCPW7gVg1kL0U0unhL3XXKSzDjKcsIA/0dIONjnBayZ\n+b6P39iHJpvhgmcl0oimqZhnAG+uL+cP\n-----END PGP PRIVATE KEY BLOCK-----
+
 jobs:
   publish-maven:
     runs-on: ubuntu-latest
@@ -14,7 +18,7 @@ jobs:
         name: Install gpg secret key
         run: |
           # Install gpg secret key
-          cat <(echo -e "${{ secrets.GPG_PRIVATE_KEY }}") | gpg --batch --import
+          cat <(echo -e "$SECRET_KEY") | gpg --batch --import
           # Verify gpg secret key
           gpg --list-secret-keys --keyid-format LONG
       # - uses: actions/checkout@v3
