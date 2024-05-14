@@ -4,6 +4,7 @@ import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -551,6 +552,50 @@ public class Stack {
         ENTRY_DELETED,
         ENTRY_PUBLISHED,
         ENTRY_UNPUBLISHED
+    }
+    public void updateAssetUrl(Entry entry) {
+        JSONObject entryJson = entry.toJSON();
+        String url = "";
+        try {
+        //to find the Latest url present in the embedded field
+            if (entryJson.has("_embedded_items")) {
+                JSONObject embeddedItems = entryJson.getJSONObject("_embedded_items");
+                if (embeddedItems.has("json_rte")) {
+                    JSONArray jrteArray = embeddedItems.getJSONArray("json_rte");
+                    for (int i = 0; i < jrteArray.length(); i++) {
+                        JSONObject jrteObject = jrteArray.getJSONObject(i);
+                        if (jrteObject.has("url")) {
+                            url = jrteObject.getString("url");
+                        }
+                    }
+                } else {
+                    System.out.println("_embedded_items not found in the entry. Pass entry with includeEmbeddedItems() method!");
+                }
+            }
+//            To update the jsonRTE with latest url
+            if (entryJson.has("json_rte")) {
+                JSONObject jsonrte = entryJson.getJSONObject("json_rte");
+                if (jsonrte.has("children")) {
+                    JSONArray childrenArray = jsonrte.getJSONArray("children");
+                    for (int j = 0; j < childrenArray.length(); j++) {
+                        JSONObject childObject = childrenArray.getJSONObject(j);
+                        if (childObject.has("attrs") && childObject.getString("type").equals("reference")) {
+                            JSONObject attrsObject = childObject.getJSONObject("attrs");
+                            if (attrsObject.has("asset-link")) {
+                                attrsObject.put("asset-link", url);
+                            } else {
+                                System.err.println("Child object of type 'reference' missing 'asset_link' field in attrs.");
+                            }
+                            break;
+                        }
+                    }
+                } else {
+                    System.err.println("URL field not found in jrteObject.");
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error parsing JSON or updating asset_link: " + e.getMessage());
+        }
     }
 
 }
