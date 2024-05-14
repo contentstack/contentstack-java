@@ -1,8 +1,8 @@
 name: Publishing to Maven Packages
 #on: [ push ]  # Trigger the workflow when a push (commit) event occurs
 on:
-  release:
-    types: [ created ]
+  push:
+    fix/DX-563
 jobs:
   publish-maven:
     runs-on: ubuntu-latest
