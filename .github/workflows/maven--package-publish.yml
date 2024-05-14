@@ -14,13 +14,13 @@ jobs:
       contents: read
       packages: write
     steps:
-      - id: install-secret-key
-      name: Install gpg secret key
-      run: |
-        # Install gpg secret key
-        cat <(echo -e $SECRET_KEY) | gpg --batch --import
-        # Verify gpg secret key
-        gpg --list-secret-keys --keyid-format LONG
+      - name: Install gpg secret key
+        id: install-secret-key
+        run: |
+          # Install gpg secret key
+          cat <(echo -e $SECRET_KEY) | gpg --batch --import
+          # Verify gpg secret key
+          gpg --list-secret-keys --keyid-format LONG
       - uses: actions/checkout@v3
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v3
