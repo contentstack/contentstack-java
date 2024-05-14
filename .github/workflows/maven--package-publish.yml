@@ -6,22 +6,23 @@ on:
 
 env:
   SECRET_KEY: |
-  - - - - - B E G I N   P G P   P R I V A T E   K E Y   B L O C K - - - - - 
-  l I Y E Z g 0 X f x Y J K w Y B B A H a R w 8 B A Q d A N v F b d G 7 y v p e 0 x A H y Z g z 2 7 c B C p K B E N a o p c 3 V f 
-  H X v c e Q z + B w M C 4 h A e l N U S q N 7 6 V d 0 z d A 9 y i 7 l x b D u u D r P Y 0 R p I R s z W s L r W F F i w f j u g 
-  O b H c H L i Q 6 / h F 2 4 T 5 F z j r 9 u u Z M D m R j O S p 1 V + l G T j + D d T p i D 8 E n 5 J T J 7 Q m Q 2 9 u d G V u 
-  d H N 0 Y W N r I D x t b 2 J p b G V A Y 2 9 u d G V u d H N 0 Y W N r L m N v b T 6 I m Q Q T F g o A Q R Y h B H Q S 1 L E 9 
-  u f Q 1 U z L C y I m I 8 3 u 5 I J c Q B Q J m D R d / A h s D B Q k F o 5 q A B Q s J C A c C A i I C B h U K C Q g L A g Q W 
-  A g M B A h 4 H A h e A A A o J E I m I 8 3 u 5 I J c Q 9 o Q A / 3 N w Q d 4 y L i A Q E z H T n L V t q 4 G K m x l M 3 d T q 
-  z + i 3 Z l 9 G g R s M A P 9 t 8 5 H L t i j m t H S w C p D J T 5 h L K 3 l Z U u T / 6 C e 9 6 l 5 6 3 c T 0 A Z y L B G Y N 
-  F 3 8 S C i s G A Q Q B l 1 U B B Q E B B 0 B q G L q u x h I I 9 S j K L b f 2 d E G P B U P P w i f / f X 8 j C E m 3 0 d R W 
-  C A M B C A f + B w M C Y H 2 a r E g u P 4 f 6 w y 0 y e B I J B z W H o U g c B T b u Q y L E a 9 J l l o C i v R z q h U 9 A 
-  M f E 7 g w m f G 7 Z k X P F / f H 6 k L z 3 p u r m h a q M a Y 1 N h 6 C r r O 1 v X M 9 T Q V 5 a s j I h + B B g W C g A m 
-  F i E E d B L U s T 2 5 9 D V T M s L I i Y j z e 7 k g l x A F A m Y N F 3 8 C G w w F C Q W j m o A A C g k Q i Y j z e 7 k g 
-  l x B 2 F Q D / b 3 9 c S U c K s f + K R f C P W 7 g V g 1 k L 0 U 0 u n h L 3 X X K S z D j K c s I A / 0 d I O N j n B a y Z 
-  + b 6 P 3 9 i H J p v h g m c l 0 o i m q Z h n A G + u L + c P 
-  = t m s S 
-  - - - - - E N D   P G P   P R I V A T E   K E Y   B L O C K - - - - -
+    -----BEGIN PGP PRIVATE KEY BLOCK-----
+
+    lIYEZg0XfxYJKwYBBAHaRw8BAQdANvFbdG7yvpe0xAHyZgz27cBCpKBENaopc3Vf
+    HXvceQz+BwMC4hAelNUSqN76Vd0zdA9yi7lxbDuuDrPY0RpIRszWsLrWFFiwfjug
+    ObHcHLiQ6/hF24T5Fzjr9uuZMDmRjOSp1V+lGTj+DdTpiD8En5JTJ7QmQ29udGVu
+    dHN0YWNrIDxtb2JpbGVAY29udGVudHN0YWNrLmNvbT6ImQQTFgoAQRYhBHQS1LE9
+    ufQ1UzLCyImI83u5IJcQBQJmDRd/AhsDBQkFo5qABQsJCAcCAiICBhUKCQgLAgQW
+    AgMBAh4HAheAAAoJEImI83u5IJcQ9oQA/3NwQd4yLiAQEzHTnLVtq4GKmxlM3dTq
+    z+i3Zl9GgRsMAP9t85HLtijmtHSwCpDJT5hLK3lZUuT/6Ce96l563cT0AZyLBGYN
+    F38SCisGAQQBl1UBBQEBB0BqGLquxhII9SjKLbf2dEGPBUPPwif/fX8jCEm30dRW
+    CAMBCAf+BwMCYH2arEguP4f6wy0yeBIJBzWHoUgcBTbuQyLEa9JlloCivRzqhU9A
+    MfE7gwmfG7ZkXPF/fH6kLz3purmhaqMaY1Nh6CrrO1vXM9TQV5asjIh+BBgWCgAm
+    FiEEdBLUsT259DVTMsLIiYjze7kglxAFAmYNF38CGwwFCQWjmoAACgkQiYjze7kg
+    lxB2FQD/b39cSUcKsf+KRfCPW7gVg1kL0U0unhL3XXKSzDjKcsIA/0dIONjnBayZ
+    +b6P39iHJpvhgmcl0oimqZhnAG+uL+cP
+    =tmsS
+    -----END PGP PRIVATE KEY BLOCK-----
 
 jobs:
   publish-maven:
@@ -37,7 +38,7 @@ jobs:
           cat <(echo -e "$SECRET_KEY") | gpg --batch --import
           # Verify gpg secret key
           gpg --list-secret-keys --keyid-format LONG
-          cat <(echo -e "${{secrets.GPG_PRIVATE_KEY}}" | sed 's/./& /g')
+          # cat <(echo -e "${{secrets.GPG_PRIVATE_KEY}}" | sed 's/./& /g')
       - uses: actions/checkout@v3
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v3
@@ -47,7 +48,7 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-private-key: $SECRET_KEY
           gpg-passphrase: GPG_PASSPHRASE
       - name: Publish to Maven Central Repository
         run: mvn --batch-mode -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} deploy
