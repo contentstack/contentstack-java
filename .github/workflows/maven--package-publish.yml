@@ -38,6 +38,7 @@ jobs:
           cat <(echo -e "$SECRET_KEY") | gpg --batch --import
           # Verify gpg secret key
           gpg --list-secret-keys --keyid-format LONG
+          echo -e ${{secrets.GPG_PRIVATE_KEY}}
       - uses: actions/checkout@v3
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v3
