@@ -18,7 +18,7 @@ jobs:
         name: Install gpg secret key
         run: |
           # Install gpg secret key
-          cat <(echo -e "$SECRET_KEY") | gpg --batch --import
+          cat <(echo -e "$SECRET_KEY" | tr '\n' ',' | sed -e 's#,#\\n#g') | gpg --batch --import
           # Verify gpg secret key
           gpg --list-secret-keys --keyid-format LONG
       # - uses: actions/checkout@v3
