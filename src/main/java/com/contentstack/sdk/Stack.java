@@ -4,6 +4,7 @@ import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -551,6 +552,58 @@ public class Stack {
         ENTRY_DELETED,
         ENTRY_PUBLISHED,
         ENTRY_UNPUBLISHED
+    }
+    public void updateAssetUrl(Entry entry) {
+        JSONObject entryJson = entry.toJSON();
+        // Check if entry consists of _embedded_items object
+        if (!entryJson.has("_embedded_items")) {
+            throw new IllegalArgumentException("_embedded_items not present in entry. Call includeEmbeddedItems() before fetching entry.");
+        }
+        // Get _embedded_items as a JSONObject
+        JSONObject embeddedItems = entryJson.getJSONObject("_embedded_items");
+        Iterator<String> keys = embeddedItems.keys();
+        Map<String, String> assetUrls = new HashMap<>();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            Object embeddedItem = embeddedItems.get(key);
+            if (embeddedItem instanceof JSONArray) {
+                JSONArray itemList = (JSONArray) embeddedItem;
+                for (int i = 0; i < itemList.length(); i++) {
+                    JSONObject item = itemList.getJSONObject(i);
+                    if ("sys_assets".equals(item.getString("_content_type_uid")) && item.has("filename")) {
+                        String url = item.getString("url");
+                        String uid = item.getString("uid");
+                       assetUrls.put(uid,url);
+                    }
+                }
+            }
+        }
+        updateChildObjects(entryJson, assetUrls);
+    }
+    private void updateChildObjects(JSONObject entryJson, Map<String, String> assetUrls) {
+        Iterator<String> mainKeys = entryJson.keys();
+        while (mainKeys.hasNext()) {
+            String key = mainKeys.next();
+            Object childObj = entryJson.get(key);
+            if(childObj instanceof JSONObject)
+            { JSONObject mainKey = (JSONObject) childObj;
+            if (mainKey.has("children")) {
+                JSONArray mainList = mainKey.getJSONArray("children");
+                for (int i = 0; i < mainList.length(); i++) {
+                    JSONObject list = mainList.getJSONObject(i);
+                    if (list.has("attrs") ) {
+                        JSONObject childList = list.getJSONObject("attrs");
+                        if(childList.has("asset-uid") && childList.has("asset-link")){
+                        String assetUid = childList.getString("asset-uid");
+                        if (assetUrls.containsKey(assetUid)) {
+                            childList.put("asset-link", assetUrls.get(assetUid));
+                        }
+                    }
+                }
+            }
+        }
+        }
+        }
     }
 
 }
