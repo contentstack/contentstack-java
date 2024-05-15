@@ -4,26 +4,6 @@ on:
   push:
     branches: [fix/DX-563]
 
-env:
-  SECRET_KEY: |
-    -----BEGIN PGP PRIVATE KEY BLOCK-----
-
-    lIYEZg0XfxYJKwYBBAHaRw8BAQdANvFbdG7yvpe0xAHyZgz27cBCpKBENaopc3Vf
-    HXvceQz+BwMC4hAelNUSqN76Vd0zdA9yi7lxbDuuDrPY0RpIRszWsLrWFFiwfjug
-    ObHcHLiQ6/hF24T5Fzjr9uuZMDmRjOSp1V+lGTj+DdTpiD8En5JTJ7QmQ29udGVu
-    dHN0YWNrIDxtb2JpbGVAY29udGVudHN0YWNrLmNvbT6ImQQTFgoAQRYhBHQS1LE9
-    ufQ1UzLCyImI83u5IJcQBQJmDRd/AhsDBQkFo5qABQsJCAcCAiICBhUKCQgLAgQW
-    AgMBAh4HAheAAAoJEImI83u5IJcQ9oQA/3NwQd4yLiAQEzHTnLVtq4GKmxlM3dTq
-    z+i3Zl9GgRsMAP9t85HLtijmtHSwCpDJT5hLK3lZUuT/6Ce96l563cT0AZyLBGYN
-    F38SCisGAQQBl1UBBQEBB0BqGLquxhII9SjKLbf2dEGPBUPPwif/fX8jCEm30dRW
-    CAMBCAf+BwMCYH2arEguP4f6wy0yeBIJBzWHoUgcBTbuQyLEa9JlloCivRzqhU9A
-    MfE7gwmfG7ZkXPF/fH6kLz3purmhaqMaY1Nh6CrrO1vXM9TQV5asjIh+BBgWCgAm
-    FiEEdBLUsT259DVTMsLIiYjze7kglxAFAmYNF38CGwwFCQWjmoAACgkQiYjze7kg
-    lxB2FQD/b39cSUcKsf+KRfCPW7gVg1kL0U0unhL3XXKSzDjKcsIA/0dIONjnBayZ
-    +b6P39iHJpvhgmcl0oimqZhnAG+uL+cP
-    =tmsS
-    -----END PGP PRIVATE KEY BLOCK-----
-
 jobs:
   publish-maven:
     runs-on: ubuntu-latest
@@ -31,13 +11,13 @@ jobs:
       contents: read
       packages: write
     steps:
-      # - id: install-secret-key
-      #   name: Install gpg secret key
-      #   run: |
-      #     # Install gpg secret key
-      #     cat <(echo -e "$SECRET_KEY") | gpg --batch --import
-      #     # Verify gpg secret key
-      #     gpg --list-secret-keys --keyid-format LONG
+      - id: install-secret-key
+        name: Install gpg secret key
+        run: |
+          # Install gpg secret key
+          cat <(echo -e "${{ secrets.GPG_PRIVATE_KEY }}") | gpg --batch --import
+          # Verify gpg secret key
+          gpg --list-secret-keys --keyid-format LONG
       - uses: actions/checkout@v3
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v3
@@ -47,7 +27,6 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
-          gpg-private-key: $SECRET_KEY
           gpg-passphrase: GPG_PASSPHRASE
       - name: Publish to Maven Central Repository
         run: mvn --batch-mode -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} deploy
