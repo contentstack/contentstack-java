@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.14.1
+
+### Date: 17-May-2024
+
+-Enhancement: Update Asset url method added
+
 ## v1.14.0
 
 ### Date: 13-May-2024
