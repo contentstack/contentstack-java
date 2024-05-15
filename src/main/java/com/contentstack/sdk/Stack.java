@@ -597,8 +597,6 @@ public class Stack {
                         String assetUid = childList.getString("asset-uid");
                         if (assetUrls.containsKey(assetUid)) {
                             childList.put("asset-link", assetUrls.get(assetUid));
-                        } else {
-                            System.out.println("Asset UID " + assetUid + " not found in assetUrls");
                         }
                     }
                 }
