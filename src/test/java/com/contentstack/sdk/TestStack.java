@@ -389,7 +389,7 @@ class TestStack {
     @Test
     @Disabled
     @Order(43)
-    void testUpdateAsseturl() throws IllegalAccessException {
+    void testAsseturlupdate() throws IllegalAccessException {
         Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUid).includeEmbeddedItems();
         entry.fetch(new EntryResultCallBack() {
             @Override
@@ -397,7 +397,6 @@ class TestStack {
                 stack.updateAssetUrl(entry);
                 Assertions.assertEquals(entryUid, entry.getUid());
                 Assertions.assertTrue(entry.params.has("include_embedded_items[]"));
-                System.out.println("enrty asset"+ entry.toJSON());
             }
         });
     }

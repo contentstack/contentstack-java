@@ -555,46 +555,56 @@ public class Stack {
     }
     public void updateAssetUrl(Entry entry) {
         JSONObject entryJson = entry.toJSON();
-        String url = "";
-        try {
-        //to find the Latest url present in the embedded field
-            if (entryJson.has("_embedded_items")) {
-                JSONObject embeddedItems = entryJson.getJSONObject("_embedded_items");
-                if (embeddedItems.has("json_rte")) {
-                    JSONArray jrteArray = embeddedItems.getJSONArray("json_rte");
-                    for (int i = 0; i < jrteArray.length(); i++) {
-                        JSONObject jrteObject = jrteArray.getJSONObject(i);
-                        if (jrteObject.has("url")) {
-                            url = jrteObject.getString("url");
-                        }
+        // Check if entry consists of _embedded_items object
+        if (!entryJson.has("_embedded_items")) {
+            throw new IllegalArgumentException("_embedded_items not present in entry. Call includeEmbeddedItems() before fetching entry.");
+        }
+        // Get _embedded_items as a JSONObject
+        JSONObject embeddedItems = entryJson.getJSONObject("_embedded_items");
+        Iterator<String> keys = embeddedItems.keys();
+        Map<String, String> assetUrls = new HashMap<>();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            Object embeddedItem = embeddedItems.get(key);
+            if (embeddedItem instanceof JSONArray) {
+                JSONArray itemList = (JSONArray) embeddedItem;
+                for (int i = 0; i < itemList.length(); i++) {
+                    JSONObject item = itemList.getJSONObject(i);
+                    if ("sys_assets".equals(item.getString("_content_type_uid")) && item.has("filename")) {
+                        String url = item.getString("url");
+                        String uid = item.getString("uid");
+                       assetUrls.put(uid,url);
                     }
-                } else {
-                    System.out.println("_embedded_items not found in the entry. Pass entry with includeEmbeddedItems() method!");
                 }
             }
-//            To update the jsonRTE with latest url
-            if (entryJson.has("json_rte")) {
-                JSONObject jsonrte = entryJson.getJSONObject("json_rte");
-                if (jsonrte.has("children")) {
-                    JSONArray childrenArray = jsonrte.getJSONArray("children");
-                    for (int j = 0; j < childrenArray.length(); j++) {
-                        JSONObject childObject = childrenArray.getJSONObject(j);
-                        if (childObject.has("attrs") && childObject.getString("type").equals("reference")) {
-                            JSONObject attrsObject = childObject.getJSONObject("attrs");
-                            if (attrsObject.has("asset-link")) {
-                                attrsObject.put("asset-link", url);
-                            } else {
-                                System.err.println("Child object of type 'reference' missing 'asset_link' field in attrs.");
-                            }
-                            break;
+        }
+        updateChildObjects(entryJson, assetUrls);
+    }
+    private void updateChildObjects(JSONObject entryJson, Map<String, String> assetUrls) {
+        Iterator<String> mainKeys = entryJson.keys();
+        while (mainKeys.hasNext()) {
+            String key = mainKeys.next();
+            Object childObj = entryJson.get(key);
+            if(childObj instanceof JSONObject)
+            { JSONObject mainKey = (JSONObject) childObj;
+            if (mainKey.has("children")) {
+                JSONArray mainList = mainKey.getJSONArray("children");
+                for (int i = 0; i < mainList.length(); i++) {
+                    JSONObject list = mainList.getJSONObject(i);
+                    if (list.has("attrs") ) {
+                        JSONObject childList = list.getJSONObject("attrs");
+                        if(childList.has("asset-uid") && childList.has("asset-link")){
+                        String assetUid = childList.getString("asset-uid");
+                        if (assetUrls.containsKey(assetUid)) {
+                            childList.put("asset-link", assetUrls.get(assetUid));
+                        } else {
+                            System.out.println("Asset UID " + assetUid + " not found in assetUrls");
                         }
                     }
-                } else {
-                    System.err.println("URL field not found in jrteObject.");
                 }
             }
-        } catch (Exception e) {
-            System.err.println("Error parsing JSON or updating asset_link: " + e.getMessage());
+        }
+        }
         }
     }
 
