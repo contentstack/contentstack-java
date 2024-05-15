@@ -4,26 +4,6 @@ on:
   push:
     branches: [fix/DX-563]
 
-env:
-  SECRET_KEY: |
-    -----BEGIN PGP PRIVATE KEY BLOCK-----
-
-    lIYEZg0XfxYJKwYBBAHaRw8BAQdANvFbdG7yvpe0xAHyZgz27cBCpKBENaopc3Vf
-    HXvceQz+BwMCQ/XOS+CDwcH6gK1e6UZ8B8pSmsU0BpGE0nYKXrUpLExlFqrCaAKv
-    TkuI5kVYJ1IpXBSYuxaB83cfetV3NBQDWj132T90+j4nUjYlf8ir37QmQ29udGVu
-    dHN0YWNrIDxtb2JpbGVAY29udGVudHN0YWNrLmNvbT6ImQQTFgoAQRYhBHQS1LE9
-    ufQ1UzLCyImI83u5IJcQBQJmDRd/AhsDBQkFo5qABQsJCAcCAiICBhUKCQgLAgQW
-    AgMBAh4HAheAAAoJEImI83u5IJcQ9oQA/3NwQd4yLiAQEzHTnLVtq4GKmxlM3dTq
-    z+i3Zl9GgRsMAP9t85HLtijmtHSwCpDJT5hLK3lZUuT/6Ce96l563cT0AZyLBGYN
-    F38SCisGAQQBl1UBBQEBB0BqGLquxhII9SjKLbf2dEGPBUPPwif/fX8jCEm30dRW
-    CAMBCAf+BwMC0eUuj9iXjlv6x/nOeUg/UeVqeOe/Dfl0Fp/m2DwBu6fU3i/bjXte
-    +B31CIo+qa8FsI7T1puY5AukzsTZTn/Can70pdT1s3jO+2GiqAfdQYh+BBgWCgAm
-    FiEEdBLUsT259DVTMsLIiYjze7kglxAFAmYNF38CGwwFCQWjmoAACgkQiYjze7kg
-    lxB2FQD/b39cSUcKsf+KRfCPW7gVg1kL0U0unhL3XXKSzDjKcsIA/0dIONjnBayZ
-    +b6P39iHJpvhgmcl0oimqZhnAG+uL+cP
-    =YQ9/
-    ***REMOVED***-
-
 jobs:
   publish-maven:
     runs-on: ubuntu-latest
@@ -38,7 +18,6 @@ jobs:
           cat <(echo -e "${{ secrets.GPG_PRIVATE_KEY }}") | gpg --batch --import
           # Verify gpg secret key
           gpg --list-secret-keys --keyid-format LONG
-          echo ${{ secrets.GPG_PRIVATE_KEY }} | sed 's/./& /g'
       # - uses: actions/checkout@v3
       # - name: Set up Maven Central Repository
       #   uses: actions/setup-java@v3
