@@ -18,21 +18,21 @@ jobs:
           cat <(echo -e "${{ secrets.GPG_PRIVATE_KEY }}") | gpg --batch --import
           # Verify gpg secret key
           gpg --list-secret-keys --keyid-format LONG
-      # - uses: actions/checkout@v3
-      # - name: Set up Maven Central Repository
-      #   uses: actions/setup-java@v3
-      #   with:
-      #     java-version: '11'
-      #     distribution: 'adopt'
-      #     server-id: ossrh
-      #     server-username: MAVEN_USERNAME
-      #     server-password: MAVEN_PASSWORD
-      #     gpg-passphrase: GPG_PASSPHRASE
-      # - name: Publish to Maven Central Repository
-      #   run: mvn --batch-mode -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} deploy
-      #   env:
-      #     MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-      #     MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-      #     GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      - uses: actions/checkout@v3
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-passphrase: GPG_PASSPHRASE
+      - name: Publish to Maven Central Repository
+        run: mvn --batch-mode -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} deploy
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
 #        run: mvn --batch-mode deploy
