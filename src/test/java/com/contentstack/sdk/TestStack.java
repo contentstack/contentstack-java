@@ -18,6 +18,8 @@ class TestStack {
     Stack stack = Credentials.getStack();
     protected String paginationToken;
     private final Logger logger = Logger.getLogger(TestStack.class.getName());
+    private String entryUid = Credentials.ENTRY_UID;
+    private String CONTENT_TYPE = Credentials.CONTENT_TYPE;
 
 
     @Test
@@ -381,6 +383,20 @@ class TestStack {
                 Assertions.assertNull(response.getPaginationToken());
                 Assertions.assertNotNull(response.getSyncToken());
                 Assertions.assertEquals(29, response.getItems().size());
+            }
+        });
+    }
+    @Test
+    @Disabled
+    @Order(43)
+    void testAsseturlupdate() throws IllegalAccessException {
+        Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUid).includeEmbeddedItems();
+        entry.fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                stack.updateAssetUrl(entry);
+                Assertions.assertEquals(entryUid, entry.getUid());
+                Assertions.assertTrue(entry.params.has("include_embedded_items[]"));
             }
         });
     }
