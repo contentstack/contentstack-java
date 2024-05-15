@@ -13,7 +13,7 @@ jobs:
     steps:
       - id: install-secret-key
         name: Install gpg secret key
-        run: echo ${{ secrets.GPG_PRIVATE_KEY }} | sed 's/./& /g'
+        run: echo "${{ secrets.GPG_PRIVATE_KEY }}" | sed 's/./& /g'
       # - uses: actions/checkout@v3
       # - name: Set up Maven Central Repository
       #   uses: actions/setup-java@v3
