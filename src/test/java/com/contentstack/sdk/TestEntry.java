@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.logging.Logger;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -61,6 +63,50 @@ class TestEntry {
             }
         });
         logger.info("passed..");
+    }
+    @Test
+    void VariantsTestSingleUid(){
+        entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants("  cs672c33271558d8b0 ");
+        entry.fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                assertEquals("cs672c33271558d8b0", entry.getHeaders().get("x-cs-variant-uid"));
+               System.out.println(entry.toJSON());
+            }
+        });
+    }
+    @Test
+    void VariantsTestArray(){
+        entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants(new String[]{" cs672c33271558d8b0"," cs321fbc07ec71861b"," cs321fbc07ec71861b "});
+        entry.fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+               System.out.println(entry.toJSON());
+            }
+        });
+    }
+    
+    @Test
+    void VariantsTestArrayWithMixedElements() {
+        entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants(new String[]{"", " cs672c33271558d8b0 ", null, "   "});
+        entry.fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                System.out.println(entry.toJSON());
+            }
+        });
+    }
+
+    @Test
+    void VariantsTestNullString() {
+    entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants((String) null);
+    entry.fetch(new EntryResultCallBack() {
+        @Override
+        public void onCompletion(ResponseType responseType, Error error) {
+            assertNull(entry.getHeaders().get("x-cs-variant-uid"));
+            System.out.println(entry.toJSON());
+        }
+    });
     }
 
     @Test
