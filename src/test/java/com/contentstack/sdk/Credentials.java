@@ -2,6 +2,7 @@ package com.contentstack.sdk;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.rmi.AccessException;
+import java.util.Arrays;
 
 public class Credentials {
     static Dotenv env = getEnv();
@@ -32,7 +33,18 @@ public class Credentials {
     public final static String ENVIRONMENT = (env.get("ENVIRONMENT") != null) ? env.get("ENVIRONMENT") : "env1";
     public final static String CONTENT_TYPE = (env.get("contentType") != null) ? env.get("contentType") : "product";
     public final static String ENTRY_UID = (env.get("assetUid") != null) ? env.get("assetUid") : "";
+    public final static String VARIANT_UID = (env.get("variantUid") != null) ? env.get("variantUid") : "";
+    public final static String[] VARIANTS_UID ;
+   static {  String variantsUidString = env.get("variantsUid");
 
+        if (variantsUidString != null && !variantsUidString.trim().isEmpty()) {
+            VARIANTS_UID = Arrays.stream(variantsUidString.split(","))
+                                 .map(String::trim)
+                                 .toArray(String[]::new);
+        } else {
+            VARIANTS_UID = new String[]{};
+        }
+    }
 
     private static volatile Stack stack;
 
