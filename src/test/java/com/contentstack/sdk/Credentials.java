@@ -1,4 +1,5 @@
 package com.contentstack.sdk;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.rmi.AccessException;
@@ -6,7 +7,6 @@ import java.util.Arrays;
 
 public class Credentials {
     static Dotenv env = getEnv();
-
 
     private static String envChecker() {
         String githubActions = System.getenv("GITHUB_ACTIONS");
@@ -26,7 +26,6 @@ public class Credentials {
         return Dotenv.load();
     }
 
-
     public final static String HOST = (env.get("HOST") != null) ? env.get("HOST") : "cdn.contentstack.io";
     public final static String API_KEY = (env.get("API_KEY") != null) ? env.get("API_KEY") : "";
     public final static String DELIVERY_TOKEN = (env.get("DELIVERY_TOKEN") != null) ? env.get("DELIVERY_TOKEN") : "";
@@ -34,15 +33,16 @@ public class Credentials {
     public final static String CONTENT_TYPE = (env.get("contentType") != null) ? env.get("contentType") : "product";
     public final static String ENTRY_UID = (env.get("assetUid") != null) ? env.get("assetUid") : "";
     public final static String VARIANT_UID = (env.get("variantUid") != null) ? env.get("variantUid") : "";
-    public final static String[] VARIANTS_UID ;
-   static {  String variantsUidString = env.get("variantsUid");
+    public final static String[] VARIANTS_UID;
+    static {
+        String variantsUidString = env.get("variantsUid");
 
         if (variantsUidString != null && !variantsUidString.trim().isEmpty()) {
             VARIANTS_UID = Arrays.stream(variantsUidString.split(","))
-                                 .map(String::trim)
-                                 .toArray(String[]::new);
+                    .map(String::trim)
+                    .toArray(String[]::new);
         } else {
-            VARIANTS_UID = new String[]{};
+            VARIANTS_UID = new String[] {};
         }
     }
 
