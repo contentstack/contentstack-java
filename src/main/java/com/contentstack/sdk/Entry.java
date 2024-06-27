@@ -1111,14 +1111,15 @@ public class Entry {
     * Stack stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
     * Entry entry = stack.contentType("user").entry("entry_uid").variant("variant_uid").fetch();
     */
-   public Entry variants(@NotNull String variants){
-   if (variants != null && variants.length() > 0) {
-      this.headers.put("x-cs-variant-uid", variants.trim());
+   public Entry variants(@NotNull String variants) {
+    if (variants != null && variants.length() > 0) {
+        this.headers.put("x-cs-variant-uid", variants.trim());
     }
     return this;
   
   }
-  public Entry variants(@NotNull String[] variants){
+
+  public Entry variants(@NotNull String[] variants) {
     if (variants != null && variants.length > 0) {
         List<String> variantList = new ArrayList<>();
         for (String variant : variants) {
@@ -1131,7 +1132,8 @@ public class Entry {
     }
     return this;
   }
+  
   public LinkedHashMap<String, Object> getHeaders() {
     return headers;
-}
+  }   
 }
