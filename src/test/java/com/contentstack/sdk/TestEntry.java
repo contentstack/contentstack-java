@@ -21,8 +21,8 @@ class TestEntry {
     private Entry entry;
     private final String CONTENT_TYPE = Credentials.CONTENT_TYPE;
     private final String VARIANT_UID = Credentials.VARIANT_UID;
-    private static final String[] VARIANT_UIDS = Credentials.VARIANTS_UID ;
-    
+    private static final String[] VARIANT_UIDS = Credentials.VARIANTS_UID;
+
     @Test
     @Order(1)
     void entryCallingPrivateModifier() {
@@ -66,24 +66,26 @@ class TestEntry {
         });
         logger.info("passed..");
     }
+
     @Test
-    void VariantsTestSingleUid(){
+    void VariantsTestSingleUid() {
         entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants(VARIANT_UID);
         entry.fetch(new EntryResultCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
                 assertEquals(VARIANT_UID.trim(), entry.getHeaders().get("x-cs-variant-uid"));
-               System.out.println(entry.toJSON());
+                System.out.println(entry.toJSON());
             }
         });
     }
+
     @Test
-    void VariantsTestArray(){
+    void VariantsTestArray() {
         entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants(VARIANT_UIDS);
         entry.fetch(new EntryResultCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
-               System.out.println(entry.toJSON());
+                System.out.println(entry.toJSON());
             }
         });
     }
