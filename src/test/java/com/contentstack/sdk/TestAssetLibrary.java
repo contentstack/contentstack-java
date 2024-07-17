@@ -2,8 +2,6 @@ package com.contentstack.sdk;
 
 import org.junit.jupiter.api.*;
 
-import com.google.gson.JsonObject;
-import org.json.*;
 
 import java.util.List;
 import java.util.logging.Logger;
