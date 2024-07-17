@@ -208,4 +208,11 @@ public class AssetLibrary implements INotifyClass {
         ASCENDING, DESCENDING
     }
 
+    public AssetLibrary where(String key, String value) {
+        JSONObject queryParams= new JSONObject();
+        queryParams.put(key,value);
+        urlQueries.put("query", queryParams);
+        return this;
+    }
+ 
 }
