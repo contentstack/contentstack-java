@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.14.2
+
+### Date: 15-July-2024
+
+-Enhancement: Fetch assets using any field uid of assets
+
 ## v1.14.1
 
 ### Date: 17-May-2024
