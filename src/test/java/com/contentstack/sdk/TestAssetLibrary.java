@@ -2,6 +2,7 @@ package com.contentstack.sdk;
 
 import org.junit.jupiter.api.*;
 
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -94,5 +95,16 @@ class TestAssetLibrary {
     void testIncludeOwner() {
         AssetLibrary assetLibrary = stack.assetLibrary().includeMetadata();
         Assertions.assertFalse(assetLibrary.headers.containsKey("include_owner"));
+    }
+
+    @Test
+    void testAssetQueryOtherThanUID() {
+    AssetLibrary query = stack.assetLibrary().where("tags","tag1");
+    query.fetchAll(new FetchAssetsCallback() {
+        @Override
+        public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {
+          System.out.println(assets);
+        }
+    });
     }
 }
