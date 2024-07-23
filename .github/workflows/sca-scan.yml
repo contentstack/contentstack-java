@@ -1,9 +1,9 @@
 name: Source Composition Analysis Scan
 on:
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    types: [opened, synchronize, reopened]
 jobs:
-  security:
+  security-sca:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
