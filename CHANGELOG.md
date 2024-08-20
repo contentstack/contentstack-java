@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.0.0
+
+### Date: 27-August-2024
+
+-Feature: Variants method introduced
+
 ## v1.14.2
 
 ### Date: 15-July-2024
