@@ -304,7 +304,7 @@ class TestStack {
             @Override
             public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
                 assertTrue(contentTypesModel.getResponse() instanceof JSONArray);
-                assertEquals(5, ((JSONArray) contentTypesModel.getResponse()).length());
+                assertEquals(8, ((JSONArray) contentTypesModel.getResponse()).length());
             }
         });
     }
