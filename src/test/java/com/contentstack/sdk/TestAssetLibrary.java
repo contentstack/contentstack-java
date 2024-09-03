@@ -24,10 +24,10 @@ class TestAssetLibrary {
             public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {
                 Asset model = assets.get(0);
                 Assertions.assertTrue(model.getAssetUid().startsWith("blt"));
-                assertEquals("image/jpeg", model.getFileType());
-                assertEquals("1775299", model.getFileSize());
-                assertEquals("phoenix2.jpg", model.getFileName());
-                Assertions.assertTrue(model.getUrl().endsWith("phoenix2.jpg"));
+                assertEquals("image/png", model.getFileType());
+                assertEquals("13006", model.getFileSize());
+                assertEquals("iot-icon.png", model.getFileName());
+                Assertions.assertTrue(model.getUrl().endsWith("iot-icon.png"));
                 Assertions.assertTrue(model.toJSON().has("created_at"));
                 Assertions.assertTrue(model.getCreatedBy().startsWith("blt"));
                 assertEquals("gregory", model.getUpdateAt().getCalendarType());
