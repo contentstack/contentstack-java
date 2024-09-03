@@ -5,6 +5,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +29,7 @@ public class TestLivePreview {
         logger.setLevel(Level.FINE);
         config = new Config();
     }
+
 
     /**
      * Test config test.
@@ -110,8 +115,10 @@ public class TestLivePreview {
                 .setLivePreviewHost("live-preview.contentstack.io");
         try {
             Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
+            System.out.println("no it works");
         } catch (Exception e) {
             Assertions.assertEquals("managementToken is required", e.getLocalizedMessage());
+            System.out.println(e.getLocalizedMessage());
             logger.severe(e.getLocalizedMessage());
         }
     }
@@ -158,5 +165,64 @@ public class TestLivePreview {
         Assertions.assertNotNull(entry);
     }
 
+    @Test
+    void testCompleteLivePreviewWithPreviewToken() throws IOException, IllegalAccessException {
+        Config livePreviewConfig = new Config()
+                .enableLivePreview(true)
+                .setLivePreviewHost("rest-preview.contentstack.com")
+                .setPreviewToken("preview_token");
+
+        Stack stack = Contentstack.stack("stackApiKey", "deliveryToken", "env1", livePreviewConfig);
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("live_preview", "hash167673");
+        hashMap.put("content_type_uid", "page");
+
+        stack.livePreviewQuery(hashMap);
+        Entry entry = stack.contentType("page").entry("entry_uid");
+        entry.fetch(null);
+        Assertions.assertNotNull(entry);
+
+    }
+
+    @Test()
+    void testLivePreviewWithoutPreviewToken() throws Exception {
+        Config livePreviewEnablerConfig = new Config().enableLivePreview(true).setLivePreviewHost("rest-preview.contentstack.com")
+                .setManagementToken("fake@token");
+        Stack stack = Contentstack.stack("stackApiKey", "deliveryToken", "env1", livePreviewEnablerConfig);
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("live_preview", "hash167673");
+        hashMap.put("content_type_uid", "page");
+        
+        IllegalAccessError thrown = Assertions.assertThrows(IllegalAccessError.class, () -> {
+            stack.livePreviewQuery(hashMap);
+        }, "Expected livePreviewQuery to throw IllegalAccessError");
+
+        Assertions.assertTrue(thrown.getMessage().contains("Provide the Preview Token for the host rest-preview.contentstack.com"), 
+            "Exception message should mention that Preview Token is required");
+
+        logger.severe(thrown.getMessage());  
+    }
+
+    @Test
+    void testLivePreviewDisabled() throws IllegalAccessException, IOException {
+    Config config = new Config()
+            .enableLivePreview(false)
+            .setPreviewToken("preview_token");
+
+    Stack stack = Contentstack.stack("stackApiKey", "deliveryToken", "env1", config);
+
+    HashMap<String, String> hashMap = new HashMap<>();
+    hashMap.put("live_preview", "hash167673");
+    hashMap.put("content_type_uid", "page");
+
+    Exception exception = assertThrows(IllegalStateException.class, () -> {
+        stack.livePreviewQuery(hashMap);
+    });
+
+    // Optionally, you can check the message of the exception
+    assertEquals("Live Preview is not enabled in Config", exception.getMessage(), 
+                 "Expected exception message does not match");
+    }
 
 }
