@@ -105,7 +105,7 @@ class TestEntry {
     @Test
     @Order(4)
     void entryCalling() {
-        Assertions.assertEquals(6, entry.headers.size());
+        Assertions.assertEquals(7, entry.headers.size());
         logger.info("passed...");
     }
 
