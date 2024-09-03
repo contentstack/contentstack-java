@@ -38,10 +38,10 @@ class TestAsset {
                 Asset model = assets.get(0);
                 assetUid = model.getAssetUid();
                 Assertions.assertTrue(model.getAssetUid().startsWith("blt"));
-                Assertions.assertEquals("image/jpeg", model.getFileType());
-                Assertions.assertEquals("1775299", model.getFileSize());
-                Assertions.assertEquals("phoenix2.jpg", model.getFileName());
-                Assertions.assertTrue(model.getUrl().endsWith("phoenix2.jpg"));
+                Assertions.assertEquals("image/png", model.getFileType());
+                Assertions.assertEquals("13006", model.getFileSize());
+                Assertions.assertEquals("iot-icon.png", model.getFileName());
+                Assertions.assertTrue(model.getUrl().endsWith("iot-icon.png"));
                 Assertions.assertTrue(model.toJSON().has("created_at"));
                 Assertions.assertTrue(model.getCreatedBy().startsWith("blt"));
                 Assertions.assertEquals("gregory", model.getUpdateAt().getCalendarType());
@@ -60,10 +60,10 @@ class TestAsset {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
                 Assertions.assertTrue(asset.getAssetUid().startsWith("blt"));
-                Assertions.assertEquals("image/jpeg", asset.getFileType());
-                Assertions.assertEquals("1775299", asset.getFileSize());
-                Assertions.assertEquals("phoenix2.jpg", asset.getFileName());
-                Assertions.assertTrue(asset.getUrl().endsWith("phoenix2.jpg"));
+                Assertions.assertEquals("image/png", asset.getFileType());
+                Assertions.assertEquals("13006", asset.getFileSize());
+                Assertions.assertEquals("iot-icon.png", asset.getFileName());
+                Assertions.assertTrue(asset.getUrl().endsWith("iot-icon.png"));
                 Assertions.assertTrue(asset.toJSON().has("created_at"));
                 Assertions.assertTrue(asset.getCreatedBy().startsWith("blt"));
                 Assertions.assertEquals("gregory", asset.getUpdateAt().getCalendarType());
