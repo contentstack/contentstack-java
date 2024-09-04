@@ -6,6 +6,9 @@ import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.contentstack.sdk.Constants.REQUEST_CONTROLLER;
+
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -98,6 +101,15 @@ public class Stack {
 
     private void includeLivePreview() {
         if (config.enableLivePreview) {
+            String urlLivePreview = config.livePreviewHost;
+            if(config.region != null && !config.region.name().isEmpty()){
+                if(config.region.name() == "US" ){
+                    config.livePreviewHost = urlLivePreview;
+                }else{
+                    String regionPrefix = config.region.name().toLowerCase();
+                    config.livePreviewHost = regionPrefix + "-" + urlLivePreview;
+                }
+            }
             this.livePreviewEndpoint = "https://".concat(config.livePreviewHost).concat("/v3/content_types/");
         }
     }
@@ -125,6 +137,7 @@ public class Stack {
      * @throws IOException IO Exception
      */
     public Stack livePreviewQuery(Map<String, String> query) throws IOException {
+        if(config.enableLivePreview){
         config.livePreviewHash = query.get(LIVE_PREVIEW);
         config.livePreviewEntryUid = query.get(ENTRY_UID);
         config.livePreviewContentType = query.get(CONTENT_TYPE_UID);
@@ -137,7 +150,17 @@ public class Stack {
         try {
             LinkedHashMap<String, Object> liveHeader = new LinkedHashMap<>();
             liveHeader.put("api_key", this.headers.get("api_key"));
-            liveHeader.put("authorization", config.managementToken);
+
+            if(config.livePreviewHost.equals("rest-preview.contentstack.com"))
+            {   
+                if(config.previewToken != null) { 
+                    liveHeader.put("preview_token", config.previewToken);
+                } else{
+                    throw new IllegalAccessError("Provide the Preview Token for the host rest-preview.contentstack.com");
+                }
+            } else { 
+                liveHeader.put("authorization", config.managementToken);
+            }
             response = this.service.getRequest(livePreviewUrl, liveHeader).execute();
         } catch (IOException e) {
             throw new IllegalStateException("IO Exception while executing the Live Preview url");
@@ -150,6 +173,9 @@ public class Stack {
                 config.setLivePreviewEntry(liveResponse.getJSONObject("entry"));
             }
         }
+    } else { 
+        throw new IllegalStateException("Live Preview is not enabled in Config");
+    }
         return this;
     }
 
