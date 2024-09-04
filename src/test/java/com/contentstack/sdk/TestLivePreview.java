@@ -117,7 +117,6 @@ public class TestLivePreview {
             Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
         } catch (Exception e) {
             Assertions.assertEquals("managementToken is required", e.getLocalizedMessage());
-            System.out.println(e.getLocalizedMessage());
             logger.severe(e.getLocalizedMessage());
         }
     }
