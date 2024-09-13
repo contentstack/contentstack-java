@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.logging.Logger;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -18,6 +20,8 @@ class TestEntry {
     private final Stack stack = Credentials.getStack();
     private Entry entry;
     private final String CONTENT_TYPE = Credentials.CONTENT_TYPE;
+    private final String VARIANT_UID = Credentials.VARIANT_UID;
+    private static final String[] VARIANT_UIDS = Credentials.VARIANTS_UID;
 
     @Test
     @Order(1)
@@ -61,6 +65,41 @@ class TestEntry {
             }
         });
         logger.info("passed..");
+    }
+
+    @Test
+    void VariantsTestSingleUid() {
+        entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants(VARIANT_UID);
+        entry.fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                assertEquals(VARIANT_UID.trim(), entry.getHeaders().get("x-cs-variant-uid"));
+                System.out.println(entry.toJSON());
+            }
+        });
+    }
+
+    @Test
+    void VariantsTestArray() {
+        entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants(VARIANT_UIDS);
+        entry.fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                System.out.println(entry.toJSON());
+            }
+        });
+    }
+
+    @Test
+    void VariantsTestNullString() {
+        entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants((String) null);
+        entry.fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                assertNull(entry.getHeaders().get("x-cs-variant-uid"));
+                System.out.println(entry.toJSON());
+            }
+        });
     }
 
     @Test
