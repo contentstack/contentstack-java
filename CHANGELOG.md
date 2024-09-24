@@ -6,6 +6,12 @@
 
 -Feature: Variants method introduced
 
+## v1.15.0
+
+### Date: 04-Sep-2024
+
+- Live Preview 2.0 support added
+
 ## v1.14.2
 
 ### Date: 15-July-2024
