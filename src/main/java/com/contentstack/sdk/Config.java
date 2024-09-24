@@ -26,6 +26,7 @@ public class Config {
     protected JSONObject livePreviewEntry = null;
     protected ContentstackRegion region = ContentstackRegion.US;
     protected String managementToken;
+    protected String previewToken;
     protected String branch;
     protected Proxy proxy = null;
     protected String[] earlyAccess = null;
@@ -178,6 +179,17 @@ public class Config {
 
     protected Config setLivePreviewEntry(@NotNull JSONObject livePreviewEntry) {
         this.livePreviewEntry = livePreviewEntry;
+        return this;
+    }
+
+     /**
+     * Sets preview token.
+     *
+     * @param previewToken the preview token
+     * @return the preview token
+     */
+    public Config setPreviewToken(@NotNull String previewToken){
+        this.previewToken = previewToken;
         return this;
     }
 
