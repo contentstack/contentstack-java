@@ -281,7 +281,6 @@ public class CSHttpConnection implements IURLRequestHTTP {
             // If errResp is not valid JSON, create a new JSONObject with the error message
             responseJSON = new JSONObject();
             responseJSON.put(ERROR_MESSAGE, errResp);
-            responseJSON.put(ERROR_CODE, "unknown");
         }
         responseJSON.put(ERROR_MESSAGE, responseJSON.optString(ERROR_MESSAGE));
         responseJSON.put(ERROR_CODE, responseJSON.optString(ERROR_CODE));
