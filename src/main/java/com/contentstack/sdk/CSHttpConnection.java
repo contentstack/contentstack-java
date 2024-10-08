@@ -11,6 +11,7 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -202,22 +203,35 @@ public class CSHttpConnection implements IURLRequestHTTP {
             requestUrl = request.url().toString();
         }
 
-        Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
-        if (response.isSuccessful()) {
-            assert response.body() != null;
-            if (request != null) {
-                response = pluginResponseImp(request, response);
+        try {
+            Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
+            if (response.isSuccessful()) {
+                assert response.body() != null;
+                if (request != null) {
+                    response = pluginResponseImp(request, response);
+                }
+                String responseBody = response.body().string();
+                try {
+                    responseJSON = new JSONObject(responseBody);
+                    if (this.config.livePreviewEntry != null && !this.config.livePreviewEntry.isEmpty()) {
+                        handleJSONArray();
+                    }
+                    connectionRequest.onRequestFinished(CSHttpConnection.this);
+                } catch (JSONException e) {
+                    // Handle non-JSON response
+                    setError("Invalid JSON response: " + responseBody);
+                }
+            } else {
+                assert response.errorBody() != null;
+                setError(response.errorBody().string());
             }
-            responseJSON = new JSONObject(response.body().string());
-            if (this.config.livePreviewEntry != null && !this.config.livePreviewEntry.isEmpty()) {
-                handleJSONArray();
-            }
-            connectionRequest.onRequestFinished(CSHttpConnection.this);
-        } else {
-            assert response.errorBody() != null;
-            setError(response.errorBody().string());
+        } catch (SocketTimeoutException e) {
+            // Handle timeout
+            setError("Request timed out: " + e.getMessage());
+        } catch (IOException e) {
+            // Handle other IO exceptions
+            setError("IO error occurred: " + e.getMessage());
         }
-
     }
 
     private Request pluginRequestImp(String requestUrl) {
@@ -261,7 +275,14 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     void setError(String errResp) {
-        responseJSON = new JSONObject(errResp); // Parse error string to JSONObject
+        try {
+            responseJSON = new JSONObject(errResp);
+        } catch (JSONException e) {
+            // If errResp is not valid JSON, create a new JSONObject with the error message
+            responseJSON = new JSONObject();
+            responseJSON.put(ERROR_MESSAGE, errResp);
+            responseJSON.put(ERROR_CODE, "unknown");
+        }
         responseJSON.put(ERROR_MESSAGE, responseJSON.optString(ERROR_MESSAGE));
         responseJSON.put(ERROR_CODE, responseJSON.optString(ERROR_CODE));
         responseJSON.put(ERRORS, responseJSON.optString(ERRORS));
