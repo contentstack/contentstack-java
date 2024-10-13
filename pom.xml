@@ -273,9 +273,9 @@
                     <execution>
                         <id>sign-artifacts</id>
                         <phase>verify</phase>
-                        <!-- <goals>
+                        <goals>
                             <goal>sign</goal>
-                        </goals> -->
+                        </goals>
                         <configuration>
                             <gpgArguments>
                                 <arg>--pinentry-mode</arg>
