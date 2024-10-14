@@ -2,9 +2,11 @@ package com.contentstack.sdk;
 
 import okhttp3.Request;
 import okhttp3.ResponseBody;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -20,6 +22,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
+import com.fasterxml.jackson.databind.ObjectMapper; // Jackson for JSON parsing
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.type.MapType;
 
 import static com.contentstack.sdk.Constants.*;
 
@@ -186,6 +192,14 @@ public class CSHttpConnection implements IURLRequestHTTP {
         }
     }
 
+    private JSONObject createOrderedJSONObject(Map<String, Object> map) {
+        JSONObject json = new JSONObject();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            json.put(entry.getKey(), entry.getValue());
+        }
+        return json;
+    }
+
     private void getService(String requestUrl) throws IOException {
 
         this.headers.put(X_USER_AGENT_KEY, "contentstack-delivery-java/" + SDK_VERSION);
@@ -210,16 +224,22 @@ public class CSHttpConnection implements IURLRequestHTTP {
                 if (request != null) {
                     response = pluginResponseImp(request, response);
                 }
-                String responseBody = response.body().string();
                 try {
-                    responseJSON = new JSONObject(responseBody);
+                    // Use Jackson to parse the JSON while preserving order
+                    ObjectMapper mapper = JsonMapper.builder().build();
+                    MapType type = mapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class,
+                            Object.class);
+                    Map<String, Object> responseMap = mapper.readValue(response.body().string(), type);
+
+                    // Use the custom method to create an ordered JSONObject
+                    responseJSON = createOrderedJSONObject(responseMap);
                     if (this.config.livePreviewEntry != null && !this.config.livePreviewEntry.isEmpty()) {
                         handleJSONArray();
                     }
                     connectionRequest.onRequestFinished(CSHttpConnection.this);
                 } catch (JSONException e) {
                     // Handle non-JSON response
-                    setError("Invalid JSON response: " + responseBody);
+                    setError("Invalid JSON response");
                 }
             } else {
                 assert response.errorBody() != null;
