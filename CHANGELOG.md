@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v2.0.1
+
+### Date: 21-October-2024
+
+-Github Issues fixed
+-Issue with field ordering in SDK response
+
 ## v2.0.0
 
 ### Date: 27-August-2024
