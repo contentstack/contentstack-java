@@ -2,15 +2,18 @@ package com.contentstack.sdk;
 
 import okhttp3.Request;
 import okhttp3.ResponseBody;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,6 +22,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
+import com.fasterxml.jackson.databind.ObjectMapper; // Jackson for JSON parsing
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.type.MapType;
 
 import static com.contentstack.sdk.Constants.*;
 
@@ -185,6 +192,14 @@ public class CSHttpConnection implements IURLRequestHTTP {
         }
     }
 
+    private JSONObject createOrderedJSONObject(Map<String, Object> map) {
+        JSONObject json = new JSONObject();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            json.put(entry.getKey(), entry.getValue());
+        }
+        return json;
+    }
+
     private void getService(String requestUrl) throws IOException {
 
         this.headers.put(X_USER_AGENT_KEY, "contentstack-delivery-java/" + SDK_VERSION);
@@ -202,22 +217,41 @@ public class CSHttpConnection implements IURLRequestHTTP {
             requestUrl = request.url().toString();
         }
 
-        Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
-        if (response.isSuccessful()) {
-            assert response.body() != null;
-            if (request != null) {
-                response = pluginResponseImp(request, response);
-            }
-            responseJSON = new JSONObject(response.body().string());
-            if (this.config.livePreviewEntry != null && !this.config.livePreviewEntry.isEmpty()) {
-                handleJSONArray();
-            }
-            connectionRequest.onRequestFinished(CSHttpConnection.this);
-        } else {
-            assert response.errorBody() != null;
-            setError(response.errorBody().string());
-        }
+        try {
+            Response<ResponseBody> response = this.service.getRequest(requestUrl, this.headers).execute();
+            if (response.isSuccessful()) {
+                assert response.body() != null;
+                if (request != null) {
+                    response = pluginResponseImp(request, response);
+                }
+                try {
+                    // Use Jackson to parse the JSON while preserving order
+                    ObjectMapper mapper = JsonMapper.builder().build();
+                    MapType type = mapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class,
+                            Object.class);
+                    Map<String, Object> responseMap = mapper.readValue(response.body().string(), type);
 
+                    // Use the custom method to create an ordered JSONObject
+                    responseJSON = createOrderedJSONObject(responseMap);
+                    if (this.config.livePreviewEntry != null && !this.config.livePreviewEntry.isEmpty()) {
+                        handleJSONArray();
+                    }
+                    connectionRequest.onRequestFinished(CSHttpConnection.this);
+                } catch (JSONException e) {
+                    // Handle non-JSON response
+                    setError("Invalid JSON response");
+                }
+            } else {
+                assert response.errorBody() != null;
+                setError(response.errorBody().string());
+            }
+        } catch (SocketTimeoutException e) {
+            // Handle timeout
+            setError("Request timed out: " + e.getMessage());
+        } catch (IOException e) {
+            // Handle other IO exceptions
+            setError("IO error occurred: " + e.getMessage());
+        }
     }
 
     private Request pluginRequestImp(String requestUrl) {
@@ -261,7 +295,13 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     void setError(String errResp) {
-        responseJSON = new JSONObject(errResp); // Parse error string to JSONObject
+        try {
+            responseJSON = new JSONObject(errResp);
+        } catch (JSONException e) {
+            // If errResp is not valid JSON, create a new JSONObject with the error message
+            responseJSON = new JSONObject();
+            responseJSON.put(ERROR_MESSAGE, errResp);
+        }
         responseJSON.put(ERROR_MESSAGE, responseJSON.optString(ERROR_MESSAGE));
         responseJSON.put(ERROR_CODE, responseJSON.optString(ERROR_CODE));
         responseJSON.put(ERRORS, responseJSON.optString(ERRORS));
