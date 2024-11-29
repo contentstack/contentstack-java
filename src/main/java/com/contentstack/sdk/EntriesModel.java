@@ -1,9 +1,9 @@
 package com.contentstack.sdk;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,13 +18,14 @@ class EntriesModel {
             this.jsonObject = responseJSON;
             objectList = new ArrayList<>();
             Object entryList = jsonObject.opt("entries");
-            if (entryList instanceof JSONArray) {
-                JSONArray entries = (JSONArray) entryList;
-                if (entries.length() > 0) {
+            if (entryList instanceof ArrayList) {
+                ArrayList<LinkedHashMap> entries = (ArrayList) entryList;
+                if (!entries.isEmpty()) {
                     entries.forEach(model -> {
-                        if (model instanceof JSONObject) {
-                            JSONObject newModel = (JSONObject) model;
-                            EntryModel entry = new EntryModel(newModel);
+                        if (model instanceof LinkedHashMap) {
+                            // Convert LinkedHashMap to JSONObject
+                            JSONObject jsonModel = new JSONObject((LinkedHashMap<?, ?>) model);
+                            EntryModel entry = new EntryModel(jsonModel);
                             objectList.add(entry);
                         }
                     });
