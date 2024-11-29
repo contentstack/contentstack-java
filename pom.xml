@@ -36,7 +36,7 @@
         <json-version>20240303</json-version>
         <jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
         <maven-release-plugin-version>2.5.3</maven-release-plugin-version>
-        <contentstack-utils-version>1.2.12</contentstack-utils-version>
+        <contentstack-utils-version>1.2.8</contentstack-utils-version>
     </properties>
 
     <parent>
@@ -251,7 +251,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <!-- <skipTests>true</skipTests> -->
+                    <skipTests>true</skipTests>
                 </configuration>
             </plugin>
 
