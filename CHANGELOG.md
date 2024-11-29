@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v2.0.2
+
+### Date: 5-December-2024
+
+-Github Issue fixed
+-EntriesModel parsing fix
+
 ## v2.0.1
 
 ### Date: 21-October-2024
