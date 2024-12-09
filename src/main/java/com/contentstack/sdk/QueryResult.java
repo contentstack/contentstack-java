@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -105,7 +106,8 @@ public class QueryResult {
     private void extractContentObject() {
         try {
             if (receiveJson != null && receiveJson.has("content_type")) {
-                JSONObject jsonObject = receiveJson.getJSONObject("content_type");
+                Object contentTypeObject = receiveJson.get("content_type");
+                JSONObject jsonObject = new JSONObject((Map<?, ?>) contentTypeObject);
                 if (jsonObject != null) {
                     contentObject = jsonObject;
                 }
