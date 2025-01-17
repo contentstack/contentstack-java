@@ -2,6 +2,13 @@
 
 ## v2.0.2
 
+### Date: 27-January-2025
+
+-Snyk fixes
+-Fixed includeContenttype
+
+## v2.0.2
+
 ### Date: 5-December-2024
 
 -Github Issue fixed
