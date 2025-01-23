@@ -305,7 +305,14 @@ public class CSHttpConnection implements IURLRequestHTTP {
         responseJSON.put(ERROR_MESSAGE, responseJSON.optString(ERROR_MESSAGE));
         responseJSON.put(ERROR_CODE, responseJSON.optString(ERROR_CODE));
         responseJSON.put(ERRORS, responseJSON.optString(ERRORS));
-        int errCode = Integer.parseInt(responseJSON.optString(ERROR_CODE));
+
+        int errCode = 0;
+        try {
+            errCode = Integer.parseInt(responseJSON.optString(ERROR_CODE));
+        } catch (NumberFormatException e) {
+            // in case of missing error code, we keep it 0
+        }
+
         connectionRequest.onRequestFailed(responseJSON, errCode, callBackObject);
     }
 
