@@ -133,6 +133,85 @@ public class AssetLibrary implements INotifyClass {
         return count;
     }
 
+     /**
+     * Add param assetlibrary.
+     *
+     * @param paramKey   the param key
+     * @param paramValue the param value
+     * @return the assetlibrary
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         AssetLibrary assetLibObject = stack.assetlibrary();
+     *         assetLibObject.addParam();
+     *         </pre>
+     */
+    public AssetLibrary addParam(@NotNull String paramKey, @NotNull Object paramValue) {
+        urlQueries.put(paramKey, paramValue);
+        return this;
+    }
+    
+    public AssetLibrary removeParam(@NotNull String paramKey){
+         if(urlQueries.has(paramKey)){
+            urlQueries.remove(paramKey);
+        }
+        return this;
+    }
+
+    
+
+    /**
+     * The number of objects to skip before returning any.
+     *
+     * @param number No of objects to skip from returned objects
+     * @return {@link Query} object, so you can chain this call.
+     * <p>
+     * <b> Note: </b> The skip parameter can be used for pagination,
+     * &#34;skip&#34; specifies the number of objects to skip in the response. <br>
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
+     *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
+     *          AssetLibrary assetLibObject = stack.assetlibrary.skip(4);<br>
+     *         </pre>
+     */
+
+    public AssetLibrary skip (@NotNull int number) {
+        urlQueries.put("skip",number);
+        return this;
+    }
+
+    /**
+     * A limit on the number of objects to return.
+     *
+     * @param number No of objects to limit.
+     * @return {@link Query} object, so you can chain this call.
+     * <p>
+     * <b> Note:</b> The limit parameter can be used for pagination, &#34;
+     * limit&#34; specifies the number of objects to limit to in the response. <br>
+     *
+     * <br>
+     * <br>
+     * <b>Example :</b><br>
+     *
+     * <pre class="prettyprint">
+     *          Stack stack = Contentstack.stack( "apiKey", "deliveryToken", "environment");
+     *           AssetLibrary assetLibObject = stack.assetlibrary.limit(4);<br>
+     *         </pre>
+     */
+
+    public AssetLibrary limit (@NotNull int number) {
+        urlQueries.put("limit", number);
+        return this;
+    }
+
     /**
      * Fetch all.
      *
