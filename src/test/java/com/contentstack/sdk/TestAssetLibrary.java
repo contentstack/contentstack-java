@@ -24,10 +24,10 @@ class TestAssetLibrary {
             public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {
                 Asset model = assets.get(0);
                 Assertions.assertTrue(model.getAssetUid().startsWith("blt"));
-                assertEquals("image/png", model.getFileType());
-                assertEquals("13006", model.getFileSize());
-                assertEquals("iot-icon.png", model.getFileName());
-                Assertions.assertTrue(model.getUrl().endsWith("iot-icon.png"));
+                assertEquals("image/jpeg", model.getFileType());
+                assertEquals("12668", model.getFileSize());
+                assertEquals("Jane_Austen_Headshot.jpg", model.getFileName());
+                Assertions.assertTrue(model.getUrl().endsWith("Jane_Austen_Headshot.jpg"));
                 Assertions.assertTrue(model.toJSON().has("created_at"));
                 Assertions.assertTrue(model.getCreatedBy().startsWith("blt"));
                 assertEquals("gregory", model.getUpdateAt().getCalendarType());
@@ -107,4 +107,60 @@ class TestAssetLibrary {
         }
     });
     }
+
+    @Test
+    void testFetchFirst10Assets() throws IllegalAccessException {
+        AssetLibrary assetLibrary = stack.assetLibrary();
+        assetLibrary.skip(0).limit(10).fetchAll(new FetchAssetsCallback() {
+            @Override
+            public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {
+                Assertions.assertNotNull(assets, "Assets list should not be null");
+                Assertions.assertTrue(assets.size() <= 10, "Assets fetched should not exceed the limit");
+            }
+        });
+    }
+
+    @Test
+    void testFetchAssetsWithSkip() throws IllegalAccessException {
+        AssetLibrary assetLibrary = stack.assetLibrary();
+        assetLibrary.skip(10).limit(10).fetchAll(new FetchAssetsCallback() {
+            @Override
+            public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {
+                Assertions.assertNotNull(assets, "Assets list should not be null");
+                Assertions.assertTrue(assets.size() <= 10, "Assets fetched should not exceed the limit");
+            }
+        });
+    }
+
+    @Test
+    void testFetchBeyondAvailableAssets() throws IllegalAccessException {
+        AssetLibrary assetLibrary = stack.assetLibrary();
+        assetLibrary.skip(5000).limit(10).fetchAll(new FetchAssetsCallback() {
+            @Override
+            public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {
+                Assertions.assertNotNull(assets, "Assets list should not be null");
+                Assertions.assertEquals(0, assets.size(), "No assets should be fetched when skip exceeds available assets");
+            }
+        });
+    }
+
+    @Test
+    void testFetchAllAssetsInBatches() throws IllegalAccessException {
+        AssetLibrary assetLibrary = stack.assetLibrary();
+        int limit = 50;
+        int totalAssetsFetched[] = {0};
+
+        for (int skip = 0; skip < 150; skip += limit) {
+            assetLibrary.skip(skip).limit(limit).fetchAll(new FetchAssetsCallback() {
+                @Override
+                public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {
+                    totalAssetsFetched[0] += assets.size();
+                    Assertions.assertNotNull(assets, "Assets list should not be null");
+                    Assertions.assertTrue(assets.size() <= limit, "Assets fetched should not exceed the limit");
+                    Assertions.assertEquals(7, totalAssetsFetched[0]);
+                }
+            });
+        }
+    }
+
 }

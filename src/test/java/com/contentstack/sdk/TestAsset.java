@@ -38,10 +38,10 @@ class TestAsset {
                 Asset model = assets.get(0);
                 assetUid = model.getAssetUid();
                 Assertions.assertTrue(model.getAssetUid().startsWith("blt"));
-                Assertions.assertEquals("image/png", model.getFileType());
-                Assertions.assertEquals("13006", model.getFileSize());
-                Assertions.assertEquals("iot-icon.png", model.getFileName());
-                Assertions.assertTrue(model.getUrl().endsWith("iot-icon.png"));
+                Assertions.assertEquals("image/jpeg", model.getFileType());
+                Assertions.assertEquals("12668", model.getFileSize());
+                Assertions.assertEquals("Jane_Austen_Headshot.jpg", model.getFileName());
+                Assertions.assertTrue(model.getUrl().endsWith("Jane_Austen_Headshot.jpg"));
                 Assertions.assertTrue(model.toJSON().has("created_at"));
                 Assertions.assertTrue(model.getCreatedBy().startsWith("blt"));
                 Assertions.assertEquals("gregory", model.getUpdateAt().getCalendarType());

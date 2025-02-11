@@ -259,6 +259,10 @@ public class AssetLibrary implements INotifyClass {
 
         List<Asset> assets = new ArrayList<>();
 
+        // if (objects == null || objects.isEmpty()) {
+        //     System.out.println("Objects list is null or empty");
+        // }
+
         if (objects != null && !objects.isEmpty()) {
             for (Object object : objects) {
                 AssetModel model = (AssetModel) object;
@@ -272,7 +276,10 @@ public class AssetLibrary implements INotifyClass {
                 asset.setTags(model.tags);
                 assets.add(asset);
             }
-        }
+        } 
+        // else {
+        // System.out.println("Object is not an instance of AssetModel");
+        // }
 
         if (callback != null) {
             callback.onRequestFinish(ResponseType.NETWORK, assets);
