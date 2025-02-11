@@ -1,10 +1,10 @@
 package com.contentstack.sdk;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * The type Assets model.
@@ -19,13 +19,24 @@ class AssetsModel {
      * @param response the response
      */
     public AssetsModel(JSONObject response) {
-        JSONArray listResponse = response != null && response.has("assets") ? response.optJSONArray("assets") : null;
-        if (listResponse != null) {
-            listResponse.forEach(model -> {
+        Object listResponse = response != null && response.has("assets") ? response.opt("assets") : null;
+        if (listResponse instanceof JSONArray) {
+            // Handle traditional JSONArray
+            populateObjectsFromJSONArray((JSONArray) listResponse);
+        } else if (listResponse instanceof List) {
+            // Convert ArrayList to JSONArray
+            JSONArray jsonArray = new JSONArray((List<?>) listResponse);
+            populateObjectsFromJSONArray(jsonArray);
+        }
+    }
+
+    private void populateObjectsFromJSONArray(JSONArray jsonArray) {
+        jsonArray.forEach(model -> {
+            if (model instanceof JSONObject) {
                 JSONObject modelObj = (JSONObject) model;
                 AssetModel newModel = new AssetModel(modelObj, true);
                 objects.add(newModel);
-            });
-        }
+            }
+        });
     }
 }
