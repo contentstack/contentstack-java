@@ -1,20 +1,19 @@
 package com.contentstack.sdk;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.jupiter.api.*;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.logging.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.jupiter.api.*;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestStack {
-
     Stack stack = Credentials.getStack();
     protected String paginationToken;
     private final Logger logger = Logger.getLogger(TestStack.class.getName());
@@ -303,8 +302,9 @@ class TestStack {
         stack.getContentTypes(param, new ContentTypesCallback() {
             @Override
             public void onCompletion(ContentTypesModel contentTypesModel, Error error) {
-                assertTrue(contentTypesModel.getResponse() instanceof JSONArray);
+                assertTrue(contentTypesModel.getResultArray() instanceof JSONArray);
                 assertEquals(8, ((JSONArray) contentTypesModel.getResponse()).length());
+
             }
         });
     }
