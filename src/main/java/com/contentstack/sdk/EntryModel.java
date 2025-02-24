@@ -1,10 +1,10 @@
 package com.contentstack.sdk;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 
 class EntryModel {
 
@@ -40,6 +40,7 @@ class EntryModel {
 
     public EntryModel(JSONObject response) {
         this.jsonObject = response;
+
         if (this.jsonObject.has(ENTRY_KEY)) {
             this.jsonObject = jsonObject.optJSONObject(ENTRY_KEY);
         }
@@ -59,7 +60,6 @@ class EntryModel {
         if (this.jsonObject.has("description")) {
             this.description = this.jsonObject.opt("description");
         }
-
         this.images = (JSONArray) this.jsonObject.opt("images");
         this.isDirectory = (Boolean) this.jsonObject.opt("is_dir");
         this.updatedAt = (String) this.jsonObject.opt("updated_at");
