@@ -1,10 +1,10 @@
 package com.contentstack.sdk;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.json.JSONObject;
+
 
 import static com.contentstack.sdk.Constants.*;
 
@@ -128,7 +128,8 @@ class CSConnectionRequest implements IRequestModelHTTP {
             EntriesModel model = new EntriesModel(jsonResponse);
             notifyClass.getResultObject(model.objectList, jsonResponse, true);
         } else if (request.getController().equalsIgnoreCase(Constants.FETCHENTRY)) {
-            EntryModel model = new EntryModel(jsonResponse);
+            JSONObject jsonModel = new JSONObject((LinkedHashMap<?, ?>) jsonResponse.get("entry"));
+            EntryModel model = new EntryModel(jsonModel);
             entryInstance.resultJson = model.jsonObject;
             entryInstance.title = model.title;
             entryInstance.url = model.url;
