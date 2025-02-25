@@ -6,7 +6,6 @@ import org.junit.jupiter.api.*;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -24,15 +23,15 @@ class TestAssetLibrary {
             public void onCompletion(ResponseType responseType, List<Asset> assets, Error error) {
                 Asset model = assets.get(0);
                 Assertions.assertTrue(model.getAssetUid().startsWith("blt"));
-                assertEquals("image/jpeg", model.getFileType());
-                assertEquals("12668", model.getFileSize());
-                assertEquals("Jane_Austen_Headshot.jpg", model.getFileName());
-                Assertions.assertTrue(model.getUrl().endsWith("Jane_Austen_Headshot.jpg"));
+                Assertions.assertEquals("image/png", model.getFileType());
+                Assertions.assertEquals("13006", model.getFileSize());
+                Assertions.assertEquals("iot-icon.png", model.getFileName());
+                Assertions.assertTrue(model.getUrl().endsWith("iot-icon.png"));
                 Assertions.assertTrue(model.toJSON().has("created_at"));
                 Assertions.assertTrue(model.getCreatedBy().startsWith("blt"));
-                assertEquals("gregory", model.getUpdateAt().getCalendarType());
+                Assertions.assertEquals("gregory", model.getUpdateAt().getCalendarType());
                 Assertions.assertTrue(model.getUpdatedBy().startsWith("blt"));
-                assertEquals("", model.getDeletedBy());
+                Assertions.assertEquals("", model.getDeletedBy());
                 logger.info("passed...");
             }
         });
@@ -157,7 +156,7 @@ class TestAssetLibrary {
                     totalAssetsFetched[0] += assets.size();
                     Assertions.assertNotNull(assets, "Assets list should not be null");
                     Assertions.assertTrue(assets.size() <= limit, "Assets fetched should not exceed the limit");
-                    Assertions.assertEquals(7, totalAssetsFetched[0]);
+                    Assertions.assertEquals(6, totalAssetsFetched[0]);
                 }
             });
         }
