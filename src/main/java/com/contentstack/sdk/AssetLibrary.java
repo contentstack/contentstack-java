@@ -154,7 +154,23 @@ public class AssetLibrary implements INotifyClass {
         urlQueries.put(paramKey, paramValue);
         return this;
     }
-    
+
+    /**
+     * Remove param key assetlibrary.
+     *
+     * @param paramKey   the param key
+     * @return the assetlibrary
+     *
+     *         <br>
+     *         <br>
+     *         <b>Example :</b><br>
+     *
+     *         <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         AssetLibrary assetLibObject = stack.assetlibrary();
+     *         assetLibObject.removeParam(paramKey);
+     *         </pre>
+     */
     public AssetLibrary removeParam(@NotNull String paramKey){
          if(urlQueries.has(paramKey)){
             urlQueries.remove(paramKey);
