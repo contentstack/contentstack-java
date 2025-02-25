@@ -1,12 +1,12 @@
 package com.contentstack.sdk;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 /**
  * QueryResult works as the Query Response that works as getter as per the Json Key
