@@ -30,7 +30,7 @@ class AssetsModel {
                 JSONObject modelObj = (JSONObject) model;
                 AssetModel newModel = new AssetModel(modelObj, true);
                 objects.add(newModel);
-            }
-        });
+            });
+        }
     }
 }
