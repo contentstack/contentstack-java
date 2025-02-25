@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v2.0.3
+
+### Date: 3-March-2025
+
+- Added skip limit methods for Assets
+- Resolved a bug
+
 ## v2.0.2
 
 ### Date: 5-December-2024
