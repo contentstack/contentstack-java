@@ -19,20 +19,14 @@ class AssetsModel {
      * @param response the response
      */
     public AssetsModel(JSONObject response) {
-        Object listResponse = response != null && response.has("assets") ? response.opt("assets") : null;
-        if (listResponse instanceof JSONArray) {
-            // Handle traditional JSONArray
-            populateObjectsFromJSONArray((JSONArray) listResponse);
-        } else if (listResponse instanceof List) {
-            // Convert ArrayList to JSONArray
-            JSONArray jsonArray = new JSONArray((List<?>) listResponse);
-            populateObjectsFromJSONArray(jsonArray);
+        JSONArray listResponse = null;
+        Object rawAssets = response.get("assets"); // Get assets
+        if (rawAssets instanceof List) {  // Check if it's an ArrayList
+            List<?> assetsList = (List<?>) rawAssets;
+            listResponse = new JSONArray(assetsList); // Convert to JSONArray
         }
-    }
-
-    private void populateObjectsFromJSONArray(JSONArray jsonArray) {
-        jsonArray.forEach(model -> {
-            if (model instanceof JSONObject) {
+        if (listResponse != null) {
+            listResponse.forEach(model -> {
                 JSONObject modelObj = (JSONObject) model;
                 AssetModel newModel = new AssetModel(modelObj, true);
                 objects.add(newModel);
