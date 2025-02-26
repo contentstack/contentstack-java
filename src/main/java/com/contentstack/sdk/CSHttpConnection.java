@@ -294,6 +294,10 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     void setError(String errResp) {
+        
+        if (errResp == null || errResp.trim().isEmpty()) {
+            errResp = "Unexpected error: No response received from server.";
+        }
         try {
             responseJSON = new JSONObject(errResp);
         } catch (JSONException e) {
@@ -301,10 +305,15 @@ public class CSHttpConnection implements IURLRequestHTTP {
             responseJSON = new JSONObject();
             responseJSON.put(ERROR_MESSAGE, errResp);
         }
-        responseJSON.put(ERROR_MESSAGE, responseJSON.optString(ERROR_MESSAGE));
-        responseJSON.put(ERROR_CODE, responseJSON.optString(ERROR_CODE));
-        responseJSON.put(ERRORS, responseJSON.optString(ERRORS));
-        int errCode = Integer.parseInt(responseJSON.optString(ERROR_CODE));
+        responseJSON.put(ERROR_MESSAGE, responseJSON.optString(ERROR_MESSAGE, "An unknown error occurred."));
+        responseJSON.put(ERROR_CODE, responseJSON.optString(ERROR_CODE, "0"));
+        responseJSON.put(ERRORS, responseJSON.optString(ERRORS, "No additional error details available."));
+        int errCode = 0;
+        try {
+            errCode = Integer.parseInt(responseJSON.optString(ERROR_CODE, "0"));
+        } catch (NumberFormatException e) {
+            // Default error code remains 0 if parsing fails
+        }
         connectionRequest.onRequestFailed(responseJSON, errCode, callBackObject);
     }
 
