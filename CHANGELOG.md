@@ -6,6 +6,7 @@
 
 - Added skip limit methods for Assets
 - Resolved a bug
+- Github issue fixed
 
 ## v2.0.2
 
