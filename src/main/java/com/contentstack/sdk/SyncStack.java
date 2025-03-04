@@ -1,11 +1,12 @@
 package com.contentstack.sdk;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Synchronization: The Sync API takes care of syncing your Contentstack data
@@ -59,7 +60,18 @@ public class SyncStack {
     protected void setJSON(@NotNull JSONObject jsonobject) {
         this.receiveJson = jsonobject;
         if (receiveJson.has("items")) {
-            JSONArray jsonarray = receiveJson.getJSONArray("items");
+            ArrayList<LinkedHashMap<?, ?>> items = (ArrayList) this.receiveJson.get("items");
+            List<Object> objectList = new ArrayList<>();
+            if (!items.isEmpty()) {
+                items.forEach(model -> {
+                    if (model instanceof LinkedHashMap) {
+                        // Convert LinkedHashMap to JSONObject
+                        JSONObject jsonModel = new JSONObject((LinkedHashMap<?, ?>) model);
+                        objectList.add(jsonModel);
+                    }
+                });
+            }
+            JSONArray jsonarray = new JSONArray(objectList);
             if (jsonarray != null) {
                 syncItems = new ArrayList<>();
                 for (int position = 0; position < jsonarray.length(); position++) {
