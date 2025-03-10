@@ -58,6 +58,9 @@ public class SyncStack {
     }
 
     protected void setJSON(@NotNull JSONObject jsonobject) {
+        if (jsonobject == null) {
+            throw new IllegalArgumentException("JSON object cannot be null.");
+        }
         this.receiveJson = jsonobject;
         if (receiveJson.has("items")) {
             ArrayList<LinkedHashMap<?, ?>> items = (ArrayList) this.receiveJson.get("items");
