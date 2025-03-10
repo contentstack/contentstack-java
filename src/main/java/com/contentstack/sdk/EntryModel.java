@@ -46,29 +46,47 @@ class EntryModel {
         }
 
         if (this.jsonObject.has(UID_KEY)) {
-            this.uid = (String) this.jsonObject.opt(UID_KEY);
+            this.uid = this.jsonObject.optString(UID_KEY, null);
         }
         if (this.jsonObject.has(TITLE_KEY)) {
-            this.title = (String) this.jsonObject.opt(TITLE_KEY);
+            this.title = this.jsonObject.optString(TITLE_KEY, null);
         }
         if (this.jsonObject.has(LOCALE_KEY)) {
-            this.language = (String) this.jsonObject.opt(LOCALE_KEY);
+            this.language = this.jsonObject.optString(LOCALE_KEY,null);
         }
         if (this.jsonObject.has(URL_KEY)) {
-            this.url = (String) this.jsonObject.opt(URL_KEY);
+            this.url = this.jsonObject.optString(URL_KEY,null);
         }
         if (this.jsonObject.has("description")) {
-            this.description = this.jsonObject.opt("description");
+            this.description = this.jsonObject.optString("description");
         }
-        this.images = (JSONArray) this.jsonObject.opt("images");
-        this.isDirectory = (Boolean) this.jsonObject.opt("is_dir");
-        this.updatedAt = (String) this.jsonObject.opt("updated_at");
-        this.updatedBy = (String) this.jsonObject.opt("updated_by");
-        this.createdAt = (String) this.jsonObject.opt("created_at");
-        this.createdBy = (String) this.jsonObject.opt("created_by");
-        this.locale = (String) this.jsonObject.opt(LOCALE_KEY);
-        this.inProgress = (Boolean) this.jsonObject.opt("_in_progress");
-        this.version = this.jsonObject.opt("_version") != null ? (int) this.jsonObject.opt("_version") : 1;
+        if(this.jsonObject.has("images") && this.jsonObject.opt("images") instanceof JSONArray) {
+            this.images = this.jsonObject.optJSONArray("images");
+        }
+        if(this.jsonObject.has("is_dir") && this.jsonObject.opt("is_dir") instanceof Boolean) {
+            this.isDirectory = this.jsonObject.optBoolean("is_dir");
+        }
+        if(this.jsonObject.has("updated_at")) {
+            this.updatedAt = this.jsonObject.optString("updated_at");
+        }
+        if(this.jsonObject.has("updated_by")) {
+            this.updatedBy = this.jsonObject.optString("updated_by");
+        }
+        if(this.jsonObject.has("created_at")) {
+            this.createdAt = this.jsonObject.optString("created_at");
+        }
+        if(this.jsonObject.has("created_by")) {
+            this.createdBy = this.jsonObject.optString("created_by");
+        }
+        if(this.jsonObject.has(LOCALE_KEY)) {
+            this.locale = this.jsonObject.optString(LOCALE_KEY);
+        }
+        if(this.jsonObject.has("_in_progress") && this.jsonObject.opt("_in_progress") instanceof Boolean) {
+            this.inProgress = this.jsonObject.optBoolean("_in_progress");
+        }
+        if(this.jsonObject.has("_version") && this.jsonObject.opt("_version") instanceof Integer) {
+            this.version = this.jsonObject.optInt("_version",1);
+        }   
         if (this.jsonObject.has(PUBLISH_DETAIL_KEY)) {
             parsePublishDetail();
         }
@@ -77,12 +95,15 @@ class EntryModel {
 
     private void parsePublishDetail() {
         if (this.jsonObject.opt(PUBLISH_DETAIL_KEY) instanceof JSONObject) {
-            this.publishDetails = (JSONObject) this.jsonObject.opt(PUBLISH_DETAIL_KEY);
-            this.environment = this.publishDetails.optString("environment");
-            this.time = this.publishDetails.optString("time");
-            this.user = this.publishDetails.optString("user");
+            this.publishDetails = this.jsonObject.optJSONObject(PUBLISH_DETAIL_KEY);
+            if(this.publishDetails != null) {
+                this.environment = this.publishDetails.optString("environment");
+                this.time = this.publishDetails.optString("time");
+                this.user = this.publishDetails.optString("user");
+            }
         }
         this.metadata = new HashMap<>();
         this.metadata.put(PUBLISH_DETAIL_KEY, this.publishDetails);
     }
 }
+

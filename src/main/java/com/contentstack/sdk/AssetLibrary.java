@@ -31,6 +31,31 @@ public class AssetLibrary implements INotifyClass {
         this.headers = stack.headers;
     }
 
+    //Sanitization of keys
+    private boolean isValidKey(String key) {
+        return key.matches("^[a-zA-Z0-9_.]+$");
+    }
+
+    //Sanitization of values
+    private boolean isValidValue(Object value) {
+        if(value instanceof String){
+            return ((String) value).matches("^[a-zA-Z0-9_.\\-\\s]+$");
+        }
+        return true;
+    }
+
+    //Sanitization of values list
+    private boolean isValidValueList(Object[] values) {
+        for (Object value : values) {
+            if (value instanceof String) {
+                if (!((String) value).matches("^[a-zA-Z0-9_.\\-\\s]+$")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     /**
      * Sets header.
      *
@@ -151,7 +176,11 @@ public class AssetLibrary implements INotifyClass {
      *         </pre>
      */
     public AssetLibrary addParam(@NotNull String paramKey, @NotNull Object paramValue) {
-        urlQueries.put(paramKey, paramValue);
+        if (isValidKey(paramKey) && isValidValue(paramValue)) {
+            urlQueries.put(paramKey, paramValue);
+        } else {
+            logger.warning("Invalid key or value");
+        }
         return this;
     }
 
@@ -172,8 +201,12 @@ public class AssetLibrary implements INotifyClass {
      *         </pre>
      */
     public AssetLibrary removeParam(@NotNull String paramKey){
-         if(urlQueries.has(paramKey)){
-            urlQueries.remove(paramKey);
+         if(isValidKey(paramKey)) {
+            if(urlQueries.has(paramKey)){
+                urlQueries.remove(paramKey);
+            }
+        } else {
+            logger.warning("Invalid key");
         }
         return this;
     }
@@ -255,7 +288,9 @@ public class AssetLibrary implements INotifyClass {
             while (iter.hasNext()) {
                 String key = iter.next();
                 Object value = urlQueriesJSON.opt(key);
-                hashMap.put(key, value);
+                if(isValidKey(key) && isValidValue(value)) {
+                    hashMap.put(key, value);
+                }
             }
         }
         return hashMap;
@@ -311,9 +346,13 @@ public class AssetLibrary implements INotifyClass {
     }
 
     public AssetLibrary where(String key, String value) {
-        JSONObject queryParams= new JSONObject();
-        queryParams.put(key,value);
-        urlQueries.put("query", queryParams);
+        if(isValidKey(key) && isValidValue(value)){  
+            JSONObject queryParams = new JSONObject();
+            queryParams.put(key,value);
+            urlQueries.put("query", queryParams);
+        } else {
+            throw new IllegalArgumentException("Invalid key or value");
+        }
         return this;
     }
  
