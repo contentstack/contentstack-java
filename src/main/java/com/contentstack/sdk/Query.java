@@ -1,13 +1,13 @@
 package com.contentstack.sdk;
 
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.contentstack.sdk.Constants.*;
 
@@ -1226,7 +1226,6 @@ public class Query implements INotifyClass {
             entry.setTags(((EntryModel) object).tags);
             objectList.add(entry);
         }
-
         if (isSingleEntry) {
             Entry entry = contentTypeInstance.entry();
             if (!objectList.isEmpty()) {

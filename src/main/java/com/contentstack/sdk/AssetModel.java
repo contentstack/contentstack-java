@@ -1,7 +1,9 @@
 package com.contentstack.sdk;
 
+import java.util.LinkedHashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 
 /**
  * The type Asset model.
@@ -25,11 +27,10 @@ class AssetModel {
      * @param isArray  the is array
      */
     public AssetModel(JSONObject response, boolean isArray) {
-
         if (isArray) {
             json = response;
         } else {
-            json = response.optJSONObject("asset");
+            json = new JSONObject((LinkedHashMap<?, ?>) response.get("asset"));
         }
 
         if (json != null) {
