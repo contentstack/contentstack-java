@@ -1,19 +1,12 @@
 package com.contentstack.sdk;
 
-import okhttp3.Request;
-import okhttp3.ResponseBody;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import retrofit2.Call;
-import retrofit2.Response;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.type.MapType;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.net.SocketTimeoutException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,10 +15,16 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
-import com.fasterxml.jackson.databind.ObjectMapper; // Jackson for JSON parsing
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.type.MapType;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import retrofit2.Call;
+import retrofit2.Response;
+
+
+
 
 import static com.contentstack.sdk.Constants.*;
 
@@ -230,7 +229,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
                     MapType type = mapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class,
                             Object.class);
                     Map<String, Object> responseMap = mapper.readValue(response.body().string(), type);
-
+                    
                     // Use the custom method to create an ordered JSONObject
                     responseJSON = createOrderedJSONObject(responseMap);
                     if (this.config.livePreviewEntry != null && !this.config.livePreviewEntry.isEmpty()) {
@@ -295,6 +294,10 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     void setError(String errResp) {
+        
+        if (errResp == null || errResp.trim().isEmpty()) {
+            errResp = "Unexpected error: No response received from server.";
+        }
         try {
             responseJSON = new JSONObject(errResp);
         } catch (JSONException e) {
@@ -302,10 +305,15 @@ public class CSHttpConnection implements IURLRequestHTTP {
             responseJSON = new JSONObject();
             responseJSON.put(ERROR_MESSAGE, errResp);
         }
-        responseJSON.put(ERROR_MESSAGE, responseJSON.optString(ERROR_MESSAGE));
-        responseJSON.put(ERROR_CODE, responseJSON.optString(ERROR_CODE));
-        responseJSON.put(ERRORS, responseJSON.optString(ERRORS));
-        int errCode = Integer.parseInt(responseJSON.optString(ERROR_CODE));
+        responseJSON.put(ERROR_MESSAGE, responseJSON.optString(ERROR_MESSAGE, "An unknown error occurred."));
+        responseJSON.put(ERROR_CODE, responseJSON.optString(ERROR_CODE, "0"));
+        responseJSON.put(ERRORS, responseJSON.optString(ERRORS, "No additional error details available."));
+        int errCode = 0;
+        try {
+            errCode = Integer.parseInt(responseJSON.optString(ERROR_CODE, "0"));
+        } catch (NumberFormatException e) {
+            // Default error code remains 0 if parsing fails
+        }
         connectionRequest.onRequestFailed(responseJSON, errCode, callBackObject);
     }
 
