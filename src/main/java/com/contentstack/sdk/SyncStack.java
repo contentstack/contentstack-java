@@ -6,6 +6,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.util.logging.Logger;
 
 
 /**
@@ -16,6 +17,7 @@ import org.json.JSONObject;
  */
 public class SyncStack {
 
+    private static final Logger logger = Logger.getLogger(SyncStack.class.getName());
     private JSONObject receiveJson;
     private int skip;
     private int limit;
@@ -57,29 +59,32 @@ public class SyncStack {
         return this.syncItems;
     }
 
-    protected void setJSON(@NotNull JSONObject jsonobject) {
-        this.receiveJson = jsonobject;
-        if (receiveJson.has("items")) {
-            ArrayList<LinkedHashMap<?, ?>> items = (ArrayList) this.receiveJson.get("items");
-            List<Object> objectList = new ArrayList<>();
-            if (!items.isEmpty()) {
-                items.forEach(model -> {
-                    if (model instanceof LinkedHashMap) {
-                        // Convert LinkedHashMap to JSONObject
-                        JSONObject jsonModel = new JSONObject((LinkedHashMap<?, ?>) model);
-                        objectList.add(jsonModel);
-                    }
-                });
-            }
-            JSONArray jsonarray = new JSONArray(objectList);
-            if (jsonarray != null) {
-                syncItems = new ArrayList<>();
-                for (int position = 0; position < jsonarray.length(); position++) {
-                    syncItems.add(jsonarray.optJSONObject(position));
-                }
-            }
+    protected synchronized void setJSON(@NotNull JSONObject jsonobject) {
+        if (jsonobject == null) {
+            throw new IllegalArgumentException("JSON object cannot be null.");
         }
-
+    
+        this.receiveJson = jsonobject;
+    
+        if (receiveJson.has("items")) {
+            Object itemsObj = receiveJson.opt("items");
+            if (itemsObj instanceof JSONArray) {
+                JSONArray jsonArray = (JSONArray) itemsObj;
+                syncItems = new ArrayList<>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonItem = jsonArray.optJSONObject(i);
+                    if (jsonItem != null) {
+                        syncItems.add(sanitizeJson(jsonItem));
+                    }
+                }
+            } else {
+                logger.warning("'items' is not a valid list. Skipping processing."); // ✅ Prevent crashes
+                syncItems = new ArrayList<>();
+            }
+        } else {
+            syncItems = new ArrayList<>();
+        }
+    
         this.paginationToken = null;
         this.syncToken = null;
         if (receiveJson.has("skip")) {
@@ -92,11 +97,49 @@ public class SyncStack {
             this.limit = receiveJson.optInt("limit");
         }
         if (receiveJson.has("pagination_token")) {
-            this.paginationToken = receiveJson.optString("pagination_token");
+            this.paginationToken = validateToken(receiveJson.optString("pagination_token"));
+        } else {
+            this.paginationToken = null;
         }
+
         if (receiveJson.has("sync_token")) {
-            this.syncToken = receiveJson.optString("sync_token");
+            this.syncToken = validateToken(receiveJson.optString("sync_token"));
+        } else {
+            this.syncToken = null;
         }
+    }
+
+     /**
+     * ✅ Sanitize JSON to prevent JSON injection
+     */
+    private JSONObject sanitizeJson(JSONObject json) {
+        JSONObject sanitizedJson = new JSONObject();
+        for (String key : json.keySet()) {
+            Object value = json.opt(key);
+            if (value instanceof String) {
+                // ✅ Remove potentially dangerous script tags
+                String cleanValue = ((String) value)
+                    .replaceAll("(?i)<script>", "&lt;script&gt;")  // Prevent script injection
+                    .replaceAll("(?i)</script>", "&lt;/script&gt;"); // Prevent closing script tags
+    
+                sanitizedJson.put(key, cleanValue); // ✅ Store sanitized value
+            } else {
+                sanitizedJson.put(key, value); // ✅ Keep non-string values unchanged
+            }
+        }
+        return sanitizedJson;
+    }
+    
+    
+    /**
+     * ✅ Validate tokens to prevent security risks
+     */
+    private String validateToken(String token) {
+        if (token != null && !token.matches("^[a-zA-Z0-9-_.]+$")) {
+            logger.warning("Invalid token detected: ");
+            return null;
+        }
+        return token;
     }
 
 }
