@@ -106,6 +106,31 @@ public class Query implements INotifyClass {
         return contentTypeInstance.contentTypeUid;
     }
 
+    //Sanitization of keys
+    private boolean isValidKey(String key) {
+        return key.matches("^[a-zA-Z0-9_.]+$");
+    }
+
+    //Sanitization of values
+    private boolean isValidValue(Object value) {
+        if(value instanceof String){
+            return ((String) value).matches("^[a-zA-Z0-9_.\\-\\s]+$");
+        }
+        return true;
+    }
+
+    //Sanitization of values list
+    private boolean isValidValueList(Object[] values) {
+        for (Object value : values) {
+            if (value instanceof String) {
+                if (!((String) value).matches("^[a-zA-Z0-9_.\\-\\s]+$")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     /**
      * Add a constraint to fetch all entries that contains given value against specified key
      *
@@ -128,7 +153,11 @@ public class Query implements INotifyClass {
      */
 
     public Query where(@NotNull String key, Object value) {
-        queryValueJSON.put(key, value);
+        if (isValidKey(key) && isValidValue(value) && value != null) {
+            queryValueJSON.put(key, value);
+        } else {
+            throwException("where", "Invalid key or value", null);
+        }
         return this;
     }
 
@@ -150,7 +179,7 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query addQuery(@NotNull String key, String value) {
-        if (value != null) {
+        if (isValidKey(key) && isValidValue(value) && value != null) {
             urlQueries.put(key, value);
         }
         return this;
@@ -171,7 +200,7 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query removeQuery(@NotNull String key) {
-        if (urlQueries.has(key)) {
+        if (isValidKey(key) && urlQueries.has(key)) {
             urlQueries.remove(key);
         }
         return this;
@@ -269,15 +298,19 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query lessThan(@NotNull String key, @NotNull Object value) {
-        if (queryValueJSON.isNull(key)) {
-            if (!queryValue.isEmpty()) {
-                queryValue = new JSONObject();
+        if(isValidKey(key) && isValidValue(value)) {
+            if (queryValueJSON.isNull(key)) {
+                if (!queryValue.isEmpty()) {
+                    queryValue = new JSONObject();
+                }
+                queryValue.put("$lt", value);
+                queryValueJSON.put(key, queryValue);
+            } else if (queryValueJSON.has(key)) {
+                queryValue.put("$lt", value);
+                queryValueJSON.put(key, queryValue);
             }
-            queryValue.put("$lt", value);
-            queryValueJSON.put(key, queryValue);
-        } else if (queryValueJSON.has(key)) {
-            queryValue.put("$lt", value);
-            queryValueJSON.put(key, queryValue);
+        } else {
+            throwException("lessThan", "Invalid key or value", null);
         }
         return this;
     }
@@ -301,16 +334,20 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query lessThanOrEqualTo(@NotNull String key, Object value) {
-        if (queryValueJSON.isNull(key)) {
-            if (!queryValue.isEmpty()) {
-                queryValue = new JSONObject();
-            }
-            queryValue.put("$lte", value);
-            queryValueJSON.put(key, queryValue);
-        } else if (queryValueJSON.has(key)) {
-            queryValue.put("$lte", value);
-            queryValueJSON.put(key, queryValue);
-        }
+        if(isValidKey(key) && isValidValue(value)) {
+            if (queryValueJSON.isNull(key)) {
+                if (!queryValue.isEmpty()) {
+                    queryValue = new JSONObject();
+                }
+                queryValue.put("$lte", value);
+                queryValueJSON.put(key, queryValue);
+            } else if (queryValueJSON.has(key)) {
+                queryValue.put("$lte", value);
+                queryValueJSON.put(key, queryValue);
+            }    
+        } else {
+            throwException("lessThanOrEqualTo", "Invalid key or value", null);
+        }                           
         return this;
     }
 
@@ -332,15 +369,19 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query greaterThan(@NotNull String key, Object value) {
-        if (queryValueJSON.isNull(key)) {
-            if (!queryValue.isEmpty()) {
-                queryValue = new JSONObject();
+         if(isValidKey(key) && isValidValue(value)) {  
+            if (queryValueJSON.isNull(key)) {
+                if (!queryValue.isEmpty()) {
+                    queryValue = new JSONObject();
+                }
+                queryValue.put("$gt", value);
+                queryValueJSON.put(key, queryValue);
+            } else if (queryValueJSON.has(key)) {
+                queryValue.put("$gt", value);
+                queryValueJSON.put(key, queryValue);
             }
-            queryValue.put("$gt", value);
-            queryValueJSON.put(key, queryValue);
-        } else if (queryValueJSON.has(key)) {
-            queryValue.put("$gt", value);
-            queryValueJSON.put(key, queryValue);
+        } else {
+            throwException("greaterThan", "Invalid key or value", null);
         }
         return this;
     }
@@ -364,15 +405,19 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query greaterThanOrEqualTo(String key, Object value) {
-        if (queryValueJSON.isNull(key)) {
-            if (queryValue.length() > 0) {
-                queryValue = new JSONObject();
+        if(isValidKey(key) && isValidValue(value)) {
+            if (queryValueJSON.isNull(key)) {
+                if (queryValue.length() > 0) {
+                    queryValue = new JSONObject();
+                }
+                queryValue.put("$gte", value);
+                queryValueJSON.put(key, queryValue);
+            } else if (queryValueJSON.has(key)) {
+                queryValue.put("$gte", value);
+                queryValueJSON.put(key, queryValue);
             }
-            queryValue.put("$gte", value);
-            queryValueJSON.put(key, queryValue);
-        } else if (queryValueJSON.has(key)) {
-            queryValue.put("$gte", value);
-            queryValueJSON.put(key, queryValue);
+        } else {
+            throwException("greaterThanOrEqualTo", "Invalid key or value", null);
         }
         return this;
     }
@@ -395,15 +440,19 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query notEqualTo(@NotNull String key, Object value) {
-        if (queryValueJSON.isNull(key)) {
-            if (queryValue.length() > 0) {
-                queryValue = new JSONObject();
+        if (isValidKey(key) && isValidValue(value)) { 
+            if (queryValueJSON.isNull(key)) {
+                if (queryValue.length() > 0) {
+                    queryValue = new JSONObject();
+                }
+                queryValue.put("$ne", value);
+                queryValueJSON.put(key, queryValue);
+            } else if (queryValueJSON.has(key)) {
+                queryValue.put("$ne", value);
+                queryValueJSON.put(key, queryValue);
             }
-            queryValue.put("$ne", value);
-            queryValueJSON.put(key, queryValue);
-        } else if (queryValueJSON.has(key)) {
-            queryValue.put("$ne", value);
-            queryValueJSON.put(key, queryValue);
+        } else {
+            throwException("notEqualTo", "Invalid key or value", null);
         }
         return this;
     }
@@ -426,19 +475,23 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query containedIn(@NotNull String key, Object[] values) {
-        JSONArray valuesArray = new JSONArray();
-        for (Object value : values) {
-            valuesArray.put(value);
-        }
-        if (queryValueJSON.isNull(key)) {
-            if (queryValue.length() > 0) {
-                queryValue = new JSONObject();
+        if (isValidKey(key) && isValidValueList(values)) {
+            JSONArray valuesArray = new JSONArray();
+            for (Object value : values) {
+                valuesArray.put(value);
             }
-            queryValue.put("$in", valuesArray);
-            queryValueJSON.put(key, queryValue);
-        } else if (queryValueJSON.has(key)) {
-            queryValue.put("$in", valuesArray);
-            queryValueJSON.put(key, queryValue);
+            if (queryValueJSON.isNull(key)) {
+                if (queryValue.length() > 0) {
+                    queryValue = new JSONObject();
+                }
+                queryValue.put("$in", valuesArray);
+                queryValueJSON.put(key, queryValue);
+            } else if (queryValueJSON.has(key)) {
+                queryValue.put("$in", valuesArray);
+                queryValueJSON.put(key, queryValue);
+            }
+        } else {
+            throwException("containedIn", "Invalid key or value", null);
         }
         return this;
     }
@@ -462,19 +515,23 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query notContainedIn(@NotNull String key, Object[] values) {
-        JSONArray valuesArray = new JSONArray();
-        for (Object value : values) {
-            valuesArray.put(value);
-        }
-        if (queryValueJSON.isNull(key)) {
-            if (queryValue.length() > 0) {
-                queryValue = new JSONObject();
+        if(isValidKey(key) && isValidValueList(values)) {
+            JSONArray valuesArray = new JSONArray();
+            for (Object value : values) {
+                valuesArray.put(value);
             }
-            queryValue.put("$nin", valuesArray);
-            queryValueJSON.put(key, queryValue);
-        } else if (queryValueJSON.has(key)) {
-            queryValue.put("$nin", valuesArray);
-            queryValueJSON.put(key, queryValue);
+            if (queryValueJSON.isNull(key)) {
+                if (queryValue.length() > 0) {
+                    queryValue = new JSONObject();
+                }
+                queryValue.put("$nin", valuesArray);
+                queryValueJSON.put(key, queryValue);
+            } else if (queryValueJSON.has(key)) {
+                queryValue.put("$nin", valuesArray);
+                queryValueJSON.put(key, queryValue);
+            }
+        } else {
+            throwException("notContainedIn", "Invalid key or value", null);
         }
         return this;
     }
@@ -496,15 +553,19 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query exists(@NotNull String key) {
-        if (queryValueJSON.isNull(key)) {
-            if (queryValue.length() > 0) {
-                queryValue = new JSONObject();
+        if(isValidKey(key)) {
+            if (queryValueJSON.isNull(key)) {
+                if (queryValue.length() > 0) {
+                    queryValue = new JSONObject();
+                }
+                queryValue.put(EXISTS, true);
+                queryValueJSON.put(key, queryValue);
+            } else if (queryValueJSON.has(key)) {
+                queryValue.put(EXISTS, true);
+                queryValueJSON.put(key, queryValue);
             }
-            queryValue.put(EXISTS, true);
-            queryValueJSON.put(key, queryValue);
-        } else if (queryValueJSON.has(key)) {
-            queryValue.put(EXISTS, true);
-            queryValueJSON.put(key, queryValue);
+        } else {        
+            throwException("exists", "Invalid key", null);
         }
         return this;
     }
@@ -527,16 +588,20 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query notExists(@NotNull String key) {
-        if (queryValueJSON.isNull(key)) {
-            if (queryValue.length() > 0) {
-                queryValue = new JSONObject();
-            }
-            queryValue.put(EXISTS, false);
-            queryValueJSON.put(key, queryValue);
-        } else if (queryValueJSON.has(key)) {
+        if(isValidKey(key)) {
+            if (queryValueJSON.isNull(key)) {
+                if (queryValue.length() > 0) {
+                    queryValue = new JSONObject();
+                }
+                queryValue.put(EXISTS, false);
+                queryValueJSON.put(key, queryValue);
+            } else if (queryValueJSON.has(key)) {
 
-            queryValue.put(EXISTS, false);
-            queryValueJSON.put(key, queryValue);
+                queryValue.put(EXISTS, false);
+                queryValueJSON.put(key, queryValue);
+            }
+        } else {    
+            throwException("notExists", "Invalid key", null);
         }
         return this;
     }
@@ -561,7 +626,11 @@ public class Query implements INotifyClass {
         if (objectUidForInclude == null) {
             objectUidForInclude = new JSONArray();
         }
-        objectUidForInclude.put(key);
+        if(isValidKey(key)) {
+            objectUidForInclude.put(key);
+        } else {
+            throwException("includeReference", "Invalid key", null);
+        }
         return this;
     }
 
@@ -583,7 +652,11 @@ public class Query implements INotifyClass {
      */
     public Query tags(@NotNull String[] tags) {
         String tagstr = String.join(",", tags);
-        urlQueries.put("tags", tagstr);
+        if(isValidValue(tagstr)) {
+            urlQueries.put("tags", tagstr);
+        } else {
+            throwException("tags", "Invalid tag", null);
+        }
         return this;
     }
 
@@ -606,7 +679,11 @@ public class Query implements INotifyClass {
      */
 
     public Query ascending(@NotNull String key) {
-        urlQueries.put("asc", key);
+        if(isValidKey(key)){
+            urlQueries.put("asc", key);
+        } else {
+            throwException("ascending", "Invalid key", null);
+        }
         return this;
     }
 
@@ -627,8 +704,12 @@ public class Query implements INotifyClass {
      *         csQuery.descending("name");
      *         </pre>
      */
-    public Query descending(@NotNull String key) {
-        urlQueries.put("desc", key);
+    public Query descending(@NotNull String key) {  
+        if(isValidKey(key)){
+            urlQueries.put("desc", key);
+        } else {
+            throwException("descending", "Invalid key", null);
+        }
         return this;
     }
 
@@ -652,13 +733,17 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query except(@NotNull List<String> fieldUid) {
-        if (!fieldUid.isEmpty()) {
-            if (objectUidForExcept == null) {
-                objectUidForExcept = new JSONArray();
+        if(isValidValue(fieldUid)){ 
+            if (!fieldUid.isEmpty()) {
+                if (objectUidForExcept == null) {
+                    objectUidForExcept = new JSONArray();
+                }
+                for (String s : fieldUid) {
+                    objectUidForExcept.put(s);
+                }
             }
-            for (String s : fieldUid) {
-                objectUidForExcept.put(s);
-            }
+        } else {    
+            throwException("except", "Invalid key", null);
         }
         return this;
     }
@@ -680,13 +765,17 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query except(@NotNull String[] fieldIds) {
-        if (fieldIds.length > 0) {
-            if (objectUidForExcept == null) {
-                objectUidForExcept = new JSONArray();
+        if(isValidValue(fieldIds)) {
+            if (fieldIds.length > 0) {
+                if (objectUidForExcept == null) {
+                    objectUidForExcept = new JSONArray();
+                }
+                for (String fieldId : fieldIds) {
+                    objectUidForExcept.put(fieldId);
+                }
             }
-            for (String fieldId : fieldIds) {
-                objectUidForExcept.put(fieldId);
-            }
+        } else {
+            throwException("except", "Invalid key", null);
         }
         return this;
     }
@@ -708,13 +797,17 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query only(@NotNull String[] fieldUid) {
-        if (fieldUid.length > 0) {
-            if (objectUidForOnly == null) {
-                objectUidForOnly = new JSONArray();
+        if(isValidValue(fieldUid)){
+            if (fieldUid.length > 0) {
+                if (objectUidForOnly == null) {
+                    objectUidForOnly = new JSONArray();
+                }
+                for (String s : fieldUid) {
+                    objectUidForOnly.put(s);
+                }
             }
-            for (String s : fieldUid) {
-                objectUidForOnly.put(s);
-            }
+        } else {
+            throwException("only", "Invalid key", null);
         }
         return this;
     }
@@ -741,18 +834,22 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query onlyWithReferenceUid(@NotNull List<String> fieldUid, @NotNull String referenceFieldUid) {
-        if (onlyJsonObject == null) {
-            onlyJsonObject = new JSONObject();
+        if(isValidValue(referenceFieldUid)){
+            if (onlyJsonObject == null) {
+                onlyJsonObject = new JSONObject();
+            }
+            JSONArray fieldValueArray = new JSONArray();
+            for (String s : fieldUid) {
+                fieldValueArray.put(s);
+            }
+            onlyJsonObject.put(referenceFieldUid, fieldValueArray);
+            if (objectUidForInclude == null) {
+                objectUidForInclude = new JSONArray();
+            }
+            objectUidForInclude.put(referenceFieldUid);
+        } else {
+            throwException("onlyWithReferenceUid", "Invalid key or value", null);
         }
-        JSONArray fieldValueArray = new JSONArray();
-        for (String s : fieldUid) {
-            fieldValueArray.put(s);
-        }
-        onlyJsonObject.put(referenceFieldUid, fieldValueArray);
-        if (objectUidForInclude == null) {
-            objectUidForInclude = new JSONArray();
-        }
-        objectUidForInclude.put(referenceFieldUid);
         return this;
     }
 
@@ -777,18 +874,22 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query exceptWithReferenceUid(@NotNull List<String> fieldUid, @NotNull String referenceFieldUid) {
-        if (exceptJsonObject == null) {
-            exceptJsonObject = new JSONObject();
+        if(isValidValue(referenceFieldUid)){
+            if (exceptJsonObject == null) {
+                exceptJsonObject = new JSONObject();
+            }
+            JSONArray fieldValueArray = new JSONArray();
+            for (String s : fieldUid) {
+                fieldValueArray.put(s);
+            }
+            exceptJsonObject.put(referenceFieldUid, fieldValueArray);
+            if (objectUidForInclude == null) {
+                objectUidForInclude = new JSONArray();
+            }
+            objectUidForInclude.put(referenceFieldUid);
+        } else {
+            throwException("exceptWithReferenceUid", "Invalid key or value", null);
         }
-        JSONArray fieldValueArray = new JSONArray();
-        for (String s : fieldUid) {
-            fieldValueArray.put(s);
-        }
-        exceptJsonObject.put(referenceFieldUid, fieldValueArray);
-        if (objectUidForInclude == null) {
-            objectUidForInclude = new JSONArray();
-        }
-        objectUidForInclude.put(referenceFieldUid);
         return this;
     }
 
@@ -927,15 +1028,19 @@ public class Query implements INotifyClass {
      */
 
     public Query regex(@NotNull String key, @NotNull String regex) {
-        if (queryValueJSON.isNull(key)) {
-            if (!queryValue.isEmpty()) {
-                queryValue = new JSONObject();
+        if(isValidKey(key) && isValidValue(regex)) {
+            if (queryValueJSON.isNull(key)) {
+                if (!queryValue.isEmpty()) {
+                    queryValue = new JSONObject();
+                }
+                queryValue.put(REGEX, regex);
+                queryValueJSON.put(key, queryValue);
+            } else if (queryValueJSON.has(key)) {
+                queryValue.put(REGEX, regex);
+                queryValueJSON.put(key, queryValue);
             }
-            queryValue.put(REGEX, regex);
-            queryValueJSON.put(key, queryValue);
-        } else if (queryValueJSON.has(key)) {
-            queryValue.put(REGEX, regex);
-            queryValueJSON.put(key, queryValue);
+        } else {
+            throwException(REGEX, Constants.QUERY_EXCEPTION, null);
         }
         return this;
     }
@@ -1031,8 +1136,12 @@ public class Query implements INotifyClass {
      */
 
     public Query search(@NotNull String value) {
-        if (urlQueries.isNull(value)) {
-            urlQueries.put("typeahead", value);
+        if(isValidValue(value)) {
+            if (urlQueries.isNull(value)) {
+                urlQueries.put("typeahead", value);
+            }
+        } else {
+            throwException("search", "Invalid value", null);
         }
         return this;
     }
@@ -1267,7 +1376,11 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query addParam(@NotNull String key, @NotNull String value) {
-        urlQueries.put(key, value);
+        if(isValidKey(key) && isValidValue(value)) {
+            urlQueries.put(key, value);
+        } else {
+            throwException("addParam", "Invalid key or value", null);
+        }
         return this;
     }
 
@@ -1315,9 +1428,13 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query whereIn(@NotNull String key, Query queryObject) {
-        JSONObject inQueryObj = new JSONObject();
-        inQueryObj.put("$in_query", queryObject.queryValueJSON.toString());
-        queryValueJSON.put(key, inQueryObj);
+        if(isValidKey(key)){
+            JSONObject inQueryObj = new JSONObject();
+            inQueryObj.put("$in_query", queryObject.queryValueJSON.toString());
+            queryValueJSON.put(key, inQueryObj);
+        } else {
+            throwException("whereIn", "Invalid key", null);
+        }
         return this;
     }
 
@@ -1340,9 +1457,13 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query whereNotIn(@NotNull String key, Query queryObject) {
-        JSONObject inQueryObj = new JSONObject();
-        inQueryObj.put("$nin_query", queryObject.queryValueJSON.toString());
-        queryValueJSON.put(key, inQueryObj);
+        if(isValidKey(key)){    
+            JSONObject inQueryObj = new JSONObject();
+            inQueryObj.put("$nin_query", queryObject.queryValueJSON.toString());
+            queryValueJSON.put(key, inQueryObj);
+        } else {
+            throwException("whereNotIn", "Invalid key", null);
+        }
         return this;
     }
 
