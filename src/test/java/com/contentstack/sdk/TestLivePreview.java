@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -221,6 +222,47 @@ public class TestLivePreview {
     // Optionally, you can check the message of the exception
     assertEquals("Live Preview is not enabled in Config", exception.getMessage(), 
                  "Expected exception message does not match");
+    }
+
+    @Test
+    void testTimelinePreview() throws IllegalAccessException, IOException {
+        Config config = new Config()
+                .enableLivePreview(true)
+                .setLivePreviewHost("rest-preview.contentstack.com")
+                .setPreviewToken("preview_token");
+
+        Stack stack = Contentstack.stack("stackApiKey", "deliveryToken", "env1", config);
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("live_preview", "hash167673");
+        hashMap.put("content_type_uid", "page");
+        hashMap.put("entry_uid", "entryUid");
+        hashMap.put("release_id", "12345");
+        hashMap.put("preview_timestamp", "2025-09-25 17:45:30.005");
+
+
+        stack.livePreviewQuery(hashMap);
+        Entry entry = stack.contentType("page").entry("entry_uid");
+        entry.fetch(null);
+        Assertions.assertNotNull(entry);
+    }
+
+    @Test
+    void testLivePreviewQueryWithoutReleaseId() throws Exception {
+        Config config = new Config().enableLivePreview(true)
+                .setLivePreviewHost("rest-preview.contentstack.com")
+                .setPreviewToken("previewToken");
+        Stack stack = Contentstack.stack("api_key", "access_token", "env", config);
+
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("content_type_uid", "blog");
+        queryParams.put("entry_uid", "entry_123");
+        queryParams.put("preview_timestamp", "1710800000");
+
+        stack.livePreviewQuery(queryParams);
+
+        Assertions.assertNull(config.releaseId);
+        Assertions.assertEquals("1710800000", config.previewTimestamp);
     }
 
 }
