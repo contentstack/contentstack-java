@@ -31,6 +31,9 @@ public class Config {
     protected Proxy proxy = null;
     protected String[] earlyAccess = null;
     protected ConnectionPool connectionPool = new ConnectionPool();
+    public String releaseId;
+    public String previewTimestamp;
+
 
     protected List<ContentstackPlugin> plugins = null;
 
