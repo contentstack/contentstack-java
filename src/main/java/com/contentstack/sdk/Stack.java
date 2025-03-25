@@ -142,6 +142,17 @@ public class Stack {
         config.livePreviewEntryUid = query.get(ENTRY_UID);
         config.livePreviewContentType = query.get(CONTENT_TYPE_UID);
 
+        if(query.get("release_id") != null){
+            config.releaseId = query.get("release_id");
+        }else{
+            config.releaseId = null;
+        }
+        if(query.get("preview_timestamp") != null){
+            config.previewTimestamp = query.get("preview_timestamp");
+        }else{
+            config.previewTimestamp = null;
+        }
+
         String livePreviewUrl = this.livePreviewEndpoint.concat(config.livePreviewContentType).concat("/entries/" + config.livePreviewEntryUid);
         if (livePreviewUrl.contains("/null/")) {
             throw new IllegalStateException("Malformed Query Url");
