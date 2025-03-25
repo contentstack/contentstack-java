@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v2.1.0
+
+### Date: 1-Apr-2025
+
+- code vulnerabilities fixes
+- timeline feature implementation
+- snyk fixes
+
 ## v2.0.3
 
 ### Date: 3-March-2025
