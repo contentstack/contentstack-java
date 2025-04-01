@@ -83,7 +83,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
     }
 
     @Override
-    public void sendRequest() {
+    public synchronized void sendRequest() {
         CSHttpConnection connection = new CSHttpConnection(urlToCall, this);
         connection.setController(controller);
         connection.setHeaders(header);
@@ -99,7 +99,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
     }
 
     @Override
-    public void onRequestFailed(JSONObject error, int statusCode, ResultCallBack callBackObject) {
+    public synchronized void onRequestFailed(JSONObject error, int statusCode, ResultCallBack callBackObject) {
         Error errResp = new Error();
         if (error.has(ERROR_MESSAGE)) {
             String errMsg = error.optString(ERROR_MESSAGE);
@@ -119,7 +119,7 @@ class CSConnectionRequest implements IRequestModelHTTP {
     }
 
     @Override
-    public void onRequestFinished(CSHttpConnection request) {
+    public synchronized void onRequestFinished(CSHttpConnection request) {
         JSONObject jsonResponse = request.getResponse();
         if (request.getController().equalsIgnoreCase(Constants.QUERYOBJECT)) {
             EntriesModel model = new EntriesModel(jsonResponse);

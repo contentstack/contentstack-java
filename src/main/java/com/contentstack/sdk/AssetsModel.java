@@ -20,10 +20,12 @@ class AssetsModel {
      */
     public AssetsModel(JSONObject response) {
         JSONArray listResponse = null;
-        Object rawAssets = response.get("assets"); // Get assets
+        Object rawAssets = response.opt("assets"); // Get assets
         if (rawAssets instanceof List) {  // Check if it's an ArrayList
             List<?> assetsList = (List<?>) rawAssets;
             listResponse = new JSONArray(assetsList); // Convert to JSONArray
+        } else if (rawAssets != null) {
+            throw new IllegalArgumentException("Invalid type for 'assets' key: " + rawAssets.getClass().getName());
         }
         if (listResponse != null) {
             listResponse.forEach(model -> {
