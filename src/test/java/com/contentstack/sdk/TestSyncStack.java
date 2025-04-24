@@ -82,6 +82,39 @@ public class TestSyncStack {
     }
 
     /**
+     * ✅ Should treat a lone JSONObject under "items" the same as a one‑element
+     * array.
+     */
+    @Test
+    void testSetJSON_handlesSingleItemObject() {
+        JSONObject input = new JSONObject()
+                .put("items", new JSONObject()
+                        .put("title", "Single Entry")
+                        .put("uid", "entry123")
+                        .put("content_type", "blog"))
+                .put("skip", 0)
+                .put("total_count", 1)
+                .put("limit", 10)
+                .put("sync_token", "token123");
+
+        syncStack.setJSON(input);
+        List<JSONObject> items = syncStack.getItems();
+
+        assertNotNull(items, "Items list should be initialised");
+        assertEquals(1, items.size(), "Exactly one item expected");
+
+        JSONObject item = items.get(0);
+        assertEquals("Single Entry", item.optString("title"));
+        assertEquals("entry123", item.optString("uid"));
+        assertEquals("blog", item.optString("content_type"));
+
+        assertEquals(0, syncStack.getSkip());
+        assertEquals(1, syncStack.getCount());
+        assertEquals(10, syncStack.getLimit());
+        assertEquals("token123", syncStack.getSyncToken());
+    }
+
+    /**
      * ✅ Test: Invalid `items` field (should not crash)
      */
     @Test
