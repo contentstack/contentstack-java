@@ -25,6 +25,8 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+# Ignore test configuration
+test-config.properties
 
 # External tool builders
 .externalToolBuilders/

@@ -552,7 +552,7 @@ class TestEntry {
         entry.includeBranch().fetch(new EntryResultCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
-                logger.info(entry.headers + "");
+                // logger.info(entry.headers + "");
             }
         });
         Assertions.assertTrue(entry.params.has("include_branch"));
