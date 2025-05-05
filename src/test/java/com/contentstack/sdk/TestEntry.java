@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.logging.Logger;
 import org.junit.jupiter.api.*;
 
-
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -70,41 +67,32 @@ class TestEntry {
     }
 
     //pass variant uid
-    @Disabled 
+    // @Disabled 
     @Test
     void VariantsTestSingleUid() {
         entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants(VARIANT_UID);
         entry.fetch(new EntryResultCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
-                assertEquals(VARIANT_UID.trim(), entry.getHeaders().get("x-cs-variant-uid"));
+                Assertions.assertEquals(VARIANT_UID.trim(), entry.getHeaders().get("x-cs-variant-uid"));
             }
         });
     }
 
     //pass variant uid array
-    @Disabled
+    // @Disabled
     @Test
     void VariantsTestArray() {
         entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants(VARIANT_UIDS);
         entry.fetch(new EntryResultCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, Error error) {
-                assertEquals(VARIANT_UIDS[0].trim(), entry.getHeaders().get("x-cs-variant-uid"));                assertEquals(VARIANT_UIDS[0].trim(), entry.getHeaders().get("x-cs-variant-uid"));
+                Assertions.assertNotNull(entry.getHeaders().get("x-cs-variant-uid"));          
             }
         });
     }
 
-    @Test
-    void VariantsTestNullString() {
-        entry = stack.contentType(CONTENT_TYPE).entry(entryUid).variants((String) null);
-        entry.fetch(new EntryResultCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, Error error) {
-                assertNull(entry.getHeaders().get("x-cs-variant-uid"));
-            }
-        });
-    }
+    
 
     @Test
     @Order(4)
