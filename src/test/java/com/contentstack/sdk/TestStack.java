@@ -387,7 +387,6 @@ class TestStack {
         });
     }
     @Test
-    @Disabled
     @Order(43)
     void testAsseturlupdate() throws IllegalAccessException {
         Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUid).includeEmbeddedItems();
