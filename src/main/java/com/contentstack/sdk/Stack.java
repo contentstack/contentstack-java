@@ -103,7 +103,7 @@ public class Stack {
         if (config.enableLivePreview) {
             String urlLivePreview = config.livePreviewHost;
             if(config.region != null && !config.region.name().isEmpty()){
-                if(config.region.name() == "US" ){
+                if(config.region.name().equals("US") ){
                     config.livePreviewHost = urlLivePreview;
                 }else{
                     String regionPrefix = config.region.name().toLowerCase();

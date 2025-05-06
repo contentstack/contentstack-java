@@ -17,7 +17,7 @@ import java.util.List;
  * Taxonomy, currently in the Early Access Phase simplifies
  * the process of organizing content in your system, making
  * it effortless to find and retrieve information.
- * @implSpec To implement the taxonomy use below code
+ * To implement the taxonomy use below code
  * <pre>
  *     {@code
  *     Stack stack = Contentstack.stack("API_KEY", "DELIVERY_TOKEN", "ENVIRONMENT");

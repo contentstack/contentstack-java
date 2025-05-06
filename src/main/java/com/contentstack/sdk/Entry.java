@@ -995,7 +995,7 @@ public class Entry {
 
     private void throwException(@Nullable String errorMsg, Exception e, EntryResultCallBack callBack) {
         Error error = new Error();
-        if (errorMsg != null) {
+        if (!errorMsg.isEmpty()) {
             error.setErrorMessage(errorMsg);
         } else {
             error.setErrorMessage(e.toString());
@@ -1124,11 +1124,9 @@ public class Entry {
     }
 
     /**
-     * @method variants
-     * @memberof Entry
-     * @description The variant header will be added to client
-     * @returns {Entry}
-     * @example
+     * The variant header will be added to client
+     * @return {Entry}
+     * 
      *          import contentstack from '@contentstack/delivery-sdk'
      *
      *          Stack stack = contentstack.Stack("apiKey", "deliveryToken",

@@ -158,7 +158,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
                     urlParams += urlParams.equals("?") ? key + "=" + value : "&" + key + "=" + value;
                 }
             } catch (Exception e1) {
-                e1.printStackTrace();
+                logger.log(Level.SEVERE, e1.getLocalizedMessage(), e1);
             }
         }
         return urlParams;

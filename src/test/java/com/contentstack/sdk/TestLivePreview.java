@@ -98,17 +98,17 @@ public class TestLivePreview {
         Assertions.assertNotNull(entryInstance);
     }
 
-    @Test()
-    @Disabled("No validation required: improved test")
-    void testEnableLivePreviewWithoutRequiredParameters() {
-        Config livePreviewEnablerConfig = new Config().enableLivePreview(true);
-        try {
-            Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
-        } catch (Exception e) {
-            Assertions.assertEquals("managementToken is required", e.getLocalizedMessage());
-            logger.severe(e.getLocalizedMessage());
-        }
-    }
+    // @Test()
+    // @Disabled("No validation required: improved test")
+    // void testEnableLivePreviewWithoutRequiredParameters() {
+    //     Config livePreviewEnablerConfig = new Config().enableLivePreview(true);
+    //     try {
+    //         Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
+    //     } catch (Exception e) {
+    //         Assertions.assertEquals("managementToken is required", e.getLocalizedMessage());
+    //         logger.severe(e.getLocalizedMessage());
+    //     }
+    // }
 
     @Test()
     void testExceptionWhenAllRequiredParamsNotProvided() {
@@ -137,19 +137,19 @@ public class TestLivePreview {
         }
     }
 
-    @Test()
-    @Disabled("No validation required")
-    void testCompleteLivePreview() throws Exception {
-        Config livePreviewEnablerConfig = new Config().enableLivePreview(true)
-                .setLivePreviewHost("live-preview.contentstack.io").setManagementToken("management_token_123456");
-        Stack stack = Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("content_type_uid", "content_type_uid");
-        stack.livePreviewQuery(hashMap);
-        Entry entry = stack.contentType("content_type_uid").entry("entry_uid");
-        entry.fetch(null);
-        Assertions.assertNotNull(entry);
-    }
+    // @Test()
+    // @Disabled("No validation required")
+    // void testCompleteLivePreview() throws Exception {
+    //     Config livePreviewEnablerConfig = new Config().enableLivePreview(true)
+    //             .setLivePreviewHost("live-preview.contentstack.io").setManagementToken("management_token_123456");
+    //     Stack stack = Contentstack.stack("liveAPIKey", "liveAccessToken", "liveEnv", livePreviewEnablerConfig);
+    //     HashMap<String, String> hashMap = new HashMap<>();
+    //     hashMap.put("content_type_uid", "content_type_uid");
+    //     stack.livePreviewQuery(hashMap);
+    //     Entry entry = stack.contentType("content_type_uid").entry("entry_uid");
+    //     entry.fetch(null);
+    //     Assertions.assertNotNull(entry);
+    // }
 
     @Test()
     void testCompleteLivePreviewInQuery() throws Exception {

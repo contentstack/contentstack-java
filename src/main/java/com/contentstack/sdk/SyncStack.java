@@ -78,8 +78,13 @@ public class SyncStack {
                     }
                 }
             } else {
-                logger.warning("'items' is not a valid list. Skipping processing."); // ✅ Prevent crashes
-                syncItems = new ArrayList<>();
+                if (itemsObj instanceof JSONObject) {
+                    syncItems = new ArrayList<>();
+                    syncItems.add(sanitizeJson((JSONObject) itemsObj));
+                } else {
+                    logger.warning("'items' is not a valid list. Skipping processing.");
+                    syncItems = new ArrayList<>();
+                }
             }
         } else {
             syncItems = new ArrayList<>();

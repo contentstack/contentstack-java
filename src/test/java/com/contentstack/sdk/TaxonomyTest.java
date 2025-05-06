@@ -13,6 +13,7 @@ import java.util.List;
 public class TaxonomyTest {
 
     private final Stack stack = Credentials.getStack();
+    private final String host = Credentials.HOST;
 
     @Test
     void testInstance() {
@@ -28,7 +29,7 @@ public class TaxonomyTest {
         Request req = taxonomy.in("taxonomies.color", listOfItems).makeRequest().request();
         //Assertions.assertEquals(3, req.headers().size());
         Assertions.assertEquals("GET", req.method());
-        Assertions.assertEquals("cdn.contentstack.io", req.url().host());
+        Assertions.assertEquals(host, req.url().host());
         Assertions.assertEquals("/v3/taxonomies/entries", req.url().encodedPath());
         Assertions.assertEquals("query={\"taxonomies.color\":{\"$in\":[\"red\",\"yellow\"]}}", req.url().query());
     }

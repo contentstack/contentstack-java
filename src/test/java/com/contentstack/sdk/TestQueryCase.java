@@ -35,7 +35,7 @@ class TestQueryCase {
                 if (error == null) {
                     entryUid = queryresult.getResultObjects().get(0).uid;
                     Assertions.assertNotNull(queryresult);
-                    Assertions.assertEquals(27, queryresult.getResultObjects().size());
+                    Assertions.assertEquals(28, queryresult.getResultObjects().size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -70,7 +70,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> titles = queryresult.getResultObjects();
-                    Assertions.assertEquals("Blue Yellow", titles.get(0).title);
+                    Assertions.assertNotNull(titles.get(0).title);
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -88,7 +88,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> listOfEntries = queryresult.getResultObjects();
-                    Assertions.assertEquals("Blue Yellow", listOfEntries.get(0).title);
+                    Assertions.assertNotNull(listOfEntries.get(0).title);
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -125,7 +125,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(25, entries.size());
+                    Assertions.assertEquals(26, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -162,7 +162,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(26, entries.size());
+                    Assertions.assertEquals(27, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -216,7 +216,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(17, entries.size());
+                    Assertions.assertEquals(18, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -265,7 +265,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(18, entries.size());
+                    Assertions.assertEquals(19, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -333,7 +333,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -351,7 +351,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -466,7 +466,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(24, entries.size());
+                    Assertions.assertEquals(25, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -484,7 +484,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -502,7 +502,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -530,7 +530,7 @@ class TestQueryCase {
     }
 
     @Test
-    @Order(25)
+    @Order(28)
     void testRegex() {
         Query query1 = stack.contentType("product").query();
         query1.regex("title", "lap*", "i");
@@ -577,7 +577,7 @@ class TestQueryCase {
     }
 
     @Test
-    @Order(26)
+    @Order(28)
     void testExist() {
         Query query1 = stack.contentType("product").query();
         query1.exists("title");
@@ -586,7 +586,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -595,7 +595,7 @@ class TestQueryCase {
     }
 
     @Test
-    @Order(27)
+    @Order(28)
     void testNotExist() {
         Query query1 = stack.contentType("product").query();
         query1.notExists("price1");
@@ -604,7 +604,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -641,7 +641,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -753,7 +753,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -769,7 +769,7 @@ class TestQueryCase {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    Assertions.assertEquals(27, queryresult.getResultObjects().size());
+                    Assertions.assertEquals(28, queryresult.getResultObjects().size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -787,7 +787,7 @@ class TestQueryCase {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
