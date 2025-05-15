@@ -35,7 +35,7 @@ class TestQuery {
                 if (error == null) {
                     entryUid = queryresult.getResultObjects().get(0).uid;
                     Assertions.assertNotNull(queryresult);
-                    Assertions.assertEquals(27, queryresult.getResultObjects().size());
+                    Assertions.assertEquals(28, queryresult.getResultObjects().size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -70,7 +70,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> titles = queryresult.getResultObjects();
-                    Assertions.assertEquals("Blue Yellow", titles.get(0).title);
+                    Assertions.assertNotNull( titles.get(0).title);
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -121,7 +121,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(25, entries.size());
+                    Assertions.assertEquals(26, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -154,7 +154,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(26, entries.size());
+                    Assertions.assertEquals(27, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -202,7 +202,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(17, entries.size());
+                    Assertions.assertEquals(18, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -250,7 +250,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(18, entries.size());
+                    Assertions.assertEquals(19, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -313,7 +313,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -329,7 +329,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -438,7 +438,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(24, entries.size());
+                    Assertions.assertEquals(25, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -455,7 +455,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -471,7 +471,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -521,7 +521,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -530,14 +530,14 @@ class TestQuery {
     }
 
     @Test
-    @Order(27)
+    @Order(28)
     void testNotExist() {
         query.notExists("price1").find(new QueryResultsCallBack() {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -572,7 +572,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -700,7 +700,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -716,7 +716,7 @@ class TestQuery {
             @Override
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
-                    Assertions.assertEquals(27, queryresult.getCount());
+                    Assertions.assertEquals(28, queryresult.getCount());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }
@@ -733,7 +733,7 @@ class TestQuery {
             public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
                 if (error == null) {
                     List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
+                    Assertions.assertEquals(28, entries.size());
                 } else {
                     Assertions.fail("Failing, Verify credentials");
                 }

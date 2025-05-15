@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
     <packaging>jar</packaging>
     <name>contentstack-java</name>
     <description>Java SDK for Contentstack Content Delivery API</description>
@@ -22,7 +22,7 @@
         <dotenv-source.version>3.0.0</dotenv-source.version>
         <rxjava-source.version>3.1.10</rxjava-source.version>
         <retrofit-source.version>2.11.0</retrofit-source.version>
-        <loggin.version>5.0.0-alpha.11</loggin.version>
+        <loggin.version>4.12.0</loggin.version>
         <jococo-plugin.version>0.8.5</jococo-plugin.version>
         <lombok-source.version>1.18.36</lombok-source.version>
         <junit-jupiter.version>5.11.4</junit-jupiter.version>
@@ -34,7 +34,7 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <json-version>20250107</json-version>
-        <jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
+        <jacoco-maven-plugin-version>0.8.11</jacoco-maven-plugin-version>
         <maven-release-plugin-version>2.5.3</maven-release-plugin-version>
         <contentstack-utils-version>1.2.15</contentstack-utils-version>
     </properties>
@@ -122,14 +122,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.github.cdimascio/java-dotenv -->
-        <dependency>
-            <groupId>io.github.cdimascio</groupId>
-            <artifactId>java-dotenv</artifactId>
-            <version>5.2.2</version>
-        </dependency>
-
-
         <dependency>
             <groupId>io.reactivex.rxjava3</groupId>
             <artifactId>rxjava</artifactId>
@@ -189,6 +181,27 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.18.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.slack.api</groupId>
+            <artifactId>bolt</artifactId>
+            <version>1.44.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.12.0</version> 
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -237,8 +250,7 @@
                             <use>false</use>
                             <source>1.8</source>
                             <links>
-                                <link>https://docs.oracle.com/javase/7/docs/api/</link>
-                                <link>https://docs.oracle.com/javase/7/docs/api/</link>
+                                <link>https://docs.oracle.com/en/java/javase/23/docs/api/index.html</link>
                             </links>
                             <doclint>none</doclint>
                         </configuration>
@@ -251,7 +263,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <!-- <skipTests>true</skipTests> -->
                 </configuration>
             </plugin>
 
