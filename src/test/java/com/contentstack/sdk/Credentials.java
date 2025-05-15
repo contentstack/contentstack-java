@@ -1,12 +1,13 @@
 package com.contentstack.sdk;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.rmi.AccessException;
 import java.util.Arrays;
+import java.util.Properties;
 
 public class Credentials {
-    static Dotenv env = getEnv();
+    private static final Properties properties = new Properties();
 
     private static String envChecker() {
         String githubActions = System.getenv("GITHUB_ACTIONS");
@@ -17,25 +18,24 @@ public class Credentials {
         }
     }
 
-    public static Dotenv getEnv() {
-        env = Dotenv.configure()
-                .directory("src/test/resources")
-                .filename("env") // instead of '.env', use 'env'
-                .load();
-
-        return Dotenv.load();
+    static {
+        try (FileInputStream inputStream = new FileInputStream("src/test/resources/test-config.properties")) {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            System.err.println("Error loading properties file: " + e.getMessage());
+        }
     }
 
-    public final static String HOST = (env.get("HOST") != null) ? env.get("HOST") : "cdn.contentstack.io";
-    public final static String API_KEY = (env.get("API_KEY") != null) ? env.get("API_KEY") : "";
-    public final static String DELIVERY_TOKEN = (env.get("DELIVERY_TOKEN") != null) ? env.get("DELIVERY_TOKEN") : "";
-    public final static String ENVIRONMENT = (env.get("ENVIRONMENT") != null) ? env.get("ENVIRONMENT") : "env1";
-    public final static String CONTENT_TYPE = (env.get("contentType") != null) ? env.get("contentType") : "product";
-    public final static String ENTRY_UID = (env.get("assetUid") != null) ? env.get("assetUid") : "";
-    public final static String VARIANT_UID = (env.get("variantUid") != null) ? env.get("variantUid") : "";
+    public static final String HOST = properties.getProperty("HOST", "cdn.contentstack.io");
+    public static final String API_KEY = properties.getProperty("API_KEY", "");
+    public static final String DELIVERY_TOKEN = properties.getProperty("DELIVERY_TOKEN", "");
+    public static final String ENVIRONMENT = properties.getProperty("ENVIRONMENT", "env1");
+    public static final String CONTENT_TYPE = properties.getProperty("contentType", "product");
+    public static final String ENTRY_UID = properties.getProperty("assetUid", "");
+    public static final String VARIANT_UID = properties.getProperty("variantUid", "");
     public final static String[] VARIANTS_UID;
     static {
-        String variantsUidString = env.get("variantsUid");
+        String variantsUidString = properties.getProperty("variantsUid");
 
         if (variantsUidString != null && !variantsUidString.trim().isEmpty()) {
             VARIANTS_UID = Arrays.stream(variantsUidString.split(","))
