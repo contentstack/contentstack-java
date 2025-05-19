@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v2.1.1
+
+### Date: 1-Apr-2025
+
+- Github Issue fix
+- Sanity test Integration
+
 ## v2.1.0
 
 ### Date: 1-Apr-2025
