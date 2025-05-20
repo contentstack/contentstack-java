@@ -6,7 +6,11 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class Credentials {
    
-    static Dotenv env = getEnv();
+    static Dotenv env = Dotenv.configure()
+                            .directory("src/test/resources")
+                            .filename(".env") // or ".env" if you rename it
+                            .load();
+
 
     private static String envChecker() {
         String githubActions = System.getenv("GITHUB_ACTIONS");
@@ -16,15 +20,6 @@ public class Credentials {
             return "local";
         }
     }
-
-    public static Dotenv getEnv() {
-         env = Dotenv.configure()
-                 .directory("src/test/resources")
-                 .filename("env") // instead of '.env', use 'env'
-                 .load();
-
-         return Dotenv.load();
-     }
 
     public static final String HOST = env.get("HOST", "cdn.contentstack.io");
     public static final String API_KEY = env.get("API_KEY", "");
