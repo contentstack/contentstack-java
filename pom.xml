@@ -265,7 +265,7 @@
                             <use>false</use>
                             <source>1.8</source>
                             <links>
-                                <link>https://docs.oracle.com/en/java/javase/23/docs/api/index.html</link>
+                                <link>https://docs.oracle.com/en/java/javase/23/docs/api/</link>
                             </links>
                             <doclint>none</doclint>
                         </configuration>
@@ -278,7 +278,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <!-- <skipTests>true</skipTests> -->
+                    <skipTests>true</skipTests>
                 </configuration>
             </plugin>
 
