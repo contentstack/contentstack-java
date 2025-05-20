@@ -14,7 +14,7 @@ import com.slack.api.methods.response.files.FilesUploadV2Response;
 
 public class SanityReport {
 
-    private static final String PROPERTIES_FILE = "src/test/resources/test-config.properties";
+    private static final String PROPERTIES_FILE = "src/test/resources/.env";
 
     public void generateTestSummaryAndSendToSlack(File reportFile) throws IOException, SlackApiException {
         Properties properties = loadProperties(PROPERTIES_FILE);
