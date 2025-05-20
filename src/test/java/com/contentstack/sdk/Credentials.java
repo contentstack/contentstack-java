@@ -11,6 +11,7 @@ public class Credentials {
                             .filename(".env") // or ".env" if you rename it
                             .load();
 
+
     private static String envChecker() {
         String githubActions = System.getenv("GITHUB_ACTIONS");
         if (githubActions != null && githubActions.equals("true")) {
