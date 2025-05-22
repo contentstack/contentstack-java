@@ -18,15 +18,16 @@ public class GlobalField {
     protected static final Logger logger = Logger.getLogger(GlobalField.class.getSimpleName());
     protected String globalFieldUid;
     protected Stack stackInstance = null;
-    protected JSONObject params;
+    protected JSONObject params = new JSONObject();
     protected LinkedHashMap<String, Object> headers = null;
 
-    protected GlobalField() throws IllegalAccessException {
-        throw new IllegalAccessException("Can Not Access Private Modifier");
+    protected GlobalField() {
+        this.headers = new LinkedHashMap<>();
     }
 
-    protected GlobalField(String globalFieldUid) {
+    protected GlobalField(@NotNull String globalFieldUid) {
         this.globalFieldUid = globalFieldUid;
+        this.headers = new LinkedHashMap<>();
     }
 
     protected void setStackInstance(Stack stack) {
@@ -72,23 +73,26 @@ public class GlobalField {
      */
 
     public GlobalField includeBranch() {
-        params.put("include_branch", false);
+        this.params.put("include_branch", true);
         return this;
     }
 
-    public void fetch(@NotNull JSONObject params, final GlobalFieldsCallback callback) throws IllegalAccessException {
+    public GlobalField includeGlobalFieldSchema() {
+        this.params.put("include_global_field_schema", true);
+        return this;
+    }
+
+    public void fetch(final GlobalFieldsCallback callback) throws IllegalAccessException {
         String urlString = "global_fields/" + globalFieldUid;
-        Iterator<String> keys = params.keys();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            Object value = params.opt(key);
-            params.put(key, value);
-        }
-        params.put("environment", headers.get("environment"));
         if (globalFieldUid == null || globalFieldUid.isEmpty()) {
             throw new IllegalAccessException("globalFieldUid is required");
         }
-        fetchGlobalFields(urlString, params, headers, callback);
+        fetchGlobalFields(urlString, this.params, this.headers, callback);
+    }
+
+    public void findAll(final GlobalFieldsCallback callback) {
+        String urlString = "global_fields";
+        fetchGlobalFields(urlString, this.params, this.headers, callback);
     }
 
     private void fetchGlobalFields(String urlString, JSONObject params, HashMap<String, Object> headers,
@@ -112,5 +116,4 @@ public class GlobalField {
         }
         return hashMap;
     }
-
 }

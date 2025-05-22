@@ -213,25 +213,19 @@ public class Stack {
         return ct;
     }
 
-    public GlobalField globalField(String globalFieldUid) {
+    public GlobalField globalField(@NotNull String  globalFieldUid) {
         this.globalField = globalFieldUid;
         GlobalField gf = new GlobalField(globalFieldUid);
         gf.setStackInstance(this);
         return gf;
     }
 
-    public void getGlobalFields(@NotNull JSONObject params, final GlobalFieldsCallback callback) {
-        Iterator<String> keys = params.keys();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            Object value = params.opt(key);
-            params.put(key, value);
-        }
-        if (this.headers.containsKey(ENVIRONMENT)) {
-            params.put(ENVIRONMENT, this.headers.get(ENVIRONMENT));
-        }
-        fetchGlobalFields("global_fields", params, this.headers, callback);
+    public GlobalField globalField() {
+        GlobalField gf = new GlobalField();
+        gf.setStackInstance(this);
+        return gf;
     }
+
     /**
      * Assets refer to all the media files (images, videos, PDFs, audio files, and so on) uploaded in your Contentstack
      * repository for future use. These files can be attached and used in multiple entries.
@@ -563,17 +557,6 @@ public class Stack {
             HashMap<String, Object> queryParam = getUrlParams(contentTypeParam);
             String requestInfo = REQUEST_CONTROLLER.CONTENTTYPES.toString();
             new CSBackgroundTask(this, Constants.FETCHCONTENTTYPES, urlString, headers, queryParam, requestInfo,
-                    callback);
-        }
-    }
-
-    private void fetchGlobalFields(String urlString, JSONObject
-            globalFieldParam, HashMap<String, Object> headers,
-                                   GlobalFieldsCallback callback) {
-        if (callback != null) {
-            HashMap<String, Object> queryParam = getUrlParams(globalFieldParam);
-            String requestInfo = REQUEST_CONTROLLER.GLOBALFIELDS.toString();
-            new CSBackgroundTask(this, Constants.FETCHGLOBALFIELDS, urlString, headers, queryParam, requestInfo,
                     callback);
         }
     }
