@@ -33,10 +33,7 @@ public class TestGlobalFields {
     @Test
     void testFetchGlobalFieldByUid() throws IllegalAccessException {
         GlobalField globalField = stack.globalField("specific_gf_uid");
-        JSONObject paramObj = new JSONObject();
-        paramObj.put("ctKeyOne", "ctKeyValue1");
-        paramObj.put("ctKeyTwo", "ctKeyValue2");
-        globalField.fetch(paramObj, new GlobalFieldsCallback() {
+        globalField.fetch(new GlobalFieldsCallback() {
             @Override
             public void onCompletion(GlobalFieldsModel model, Error error) {
                 JSONArray resp = model.getResultArray();
@@ -46,14 +43,25 @@ public class TestGlobalFields {
     }
 
     @Test
-    void testFetchAllGlobalFields() {
-        JSONObject param = new JSONObject();
-        stack.getGlobalFields(param, new GlobalFieldsCallback() {
+    void testFindGlobalFieldsIncludeBranch() {
+        GlobalField globalField = stack.globalField().includeBranch();
+        globalField.findAll(new GlobalFieldsCallback() {
             @Override
             public void onCompletion(GlobalFieldsModel globalFieldsModel, Error error) {
                 assertTrue(globalFieldsModel.getResultArray() instanceof JSONArray);
                 assertNotNull(((JSONArray) globalFieldsModel.getResponse()).length());
+            }
+        });
+    }
 
+    @Test
+    void testFindGlobalFields() throws IllegalAccessException {
+        GlobalField globalField = stack.globalField().includeBranch();
+        globalField.findAll(new GlobalFieldsCallback() {
+            @Override
+            public void onCompletion(GlobalFieldsModel globalFieldsModel, Error error) {
+                assertTrue(globalFieldsModel.getResultArray() instanceof JSONArray);
+                assertNotNull(((JSONArray) globalFieldsModel.getResponse()).length());
             }
         });
     }
