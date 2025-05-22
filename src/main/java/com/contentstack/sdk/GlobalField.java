@@ -9,12 +9,8 @@ import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
 /**
- * <a href=
- * "https://www.contentstack.com/docs/developers/apis/content-delivery-api/#single-content-type">ContentType</a>
- * This
- * call returns information of a specific global field. It returns the global
- * field schema, but does not include its
- * entries.
+ * This call returns information of a specific global field. It returns the
+ * global field schema.
  *
  */
 public class GlobalField {
@@ -63,6 +59,7 @@ public class GlobalField {
             this.headers.remove(headerKey);
         }
     }
+
     /**
      * Fetch.
      *
@@ -102,7 +99,6 @@ public class GlobalField {
                     Constants.REQUEST_CONTROLLER.GLOBALFIELDS.toString(), callback);
         }
     }
-
 
     private HashMap<String, Object> getUrlParams(JSONObject urlQueriesJSON) {
         HashMap<String, Object> hashMap = new HashMap<>();
