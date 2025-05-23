@@ -32,6 +32,7 @@ public class Stack {
     protected LinkedHashMap<String, Object> headers;
     protected Config config;
     protected String contentType;
+    protected String globalField;
     protected String livePreviewEndpoint;
     protected APIService service;
     protected String apiKey;
@@ -210,6 +211,19 @@ public class Stack {
         ContentType ct = new ContentType(contentTypeUid);
         ct.setStackInstance(this);
         return ct;
+    }
+
+    public GlobalField globalField(@NotNull String  globalFieldUid) {
+        this.globalField = globalFieldUid;
+        GlobalField gf = new GlobalField(globalFieldUid);
+        gf.setStackInstance(this);
+        return gf;
+    }
+
+    public GlobalField globalField() {
+        GlobalField gf = new GlobalField();
+        gf.setStackInstance(this);
+        return gf;
     }
 
     /**

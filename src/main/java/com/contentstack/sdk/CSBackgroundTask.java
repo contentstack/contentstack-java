@@ -100,4 +100,15 @@ class CSBackgroundTask {
         }
     }
 
+    protected CSBackgroundTask(GlobalField globalField, Stack stackInstance, String controller, String url,
+                               HashMap<String, Object> headers, HashMap<String, Object> urlParams, String requestInfo,
+                               ResultCallBack callback) {
+        checkHeader(headers);
+        String completeUrl = stackInstance.config.getEndpoint() + url;
+        CSConnectionRequest csConnectionRequest = new CSConnectionRequest(globalField);
+        csConnectionRequest.setURLQueries(urlParams);
+        this.service = stackInstance.service;
+        csConnectionRequest.setParams(completeUrl, headers, controller, requestInfo, callback, this.service, stackInstance);
+    }
+
 }

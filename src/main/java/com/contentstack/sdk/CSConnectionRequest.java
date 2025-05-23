@@ -53,6 +53,10 @@ class CSConnectionRequest implements IRequestModelHTTP {
         this.endpoint = contentType.stackInstance.config.getEndpoint();
     }
 
+    public CSConnectionRequest(GlobalField globalField) {
+        this.endpoint = globalField.stackInstance.config.getEndpoint();
+    }
+
     public void setQueryInstance(Query queryInstance) {
         this.endpoint = queryInstance.contentTypeInstance.stackInstance.config.getEndpoint();
     }
@@ -166,6 +170,12 @@ class CSConnectionRequest implements IRequestModelHTTP {
             model.setJSON(jsonResponse);
             if (request.getCallBackObject() != null) {
                 ((ContentTypesCallback) request.getCallBackObject()).onRequestFinish(model);
+            }
+        } else if (request.getController().equalsIgnoreCase(Constants.FETCHGLOBALFIELDS)) {
+            GlobalFieldsModel model = new GlobalFieldsModel();
+            model.setJSON(jsonResponse);
+            if (request.getCallBackObject() != null) {
+                ((GlobalFieldsCallback) request.getCallBackObject()).onRequestFinish(model);
             }
         }
     }

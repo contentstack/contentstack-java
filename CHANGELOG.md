@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.1.2
+
+### Date: 26-May-2025
+
+- Global field implementation
+
 ## v2.1.1
 
 ### Date: 1-Apr-2025

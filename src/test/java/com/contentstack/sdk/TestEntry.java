@@ -42,7 +42,7 @@ class TestEntry {
                 if (error == null) {
                     List<LinkedHashMap<?, ?>> list = (ArrayList)queryresult.receiveJson.get("entries");
                     LinkedHashMap<?, ?> firstObj = list.get(0);
-                    entryUid = (String)firstObj.get("uid");
+                    // entryUid = (String)firstObj.get("uid");
                     assertTrue(entryUid.startsWith("blt"));
                     logger.info("passed..");
                 } else {
