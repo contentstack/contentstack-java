@@ -54,7 +54,7 @@ public class Constants {
      */
     // REQUEST_CONTROLLER
     public enum REQUEST_CONTROLLER {
-        QUERY, ENTRY, ASSET, SYNC, CONTENTTYPES, ASSETLIBRARY
+        QUERY, ENTRY, ASSET, SYNC, CONTENTTYPES, ASSETLIBRARY, GLOBALFIELDS
     }
 
     // GET REQUEST TYPE
@@ -65,6 +65,7 @@ public class Constants {
     public static final String FETCHASSETS = "getAssets";
     public static final String FETCHSYNC = "getSync";
     public static final String FETCHCONTENTTYPES = "getContentTypes";
+    public static final String FETCHGLOBALFIELDS = "getGlobalFields";
 
     public static final String CONTENT_TYPE_NAME = "Please set contentType name.";
     public static final String QUERY_EXCEPTION = "Please provide valid params.";
