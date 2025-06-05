@@ -83,14 +83,13 @@ public class SyncStack {
             } else if (itemsObj instanceof JSONObject) {
                 syncItems = new ArrayList<>();
                 syncItems.add(sanitizeJson((JSONObject) itemsObj));
-            } else if (itemsObj instanceof ArrayList) {
-                ArrayList<?> itemsList = (ArrayList<?>) itemsObj;
+            } else if (itemsObj instanceof List) {
+                List<?> itemsList = (List<?>) itemsObj;
                 syncItems = new ArrayList<>();
                 for (Object item : itemsList) {
                     if (item instanceof JSONObject) {
                         syncItems.add(sanitizeJson((JSONObject) item));
-                    } else if (item instanceof LinkedHashMap) {
-                        // Convert LinkedHashMap to JSONObject
+                    } else if (item instanceof Map) {
                         JSONObject jsonItem = new JSONObject((Map<?, ?>) item);
                         syncItems.add(sanitizeJson(jsonItem));
                     } else {
