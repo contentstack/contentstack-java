@@ -6,9 +6,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class TestSyncStack {
     private SyncStack syncStack;
+    private final Stack stack = Credentials.getStack();
+    private final String host = Credentials.HOST;
 
     @BeforeEach
     void setUp() {
@@ -175,5 +181,38 @@ public class TestSyncStack {
         thread2.join();
 
         assertFalse(syncStack.getItems().isEmpty()); // No race conditions
+    }
+
+    /**
+     * ✅ Test: Real API call to syncContentType
+     */
+    @Test
+    void testRealSyncContentType() throws IllegalAccessException {
+        // Create a CountDownLatch to wait for the async call to complete
+        CountDownLatch latch = new CountDownLatch(1);
+        // Make the actual API call
+        stack.syncContentType("product", new SyncResultCallBack() {
+            @Override
+            public void onCompletion(SyncStack syncStack, Error error) {
+                if (error != null) {
+                    fail("Sync failed with error: " + error.getErrorMessage());
+                }
+                // Verify the response
+                assertNotNull(syncStack.getJSONResponse());
+                assertNull(syncStack.getUrl());
+                assertNotNull(syncStack.getItems());
+                assertFalse(syncStack.getItems().isEmpty());
+                assertTrue(syncStack.getCount() > 0);
+                
+                latch.countDown();
+            }
+        });
+        
+        try {
+            // Wait for the async call to complete (with timeout)
+            assertTrue(latch.await(10, TimeUnit.SECONDS), "Sync operation timed out");
+        } catch (InterruptedException e) {
+            fail("Test was interrupted: " + e.getMessage());
+        }
     }
 }
