@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.1.3
+
+### Date: 06-Jun-2025
+
+- Fixed SyncStack to handle ArrayList
+
 ## v2.1.2
 
 ### Date: 26-May-2025
