@@ -1,11 +1,13 @@
 package com.contentstack.sdk;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -68,6 +70,7 @@ public class SyncStack {
     
         if (receiveJson.has("items")) {
             Object itemsObj = receiveJson.opt("items");
+            
             if (itemsObj instanceof JSONArray) {
                 JSONArray jsonArray = (JSONArray) itemsObj;
                 syncItems = new ArrayList<>();
@@ -77,14 +80,26 @@ public class SyncStack {
                         syncItems.add(sanitizeJson(jsonItem));
                     }
                 }
-            } else {
-                if (itemsObj instanceof JSONObject) {
-                    syncItems = new ArrayList<>();
-                    syncItems.add(sanitizeJson((JSONObject) itemsObj));
-                } else {
-                    logger.warning("'items' is not a valid list. Skipping processing.");
-                    syncItems = new ArrayList<>();
+            } else if (itemsObj instanceof JSONObject) {
+                syncItems = new ArrayList<>();
+                syncItems.add(sanitizeJson((JSONObject) itemsObj));
+            } else if (itemsObj instanceof List) {
+                List<?> itemsList = (List<?>) itemsObj;
+                syncItems = new ArrayList<>();
+                for (Object item : itemsList) {
+                    if (item instanceof JSONObject) {
+                        syncItems.add(sanitizeJson((JSONObject) item));
+                    } else if (item instanceof Map) {
+                        JSONObject jsonItem = new JSONObject((Map<?, ?>) item);
+                        syncItems.add(sanitizeJson(jsonItem));
+                    } else {
+                        logger.warning("Item in ArrayList is not a JSONObject or LinkedHashMap. Skipping. Type: " + item.getClass().getName());
+                    }
                 }
+            } else {
+                logger.warning("'items' is not a valid JSONArray, JSONObject, or ArrayList. Type: " + 
+                    (itemsObj != null ? itemsObj.getClass().getName() : "null"));
+                syncItems = new ArrayList<>();
             }
         } else {
             syncItems = new ArrayList<>();
