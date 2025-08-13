@@ -3,11 +3,17 @@ package com.contentstack.sdk;
 import java.util.LinkedHashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 
 /**
  * The type Asset model.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 class AssetModel {
 
     String uploadedUid;
