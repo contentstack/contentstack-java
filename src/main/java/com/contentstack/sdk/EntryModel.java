@@ -4,8 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import lombok.Getter;
+import lombok.Setter;
 
 
+@Getter
+@Setter
 class EntryModel {
 
     private static final String PUBLISH_DETAIL_KEY = "publish_details";
