@@ -97,5 +97,35 @@ class TestContentType {
         });
     }
 
+    @Test
+    void testContentTypeAsPOJO() {
+        ContentType contentType = stack.contentType("product");
+        Assertions.assertNotNull(contentType.contentTypeUid);
+        Assertions.assertNotNull(contentType);
+    
+        Entry entry = contentType.entry("test-entry-uid");
+        Query query = contentType.query();
+        Assertions.assertNotNull(entry);
+        Assertions.assertNotNull(query);
+        Assertions.assertEquals("product", entry.getContentType());
+        Assertions.assertEquals("product", query.getContentType());
+    }
+
+    @Test
+    void testContentTypePOJODataAccess() throws IllegalAccessException {
+        ContentType contentType = stack.contentType("product");
+        JSONObject paramObj = new JSONObject();
+        paramObj.put("include_schema", "true");
+        contentType.fetch(paramObj, new ContentTypesCallback() {
+            @Override
+            public void onCompletion(ContentTypesModel model, Error error) {
+                if (error == null) {
+                    Assertions.assertNotNull(contentType.contentTypeUid);
+                    Assertions.assertNotNull(contentType);
+                }
+            }
+        });
+    }
+
 
 }
