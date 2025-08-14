@@ -3,6 +3,8 @@ package com.contentstack.sdk;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import retrofit2.Retrofit;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -29,6 +31,8 @@ import static com.contentstack.sdk.Constants.parseDate;
  * @version 1.0.0
  * @since 01-11-2017
  */
+@Getter
+@Setter
 public class Asset {
 
     protected static final Logger logger = Logger.getLogger(Asset.class.getSimpleName());
