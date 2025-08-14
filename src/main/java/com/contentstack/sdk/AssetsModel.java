@@ -5,10 +5,16 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 /**
  * The type Assets model.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 class AssetsModel {
 
     List<Object> objects = new ArrayList<>();
