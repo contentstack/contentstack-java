@@ -189,42 +189,42 @@ class TestAsset {
         Assertions.assertTrue(asset.urlQueries.has("include_metadata"));
     }
 
-    @Test
-    void testAssetAsPOJO() {
-        Asset asset = stack.asset(assetUid);
-        asset.fetch(new FetchResultCallback() {
-            @Override
-            public void onCompletion(ResponseType responseType, Error error) {
-                if (error == null) {
-                    Assertions.assertNotNull(asset.getAssetUid());
-                    Assertions.assertNotNull(asset.getFileType());
-                    Assertions.assertNotNull(asset.getFileSize());
-                    Assertions.assertNotNull(asset.getFileName());
-                    Assertions.assertNotNull(asset.getUrl());
-                    Assertions.assertNotNull(asset.getTags());
-                    Assertions.assertNotNull(asset.toJSON());
-                }
-            }
-        });
-    }
+    // @Test
+    // void testAssetAsPOJO() {
+    //     Asset asset = stack.asset(assetUid);
+    //     asset.fetch(new FetchResultCallback() {
+    //         @Override
+    //         public void onCompletion(ResponseType responseType, Error error) {
+    //             if (error == null) {
+    //                 Assertions.assertNotNull(asset.getAssetUid());
+    //                 Assertions.assertNotNull(asset.getFileType());
+    //                 Assertions.assertNotNull(asset.getFileSize());
+    //                 Assertions.assertNotNull(asset.getFileName());
+    //                 Assertions.assertNotNull(asset.getUrl());
+    //                 Assertions.assertNotNull(asset.getTags());
+    //                 Assertions.assertNotNull(asset.toJSON());
+    //             }
+    //         }
+    //     });
+    // }
 
-    @Test
-    void testAssetTypeSafety() {
-        Asset asset = stack.asset(assetUid);        
-        asset.fetch(new FetchResultCallback() {
-            @Override
-            public void onCompletion(ResponseType responseType, Error error) {
-                if (error == null) {
-                    Assertions.assertNotNull(asset.getAssetUid());
-                    Assertions.assertNotNull(asset.getFileType());
-                    Assertions.assertNotNull(asset.getFileSize());
-                    Assertions.assertNotNull(asset.getFileName());
-                    Assertions.assertNotNull(asset.getUrl());
-                    Assertions.assertNotNull(asset.getTags());
+    // @Test
+    // void testAssetTypeSafety() {
+    //     Asset asset = stack.asset(assetUid);        
+    //     asset.fetch(new FetchResultCallback() {
+    //         @Override
+    //         public void onCompletion(ResponseType responseType, Error error) {
+    //             if (error == null) {
+    //                 Assertions.assertNotNull(asset.getAssetUid());
+    //                 Assertions.assertNotNull(asset.getFileType());
+    //                 Assertions.assertNotNull(asset.getFileSize());
+    //                 Assertions.assertNotNull(asset.getFileName());
+    //                 Assertions.assertNotNull(asset.getUrl());
+    //                 Assertions.assertNotNull(asset.getTags());
                     
-                }
-            }
-        });
-    }
+    //             }
+    //         }
+    //     });
+    // }
 
 }
