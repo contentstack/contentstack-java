@@ -2,7 +2,9 @@ package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
-
+import org.json.JSONArray;
+import lombok.Getter;
+import lombok.Setter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -20,12 +22,22 @@ import java.util.logging.Logger;
  * @version 1.0.0
  * @since 01-11-2017
  */
+
+@Getter
+@Setter
 public class ContentType {
 
     protected static final Logger logger = Logger.getLogger(ContentType.class.getSimpleName());
     protected String contentTypeUid;
     protected Stack stackInstance = null;
     protected LinkedHashMap<String, Object> headers = null;
+
+    // NEW: Content type data fields for POJO access (public for Lombok-generated getters)
+    public String title;
+    public String description;
+    public String uid;
+    public JSONArray schema;
+    public JSONObject contentTypeData;
 
     protected ContentType() throws IllegalAccessException {
         throw new IllegalAccessException("Can Not Access Private Modifier");
@@ -156,7 +168,17 @@ public class ContentType {
         if (callback != null) {
             HashMap<String, Object> urlParams = getUrlParams(params);
             new CSBackgroundTask(this, stackInstance, Constants.FETCHCONTENTTYPES, urlString, headers, urlParams,
-                    Constants.REQUEST_CONTROLLER.CONTENTTYPES.toString(), callback);
+                    // Constants.REQUEST_CONTROLLER.CONTENTTYPES.toString(), callback);
+                    Constants.REQUEST_CONTROLLER.CONTENTTYPES.toString(), new ContentTypesCallback() {
+                        @Override
+                        public void onCompletion(ContentTypesModel model, Error error) {
+                            if (error == null) {
+                                // NEW: Store content type data in this instance for POJO access
+                                model.setContentTypeData(ContentType.this);
+                            }
+                            callback.onCompletion(model, error);
+                        }
+                    });
         }
     }
 
@@ -171,6 +193,22 @@ public class ContentType {
             }
         }
         return hashMap;
+    }
+
+    /**
+     * Set content type data from JSON response.
+     * This method is called internally by ContentTypesModel.
+     * 
+     * @param ctData the content type data JSONObject
+     */
+    protected void setContentTypeData(JSONObject ctData) {
+        if (ctData != null) {
+            this.title = ctData.optString("title");
+            this.description = ctData.optString("description");
+            this.uid = ctData.optString("uid");
+            this.schema = ctData.optJSONArray("schema");
+            this.contentTypeData = ctData;
+        }
     }
 
 }

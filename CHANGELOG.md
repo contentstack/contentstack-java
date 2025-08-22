@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.2.0
+
+### Date: 25-Aug-2025
+
+- POJO implementation added
+
 ## v2.1.3
 
 ### Date: 06-Jun-2025
