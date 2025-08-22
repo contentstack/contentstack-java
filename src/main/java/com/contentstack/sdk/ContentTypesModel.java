@@ -5,12 +5,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 
 
 /**
  * The ContentTypesModel that contains content type response
  */
+@Getter
+@Setter
+@NoArgsConstructor
 public class ContentTypesModel {
 
     private Object response;
@@ -57,5 +63,18 @@ public class ContentTypesModel {
 
     public JSONArray getResultArray() {
         return responseJSONArray;
+    }
+
+    /**
+     * Set content type data in the ContentType instance for POJO access.
+     * This method is called internally after fetching content type data.
+     * 
+     * @param contentType the ContentType instance to set data in
+     */
+    public void setContentTypeData(ContentType contentType) {
+        if (response instanceof JSONObject) {
+            JSONObject ctData = (JSONObject) response;
+            contentType.setContentTypeData(ctData);
+        }
     }
 }
