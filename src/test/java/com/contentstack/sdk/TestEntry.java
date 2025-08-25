@@ -6,9 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Logger;
 import org.junit.jupiter.api.*;
-
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -551,4 +549,48 @@ class TestEntry {
         logger.info("passed...");
     }
 
+    @Test
+    @Order(60)
+    void testEntryAsPOJO() {
+        Entry entry1 = stack.contentType("product").entry(entryUid);
+        
+        entry1.fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                if (error == null) {
+                    System.out.println("entry fetched successfully");
+                }
+            }
+        });
+        
+        Assertions.assertNotNull(entry1.getTitle());
+        Assertions.assertNotNull(entry1.getUid());
+        Assertions.assertNotNull(entry1.getContentType());
+        Assertions.assertNotNull(entry1.getLocale());
+    }
+
+    @Test
+    @Order(61)
+    void testEntryTypeSafety() {
+        Entry entry = stack.contentType(CONTENT_TYPE).entry(entryUid);
+        entry.fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                if (error == null) {
+                    Assertions.assertEquals(entryUid, entry.getUid());
+                }
+            }
+        });
+    
+        String title = entry.getTitle();
+        String uid = entry.getUid();
+        String contentType = entry.getContentType();
+        String locale = entry.getLocale();
+        
+        Assertions.assertTrue(title instanceof String);
+        Assertions.assertTrue(uid instanceof String);
+        Assertions.assertTrue(contentType instanceof String);
+        Assertions.assertTrue(locale instanceof String);
+    
+    }
 }
