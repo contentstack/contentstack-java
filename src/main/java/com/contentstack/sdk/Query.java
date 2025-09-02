@@ -1235,7 +1235,7 @@ public class Query implements INotifyClass {
         }
         errorHashMap.put("detail", messageString);
         assert e != null;
-        logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+        logger.log(Level.SEVERE, ErrorMessages.QUERY_EXECUTION_FAILED, e);
     }
 
     protected void setQueryJson() {

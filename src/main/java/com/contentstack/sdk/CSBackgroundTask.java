@@ -93,7 +93,7 @@ class CSBackgroundTask {
         final Logger logger = Logger.getLogger("CSBackgroundTask");
         if (headers.size() == 0) {
             try {
-                throw new IllegalAccessException("CSBackgroundTask Header Exception");
+                throw new IllegalAccessException(ErrorMessages.MISSING_REQUEST_HEADERS);
             } catch (IllegalAccessException e) {
                 logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
             }
