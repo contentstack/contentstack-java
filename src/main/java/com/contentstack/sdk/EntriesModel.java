@@ -33,7 +33,7 @@ class EntriesModel {
             }
         } catch (Exception e) {
             Logger logger = Logger.getLogger(EntriesModel.class.getSimpleName());
-            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+            logger.log(Level.SEVERE, ErrorMessages.ENTRIES_PROCESSING_FAILED, e);
         }
 
     }

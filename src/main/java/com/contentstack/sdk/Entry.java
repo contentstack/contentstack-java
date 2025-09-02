@@ -45,7 +45,7 @@ public class Entry {
     protected String rteContent = null;
 
     protected Entry() throws IllegalAccessException {
-        throw new IllegalAccessException("Can Not Access Private Modifier");
+        throw new IllegalAccessException(ErrorMessages.DIRECT_INSTANTIATION_ENTRY);
     }
 
     protected Entry(String contentTypeName) {
@@ -503,7 +503,7 @@ public class Entry {
             String value = getString(key);
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+            logger.log(Level.SEVERE, ErrorMessages.INVALID_DATE_FORMAT, e);
         }
         return null;
     }
@@ -525,7 +525,7 @@ public class Entry {
             String value = getString("created_at");
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+            logger.log(Level.SEVERE, ErrorMessages.INVALID_DATE_FORMAT, e);
         }
         return null;
     }
@@ -562,7 +562,7 @@ public class Entry {
             String value = getString("updated_at");
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+            logger.log(Level.SEVERE, ErrorMessages.INVALID_DATE_FORMAT, e);
         }
         return null;
     }
@@ -601,7 +601,7 @@ public class Entry {
             String value = getString("deleted_at");
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+            logger.log(Level.SEVERE, ErrorMessages.INVALID_DATE_FORMAT, e);
         }
         return null;
     }
@@ -764,7 +764,7 @@ public class Entry {
                         entryInstance = contentType.stackInstance.contentType(refContentType).entry();
                     } catch (Exception e) {
                         entryInstance = new Entry(refContentType);
-                        logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+                        logger.log(Level.SEVERE, ErrorMessages.INVALID_DATE_FORMAT, e);
                     }
                     entryInstance.setUid(model.uid);
                     entryInstance.resultJson = model.jsonObject;
@@ -928,9 +928,9 @@ public class Entry {
     public void fetch(EntryResultCallBack callback) {
         if (uid.isEmpty()) { // throws IllegalAccessException if uid is Empty
             try {
-                throw new IllegalAccessException("Entry Uid is required");
+                throw new IllegalAccessException(ErrorMessages.ENTRY_UID_REQUIRED);
             } catch (IllegalAccessException e) {
-                logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+                logger.log(Level.SEVERE, ErrorMessages.ENTRY_FETCH_FAILED, e);
             }
         }
         String urlString = "content_types/" + contentTypeUid + "/entries/" + uid;
