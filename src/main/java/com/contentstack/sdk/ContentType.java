@@ -40,7 +40,7 @@ public class ContentType {
     public JSONObject contentTypeData;
 
     protected ContentType() throws IllegalAccessException {
-        throw new IllegalAccessException("Can Not Access Private Modifier");
+        throw new IllegalAccessException(ErrorMessages.DIRECT_INSTANTIATION_CONTENT_TYPE);
     }
 
     protected ContentType(String contentTypeUid) {
@@ -158,7 +158,7 @@ public class ContentType {
         }
         params.put("environment", headers.get("environment"));
         if (contentTypeUid == null || contentTypeUid.isEmpty()) {
-            throw new IllegalAccessException("contentTypeUid is required");
+            throw new IllegalAccessException(ErrorMessages.CONTENT_TYPE_UID_REQUIRED);
         }
         fetchContentTypes(urlString, params, headers, callback);
     }

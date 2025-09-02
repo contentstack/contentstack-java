@@ -29,7 +29,7 @@ public class ContentTypesModel {
                 try {
                     this.response = new JSONObject((LinkedHashMap<?, ?>) responseJSON.get(ctKey));
                 } catch (Exception e) {
-                    System.err.println("Error processing 'content_type': " + e.getMessage());
+                    System.err.println(ErrorMessages.INVALID_CONTENT_TYPE_DATA + " Technical details: " + e.getMessage());
                 }
             }
             String ctListKey = "content_types";
@@ -44,14 +44,14 @@ public class ContentTypesModel {
                             JSONObject jsonModel = new JSONObject((LinkedHashMap<?, ?>) model);
                             objectList.add(jsonModel);
                         } else {
-                            System.err.println("Invalid type in 'content_types' list. Expected LinkedHashMap.");
+                            System.err.println(ErrorMessages.INVALID_CONTENT_TYPES_LIST);
                         }
                     });
                 }
                 this.response = new JSONArray(objectList);
                 this.responseJSONArray = new JSONArray(objectList);
             } catch (Exception e) {
-            System.err.println("Error processing 'content_types': " + e.getMessage());
+            System.err.println(ErrorMessages.INVALID_CONTENT_TYPE_DATA + " Technical details: " + e.getMessage());
         }
       }
     }

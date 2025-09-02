@@ -291,7 +291,7 @@ public class Group {
             String value = getString(key);
             return Constants.parseDate(value, null);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+            logger.log(Level.SEVERE, ErrorMessages.GROUP_DATE_PARSING_FAILED, e);
         }
         return null;
     }
