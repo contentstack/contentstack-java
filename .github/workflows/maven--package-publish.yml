@@ -1,9 +1,6 @@
 name: Publishing to Maven Packages
 #on: [ push ]  # Trigger the workflow when a push (commit) event occurs
 on:
-  push:
-    branches:
-      - fix/workflow-release
   release:
     types: [ created ]
 jobs:
