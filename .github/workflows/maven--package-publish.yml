@@ -1,6 +1,9 @@
 name: Publishing to Maven Packages
 #on: [ push ]  # Trigger the workflow when a push (commit) event occurs
 on:
+  push:
+    branches:
+      - fix/workflow-release
   release:
     types: [ created ]
 jobs:
@@ -24,8 +27,8 @@ jobs:
       - name: Publish to Maven Central Repository
         run: mvn --batch-mode -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} deploy
         env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
 #        run: mvn --batch-mode deploy
