@@ -73,6 +73,16 @@ public class Stack {
                     urlDomain = "cdn.contentstack.com";
                 }
                 config.host = "gcp-na" + "-" + urlDomain;
+            } else if (region.equalsIgnoreCase("gcp_eu")) {
+                if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
+                    urlDomain = "cdn.contentstack.com";
+                }
+                config.host = "gcp-eu" + "-" + urlDomain;
+            } else if (region.equalsIgnoreCase("au")) {
+                if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
+                    urlDomain = "cdn.contentstack.com";
+                }
+                config.host = region + "-" + urlDomain;
             }
         }
 
