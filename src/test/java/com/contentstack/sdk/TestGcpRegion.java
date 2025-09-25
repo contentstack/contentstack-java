@@ -33,4 +33,15 @@ public class TestGcpRegion {
         Assertions.assertEquals("gcp-na-cdn.contentstack.com", stack.config.host);
 
     }
+
+    @Test
+    void testGcpEURegionBehaviourGcpStack() throws IllegalAccessException {
+        Config config = new Config();
+        Config.ContentstackRegion region = Config.ContentstackRegion.GCP_EU;
+        config.setRegion(region);
+        Stack stack = Contentstack.stack("fakeApiKey", "fakeDeliveryToken", "fakeEnvironment", config);
+        Assertions.assertFalse(config.region.name().isEmpty());
+        Assertions.assertEquals("GCP_EU", stack.config.region.name());
+        Assertions.assertEquals("gcp-eu-cdn.contentstack.com", stack.config.host);
+    }
 }
