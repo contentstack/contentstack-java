@@ -85,26 +85,24 @@
         </developer>
     </developers>
 
-    <distributionManagement>
+    <!-- <distributionManagement>
 
-        <!--         Maven Snapshot Repository -->
+                Maven Snapshot Repository
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
-
-        <!--GitHub Packages-->
-        <!--        <snapshotRepository>-->
-        <!--            <id>github</id>-->
-        <!--            <url>https://maven.pkg.github.com/contentstack/contentstack-java</url>-->
-        <!--        </snapshotRepository>-->
-        <!--Maven Release Repository-->
+               <snapshotRepository>
+                   <id>github</id>
+                   <url>https://maven.pkg.github.com/contentstack/contentstack-java</url>
+               </snapshotRepository>
+        Maven Release Repository
         <repository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
 
-    </distributionManagement>
+    </distributionManagement> -->
 
 
     <dependencies>
@@ -328,19 +326,14 @@
             </plugin>
 
             <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>${nexus-staging-maven-plugin.version}</version>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.8.0</version> <!-- or latest -->
                 <extensions>true</extensions>
-                <!--                <configuration>-->
-                <!--                    <serverId>github</serverId>-->
-                <!--                    <nexusUrl>https://maven.pkg.github.com/contentstack/contentstack-java</nexusUrl>-->
-                <!--                    <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
-                <!--                </configuration>-->
                 <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>published</waitUntil>
                 </configuration>
             </plugin>
             <!--
