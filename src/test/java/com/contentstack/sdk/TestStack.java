@@ -400,4 +400,26 @@ class TestStack {
         });
     }
 
+    @Test
+    @Order(44)
+    void testAURegionSupport() throws IllegalAccessException {
+        Config config = new Config();
+        Config.ContentstackRegion region = Config.ContentstackRegion.AU;
+        config.setRegion(region);
+        Assertions.assertFalse(config.region.name().isEmpty());
+        Assertions.assertEquals("AU", config.region.name());
+    }
+
+    @Test
+    @Order(45)
+    void testAURegionBehaviourStackHost() throws IllegalAccessException {
+        Config config = new Config();
+        Config.ContentstackRegion region = Config.ContentstackRegion.AU;
+        config.setRegion(region);
+        Stack stack = Contentstack.stack("fakeApiKey", "fakeDeliveryToken", "fakeEnvironment", config);
+        Assertions.assertFalse(config.region.name().isEmpty());
+        Assertions.assertEquals("au-cdn.contentstack.com", stack.config.host);
+
+    }
+
 }

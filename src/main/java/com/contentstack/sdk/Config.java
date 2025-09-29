@@ -211,7 +211,7 @@ public class Config {
      * The enum Contentstack region. for now contentstack supports [US, EU, AZURE_NA]
      */
     public enum ContentstackRegion {
-        US, EU, AZURE_NA, AZURE_EU, GCP_NA
+        US, EU, AZURE_NA, AZURE_EU, GCP_NA, GCP_EU, AU
     }
 
 }
