@@ -25,7 +25,7 @@ class TestEntry {
         try {
             new Entry();
         } catch (IllegalAccessException e) {
-            Assertions.assertEquals("Can Not Access Private Modifier", e.getLocalizedMessage());
+            Assertions.assertEquals("Direct instantiation of Entry is not allowed. Use ContentType.entry(uid) to create an instance.", e.getLocalizedMessage());
             logger.info("passed.");
         }
     }
