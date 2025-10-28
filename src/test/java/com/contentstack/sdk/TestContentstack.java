@@ -26,7 +26,7 @@ class TestContentstack {
             new Contentstack();
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Can Not Access Private Modifier", e.getLocalizedMessage());
+            Assertions.assertEquals("Direct instantiation of Stack is not allowed. Use Contentstack.stack() to create an instance.", e.getLocalizedMessage());
         }
     }
 
@@ -67,7 +67,7 @@ class TestContentstack {
             Contentstack.stack("", DELIVERY_TOKEN, ENV);
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("API Key can not be empty", e.getLocalizedMessage(), "Set APIKey Null");
+            Assertions.assertEquals("Missing API key. Provide a valid key from your Contentstack stack settings and try again.", e.getLocalizedMessage(), "Set APIKey Null");
         }
     }
 
@@ -77,7 +77,7 @@ class TestContentstack {
             Contentstack.stack(API_KEY, "", ENV);
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Delivery Token can not be empty", e.getLocalizedMessage(),
+            Assertions.assertEquals("Missing delivery token. Provide a valid token from your Contentstack stack settings and try again.", e.getLocalizedMessage(),
                     "Set deliveryToken Null");
         }
     }
@@ -88,7 +88,7 @@ class TestContentstack {
             Contentstack.stack(API_KEY, DELIVERY_TOKEN, "");
         } catch (Exception e) {
             logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Environment can not be empty", e.getLocalizedMessage(), "Set Environment Null");
+            Assertions.assertEquals("Missing environment. Provide a valid environment name and try again.", e.getLocalizedMessage(), "Set Environment Null");
         }
     }
 

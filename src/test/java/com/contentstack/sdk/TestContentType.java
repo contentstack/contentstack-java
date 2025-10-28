@@ -19,7 +19,7 @@ class TestContentType {
         try {
             new ContentType();
         } catch (IllegalAccessException e) {
-            Assertions.assertEquals("Can Not Access Private Modifier", e.getLocalizedMessage());
+            Assertions.assertEquals("Direct instantiation of ContentType is not allowed. Use Stack.contentType(uid) to create an instance.", e.getLocalizedMessage());
             logger.info("passed...");
         }
     }
