@@ -85,7 +85,7 @@ public class GlobalField {
     public void fetch(final GlobalFieldsCallback callback) throws IllegalAccessException {
         String urlString = "global_fields/" + globalFieldUid;
         if (globalFieldUid == null || globalFieldUid.isEmpty()) {
-            throw new IllegalAccessException("globalFieldUid is required");
+            throw new IllegalAccessException(ErrorMessages.GLOBAL_FIELD_UID_REQUIRED);
         }
         fetchGlobalFields(urlString, this.params, this.headers, callback);
     }

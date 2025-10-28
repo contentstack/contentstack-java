@@ -63,7 +63,7 @@ public class SyncStack {
 
     protected synchronized void setJSON(@NotNull JSONObject jsonobject) {
         if (jsonobject == null) {
-            throw new IllegalArgumentException("JSON object cannot be null.");
+            throw new IllegalArgumentException(ErrorMessages.MISSING_JSON_OBJECT_SYNC);
         }
     
         this.receiveJson = jsonobject;
