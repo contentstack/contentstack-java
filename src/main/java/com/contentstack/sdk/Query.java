@@ -1430,7 +1430,8 @@ public class Query implements INotifyClass {
     public Query whereIn(@NotNull String key, Query queryObject) {
         if(isValidKey(key)){
             JSONObject inQueryObj = new JSONObject();
-            inQueryObj.put("$in_query", queryObject.queryValueJSON.toString());
+            JSONObject queryValue = new JSONObject(queryObject.queryValueJSON.toString());
+            inQueryObj.put("$in_query", queryValue);
             queryValueJSON.put(key, inQueryObj);
         } else {
             throwException("whereIn", "Invalid key", null);
@@ -1459,7 +1460,8 @@ public class Query implements INotifyClass {
     public Query whereNotIn(@NotNull String key, Query queryObject) {
         if(isValidKey(key)){    
             JSONObject inQueryObj = new JSONObject();
-            inQueryObj.put("$nin_query", queryObject.queryValueJSON.toString());
+            JSONObject queryValue = new JSONObject(queryObject.queryValueJSON.toString());
+            inQueryObj.put("$nin_query", queryValue);
             queryValueJSON.put(key, inQueryObj);
         } else {
             throwException("whereNotIn", "Invalid key", null);
