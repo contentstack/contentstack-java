@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v2.3.1
+
+### Date: 03-Nov-2025
+
+- Github issue fix
+- Improved error messages
+
 ## v2.3.0
 
 ### Date: 29-Sep-2025
