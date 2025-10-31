@@ -21,7 +21,7 @@ public class GlobalFieldsModel {
                 try {
                     this.response = new JSONObject((LinkedHashMap<?, ?>) responseJSON.get(gfKey));
                 } catch (Exception e) {
-                    System.err.println("Error processing 'global_field': " + e.getMessage());
+                    System.err.println(ErrorMessages.INVALID_GLOBAL_FIELD_DATA + " Technical details: " + e.getMessage());
                 }
             }
             String gfListKey = "global_fields";
@@ -36,14 +36,14 @@ public class GlobalFieldsModel {
                                 JSONObject jsonModel = new JSONObject((LinkedHashMap<?, ?>) model);
                                 objectList.add(jsonModel);
                             } else {
-                                System.err.println("Invalid type in 'global_fields' list. Expected LinkedHashMap.");
+                                System.err.println(ErrorMessages.INVALID_GLOBAL_FIELDS_LIST);
                             }
                         });
                     }
                     this.response = new JSONArray(objectList);
                     this.responseJSONArray = new JSONArray(objectList);
                 } catch (Exception e) {
-                    System.err.println("Error processing 'global_fields': " + e.getMessage());
+                    System.err.println(ErrorMessages.INVALID_GLOBAL_FIELD_DATA + " Technical details: " + e.getMessage());
                 }
             }
         }
