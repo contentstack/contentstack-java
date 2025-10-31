@@ -13,12 +13,6 @@
 
 - GCP-EU and AU region support
 
-## v2.3.0
-
-### Date: 29-Sep-2025
-
-- GCP-EU and AU region support
-
 ## v2.2.0
 
 ### Date: 25-Aug-2025
