@@ -179,7 +179,11 @@ public class AssetLibrary implements INotifyClass {
         if (isValidKey(paramKey) && isValidValue(paramValue)) {
             urlQueries.put(paramKey, paramValue);
         } else {
-            logger.warning("Invalid key or value");
+            if (!isValidKey(paramKey)) {
+                logger.warning(ErrorMessages.INVALID_PARAMETER_KEY);
+            } else {
+                logger.warning(ErrorMessages.INVALID_PARAMETER_VALUE);
+            }
         }
         return this;
     }
@@ -310,9 +314,10 @@ public class AssetLibrary implements INotifyClass {
 
         List<Asset> assets = new ArrayList<>();
 
-        // if (objects == null || objects.isEmpty()) {
-        //     System.out.println("Objects list is null or empty");
-        // }
+        if (objects == null || objects.isEmpty()) {
+            logger.warning(ErrorMessages.MISSING_ASSETS_LIST);
+            return;
+        }
 
         if (objects != null && !objects.isEmpty()) {
             for (Object object : objects) {
@@ -328,9 +333,9 @@ public class AssetLibrary implements INotifyClass {
                 assets.add(asset);
             }
         } 
-        // else {
-        // System.out.println("Object is not an instance of AssetModel");
-        // }
+        else {
+            logger.warning(ErrorMessages.INVALID_OBJECT_TYPE_ASSET_MODEL);
+        }
 
         if (callback != null) {
             callback.onRequestFinish(ResponseType.NETWORK, assets);
@@ -351,7 +356,11 @@ public class AssetLibrary implements INotifyClass {
             queryParams.put(key,value);
             urlQueries.put("query", queryParams);
         } else {
-            throw new IllegalArgumentException("Invalid key or value");
+            if (!isValidKey(key)) {
+                throw new IllegalArgumentException(ErrorMessages.INVALID_PARAMETER_KEY);
+            } else {
+                throw new IllegalArgumentException(ErrorMessages.INVALID_PARAMETER_VALUE);
+            }
         }
         return this;
     }

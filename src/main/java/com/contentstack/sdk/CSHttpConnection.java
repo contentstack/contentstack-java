@@ -158,7 +158,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
                     urlParams += urlParams.equals("?") ? key + "=" + value : "&" + key + "=" + value;
                 }
             } catch (Exception e1) {
-                logger.log(Level.SEVERE, e1.getLocalizedMessage(), e1);
+                logger.log(Level.SEVERE, ErrorMessages.URL_PARAMETER_ENCODING_FAILED, e1);
             }
         }
         return urlParams;
@@ -187,7 +187,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
         try {
             getService(url);
         } catch (IOException | JSONException e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+            logger.log(Level.SEVERE, ErrorMessages.URL_PARAMETER_ENCODING_FAILED, e);
         }
     }
 
@@ -238,7 +238,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
                     connectionRequest.onRequestFinished(CSHttpConnection.this);
                 } catch (JSONException e) {
                     // Handle non-JSON response
-                    setError("Invalid JSON response");
+                    setError(ErrorMessages.INVALID_JSON_RESPONSE);
                 }
             } else {
                 assert response.errorBody() != null;

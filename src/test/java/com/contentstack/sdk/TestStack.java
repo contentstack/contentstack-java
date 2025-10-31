@@ -25,8 +25,8 @@ class TestStack {
     @Order(1)
     void stackExceptionTesting() {
         IllegalAccessException thrown = Assertions.assertThrows(IllegalAccessException.class, Stack::new,
-                "Can Not Access Private Modifier");
-        assertEquals("Can Not Access Private Modifier", thrown.getLocalizedMessage());
+                "Direct instantiation of Stack is not allowed. Use Contentstack.stack() to create an instance.");
+        assertEquals("Direct instantiation of Stack is not allowed. Use Contentstack.stack() to create an instance.", thrown.getLocalizedMessage());
     }
 
     @Test
@@ -35,7 +35,7 @@ class TestStack {
         try {
             stack = new Stack();
         } catch (IllegalAccessException e) {
-            assertEquals("Can Not Access Private Modifier", e.getLocalizedMessage());
+            assertEquals("Direct instantiation of Stack is not allowed. Use Contentstack.stack() to create an instance.", e.getLocalizedMessage());
         }
     }
 
