@@ -19,7 +19,7 @@ public class Contentstack {
 
     // Modifier Protected
     protected Contentstack() throws IllegalAccessException {
-        throw new IllegalAccessException("Can Not Access Private Modifier");
+        throw new IllegalAccessException(ErrorMessages.DIRECT_INSTANTIATION_CONTENTSTACK);
     }
 
     /**
@@ -88,13 +88,13 @@ public class Contentstack {
         Objects.requireNonNull(environment, "Environment can not be null");
 
         if (stackApiKey.isEmpty()) {
-            throw new IllegalAccessException("API Key can not be empty");
+            throw new IllegalAccessException(ErrorMessages.MISSING_API_KEY);
         }
         if (deliveryToken.isEmpty()) {
-            throw new IllegalAccessException("Delivery Token can not be empty");
+            throw new IllegalAccessException(ErrorMessages.MISSING_DELIVERY_TOKEN);
         }
         if (environment.isEmpty()) {
-            throw new IllegalAccessException("Environment can not be empty");
+            throw new IllegalAccessException(ErrorMessages.MISSING_ENVIRONMENT);
         }
     }
 

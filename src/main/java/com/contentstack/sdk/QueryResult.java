@@ -131,7 +131,7 @@ public class QueryResult {
     }
 
     private void logException(Exception e) {
-        logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
+        logger.log(Level.SEVERE, ErrorMessages.QUERY_RESULT_PROCESSING_FAILED, e);
     }
 
 
