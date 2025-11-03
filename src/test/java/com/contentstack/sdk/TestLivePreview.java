@@ -197,7 +197,7 @@ public class TestLivePreview {
             stack.livePreviewQuery(hashMap);
         }, "Expected livePreviewQuery to throw IllegalAccessError");
 
-        Assertions.assertTrue(thrown.getMessage().contains("Provide the Preview Token for the host rest-preview.contentstack.com"), 
+        Assertions.assertTrue(thrown.getMessage().contains("Missing preview token for rest-preview.contentstack.com"), 
             "Exception message should mention that Preview Token is required");
 
         logger.severe(thrown.getMessage());  
@@ -220,7 +220,7 @@ public class TestLivePreview {
     });
 
     // Optionally, you can check the message of the exception
-    assertEquals("Live Preview is not enabled in Config", exception.getMessage(), 
+    assertEquals("Live Preview is not enabled in the configuration. Enable it and try again.", exception.getMessage(), 
                  "Expected exception message does not match");
     }
 

@@ -39,7 +39,7 @@ public class Stack {
     protected JSONObject syncParams = null;
 
     protected Stack() throws IllegalAccessException {
-        throw new IllegalAccessException("Can Not Access Private Modifier");
+        throw new IllegalAccessException(ErrorMessages.DIRECT_INSTANTIATION_STACK);
     }
 
     protected Stack(@NotNull String apiKey) {
@@ -166,7 +166,7 @@ public class Stack {
 
         String livePreviewUrl = this.livePreviewEndpoint.concat(config.livePreviewContentType).concat("/entries/" + config.livePreviewEntryUid);
         if (livePreviewUrl.contains("/null/")) {
-            throw new IllegalStateException("Malformed Query Url");
+            throw new IllegalStateException(ErrorMessages.INVALID_QUERY_URL);
         }
         Response<ResponseBody> response = null;
         try {
@@ -178,14 +178,14 @@ public class Stack {
                 if(config.previewToken != null) { 
                     liveHeader.put("preview_token", config.previewToken);
                 } else{
-                    throw new IllegalAccessError("Provide the Preview Token for the host rest-preview.contentstack.com");
+                    throw new IllegalAccessError(ErrorMessages.MISSING_PREVIEW_TOKEN);
                 }
             } else { 
                 liveHeader.put("authorization", config.managementToken);
             }
             response = this.service.getRequest(livePreviewUrl, liveHeader).execute();
         } catch (IOException e) {
-            throw new IllegalStateException("IO Exception while executing the Live Preview url");
+            throw new IllegalStateException(ErrorMessages.LIVE_PREVIEW_URL_FAILED);
         }
         if (response.isSuccessful()) {
             assert response.body() != null;
@@ -196,7 +196,7 @@ public class Stack {
             }
         }
     } else { 
-        throw new IllegalStateException("Live Preview is not enabled in Config");
+        throw new IllegalStateException(ErrorMessages.LIVE_PREVIEW_NOT_ENABLED);
     }
         return this;
     }
@@ -618,7 +618,7 @@ public class Stack {
         JSONObject entryJson = entry.toJSON();
         // Check if entry consists of _embedded_items object
         if (!entryJson.has("_embedded_items")) {
-            throw new IllegalArgumentException("_embedded_items not present in entry. Call includeEmbeddedItems() before fetching entry.");
+            throw new IllegalArgumentException(ErrorMessages.EMBEDDED_ITEMS_NOT_INCLUDED);
         }
         // Get _embedded_items as a JSONObject
         JSONObject embeddedItems = entryJson.getJSONObject("_embedded_items");

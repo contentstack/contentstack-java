@@ -31,7 +31,7 @@ class AssetsModel {
             List<?> assetsList = (List<?>) rawAssets;
             listResponse = new JSONArray(assetsList); // Convert to JSONArray
         } else if (rawAssets != null) {
-            throw new IllegalArgumentException("Invalid type for 'assets' key: " + rawAssets.getClass().getName());
+            throw new IllegalArgumentException(ErrorMessages.INVALID_ASSETS_TYPE);
         }
         if (listResponse != null) {
             listResponse.forEach(model -> {
