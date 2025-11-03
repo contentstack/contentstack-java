@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestAssetLibrary {
-    private final Logger logger = Logger.getLogger(TestAssetLibrary.class.getName());
+class AssetLibraryIT {
+    private final Logger logger = Logger.getLogger(AssetLibraryIT.class.getName());
     private final Stack stack = Credentials.getStack();
 
 

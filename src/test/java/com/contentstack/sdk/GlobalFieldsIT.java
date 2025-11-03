@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestGlobalFields {
+public class GlobalFieldsIT {
 
     private GlobalFieldsModel globalFieldsModel;
     private final Stack stack = Credentials.getStack();
@@ -64,5 +64,52 @@ public class TestGlobalFields {
                 assertNotNull(((JSONArray) globalFieldsModel.getResponse()).length());
             }
         });
+    }
+
+    @Test
+    void testGlobalFieldSetHeader() throws IllegalAccessException {
+        GlobalField globalField = stack.globalField("test_uid");
+        globalField.setHeader("custom-header", "custom-value");
+        assertNotNull(globalField.headers);
+        assertTrue(globalField.headers.containsKey("custom-header"));
+        assertEquals("custom-value", globalField.headers.get("custom-header"));
+    }
+
+    @Test
+    void testGlobalFieldRemoveHeader() throws IllegalAccessException {
+        GlobalField globalField = stack.globalField("test_uid");
+        globalField.setHeader("test-header", "test-value");
+        assertTrue(globalField.headers.containsKey("test-header"));
+        
+        globalField.removeHeader("test-header");
+        assertFalse(globalField.headers.containsKey("test-header"));
+    }
+
+    @Test
+    void testGlobalFieldIncludeBranch() throws IllegalAccessException {
+        GlobalField globalField = stack.globalField("test_uid");
+        globalField.includeBranch();
+        assertNotNull(globalField.params);
+        assertTrue(globalField.params.has("include_branch"));
+        assertEquals(true, globalField.params.get("include_branch"));
+    }
+
+    @Test
+    void testGlobalFieldIncludeSchema() throws IllegalAccessException {
+        GlobalField globalField = stack.globalField();
+        globalField.includeGlobalFieldSchema();
+        assertNotNull(globalField.params);
+        assertTrue(globalField.params.has("include_global_field_schema"));
+        assertEquals(true, globalField.params.get("include_global_field_schema"));
+    }
+
+    @Test
+    void testGlobalFieldChainedMethods() throws IllegalAccessException {
+        GlobalField globalField = stack.globalField();
+        globalField.includeBranch().includeGlobalFieldSchema();
+        
+        assertTrue(globalField.params.has("include_branch"));
+        assertTrue(globalField.params.has("include_global_field_schema"));
+        assertEquals(2, globalField.params.length());
     }
 }

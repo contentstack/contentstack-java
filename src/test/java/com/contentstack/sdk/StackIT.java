@@ -13,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestStack {
+class StackIT {
     Stack stack = Credentials.getStack();
     protected String paginationToken;
-    private final Logger logger = Logger.getLogger(TestStack.class.getName());
+    private final Logger logger = Logger.getLogger(StackIT.class.getName());
     private String entryUid = Credentials.ENTRY_UID;
     private String CONTENT_TYPE = Credentials.CONTENT_TYPE;
 
