@@ -8,10 +8,10 @@ import org.junit.jupiter.api.TestInstance;
 import java.util.logging.Logger;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TestContentstack {
+class ContentstackIT {
 
     private String API_KEY, DELIVERY_TOKEN, ENV;
-    private final Logger logger = Logger.getLogger(TestContentstack.class.getName());
+    private final Logger logger = Logger.getLogger(ContentstackIT.class.getName());
 
     @BeforeAll
     public void initBeforeTests() {

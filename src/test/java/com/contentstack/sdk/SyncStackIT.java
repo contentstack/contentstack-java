@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class TestSyncStack {
+public class SyncStackIT {
     private SyncStack syncStack;
     private final Stack stack = Credentials.getStack();
     private final String host = Credentials.HOST;

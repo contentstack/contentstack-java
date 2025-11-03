@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestEntry {
+class EntryIT {
 
-    private final Logger logger = Logger.getLogger(TestEntry.class.getName());
+    private final Logger logger = Logger.getLogger(EntryIT.class.getName());
     private String entryUid = Credentials.ENTRY_UID;
     private final Stack stack = Credentials.getStack();
     private Entry entry;

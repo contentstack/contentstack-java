@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TaxonomyTest {
+public class TaxonomyIT {
 
     private final Stack stack = Credentials.getStack();
     private final String host = Credentials.HOST;
@@ -131,6 +131,129 @@ public class TaxonomyTest {
             System.out.println("Error: " + error.errorMessage);
         });
         //Assertions.assertEquals("query={\"taxonomies.appliances\":{\"$above\":\"led\"}}", req.url().query());
+    }
+
+    @Test
+    void testTaxonomyInWithSingleItem() {
+        Taxonomy taxonomy = stack.taxonomy();
+        List<String> listOfItems = new ArrayList<>();
+        listOfItems.add("blue");
+        Request req = taxonomy.in("taxonomies.color", listOfItems).makeRequest().request();
+        
+        Assertions.assertEquals("GET", req.method());
+        Assertions.assertEquals(host, req.url().host());
+        Assertions.assertEquals("/v3/taxonomies/entries", req.url().encodedPath());
+        Assertions.assertTrue(req.url().query().contains("$in"));
+        Assertions.assertTrue(req.url().query().contains("blue"));
+    }
+
+    @Test
+    void testTaxonomyBelow() {
+        Taxonomy taxonomy = stack.taxonomy().below("taxonomies.category", "electronics");
+        Request req = taxonomy.makeRequest().request();
+        Assertions.assertEquals("query={\"taxonomies.category\":{\"$below\":\"electronics\"}}", req.url().query());
+    }
+
+    @Test
+    void testTaxonomyMultipleOperations() {
+        Taxonomy taxonomy = stack.taxonomy();
+        List<String> colors = new ArrayList<>();
+        colors.add("red");
+        colors.add("blue");
+        taxonomy.in("taxonomies.color", colors);
+        taxonomy.exists("taxonomies.size", true);
+        
+        Request req = taxonomy.makeRequest().request();
+        String query = req.url().query();
+        Assertions.assertTrue(query.contains("taxonomies.color"));
+        Assertions.assertTrue(query.contains("$in"));
+    }
+
+    @Test
+    void testTaxonomyWithEmptyList() {
+        Taxonomy taxonomy = stack.taxonomy();
+        List<String> emptyList = new ArrayList<>();
+        Request req = taxonomy.in("taxonomies.tags", emptyList).makeRequest().request();
+        
+        Assertions.assertEquals("GET", req.method());
+        Assertions.assertNotNull(req.url().query());
+    }
+
+    @Test
+    void testTaxonomyEqualAndBelowMultipleLevels() {
+        Taxonomy taxonomy = stack.taxonomy();
+        taxonomy.equalAndBelowWithLevel("taxonomies.hierarchy", "root", 5);
+        Request req = taxonomy.makeRequest().request();
+        
+        String query = req.url().query();
+        Assertions.assertTrue(query.contains("taxonomies.hierarchy"));
+        Assertions.assertTrue(query.contains("$eq_below"));
+        Assertions.assertTrue(query.contains("5"));
+    }
+
+    @Test
+    void testTaxonomyRequestHeaders() {
+        Taxonomy taxonomy = stack.taxonomy().exists("taxonomies.featured", true);
+        Request req = taxonomy.makeRequest().request();
+        
+        Assertions.assertNotNull(req.headers());
+        Assertions.assertTrue(req.headers().size() > 0);
+    }
+
+    @Test
+    void testTaxonomyUrlEncoding() {
+        Taxonomy taxonomy = stack.taxonomy().equalAndBelow("taxonomies.name", "test value");
+        Request req = taxonomy.makeRequest().request();
+        
+        Assertions.assertNotNull(req.url().encodedQuery());
+        Assertions.assertTrue(req.url().toString().contains("taxonomies"));
+    }
+
+    @Test
+    void testTaxonomyComplexQuery() {
+        Taxonomy taxonomy = stack.taxonomy();
+        
+        List<String> colors = new ArrayList<>();
+        colors.add("red");
+        colors.add("blue");
+        taxonomy.in("taxonomies.color", colors);
+        
+        taxonomy.exists("taxonomies.featured", true);
+        taxonomy.equalAndBelow("taxonomies.category", "electronics");
+        
+        Request req = taxonomy.makeRequest().request();
+        String query = req.url().query();
+        
+        Assertions.assertNotNull(query);
+        Assertions.assertFalse(query.isEmpty());
+    }
+
+    @Test
+    void testTaxonomyOrWithMultipleConditions() {
+        Taxonomy taxonomy = stack.taxonomy();
+        
+        List<JSONObject> conditions = new ArrayList<>();
+        
+        JSONObject cond1 = new JSONObject();
+        cond1.put("taxonomies.type", "article");
+        
+        JSONObject cond2 = new JSONObject();
+        cond2.put("taxonomies.status", "published");
+        
+        JSONObject cond3 = new JSONObject();
+        cond3.put("taxonomies.featured", true);
+        
+        conditions.add(cond1);
+        conditions.add(cond2);
+        conditions.add(cond3);
+        
+        taxonomy.or(conditions);
+        Request req = taxonomy.makeRequest().request();
+        
+        String query = req.url().query();
+        Assertions.assertTrue(query.contains("$or"));
+        Assertions.assertTrue(query.contains("taxonomies.type"));
+        Assertions.assertTrue(query.contains("taxonomies.status"));
     }
 
 

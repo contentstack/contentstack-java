@@ -8,9 +8,9 @@ import org.junit.jupiter.api.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestAsset {
+class AssetIT {
 
-    private final Logger logger = Logger.getLogger(TestAsset.class.getName());
+    private final Logger logger = Logger.getLogger(AssetIT.class.getName());
     private String assetUid;
     private final Stack stack = Credentials.getStack();
 
