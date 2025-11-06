@@ -32,12 +32,78 @@ public class TestAssetModel {
         assertEquals("https://cdn.example.com/test_image.jpg", model.uploadUrl);
     }
 
-    /**
-     * Note: Testing isArray=false is challenging because the constructor expects
-     * response.get("asset") to return a LinkedHashMap, but when you put a LinkedHashMap
-     * into a JSONObject, the org.json library converts it to a JSONObject internally.
-     * This scenario is typically exercised in integration tests with actual network responses.
-     */
+    @Test
+    void testConstructorWithIsArrayFalse() throws Exception {
+        // When isArray=false, the constructor expects response.get("asset") to return a LinkedHashMap
+        // We use reflection to bypass org.json's automatic conversion of LinkedHashMap to JSONObject
+        
+        LinkedHashMap<String, Object> assetMap = new LinkedHashMap<>();
+        assetMap.put("uid", "asset_uid_456");
+        assetMap.put("content_type", "application/pdf");
+        assetMap.put("file_size", "1024000");
+        assetMap.put("filename", "document.pdf");
+        assetMap.put("url", "https://cdn.example.com/document.pdf");
+        
+        JSONObject response = new JSONObject();
+        
+        // Use reflection to inject the LinkedHashMap directly into the JSONObject's internal map
+        java.lang.reflect.Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        java.util.Map<String, Object> internalMap = (java.util.Map<String, Object>) mapField.get(response);
+        
+        // Put the LinkedHashMap directly, bypassing put() method
+        internalMap.put("asset", assetMap);
+        
+        // Now create AssetModel with isArray=false
+        AssetModel model = new AssetModel(response, false);
+        
+        assertNotNull(model);
+        assertEquals("asset_uid_456", model.uploadedUid);
+        assertEquals("application/pdf", model.contentType);
+        assertEquals("1024000", model.fileSize);
+        assertEquals("document.pdf", model.fileName);
+        assertEquals("https://cdn.example.com/document.pdf", model.uploadUrl);
+    }
+
+    @Test
+    void testConstructorWithIsArrayFalseWithTags() throws Exception {
+        // Test isArray=false path with tags
+        
+        LinkedHashMap<String, Object> assetMap = new LinkedHashMap<>();
+        assetMap.put("uid", "asset_with_tags");
+        assetMap.put("filename", "tagged_file.jpg");
+        
+        JSONArray tags = new JSONArray();
+        tags.put("tag1");
+        tags.put("tag2");
+        tags.put("tag3");
+        assetMap.put("tags", tags);
+        
+        JSONObject response = new JSONObject();
+        response.put("count", 5);
+        response.put("objects", 10);
+        
+        // Use reflection to inject LinkedHashMap
+        java.lang.reflect.Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        java.util.Map<String, Object> internalMap = (java.util.Map<String, Object>) mapField.get(response);
+        internalMap.put("asset", assetMap);
+        
+        AssetModel model = new AssetModel(response, false);
+        
+        assertNotNull(model);
+        assertEquals("asset_with_tags", model.uploadedUid);
+        assertEquals("tagged_file.jpg", model.fileName);
+        assertEquals(5, model.count);
+        assertEquals(10, model.totalCount);
+        assertNotNull(model.tags);
+        assertEquals(3, model.tags.length);
+        assertEquals("tag1", model.tags[0]);
+        assertEquals("tag2", model.tags[1]);
+        assertEquals("tag3", model.tags[2]);
+    }
 
     @Test
     void testConstructorWithTags() {
