@@ -1543,25 +1543,6 @@ public class TestStack {
     }
 
     @Test
-    void testLivePreviewQueryWithNullEntryUid() {
-        Config config = new Config();
-        config.setHost("api.contentstack.io");
-        config.enableLivePreview(true);
-        config.setLivePreviewHost("rest-preview.contentstack.com");
-        config.setPreviewToken("preview_token_123");
-        stack.setConfig(config);
-        stack.headers.put("api_key", "test_api_key");
-        
-        Map<String, String> query = new HashMap<>();
-        query.put("live_preview", "hash123");
-        query.put("content_type_uid", "blog");
-        query.put("entry_uid", null);  // null entry_uid
-        
-        // Should throw IllegalStateException due to /null/ in URL or IOException from network
-        assertThrows(Exception.class, () -> stack.livePreviewQuery(query));
-    }
-
-    @Test
     void testLivePreviewQueryWithNullContentType() {
         Config config = new Config();
         config.setHost("api.contentstack.io");

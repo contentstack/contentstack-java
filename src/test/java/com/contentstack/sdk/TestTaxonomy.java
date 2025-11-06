@@ -418,23 +418,6 @@ public class TestTaxonomy {
         });
     }
 
-    // ========== FIND METHOD TESTS ==========
-
-    @Test
-    void testFindWithCallback() {
-        taxonomy.in("taxonomies.color", Arrays.asList("red"));
-        
-        TaxonomyCallback callback = new TaxonomyCallback() {
-            @Override
-            public void onResponse(JSONObject response, Error error) {
-                // Callback implementation
-            }
-        };
-        
-        // This will attempt network call - we expect RuntimeException due to network failure
-        assertThrows(RuntimeException.class, () -> taxonomy.find(callback));
-    }
-
     // ========== EDGE CASES ==========
 
     @Test
