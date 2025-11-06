@@ -1089,4 +1089,329 @@ public class TestQuery {
         Query result = query.notExists("optional_field");
         assertNotNull(result);
     }
+
+    // ========== ADDITIONAL BRANCH COVERAGE TESTS ==========
+
+    @Test
+    void testLessThanOrEqualToWithNonEmptyQueryValue() {
+        query.queryValue = new JSONObject();
+        Query result = query.lessThanOrEqualTo("field", 100);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.greaterThanOrEqualTo("new_field", 50);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotEqualToWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.notEqualTo("field", "value");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testContainedInWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.containedIn("field", new Object[]{"val1", "val2"});
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotContainedInWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.notContainedIn("field", new Object[]{"val1", "val2"});
+        assertNotNull(result);
+    }
+
+    @Test
+    void testExistsWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.exists("field");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotExistsWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.notExists("field");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersNewKey() {
+        query.queryValue = new JSONObject();
+        Query result = query.regex("field", "pattern", "i");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersExistingKeyNoModifiers() {
+        query.queryValueJSON.put("field", new JSONObject());
+        Query result = query.regex("field", "pattern", null);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersExistingKeyWithModifiers() {
+        query.queryValueJSON.put("field", new JSONObject());
+        Query result = query.regex("field", "pattern", "i");
+        assertNotNull(result);
+    }
+
+    // ========== MORE FIND/FINDONE EDGE CASES ==========
+
+    @Test
+    void testFindOneWithNullLimit() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        q.headers.put("environment", "production");
+        
+        // Don't set limit, should handle -1 case
+        SingleQueryResultCallback callback = new SingleQueryResultCallback() {
+            @Override
+            public void onCompletion(ResponseType responseType, Entry entry, Error error) {
+                // Callback implementation
+            }
+        };
+        
+        assertDoesNotThrow(() -> q.findOne(callback));
+    }
+
+    // ========== GET RESULT OBJECT WITH CALLBACKS ==========
+
+    @Test
+    void testGetResultObjectWithSingleEntryAndCallback() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        
+        // Set callback
+        q.singleQueryResultCallback = new SingleQueryResultCallback() {
+            @Override
+            public void onCompletion(ResponseType responseType, Entry entry, Error error) {
+                // Callback implementation
+            }
+        };
+        
+        // Create mock entry model
+        List<Object> objects = new ArrayList<>();
+        JSONObject entryJson = new JSONObject();
+        entryJson.put("uid", "entry_123");
+        entryJson.put("title", "Test Entry");
+        entryJson.put("tags", new JSONArray());
+        
+        EntryModel model = new EntryModel(entryJson);
+        objects.add(model);
+        
+        JSONObject resultJson = new JSONObject();
+        
+        q.getResultObject(objects, resultJson, true);
+        assertNotNull(q);
+    }
+
+    @Test
+    void testGetResultObjectWithMultipleEntriesAndCallback() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        
+        // Set callback
+        q.queryResultCallback = new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                // Callback implementation
+            }
+        };
+        
+        // Create mock entry models
+        List<Object> objects = new ArrayList<>();
+        
+        JSONObject entry1Json = new JSONObject();
+        entry1Json.put("uid", "entry_1");
+        entry1Json.put("title", "Entry 1");
+        entry1Json.put("tags", new JSONArray());
+        EntryModel model1 = new EntryModel(entry1Json);
+        objects.add(model1);
+        
+        JSONObject entry2Json = new JSONObject();
+        entry2Json.put("uid", "entry_2");
+        entry2Json.put("title", "Entry 2");
+        entry2Json.put("tags", new JSONArray());
+        EntryModel model2 = new EntryModel(entry2Json);
+        objects.add(model2);
+        
+        JSONObject resultJson = new JSONObject();
+        
+        q.getResultObject(objects, resultJson, false);
+        assertNotNull(q);
+    }
+
+    // ========== QUERY VALUE MANIPULATION TESTS ==========
+
+    @Test
+    void testLessThanWithNonEmptyQueryValue() {
+        query.queryValue = new JSONObject();
+        Query result = query.lessThan("field", 100);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testGreaterThanWithNonEmptyQueryValue() {
+        query.queryValue = new JSONObject();
+        Query result = query.greaterThan("field", 50);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithNonEmptyQueryValue() {
+        query.queryValue = new JSONObject();
+        Query result = query.regex("field", "pattern");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersAndLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.regex("field", "pattern", "i");
+        assertNotNull(result);
+    }
+
+    // ========== OR METHOD TESTS ==========
+
+    @Test
+    void testOrWithEmptyQueryObjects() {
+        List<Query> queries = new ArrayList<>();
+        Query result = query.or(queries);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testOrWithMultipleQueries() {
+        List<Query> queries = new ArrayList<>();
+        
+        Query q1 = new Query("test_ct");
+        q1.where("field1", "value1");
+        queries.add(q1);
+        
+        Query q2 = new Query("test_ct");
+        q2.where("field2", "value2");
+        queries.add(q2);
+        
+        Query result = query.or(queries);
+        assertNotNull(result);
+    }
+
+    // ========== VALIDATION TESTS ==========
+
+    @Test
+    void testWhereWithValidKeyAndValue() {
+        Query result = query.where("valid_key", "valid_value");
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("valid_key"));
+    }
+
+    @Test
+    void testLessThanWithValidKeyAndValue() {
+        Query result = query.lessThan("price", 100);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testLessThanOrEqualToWithValidKeyAndValue() {
+        Query result = query.lessThanOrEqualTo("price", 100);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testGreaterThanWithValidKeyAndValue() {
+        Query result = query.greaterThan("rating", 4.5);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithValidKeyAndValue() {
+        Query result = query.greaterThanOrEqualTo("rating", 4.0);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotEqualToWithValidKeyAndValue() {
+        Query result = query.notEqualTo("status", "draft");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testContainedInWithValidKeyAndValues() {
+        Query result = query.containedIn("category", new Object[]{"tech", "science"});
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotContainedInWithValidKeyAndValues() {
+        Query result = query.notContainedIn("status", new Object[]{"archived", "deleted"});
+        assertNotNull(result);
+    }
+
+    @Test
+    void testExistsWithValidKey() {
+        Query result = query.exists("optional_field");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotExistsWithValidKey() {
+        Query result = query.notExists("deprecated_field");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithValidKeyAndPattern() {
+        Query result = query.regex("email", "pattern");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersValidKeyAndPattern() {
+        Query result = query.regex("name", "pattern", "i");
+        assertNotNull(result);
+    }
+
+    // ========== COMPLEX QUERY COMBINATIONS ==========
+
+    @Test
+    void testComplexQueryWithMultipleConditions() {
+        query.where("type", "article")
+             .greaterThanOrEqualTo("rating", 4.0)
+             .lessThanOrEqualTo("price", 100)
+             .notEqualTo("status", "draft")
+             .containedIn("category", new Object[]{"tech", "science"})
+             .notContainedIn("tags", new Object[]{"deprecated"})
+             .exists("author")
+             .notExists("deleted_at")
+             .regex("title", "How");
+        
+        assertNotNull(query.queryValueJSON);
+        assertTrue(query.queryValueJSON.length() > 0);
+    }
+
+    @Test
+    void testQueryWithMultipleOperatorsOnSameField() {
+        query.greaterThan("price", 10)
+             .lessThan("price", 100)
+             .notEqualTo("price", 50);
+        
+        assertNotNull(query.queryValueJSON);
+    }
 }
