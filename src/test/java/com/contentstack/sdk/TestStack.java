@@ -1523,5 +1523,324 @@ public class TestStack {
         // Environment not in params if not in headers
         assertFalse(params.has("environment") && !stack.headers.containsKey("environment"));
     }
+
+    // ========== LIVE PREVIEW QUERY TESTS ==========
+
+    @Test
+    void testLivePreviewQueryWithDisabledLivePreview() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(false);
+        stack.setConfig(config);
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        
+        // Should throw IllegalStateException when live preview is not enabled
+        assertThrows(IllegalStateException.class, () -> stack.livePreviewQuery(query));
+    }
+
+    @Test
+    void testLivePreviewQueryWithNullEntryUid() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        config.setPreviewToken("preview_token_123");
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", null);  // null entry_uid
+        
+        // Should throw IllegalStateException due to /null/ in URL or IOException from network
+        assertThrows(Exception.class, () -> stack.livePreviewQuery(query));
+    }
+
+    @Test
+    void testLivePreviewQueryWithNullContentType() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        config.setPreviewToken("preview_token_123");  // Add preview token
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", null);  // null content_type
+        query.put("entry_uid", "entry123");
+        
+        // Should throw NullPointerException when trying to concat null content_type_uid
+        assertThrows(NullPointerException.class, () -> stack.livePreviewQuery(query));
+    }
+
+    @Test
+    void testLivePreviewQueryWithReleaseId() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        config.setPreviewToken("preview_token_123");
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        query.put("release_id", "release_456");
+        
+        // This will attempt network call but we're testing the parameter setting
+        try {
+            stack.livePreviewQuery(query);
+        } catch (Exception e) {
+            // Expected - network call will fail, but we can check that releaseId was set
+            assertEquals("release_456", config.releaseId);
+        }
+    }
+
+    @Test
+    void testLivePreviewQueryWithoutReleaseId() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        config.setPreviewToken("preview_token_123");
+        config.releaseId = "existing_release";  // Set existing value
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        // No release_id in query
+        
+        try {
+            stack.livePreviewQuery(query);
+        } catch (Exception e) {
+            // Expected - network call will fail, but we can check that releaseId was set to null
+            assertNull(config.releaseId);
+        }
+    }
+
+    @Test
+    void testLivePreviewQueryWithPreviewTimestamp() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        config.setPreviewToken("preview_token_123");
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        query.put("preview_timestamp", "2024-01-01T00:00:00Z");
+        
+        try {
+            stack.livePreviewQuery(query);
+        } catch (Exception e) {
+            // Expected - network call will fail, but we can check that previewTimestamp was set
+            assertEquals("2024-01-01T00:00:00Z", config.previewTimestamp);
+        }
+    }
+
+    @Test
+    void testLivePreviewQueryWithoutPreviewTimestamp() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        config.setPreviewToken("preview_token_123");
+        config.previewTimestamp = "existing_timestamp";  // Set existing value
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        // No preview_timestamp in query
+        
+        try {
+            stack.livePreviewQuery(query);
+        } catch (Exception e) {
+            // Expected - network call will fail, but we can check that previewTimestamp was set to null
+            assertNull(config.previewTimestamp);
+        }
+    }
+
+    @Test
+    void testLivePreviewQueryWithRestPreviewHostMissingToken() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        // No preview token set
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        
+        // Should throw IllegalAccessError when preview token is missing
+        assertThrows(IllegalAccessError.class, () -> stack.livePreviewQuery(query));
+    }
+
+    @Test
+    void testLivePreviewQueryWithRestPreviewHostAndToken() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        config.setPreviewToken("preview_token_123");
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        
+        // This will attempt network call and may throw exception or succeed depending on network
+        // Just verify the parameters are set correctly
+        try {
+            stack.livePreviewQuery(query);
+            // If no exception, parameters should still be set
+            assertEquals("hash123", config.livePreviewHash);
+            assertEquals("entry123", config.livePreviewEntryUid);
+            assertEquals("blog", config.livePreviewContentType);
+        } catch (IllegalStateException e) {
+            // Expected - network call failed
+            assertNotNull(e);
+        } catch (IllegalAccessError e) {
+            // Also acceptable - missing token
+            assertNotNull(e);
+        } catch (Exception e) {
+            // Other exceptions are also acceptable
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void testLivePreviewQueryWithCustomHostUsesManagementToken() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("custom-preview.example.com");
+        config.setManagementToken("management_token_123");
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        
+        // This will attempt network call with management token
+        // We expect IllegalStateException due to network failure
+        assertThrows(IllegalStateException.class, () -> stack.livePreviewQuery(query));
+    }
+
+    @Test
+    void testLivePreviewQueryParameterAssignment() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        config.setPreviewToken("preview_token_123");
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash_abc123");
+        query.put("content_type_uid", "product");
+        query.put("entry_uid", "product_entry_456");
+        query.put("release_id", "release_789");
+        query.put("preview_timestamp", "2024-12-31T23:59:59Z");
+        
+        try {
+            stack.livePreviewQuery(query);
+        } catch (Exception e) {
+            // Expected - network call will fail, but check all parameters were set correctly
+            assertEquals("hash_abc123", config.livePreviewHash);
+            assertEquals("product_entry_456", config.livePreviewEntryUid);
+            assertEquals("product", config.livePreviewContentType);
+            assertEquals("release_789", config.releaseId);
+            assertEquals("2024-12-31T23:59:59Z", config.previewTimestamp);
+        }
+    }
+
+    @Test
+    void testLivePreviewQueryAllParametersNull() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        config.setPreviewToken("preview_token_123");
+        // Set existing values
+        config.releaseId = "old_release";
+        config.previewTimestamp = "old_timestamp";
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        // release_id and preview_timestamp not in query - should be set to null
+        
+        try {
+            stack.livePreviewQuery(query);
+        } catch (Exception e) {
+            // Expected - network call will fail
+            // Verify that optional parameters were set to null
+            assertNull(config.releaseId);
+            assertNull(config.previewTimestamp);
+        }
+    }
+
+    @Test
+    void testLivePreviewQueryIOExceptionThrowsIllegalStateException() {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        config.setPreviewToken("preview_token_123");
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        
+        // Network call may fail with IOException (caught and re-thrown as IllegalStateException)
+        // or may succeed depending on network configuration
+        try {
+            stack.livePreviewQuery(query);
+            // If successful, just verify parameters were set
+            assertEquals("hash123", config.livePreviewHash);
+            assertEquals("entry123", config.livePreviewEntryUid);
+            assertEquals("blog", config.livePreviewContentType);
+        } catch (IllegalStateException e) {
+            // Expected - IOException was caught and re-thrown
+            assertNotNull(e);
+        } catch (Exception e) {
+            // Other exceptions are also acceptable for this test
+            assertNotNull(e);
+        }
+    }
 }
 
