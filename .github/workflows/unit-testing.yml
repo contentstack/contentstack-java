@@ -18,12 +18,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 8
+      - name: Set up JDK 8 (Temurin)
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '8'
           cache: maven
+
+      - name: Ensure Tests Are Enabled in pom.xml
+        run: |
+          echo "🔧 Temporarily enabling tests in pom.xml..."
+          if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' 's/<skipTests>true<\/skipTests>/<skipTests>false<\/skipTests>/g' pom.xml || true
+          else
+            sed -i 's/<skipTests>true<\/skipTests>/<skipTests>false<\/skipTests>/g' pom.xml || true
+          fi
+          echo "✅ Tests enabled."
 
       - name: Run Tests and Generate JaCoCo Report
         run: mvn clean test -Dtest='Test*' jacoco:report -Dgpg.skip=true
@@ -33,9 +43,13 @@ jobs:
         run: |
           echo "Checking JaCoCo coverage thresholds..."
 
-          # Extract coverage values from XML
-          INSTRUCTION=$(grep -oPm1 '(?<=<counter type="INSTRUCTION" missed=")[0-9]+" covered="[0-9]+"' target/site/jacoco/jacoco.xml | sed 's/" covered="/ /' | awk '{print $2/($1+$2)*100}')
-          BRANCH=$(grep -oPm1 '(?<=<counter type="BRANCH" missed=")[0-9]+" covered="[0-9]+"' target/site/jacoco/jacoco.xml | sed 's/" covered="/ /' | awk '{print $2/($1+$2)*100}')
+          if [ ! -f target/site/jacoco/jacoco.xml ]; then
+            echo "❌ JaCoCo XML report not found."
+            exit 1
+          fi
+
+          INSTRUCTION=$(grep -oPm1 '(?<=<counter type="INSTRUCTION" missed=")[0-9]+" covered="[0-9]+"' target/site/jacoco/jacoco.xml | sed 's/" covered="/ /' | awk '{printf "%.2f", ($2/($1+$2))*100}')
+          BRANCH=$(grep -oPm1 '(?<=<counter type="BRANCH" missed=")[0-9]+" covered="[0-9]+"' target/site/jacoco/jacoco.xml | sed 's/" covered="/ /' | awk '{printf "%.2f", ($2/($1+$2))*100}')
 
           echo "Instruction Coverage: $INSTRUCTION%"
           echo "Branch Coverage: $BRANCH%"
@@ -59,6 +73,7 @@ jobs:
           echo "✅ Coverage thresholds met."
 
       - name: Comment Coverage Summary on PR
+        if: always()
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: "🧪 JaCoCo Coverage Report"
@@ -70,6 +85,7 @@ jobs:
             ✅ Minimum thresholds: 90% instruction, 80% branch
 
       - name: Upload JaCoCo HTML Report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
