@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestContentstackPluginIT {
+class ContentstackPluginIT {
 
     final Stack stack = Credentials.getStack();
 
