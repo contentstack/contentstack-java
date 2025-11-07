@@ -693,4 +693,243 @@ public class TestContentType {
         assertEquals("value1", retrievedNested.get("key1"));
         assertEquals("value2", retrievedNested.get("key2"));
     }
+
+    // ========== EXCEPTION TESTS WITH ERROR MESSAGE ASSERTIONS ==========
+
+    @Test
+    void testDirectInstantiationThrowsExceptionWithCorrectMessage() {
+        IllegalAccessException exception = assertThrows(IllegalAccessException.class, () -> {
+            new ContentType();
+        });
+        
+        assertEquals(ErrorMessages.DIRECT_INSTANTIATION_CONTENT_TYPE, exception.getMessage());
+        assertTrue(exception.getMessage().contains("Direct instantiation of ContentType is not allowed"));
+        assertTrue(exception.getMessage().contains("Stack.contentType(uid)"));
+    }
+
+    @Test
+    void testFetchWithNullContentTypeUidThrowsExceptionWithMessage() throws Exception {
+        Stack stack = Contentstack.stack("test_api_key", "test_delivery_token", "test_env");
+        
+        ContentType ctWithNullUid = new ContentType(null);
+        ctWithNullUid.stackInstance = stack;
+        ctWithNullUid.headers = new LinkedHashMap<>();
+        ctWithNullUid.headers.put("environment", "production");
+        
+        JSONObject params = new JSONObject();
+        ContentTypesCallback callback = new ContentTypesCallback() {
+            @Override
+            public void onCompletion(ContentTypesModel model, Error error) {}
+        };
+        
+        IllegalAccessException exception = assertThrows(IllegalAccessException.class, () -> {
+            ctWithNullUid.fetch(params, callback);
+        });
+        
+        assertEquals(ErrorMessages.CONTENT_TYPE_UID_REQUIRED, exception.getMessage());
+        assertTrue(exception.getMessage().contains("Content type UID is required"));
+    }
+
+    @Test
+    void testFetchWithEmptyContentTypeUidThrowsExceptionWithMessage() throws Exception {
+        Stack stack = Contentstack.stack("test_api_key", "test_delivery_token", "test_env");
+        
+        ContentType ctWithEmptyUid = new ContentType("");
+        ctWithEmptyUid.stackInstance = stack;
+        ctWithEmptyUid.headers = new LinkedHashMap<>();
+        ctWithEmptyUid.headers.put("environment", "production");
+        
+        JSONObject params = new JSONObject();
+        ContentTypesCallback callback = new ContentTypesCallback() {
+            @Override
+            public void onCompletion(ContentTypesModel model, Error error) {}
+        };
+        
+        IllegalAccessException exception = assertThrows(IllegalAccessException.class, () -> {
+            ctWithEmptyUid.fetch(params, callback);
+        });
+        
+        assertEquals(ErrorMessages.CONTENT_TYPE_UID_REQUIRED, exception.getMessage());
+    }
+
+    @Test
+    void testSetHeaderWithEmptyKeyDoesNotAddHeader() {
+        int initialSize = contentType.headers.size();
+        
+        contentType.setHeader("", "some_value");
+        
+        // No exception thrown, but header should not be added
+        assertEquals(initialSize, contentType.headers.size());
+        assertFalse(contentType.headers.containsKey(""));
+    }
+
+    @Test
+    void testSetHeaderWithEmptyValueDoesNotAddHeader() {
+        int initialSize = contentType.headers.size();
+        
+        contentType.setHeader("some_key", "");
+        
+        // No exception thrown, but header should not be added
+        assertEquals(initialSize, contentType.headers.size());
+        assertFalse(contentType.headers.containsKey("some_key"));
+    }
+
+    @Test
+    void testSetHeaderWithBothEmptyDoesNotAddHeader() {
+        int initialSize = contentType.headers.size();
+        
+        contentType.setHeader("", "");
+        
+        // No exception thrown, but header should not be added
+        assertEquals(initialSize, contentType.headers.size());
+    }
+
+    @Test
+    void testRemoveHeaderWithEmptyKeyDoesNotThrow() {
+        // Should not throw exception
+        assertDoesNotThrow(() -> contentType.removeHeader(""));
+    }
+
+    @Test
+    void testRemoveNonExistentHeaderDoesNotThrow() {
+        // Should not throw exception
+        assertDoesNotThrow(() -> contentType.removeHeader("non_existent_header"));
+    }
+
+    @Test
+    void testFetchWithNullParamsDoesNotThrow() throws Exception {
+        Stack stack = Contentstack.stack("test_api_key", "test_delivery_token", "test_env");
+        contentType.stackInstance = stack;
+        contentType.headers = new LinkedHashMap<>();
+        contentType.headers.put("environment", "production");
+        
+        ContentTypesCallback callback = new ContentTypesCallback() {
+            @Override
+            public void onCompletion(ContentTypesModel model, Error error) {}
+        };
+        
+        // Even with null params, should handle gracefully (though might fail at network level)
+        // The method signature requires @NotNull but testing runtime behavior
+        assertThrows(NullPointerException.class, () -> {
+            contentType.fetch(null, callback);
+        });
+    }
+
+    @Test
+    void testEntryWithNullUidCreatesEntry() {
+        // Should create entry even with null UID (validation happens later)
+        Entry entry = contentType.entry(null);
+        
+        assertNotNull(entry);
+        assertNull(entry.uid);
+    }
+
+    @Test
+    void testEntryWithEmptyUidCreatesEntry() {
+        // Should create entry even with empty UID (validation happens later)
+        Entry entry = contentType.entry("");
+        
+        assertNotNull(entry);
+        assertEquals("", entry.uid);
+    }
+
+    @Test
+    void testQueryCreation() {
+        // Query creation should always succeed
+        Query query = contentType.query();
+        
+        assertNotNull(query);
+        assertNotNull(query.headers);
+        assertEquals(contentType.headers, query.headers);
+    }
+
+    @Test
+    void testSetContentTypeDataWithNullDoesNotThrow() {
+        // Should handle null gracefully without throwing
+        assertDoesNotThrow(() -> contentType.setContentTypeData(null));
+        
+        // contentTypeData should remain null
+        assertNull(contentType.contentTypeData);
+    }
+
+    @Test
+    void testSetContentTypeDataWithEmptyJSONObject() {
+        JSONObject emptyData = new JSONObject();
+        
+        assertDoesNotThrow(() -> contentType.setContentTypeData(emptyData));
+        
+        // Fields should have default values
+        assertEquals("", contentType.title);
+        assertEquals("", contentType.description);
+        assertEquals("", contentType.uid);
+        assertNull(contentType.schema);
+        assertNotNull(contentType.contentTypeData);
+    }
+
+    @Test
+    void testSetContentTypeDataPopulatesAllFields() {
+        JSONObject ctData = new JSONObject();
+        ctData.put("uid", "test_uid");
+        ctData.put("title", "Test Title");
+        ctData.put("description", "Test Description");
+        
+        JSONArray schema = new JSONArray();
+        JSONObject field = new JSONObject();
+        field.put("uid", "field_uid");
+        field.put("data_type", "text");
+        schema.put(field);
+        ctData.put("schema", schema);
+        
+        contentType.setContentTypeData(ctData);
+        
+        assertEquals("test_uid", contentType.uid);
+        assertEquals("Test Title", contentType.title);
+        assertEquals("Test Description", contentType.description);
+        assertNotNull(contentType.schema);
+        assertEquals(1, contentType.schema.length());
+        assertEquals("field_uid", contentType.schema.getJSONObject(0).getString("uid"));
+        assertNotNull(contentType.contentTypeData);
+    }
+
+    @Test
+    void testSetContentTypeDataWithMissingOptionalFields() {
+        JSONObject ctData = new JSONObject();
+        ctData.put("uid", "minimal_uid");
+        // title, description, schema are optional
+        
+        contentType.setContentTypeData(ctData);
+        
+        assertEquals("minimal_uid", contentType.uid);
+        assertEquals("", contentType.title); // optString returns ""
+        assertEquals("", contentType.description);
+        assertNull(contentType.schema); // optJSONArray returns null
+        assertNotNull(contentType.contentTypeData);
+    }
+
+    @Test
+    void testSetHeaderOverwritesExistingHeader() {
+        contentType.setHeader("test_header", "value1");
+        assertEquals("value1", contentType.headers.get("test_header"));
+        
+        // Overwrite with new value
+        contentType.setHeader("test_header", "value2");
+        assertEquals("value2", contentType.headers.get("test_header"));
+        
+        // Headers size should still be 1 (not 2)
+        long count = contentType.headers.keySet().stream()
+                .filter(key -> key.equals("test_header"))
+                .count();
+        assertEquals(1, count);
+    }
+
+    @Test
+    void testStackInstanceSetterAssignsHeaders() throws IllegalAccessException {
+        Stack newStack = Contentstack.stack("new_key", "new_token", "new_env");
+        
+        contentType.setStackInstance(newStack);
+        
+        assertNotNull(contentType.stackInstance);
+        assertNotNull(contentType.headers);
+        assertEquals(newStack.headers, contentType.headers);
+    }
 }

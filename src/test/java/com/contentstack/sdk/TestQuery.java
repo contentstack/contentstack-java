@@ -1414,4 +1414,108 @@ public class TestQuery {
         
         assertNotNull(query.queryValueJSON);
     }
+
+    // ========== EXCEPTION HANDLING TESTS ==========
+
+    // Note: Cannot test validation failures due to assert e != null in throwException method
+    // Focusing on exception handling in try-catch blocks
+
+    @Test
+    void testRegexWithModifiersHandlesException() {
+        // This should execute without throwing exceptions
+        Query result = query.regex("key", "pattern", "i");
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("key"));
+    }
+
+
+
+    @Test
+    void testOrHandlesExceptionGracefully() {
+        // Create a valid query list
+        List<Query> queries = new ArrayList<>();
+        Query q1 = new Query("content_type1");
+        q1.headers = new LinkedHashMap<>();
+        q1.where("field1", "value1");
+        queries.add(q1);
+        
+        // Should execute without throwing
+        assertDoesNotThrow(() -> query.or(queries));
+        assertTrue(query.queryValueJSON.has("$or"));
+    }
+
+    @Test
+    void testRemoveQueryWithNonExistentKey() {
+        query.addQuery("test", "value");
+        Query result = query.removeQuery("non_existent");
+        assertNotNull(result);
+        // Should not throw
+        assertTrue(query.urlQueries.has("test")); // Original remains
+    }
+
+    // ========== VALIDATION METHOD TESTS ==========
+
+    @Test
+    void testValidKeyAccepted() {
+        // Valid keys: alphanumeric, underscore, dot
+        Query result = query.where("valid_key.subfield", "value");
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("valid_key.subfield"));
+    }
+
+    @Test
+    void testValidValueAccepted() {
+        // Valid values: alphanumeric, underscore, dot, hyphen, space
+        Query result = query.where("key", "valid-value_123.test with spaces");
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("key"));
+    }
+
+    @Test
+    void testNonStringValuesPassValidation() {
+        // Non-string values should pass validation (return true)
+        Query result = query.where("key", 123);
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("key"));
+        
+        Query result2 = query.where("key2", true);
+        assertNotNull(result2);
+        assertTrue(query.queryValueJSON.has("key2"));
+    }
+
+    @Test
+    void testValidValueListAccepted() {
+        Object[] values = new Object[]{"value1", "value2", "value-3_test"};
+        Query result = query.containedIn("key", values);
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("key"));
+    }
+
+    @Test
+    void testMixedTypeValueListWithNonStrings() {
+        // Non-string values in list should pass validation
+        Object[] values = new Object[]{"valid", 123, true};
+        Query result = query.containedIn("key", values);
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("key"));
+    }
+
+    // ========== EDGE CASES ==========
+
+    @Test
+    void testEmptyListValidation() {
+        List<String> emptyList = new ArrayList<>();
+        Query result = query.except(emptyList);
+        assertNotNull(result);
+        // Empty list should not create objectUidForExcept
+        assertNull(query.objectUidForExcept);
+    }
+
+    @Test
+    void testEmptyArrayValidation() {
+        Query result = query.except(new String[]{});
+        assertNotNull(result);
+        // Empty array should not create objectUidForExcept
+        assertNull(query.objectUidForExcept);
+    }
 }

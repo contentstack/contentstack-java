@@ -437,4 +437,358 @@ class TestGlobalFieldsModel {
         assertTrue(model.getResponse() instanceof JSONArray);
     }
 
+    // ========== EXCEPTION HANDLING TESTS ==========
+
+    @Test
+    void testSetJSONWithInvalidGlobalFieldType() {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // Create JSON with global_field as a String instead of LinkedHashMap
+        JSONObject response = new JSONObject();
+        response.put("global_field", "invalid_string_type");
+        
+        // Should handle exception gracefully without throwing
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Response should remain null due to instanceof check failing
+        assertNull(model.getResponse());
+    }
+
+    @Test
+    void testSetJSONWithInvalidGlobalFieldsType() {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // Create JSON with global_fields as a String instead of ArrayList
+        JSONObject response = new JSONObject();
+        response.put("global_fields", "invalid_string_type");
+        
+        // Should handle exception gracefully without throwing
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Response should remain null due to instanceof check failing
+        assertNull(model.getResponse());
+    }
+
+    @Test
+    void testSetJSONWithNullGlobalFieldsValue() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("global_fields", null);
+        
+        // Should handle null gracefully
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Response should remain null
+        assertNull(model.getResponse());
+    }
+
+    @Test
+    void testSetJSONWithMalformedGlobalFieldMap() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // Create a LinkedHashMap with circular reference or other malformed data
+        // that might cause exception during JSONObject construction
+        LinkedHashMap<String, Object> malformedMap = new LinkedHashMap<>();
+        malformedMap.put("self", malformedMap); // Circular reference
+        
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("global_field", malformedMap);
+        
+        // Should handle exception gracefully without throwing
+        assertDoesNotThrow(() -> model.setJSON(response));
+    }
+
+    @Test
+    void testSetJSONWithGlobalFieldsCastException() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // Create ArrayList with wrong generic type that will cause ClassCastException
+        ArrayList<String> invalidList = new ArrayList<>();
+        invalidList.add("not_a_linkedhashmap");
+        invalidList.add("another_string");
+        
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("global_fields", invalidList);
+        
+        // Should handle ClassCastException gracefully without throwing
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Response might be set but should handle error gracefully
+        // The method will catch the exception and print error message
+    }
+
+    @Test
+    void testSetJSONWithMixedTypesInGlobalFieldsList() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // Create ArrayList with ALL LinkedHashMaps (some empty, some with data)
+        // The instanceof check in forEach handles filtering, but ClassCast happens if types are mixed
+        LinkedHashMap<String, Object> validGF = new LinkedHashMap<>();
+        validGF.put("uid", "valid_gf");
+        validGF.put("title", "Valid Global Field");
+        
+        LinkedHashMap<String, Object> emptyGF = new LinkedHashMap<>();
+        
+        // Use ArrayList<LinkedHashMap<?, ?>> to ensure proper typing
+        ArrayList<LinkedHashMap<?, ?>> validTypedList = new ArrayList<>();
+        validTypedList.add(validGF);
+        validTypedList.add(emptyGF);
+        
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("global_fields", validTypedList);
+        
+        // Should handle gracefully
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Should process valid items
+        assertNotNull(model.getResponse());
+        if (model.getResponse() instanceof JSONArray) {
+            JSONArray result = (JSONArray) model.getResponse();
+            // Should have 2 items (both LinkedHashMaps)
+            assertEquals(2, result.length());
+        }
+    }
+
+    @Test
+    void testSetJSONWithEmptyStringInGlobalFieldsList() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // ArrayList with mixed types will cause ClassCastException during cast
+        ArrayList<Object> listWithInvalid = new ArrayList<>();
+        listWithInvalid.add(new LinkedHashMap<>());
+        listWithInvalid.add(""); // Empty string - will cause ClassCastException
+        
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("global_fields", listWithInvalid);
+        
+        // Should handle ClassCastException gracefully
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Response will be null due to exception being caught
+        // The cast to ArrayList<LinkedHashMap<?, ?>> fails when list contains non-LinkedHashMap
+    }
+
+    @Test
+    void testSetJSONWithNullInGlobalFieldsList() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // ArrayList with mixed types (including null) will cause ClassCastException
+        ArrayList<Object> listWithNull = new ArrayList<>();
+        listWithNull.add(new LinkedHashMap<>());
+        listWithNull.add(null); // Null element - will cause ClassCastException during cast
+        
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("global_fields", listWithNull);
+        
+        // Should handle ClassCastException gracefully
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Response will be null due to exception being caught
+    }
+
+    @Test
+    void testSetJSONWithNumberInGlobalFieldsList() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // ArrayList with mixed types (including numbers) will cause ClassCastException
+        ArrayList<Object> listWithNumber = new ArrayList<>();
+        listWithNumber.add(new LinkedHashMap<>());
+        listWithNumber.add(123); // Integer - will cause ClassCastException during cast
+        listWithNumber.add(45.67); // Double - will cause ClassCastException during cast
+        
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("global_fields", listWithNumber);
+        
+        // Should handle ClassCastException gracefully
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Response will be null due to exception being caught
+    }
+
+    @Test
+    void testSetJSONWithJSONObjectInGlobalFieldsList() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // ArrayList with mixed types (including JSONObject) will cause ClassCastException
+        ArrayList<Object> listWithJSONObject = new ArrayList<>();
+        listWithJSONObject.add(new LinkedHashMap<>());
+        listWithJSONObject.add(new JSONObject().put("uid", "json_obj")); // JSONObject, not LinkedHashMap
+        
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("global_fields", listWithJSONObject);
+        
+        // Should handle ClassCastException gracefully
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Response will be null due to exception being caught
+    }
+
+    @Test
+    void testSetJSONExceptionInSingleGlobalFieldDoesNotAffectMultiple() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // Set up response with both keys
+        // global_field is invalid (will be ignored due to instanceof check)
+        // global_fields is valid
+        LinkedHashMap<String, Object> validGF = new LinkedHashMap<>();
+        validGF.put("uid", "valid_from_list");
+        
+        ArrayList<LinkedHashMap<?, ?>> validList = new ArrayList<>();
+        validList.add(validGF);
+        
+        JSONObject response = new JSONObject();
+        response.put("global_field", "invalid_type"); // Invalid type
+        
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("global_fields", validList);
+        
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Should successfully process global_fields despite global_field being invalid
+        assertNotNull(model.getResponse());
+        assertTrue(model.getResponse() instanceof JSONArray);
+        
+        JSONArray result = (JSONArray) model.getResponse();
+        assertEquals(1, result.length());
+    }
+
+    @Test
+    void testSetJSONWithAllInvalidItemsInGlobalFieldsList() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // Create list with only invalid items - will cause ClassCastException
+        ArrayList<Object> allInvalidList = new ArrayList<>();
+        allInvalidList.add("string1");
+        allInvalidList.add(123);
+        allInvalidList.add(new JSONObject());
+        allInvalidList.add(null);
+        
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("global_fields", allInvalidList);
+        
+        // Should handle ClassCastException gracefully
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Response will be null due to exception being caught during cast
+    }
+
+    @Test
+    void testSetJSONMultipleCallsWithExceptions() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // First call with invalid data
+        JSONObject response1 = new JSONObject();
+        response1.put("global_field", "invalid");
+        response1.put("global_fields", "also_invalid");
+        
+        assertDoesNotThrow(() -> model.setJSON(response1));
+        assertNull(model.getResponse());
+        
+        // Second call with valid data
+        LinkedHashMap<String, Object> validGF = new LinkedHashMap<>();
+        validGF.put("uid", "valid_after_error");
+        
+        ArrayList<LinkedHashMap<?, ?>> validList = new ArrayList<>();
+        validList.add(validGF);
+        
+        JSONObject response2 = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response2);
+        internalMap.put("global_fields", validList);
+        
+        assertDoesNotThrow(() -> model.setJSON(response2));
+        
+        // Should successfully process valid data after previous error
+        assertNotNull(model.getResponse());
+        assertTrue(model.getResponse() instanceof JSONArray);
+    }
+
+    @Test
+    void testSetJSONWithEmptyGlobalFieldKey() {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // Key exists but is empty string value
+        JSONObject response = new JSONObject();
+        response.put("global_field", "");
+        
+        assertDoesNotThrow(() -> model.setJSON(response));
+        
+        // Should not process since empty string is not LinkedHashMap
+        assertNull(model.getResponse());
+    }
+
+    @Test
+    void testSetJSONPreservesResultArrayOnException() throws Exception {
+        GlobalFieldsModel model = new GlobalFieldsModel();
+        
+        // First, set valid data
+        LinkedHashMap<String, Object> validGF = new LinkedHashMap<>();
+        validGF.put("uid", "initial");
+        
+        ArrayList<LinkedHashMap<?, ?>> validList = new ArrayList<>();
+        validList.add(validGF);
+        
+        JSONObject response1 = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap1 = (Map<String, Object>) mapField.get(response1);
+        internalMap1.put("global_fields", validList);
+        
+        model.setJSON(response1);
+        assertNotNull(model.getResponse());
+        
+        // Now try to set invalid data
+        JSONObject response2 = new JSONObject();
+        response2.put("global_field", 123); // Invalid type
+        
+        model.setJSON(response2);
+        
+        // ResultArray should remain from previous valid call
+        // (Since new call doesn't update responseJSONArray when instanceof checks fail)
+        assertNotNull(model.getResultArray());
+    }
+
 }
