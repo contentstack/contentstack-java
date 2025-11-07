@@ -33,14 +33,31 @@ jobs:
       - name: Run unit tests with coverage (excluding integration tests)
         run: |
           echo "Running unit tests only (excluding *IT.java files)..."
-          mvn clean test -Dtest='!*IT' jacoco:report -Dgpg.skip=true
-          echo "Unit tests completed"
-        continue-on-error: true
+          mvn clean test -Dtest='!*IT' -Dgpg.skip=true
+          echo "Tests completed, generating JaCoCo report..."
+          mvn jacoco:report -Dgpg.skip=true
+          echo "✅ Unit tests and coverage report completed"
+      
+      - name: Verify JaCoCo reports generated
+        run: |
+          echo "Checking for JaCoCo reports..."
+          if [ ! -f "target/site/jacoco/jacoco.xml" ]; then
+            echo "❌ Error: jacoco.xml not found"
+            exit 1
+          fi
+          if [ ! -f "target/site/jacoco/jacoco.csv" ]; then
+            echo "⚠️  Warning: jacoco.csv not found (badge generation will be skipped)"
+          fi
+          echo "✅ JaCoCo XML report found"
+          ls -lh target/site/jacoco/
       
       - name: Generate JaCoCo Badge
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
+        if: hashFiles('target/site/jacoco/jacoco.csv') != ''
+        continue-on-error: true
         with:
+          jacoco-csv-file: target/site/jacoco/jacoco.csv
           badges-directory: .github/badges
           generate-branches-badge: true
           generate-summary: true
