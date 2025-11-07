@@ -30,26 +30,39 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
       
-      - name: Run unit tests with coverage (excluding integration tests)
+      - name: Run unit tests (excluding integration tests)
         run: |
           echo "Running unit tests only (excluding *IT.java files)..."
           mvn clean test -Dtest='!*IT' -Dgpg.skip=true
-          echo "Tests completed, generating JaCoCo report..."
+        continue-on-error: false
+      
+      - name: Generate JaCoCo coverage report
+        run: |
+          echo "Generating JaCoCo report..."
           mvn jacoco:report -Dgpg.skip=true
-          echo "✅ Unit tests and coverage report completed"
+          echo "✅ Coverage report generated"
+        if: always()
       
       - name: Verify JaCoCo reports generated
         run: |
           echo "Checking for JaCoCo reports..."
+          echo "Current directory: $(pwd)"
+          echo "Target directory contents:"
+          ls -la target/ || echo "No target directory found"
+          if [ -d "target/site/jacoco" ]; then
+            echo "JaCoCo directory contents:"
+            ls -lh target/site/jacoco/
+          fi
           if [ ! -f "target/site/jacoco/jacoco.xml" ]; then
             echo "❌ Error: jacoco.xml not found"
+            echo "This usually means tests didn't run or JaCoCo plugin isn't configured correctly"
             exit 1
           fi
           if [ ! -f "target/site/jacoco/jacoco.csv" ]; then
             echo "⚠️  Warning: jacoco.csv not found (badge generation will be skipped)"
           fi
           echo "✅ JaCoCo XML report found"
-          ls -lh target/site/jacoco/
+        if: always()
       
       - name: Generate JaCoCo Badge
         id: jacoco
@@ -64,6 +77,7 @@ jobs:
       
       - name: Check coverage thresholds
         id: coverage-check
+        if: hashFiles('target/site/jacoco/jacoco.xml') != ''
         run: |
           echo "Checking coverage thresholds (unit tests only)..."
           # Extract coverage percentages from JaCoCo XML report (using sed for cross-platform compatibility)
