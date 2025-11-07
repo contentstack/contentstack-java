@@ -40,9 +40,14 @@ jobs:
             exit 1
           fi
 
-          # Extract coverage percentages (filter for ctr2 elements with % symbol only)
-          INSTRUCTION=$(grep -A10 '<td>Total</td>' target/site/jacoco/index.html | grep -E 'class="ctr2".*%' | sed -n '1p' | sed -E 's/.*>([0-9]+)%<.*/\1/')
-          BRANCH=$(grep -A10 '<td>Total</td>' target/site/jacoco/index.html | grep -E 'class="ctr2".*%' | sed -n '2p' | sed -E 's/.*>([0-9]+)%<.*/\1/')
+          # Extract coverage percentages using awk for more reliable extraction
+          COVERAGE_VALUES=$(grep -A10 '<td>Total</td>' target/site/jacoco/index.html | grep -E 'class="ctr2".*[0-9]+%' | sed -E 's/.*>([0-9]+)%<.*/\1/')
+          
+          echo "Debug: All coverage values found:"
+          echo "$COVERAGE_VALUES"
+          
+          INSTRUCTION=$(echo "$COVERAGE_VALUES" | awk 'NR==1')
+          BRANCH=$(echo "$COVERAGE_VALUES" | awk 'NR==2')
 
           echo "📘 Instruction Coverage: ${INSTRUCTION:-0}%"
           echo "🌿 Branch Coverage: ${BRANCH:-0}%"
