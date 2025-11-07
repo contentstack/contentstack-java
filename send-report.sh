@@ -42,7 +42,7 @@ echo "📄 Generating Surefire HTML report..."
 mvn surefire-report:report-only
 
 echo "📤 Sending test report to Slack..."
-mvn compile exec:java -Dexec.mainClass="com.contentstack.sdk.SanityReport"
+mvn test-compile exec:java -Dexec.mainClass="com.contentstack.sdk.SanityReport" -Dexec.classpathScope=test
 
 # Restore pom.xml and clean up
 restore_pom
