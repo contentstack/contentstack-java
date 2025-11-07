@@ -12,28 +12,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: 🧾 Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 8 (Temurin)
+      - name: ☕ Set up JDK 8 (Temurin)
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '8'
+          distribution: temurin
+          java-version: 8
           cache: maven
 
-      - name: Enable tests in pom.xml
+      - name: 🧩 Ensure tests are enabled in pom.xml
         run: |
           echo "🔧 Ensuring tests are enabled in pom.xml..."
           sed -i 's/<skipTests>true<\/skipTests>/<skipTests>false<\/skipTests>/g' pom.xml || true
 
-      - name: Run tests and generate JaCoCo report
+      - name: 🧪 Run tests and generate JaCoCo report
         run: mvn clean test -Dtest='Test*' jacoco:report -Dgpg.skip=true
 
       - name: 📊 Extract coverage from JaCoCo HTML report
         id: extract_coverage
         run: |
-          echo "Extracting coverage summary from JaCoCo HTML report..."
+          echo "📊 Extracting coverage summary from JaCoCo HTML report..."
 
           REPORT="target/site/jacoco/index.html"
 
@@ -56,6 +56,34 @@ jobs:
 
           echo "instruction=${INSTRUCTION}" >> $GITHUB_OUTPUT
           echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
+
+      - name: 🚦 Enforce coverage threshold
+        run: |
+          MIN_INSTRUCTION=90
+          MIN_BRANCH=80
+
+          INSTRUCTION=${{ steps.extract_coverage.outputs.instruction }}
+          BRANCH=${{ steps.extract_coverage.outputs.branch }}
+
+          echo "🧾 Required minimums:"
+          echo "   • Instruction: ${MIN_INSTRUCTION}%"
+          echo "   • Branch: ${MIN_BRANCH}%"
+          echo ""
+          echo "📈 Actual coverage:"
+          echo "   • Instruction: ${INSTRUCTION}%"
+          echo "   • Branch: ${BRANCH}%"
+
+          if [ "$INSTRUCTION" -lt "$MIN_INSTRUCTION" ]; then
+            echo "❌ Instruction coverage (${INSTRUCTION}%) is below the threshold (${MIN_INSTRUCTION}%)"
+            exit 1
+          fi
+
+          if [ "$BRANCH" -lt "$MIN_BRANCH" ]; then
+            echo "❌ Branch coverage (${BRANCH}%) is below the threshold (${MIN_BRANCH}%)"
+            exit 1
+          fi
+
+          echo "✅ Coverage thresholds met!"
 
       - name: 💬 Post coverage summary as PR comment
         uses: marocchino/sticky-pull-request-comment@v2
