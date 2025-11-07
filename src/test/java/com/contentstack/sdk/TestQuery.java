@@ -1518,4 +1518,188 @@ public class TestQuery {
         // Empty array should not create objectUidForExcept
         assertNull(query.objectUidForExcept);
     }
+
+    // ========== COMPREHENSIVE TESTS FOR greaterThanOrEqualTo ==========
+
+    @Test
+    void testGreaterThanOrEqualToWithNullKeyInQueryValueJSON() {
+        // Test the first branch: queryValueJSON.isNull(key) is true
+        // AND queryValue.length() == 0
+        query.queryValue = new JSONObject(); // Empty queryValue
+        query.queryValueJSON.put("price", JSONObject.NULL);
+        
+        Query result = query.greaterThanOrEqualTo("price", 50);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("price"));
+        assertNotEquals(JSONObject.NULL, query.queryValueJSON.get("price"));
+        
+        // Verify the $gte operator was added
+        JSONObject priceQuery = query.queryValueJSON.getJSONObject("price");
+        assertTrue(priceQuery.has("$gte"));
+        assertEquals(50, priceQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithNullKeyAndNonEmptyQueryValue() {
+        // Test the first branch: queryValueJSON.isNull(key) is true
+        // AND queryValue.length() > 0 (should reset queryValue)
+        query.queryValue = new JSONObject();
+        query.queryValue.put("existing_operator", "some_value"); // Make queryValue non-empty
+        query.queryValueJSON.put("rating", JSONObject.NULL);
+        
+        Query result = query.greaterThanOrEqualTo("rating", 4.5);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("rating"));
+        
+        // Verify the $gte operator was added
+        JSONObject ratingQuery = query.queryValueJSON.getJSONObject("rating");
+        assertTrue(ratingQuery.has("$gte"));
+        assertEquals(4.5, ratingQuery.get("$gte"));
+        // The queryValue should have been reset, so it shouldn't have the old key
+        assertFalse(ratingQuery.has("existing_operator"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithExistingKeyInQueryValueJSON() {
+        // Test the second branch: queryValueJSON.has(key) is true
+        // First set up queryValue with an existing operator
+        query.queryValue = new JSONObject();
+        query.queryValue.put("$lt", 100);
+        query.queryValueJSON.put("age", query.queryValue);
+        
+        Query result = query.greaterThanOrEqualTo("age", 18);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("age"));
+        
+        // Verify both operators exist in the same JSONObject
+        JSONObject ageQuery = query.queryValueJSON.getJSONObject("age");
+        assertTrue(ageQuery.has("$gte"));
+        assertEquals(18, ageQuery.get("$gte"));
+        // The previous operator should still be there since queryValue was reused
+        assertTrue(ageQuery.has("$lt"));
+        assertEquals(100, ageQuery.get("$lt"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithIntegerValue() {
+        Query result = query.greaterThanOrEqualTo("count", 100);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("count"));
+        
+        JSONObject countQuery = query.queryValueJSON.getJSONObject("count");
+        assertEquals(100, countQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithDoubleValue() {
+        Query result = query.greaterThanOrEqualTo("price", 99.99);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("price"));
+        
+        JSONObject priceQuery = query.queryValueJSON.getJSONObject("price");
+        assertEquals(99.99, priceQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithStringValue() {
+        Query result = query.greaterThanOrEqualTo("name", "Alice");
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("name"));
+        
+        JSONObject nameQuery = query.queryValueJSON.getJSONObject("name");
+        assertEquals("Alice", nameQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToChaining() {
+        Query result = query
+            .greaterThanOrEqualTo("min_price", 10)
+            .greaterThanOrEqualTo("min_rating", 3.0)
+            .greaterThanOrEqualTo("min_stock", 5);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("min_price"));
+        assertTrue(query.queryValueJSON.has("min_rating"));
+        assertTrue(query.queryValueJSON.has("min_stock"));
+        
+        assertEquals(10, query.queryValueJSON.getJSONObject("min_price").get("$gte"));
+        assertEquals(3.0, query.queryValueJSON.getJSONObject("min_rating").get("$gte"));
+        assertEquals(5, query.queryValueJSON.getJSONObject("min_stock").get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithZeroValue() {
+        Query result = query.greaterThanOrEqualTo("score", 0);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("score"));
+        
+        JSONObject scoreQuery = query.queryValueJSON.getJSONObject("score");
+        assertEquals(0, scoreQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithNegativeValue() {
+        Query result = query.greaterThanOrEqualTo("temperature", -10);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("temperature"));
+        
+        JSONObject tempQuery = query.queryValueJSON.getJSONObject("temperature");
+        assertEquals(-10, tempQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToReplacingExistingOperator() {
+        // Add an initial $gte operator
+        query.greaterThanOrEqualTo("age", 18);
+        
+        // Add another $gte operator on the same key - should update
+        Query result = query.greaterThanOrEqualTo("age", 21);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("age"));
+        
+        JSONObject ageQuery = query.queryValueJSON.getJSONObject("age");
+        // Should have the updated value
+        assertEquals(21, ageQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToCombinedWithOtherOperators() {
+        // Combine with lessThanOrEqualTo to create a range query
+        Query result = query
+            .greaterThanOrEqualTo("price", 10)
+            .lessThanOrEqualTo("price", 100);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("price"));
+        
+        JSONObject priceQuery = query.queryValueJSON.getJSONObject("price");
+        assertTrue(priceQuery.has("$gte"));
+        assertTrue(priceQuery.has("$lte"));
+        assertEquals(10, priceQuery.get("$gte"));
+        assertEquals(100, priceQuery.get("$lte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithValidKeyFormat() {
+        // Test with various valid key formats
+        Query result1 = query.greaterThanOrEqualTo("simple_key", 10);
+        Query result2 = query.greaterThanOrEqualTo("nested.field", 20);
+        Query result3 = query.greaterThanOrEqualTo("key_with_123", 30);
+        
+        assertNotNull(result1);
+        assertNotNull(result2);
+        assertNotNull(result3);
+        assertTrue(query.queryValueJSON.has("simple_key"));
+        assertTrue(query.queryValueJSON.has("nested.field"));
+        assertTrue(query.queryValueJSON.has("key_with_123"));
+    }
 }

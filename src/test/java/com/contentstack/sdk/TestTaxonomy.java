@@ -1,8 +1,10 @@
 package com.contentstack.sdk;
 
+import okhttp3.ResponseBody;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import retrofit2.Call;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -536,6 +538,93 @@ public class TestTaxonomy {
         assertTrue(queryString.length() > 0);
         // Verify it's valid JSON
         assertDoesNotThrow(() -> new JSONObject(queryString));
+    }
+
+    // ========== TESTS FOR FIND METHOD ERROR HANDLING ==========
+    // Note: The find() method is network-dependent and requires actual API calls.
+    // Comprehensive error handling tests (IOException -> RuntimeException,
+    // HTTP error codes 400/401/404/500, error message/code/detail parsing)
+    // should be covered in integration tests (TaxonomyIT.java) where actual
+    // network responses can be tested with valid credentials.
+    //
+    // Without mocking framework, unit tests for find() are limited to:
+    // 1. Verifying makeRequest() returns a non-null Call object
+    // 2. Verifying the query is properly constructed before the call
+    //
+    // Full error path coverage requires integration testing with real API responses.
+
+    @Test
+    void testMakeRequestReturnsNonNullCall() {
+        taxonomy.in("taxonomies.color", Arrays.asList("red", "blue"))
+                .exists("taxonomies.size", true);
+        
+        Call<ResponseBody> call = taxonomy.makeRequest();
+        
+        assertNotNull(call, "makeRequest should return a non-null Call object");
+    }
+
+    @Test
+    void testQueryIsProperlyConstructedBeforeMakeRequest() {
+        taxonomy.in("taxonomies.color", Arrays.asList("red"))
+                .or(Arrays.asList(
+                        new JSONObject().put("taxonomies.size", "large"),
+                        new JSONObject().put("taxonomies.brand", "nike")
+                ))
+                .exists("taxonomies.stock", true);
+        
+        // Verify query contains all expected keys
+        assertTrue(taxonomy.query.has("taxonomies.color"));
+        assertTrue(taxonomy.query.has("$or"));
+        assertTrue(taxonomy.query.has("taxonomies.stock"));
+        
+        // Verify query is valid JSON
+        String queryString = taxonomy.query.toString();
+        assertDoesNotThrow(() -> new JSONObject(queryString));
+        
+        // Verify makeRequest can be called without error
+        assertDoesNotThrow(() -> taxonomy.makeRequest());
+    }
+
+    @Test
+    void testFindMethodSignatureAndCallbackInterface() {
+        // Verify TaxonomyCallback interface contract
+        final boolean[] callbackCalled = {false};
+        final JSONObject[] receivedResponse = new JSONObject[1];
+        final Error[] receivedError = new Error[1];
+        
+        TaxonomyCallback callback = new TaxonomyCallback() {
+            @Override
+            public void onResponse(JSONObject response, Error error) {
+                callbackCalled[0] = true;
+                receivedResponse[0] = response;
+                receivedError[0] = error;
+            }
+        };
+        
+        // Verify callback can be instantiated and methods are accessible
+        assertNotNull(callback);
+        
+        // Test callback with null error (success case)
+        callback.onResponse(new JSONObject().put("test", "data"), null);
+        assertTrue(callbackCalled[0]);
+        assertNotNull(receivedResponse[0]);
+        assertNull(receivedError[0]);
+        
+        // Reset and test with error (failure case)
+        callbackCalled[0] = false;
+        receivedResponse[0] = null;
+        receivedError[0] = null;
+        
+        Error testError = new Error();
+        testError.setErrorMessage("Test error");
+        testError.setErrorCode(400);
+        
+        callback.onResponse(null, testError);
+        assertTrue(callbackCalled[0]);
+        assertNull(receivedResponse[0]);
+        assertNotNull(receivedError[0]);
+        assertEquals("Test error", receivedError[0].getErrorMessage());
+        assertEquals(400, receivedError[0].getErrorCode());
     }
 }
 
