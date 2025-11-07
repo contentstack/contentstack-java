@@ -29,11 +29,9 @@ jobs:
 
       - name: Run tests and generate JaCoCo report
         run: mvn clean test -Dtest='Test*' jacoco:report -Dgpg.skip=true
-        working-directory: contentstack-java
 
       - name: 📊 Extract coverage from JaCoCo HTML report
         id: extract_coverage
-        working-directory: contentstack-java
         run: |
           echo "Extracting coverage summary from JaCoCo HTML report..."
 
