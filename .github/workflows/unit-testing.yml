@@ -33,15 +33,9 @@ jobs:
       - name: Run unit tests (excluding integration tests)
         run: |
           echo "Running unit tests only (excluding *IT.java files)..."
-          mvn clean test -Dtest='!*IT' -Dgpg.skip=true
+          echo "Note: Surefire plugin has skipTests=true by default, overriding with -DskipTests=false"
+          mvn clean test -DskipTests=false -Dtest='Test*' -Dgpg.skip=true
         continue-on-error: false
-      
-      - name: Generate JaCoCo coverage report
-        run: |
-          echo "Generating JaCoCo report..."
-          mvn jacoco:report -Dgpg.skip=true
-          echo "✅ Coverage report generated"
-        if: always()
       
       - name: Verify JaCoCo reports generated
         run: |
@@ -49,42 +43,42 @@ jobs:
           echo "Current directory: $(pwd)"
           echo "Target directory contents:"
           ls -la target/ || echo "No target directory found"
-          if [ -d "target/site/jacoco" ]; then
+          if [ -d "target/jacoco-ut" ]; then
             echo "JaCoCo directory contents:"
-            ls -lh target/site/jacoco/
+            ls -lh target/jacoco-ut/
           fi
-          if [ ! -f "target/site/jacoco/jacoco.xml" ]; then
-            echo "❌ Error: jacoco.xml not found"
+          if [ ! -f "target/jacoco-ut/jacoco.xml" ]; then
+            echo "❌ Error: jacoco.xml not found in target/jacoco-ut/"
             echo "This usually means tests didn't run or JaCoCo plugin isn't configured correctly"
             exit 1
           fi
-          if [ ! -f "target/site/jacoco/jacoco.csv" ]; then
+          if [ ! -f "target/jacoco-ut/jacoco.csv" ]; then
             echo "⚠️  Warning: jacoco.csv not found (badge generation will be skipped)"
           fi
-          echo "✅ JaCoCo XML report found"
+          echo "✅ JaCoCo XML report found in target/jacoco-ut/"
         if: always()
       
       - name: Generate JaCoCo Badge
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
-        if: hashFiles('target/site/jacoco/jacoco.csv') != ''
+        if: hashFiles('target/jacoco-ut/jacoco.csv') != ''
         continue-on-error: true
         with:
-          jacoco-csv-file: target/site/jacoco/jacoco.csv
+          jacoco-csv-file: target/jacoco-ut/jacoco.csv
           badges-directory: .github/badges
           generate-branches-badge: true
           generate-summary: true
       
       - name: Check coverage thresholds
         id: coverage-check
-        if: hashFiles('target/site/jacoco/jacoco.xml') != ''
+        if: hashFiles('target/jacoco-ut/jacoco.xml') != ''
         run: |
           echo "Checking coverage thresholds (unit tests only)..."
           # Extract coverage percentages from JaCoCo XML report (using sed for cross-platform compatibility)
-          INSTRUCTION_COVERAGE=$(sed -n 's/.*type="INSTRUCTION".*covered="\([0-9]*\)".*/\1/p' target/site/jacoco/jacoco.xml | tail -1)
-          INSTRUCTION_MISSED=$(sed -n 's/.*type="INSTRUCTION".*missed="\([0-9]*\)".*/\1/p' target/site/jacoco/jacoco.xml | tail -1)
-          BRANCH_COVERAGE=$(sed -n 's/.*type="BRANCH".*covered="\([0-9]*\)".*/\1/p' target/site/jacoco/jacoco.xml | tail -1)
-          BRANCH_MISSED=$(sed -n 's/.*type="BRANCH".*missed="\([0-9]*\)".*/\1/p' target/site/jacoco/jacoco.xml | tail -1)
+          INSTRUCTION_COVERAGE=$(sed -n 's/.*type="INSTRUCTION".*covered="\([0-9]*\)".*/\1/p' target/jacoco-ut/jacoco.xml | tail -1)
+          INSTRUCTION_MISSED=$(sed -n 's/.*type="INSTRUCTION".*missed="\([0-9]*\)".*/\1/p' target/jacoco-ut/jacoco.xml | tail -1)
+          BRANCH_COVERAGE=$(sed -n 's/.*type="BRANCH".*covered="\([0-9]*\)".*/\1/p' target/jacoco-ut/jacoco.xml | tail -1)
+          BRANCH_MISSED=$(sed -n 's/.*type="BRANCH".*missed="\([0-9]*\)".*/\1/p' target/jacoco-ut/jacoco.xml | tail -1)
           
           # Calculate percentages
           INSTRUCTION_TOTAL=$((INSTRUCTION_COVERAGE + INSTRUCTION_MISSED))
@@ -138,7 +132,7 @@ jobs:
         if: always()
         with:
           paths: |
-            ${{ github.workspace }}/target/site/jacoco/jacoco.xml
+            ${{ github.workspace }}/target/jacoco-ut/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 90
           min-coverage-changed-files: 80
@@ -150,7 +144,7 @@ jobs:
         if: always()
         with:
           name: jacoco-report
-          path: target/site/jacoco/
+          path: target/jacoco-ut/
       
       - name: Fail if coverage thresholds not met
         if: steps.coverage-check.outputs.threshold_met == 'false'
