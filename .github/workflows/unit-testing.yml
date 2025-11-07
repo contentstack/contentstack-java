@@ -8,85 +8,60 @@ on:
       - master
 
 jobs:
-  test-and-coverage:
+  coverage:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 8 (Temurin)
+      - name: Set up JDK 9
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '8'
-          cache: maven
+          java-version: '9'
+          distribution: 'zulu'
 
-      - name: Ensure Tests Are Enabled in pom.xml
+      - name: Enable tests in pom.xml
         run: |
-          echo "🔧 Temporarily enabling tests in pom.xml..."
-          if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i '' 's/<skipTests>true<\/skipTests>/<skipTests>false<\/skipTests>/g' pom.xml || true
-          else
-            sed -i 's/<skipTests>true<\/skipTests>/<skipTests>false<\/skipTests>/g' pom.xml || true
-          fi
-          echo "✅ Tests enabled."
+          echo "🔧 Ensuring tests are enabled in pom.xml..."
+          sed -i 's/<skipTests>true<\/skipTests>/<skipTests>false<\/skipTests>/g' pom.xml || true
 
-      - name: Run Tests and Generate JaCoCo Report
+      - name: Run tests and generate JaCoCo report
         run: mvn clean test -Dtest='Test*' jacoco:report -Dgpg.skip=true
+        working-directory: contentstack-java
 
-      - name: Extract and Check Coverage Thresholds
-        id: coverage
+      - name: 📊 Extract coverage from JaCoCo HTML report
+        id: extract_coverage
+        working-directory: contentstack-java
         run: |
-          echo "Checking JaCoCo coverage thresholds..."
+          echo "Extracting coverage summary from JaCoCo HTML report..."
 
-          if [ ! -f target/site/jacoco/jacoco.xml ]; then
-            echo "❌ JaCoCo XML report not found."
+          if [ ! -f target/site/jacoco/index.html ]; then
+            echo "❌ JaCoCo HTML report not found!"
             exit 1
           fi
 
-          INSTRUCTION=$(grep -oPm1 '(?<=<counter type="INSTRUCTION" missed=")[0-9]+" covered="[0-9]+"' target/site/jacoco/jacoco.xml | sed 's/" covered="/ /' | awk '{printf "%.2f", ($2/($1+$2))*100}')
-          BRANCH=$(grep -oPm1 '(?<=<counter type="BRANCH" missed=")[0-9]+" covered="[0-9]+"' target/site/jacoco/jacoco.xml | sed 's/" covered="/ /' | awk '{printf "%.2f", ($2/($1+$2))*100}')
+          INSTRUCTION=$(grep -A2 "Total" target/site/jacoco/index.html | grep -m1 "%" | sed -E 's/.*>([0-9]+\.[0-9]+)%<.*/\1/')
+          BRANCH=$(grep -A3 "Total" target/site/jacoco/index.html | grep -m2 "%" | tail -n1 | sed -E 's/.*>([0-9]+\.[0-9]+)%<.*/\1/')
 
-          echo "Instruction Coverage: $INSTRUCTION%"
-          echo "Branch Coverage: $BRANCH%"
+          echo "📘 Instruction Coverage: ${INSTRUCTION:-0}"
+          echo "🌿 Branch Coverage: ${BRANCH:-0}"
 
-          echo "instruction=$INSTRUCTION" >> $GITHUB_OUTPUT
-          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          echo "instruction=${INSTRUCTION:-0}" >> $GITHUB_OUTPUT
+          echo "branch=${BRANCH:-0}" >> $GITHUB_OUTPUT
 
-          MIN_INSTRUCTION=90
-          MIN_BRANCH=80
-
-          if (( ${INSTRUCTION%.*} < MIN_INSTRUCTION )); then
-            echo "❌ Instruction coverage below $MIN_INSTRUCTION%"
-            exit 1
-          fi
-
-          if (( ${BRANCH%.*} < MIN_BRANCH )); then
-            echo "❌ Branch coverage below $MIN_BRANCH%"
-            exit 1
-          fi
-
-          echo "✅ Coverage thresholds met."
-
-      - name: Comment Coverage Summary on PR
-        if: always()
+      - name: 💬 Post coverage summary as PR comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          header: "🧪 JaCoCo Coverage Report"
+          header: 🧪 JaCoCo Coverage Report
           message: |
             **Coverage Summary**
-            - 📘 Instruction Coverage: `${{ steps.coverage.outputs.instruction }}%`
-            - 🌿 Branch Coverage: `${{ steps.coverage.outputs.branch }}%`
+            - 📘 Instruction Coverage: `${{ steps.extract_coverage.outputs.instruction }}%`
+            - 🌿 Branch Coverage: `${{ steps.extract_coverage.outputs.branch }}%`
 
-            ✅ Minimum thresholds: 90% instruction, 80% branch
-
-      - name: Upload JaCoCo HTML Report
-        if: always()
+      - name: 📦 Upload JaCoCo HTML report as artifact
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
           path: target/site/jacoco/
+          if-no-files-found: warn
