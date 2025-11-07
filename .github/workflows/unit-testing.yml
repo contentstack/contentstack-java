@@ -1,155 +1,57 @@
-name: 'Java SDK - Unit Testing'
-
-# This workflow runs ONLY unit tests (excludes integration tests ending with IT.java)
-# Integration tests require network access and valid .env credentials
+name: Java SDK - Coverage Check
 
 on:
   pull_request:
     branches:
       - development
       - staging
-      - main
+      - master
 
 jobs:
-  coverage:
-    name: Unit Test Coverage Check
+  test-and-coverage:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      checks: write
-    
+
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v4
-      
-      - name: Set up JDK 8
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '8'
           distribution: 'temurin'
-          cache: 'maven'
-      
-      - name: Run unit tests (excluding integration tests)
+          java-version: '17'
+          cache: maven
+
+      - name: Run Tests and Generate JaCoCo Report
+        working-directory: contentstack-java
+        run: mvn clean test -Dtest='Test*' jacoco:report -Dgpg.skip=true
+
+      - name: Verify Coverage Thresholds
+        working-directory: contentstack-java
         run: |
-          echo "Running unit tests only (excluding *IT.java files)..."
-          echo "Note: Surefire plugin has skipTests=true by default, overriding with -DskipTests=false"
-          mvn clean test -DskipTests=false -Dtest='Test*' -Dgpg.skip=true
-        continue-on-error: false
-      
-      - name: Verify JaCoCo reports generated
-        run: |
-          echo "Checking for JaCoCo reports..."
-          echo "Current directory: $(pwd)"
-          echo "Target directory contents:"
-          ls -la target/ || echo "No target directory found"
-          if [ -d "target/jacoco-ut" ]; then
-            echo "JaCoCo directory contents:"
-            ls -lh target/jacoco-ut/
-          fi
-          if [ ! -f "target/jacoco-ut/jacoco.xml" ]; then
-            echo "❌ Error: jacoco.xml not found in target/jacoco-ut/"
-            echo "This usually means tests didn't run or JaCoCo plugin isn't configured correctly"
+          echo "Checking JaCoCo coverage thresholds..."
+          INSTRUCTION_COVERAGE=$(grep -oPm1 "(?<=<counter type=\"INSTRUCTION\" missed=\")\d+\" covered=\"\d+\"" target/site/jacoco/jacoco.xml | sed 's/" covered="/ /' | awk '{print $2/($1+$2)*100}')
+          BRANCH_COVERAGE=$(grep -oPm1 "(?<=<counter type=\"BRANCH\" missed=\")\d+\" covered=\"\d+\"" target/site/jacoco/jacoco.xml | sed 's/" covered="/ /' | awk '{print $2/($1+$2)*100}')
+          echo "Instruction Coverage: $INSTRUCTION_COVERAGE%"
+          echo "Branch Coverage: $BRANCH_COVERAGE%"
+
+          MIN_INSTRUCTION=90
+          MIN_BRANCH=80
+
+          if (( ${INSTRUCTION_COVERAGE%.*} < MIN_INSTRUCTION )); then
+            echo "❌ Instruction coverage below $MIN_INSTRUCTION%"
             exit 1
           fi
-          if [ ! -f "target/jacoco-ut/jacoco.csv" ]; then
-            echo "⚠️  Warning: jacoco.csv not found (badge generation will be skipped)"
-          fi
-          echo "✅ JaCoCo XML report found in target/jacoco-ut/"
-        if: always()
-      
-      - name: Generate JaCoCo Badge
-        id: jacoco
-        uses: cicirello/jacoco-badge-generator@v2
-        if: hashFiles('target/jacoco-ut/jacoco.csv') != ''
-        continue-on-error: true
-        with:
-          jacoco-csv-file: target/jacoco-ut/jacoco.csv
-          badges-directory: .github/badges
-          generate-branches-badge: true
-          generate-summary: true
-      
-      - name: Check coverage thresholds
-        id: coverage-check
-        if: hashFiles('target/jacoco-ut/jacoco.xml') != ''
-        run: |
-          echo "Checking coverage thresholds (unit tests only)..."
-          # Extract coverage percentages from JaCoCo XML report (using sed for cross-platform compatibility)
-          INSTRUCTION_COVERAGE=$(sed -n 's/.*type="INSTRUCTION".*covered="\([0-9]*\)".*/\1/p' target/jacoco-ut/jacoco.xml | tail -1)
-          INSTRUCTION_MISSED=$(sed -n 's/.*type="INSTRUCTION".*missed="\([0-9]*\)".*/\1/p' target/jacoco-ut/jacoco.xml | tail -1)
-          BRANCH_COVERAGE=$(sed -n 's/.*type="BRANCH".*covered="\([0-9]*\)".*/\1/p' target/jacoco-ut/jacoco.xml | tail -1)
-          BRANCH_MISSED=$(sed -n 's/.*type="BRANCH".*missed="\([0-9]*\)".*/\1/p' target/jacoco-ut/jacoco.xml | tail -1)
-          
-          # Calculate percentages
-          INSTRUCTION_TOTAL=$((INSTRUCTION_COVERAGE + INSTRUCTION_MISSED))
-          BRANCH_TOTAL=$((BRANCH_COVERAGE + BRANCH_MISSED))
-          
-          if [ $INSTRUCTION_TOTAL -gt 0 ]; then
-            INSTRUCTION_PCT=$((INSTRUCTION_COVERAGE * 100 / INSTRUCTION_TOTAL))
-          else
-            INSTRUCTION_PCT=0
-          fi
-          
-          if [ $BRANCH_TOTAL -gt 0 ]; then
-            BRANCH_PCT=$((BRANCH_COVERAGE * 100 / BRANCH_TOTAL))
-          else
-            BRANCH_PCT=0
-          fi
-          
-          echo "instruction_pct=$INSTRUCTION_PCT" >> $GITHUB_OUTPUT
-          echo "branch_pct=$BRANCH_PCT" >> $GITHUB_OUTPUT
-          
-          # Check thresholds
-          THRESHOLD_MET=true
-          MESSAGES=""
-          
-          if [ $INSTRUCTION_PCT -lt 90 ]; then
-            THRESHOLD_MET=false
-            MESSAGES="${MESSAGES}❌ Overall instruction coverage is ${INSTRUCTION_PCT}% (threshold: 90%)\n"
-          else
-            MESSAGES="${MESSAGES}✅ Overall instruction coverage is ${INSTRUCTION_PCT}% (threshold: 90%)\n"
-          fi
-          
-          if [ $BRANCH_PCT -lt 80 ]; then
-            THRESHOLD_MET=false
-            MESSAGES="${MESSAGES}❌ Branch coverage is ${BRANCH_PCT}% (threshold: 80%)\n"
-          else
-            MESSAGES="${MESSAGES}✅ Branch coverage is ${BRANCH_PCT}% (threshold: 80%)\n"
-          fi
-          
-          echo "threshold_met=$THRESHOLD_MET" >> $GITHUB_OUTPUT
-          echo -e "$MESSAGES"
-          echo "messages<<EOF" >> $GITHUB_OUTPUT
-          echo -e "$MESSAGES" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-          
-          if [ "$THRESHOLD_MET" = "false" ]; then
+
+          if (( ${BRANCH_COVERAGE%.*} < MIN_BRANCH )); then
+            echo "❌ Branch coverage below $MIN_BRANCH%"
             exit 1
           fi
-      
-      - name: Add coverage comment to PR
-        uses: madrapps/jacoco-report@v1.6.1
-        if: always()
-        with:
-          paths: |
-            ${{ github.workspace }}/target/jacoco-ut/jacoco.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 90
-          min-coverage-changed-files: 80
-          title: '📊 Unit Test Coverage Report'
-          update-comment: true
-      
-      - name: Upload JaCoCo coverage report
+
+          echo "✅ Coverage thresholds met."
+
+      - name: Upload JaCoCo HTML Report (Artifact)
         uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: jacoco-report
-          path: target/jacoco-ut/
-      
-      - name: Fail if coverage thresholds not met
-        if: steps.coverage-check.outputs.threshold_met == 'false'
-        run: |
-          echo "Coverage thresholds not met:"
-          echo "${{ steps.coverage-check.outputs.messages }}"
-          exit 1
-
+          path: contentstack-java/target/site/jacoco/
