@@ -40,11 +40,12 @@ jobs:
             exit 1
           fi
 
-          INSTRUCTION=$(grep -A2 "Total" target/site/jacoco/index.html | grep -m1 "%" | sed -E 's/.*>([0-9]+\.[0-9]+)%<.*/\1/')
-          BRANCH=$(grep -A3 "Total" target/site/jacoco/index.html | grep -m2 "%" | tail -n1 | sed -E 's/.*>([0-9]+\.[0-9]+)%<.*/\1/')
+          # Extract coverage percentages (handles both whole numbers and decimals)
+          INSTRUCTION=$(grep -A4 "Total" target/site/jacoco/index.html | grep -E 'class="ctr2"' | sed -n '1p' | sed -E 's/.*>([0-9]+)%<.*/\1/')
+          BRANCH=$(grep -A4 "Total" target/site/jacoco/index.html | grep -E 'class="ctr2"' | sed -n '2p' | sed -E 's/.*>([0-9]+)%<.*/\1/')
 
-          echo "📘 Instruction Coverage: ${INSTRUCTION:-0}"
-          echo "🌿 Branch Coverage: ${BRANCH:-0}"
+          echo "📘 Instruction Coverage: ${INSTRUCTION:-0}%"
+          echo "🌿 Branch Coverage: ${BRANCH:-0}%"
 
           echo "instruction=${INSTRUCTION:-0}" >> $GITHUB_OUTPUT
           echo "branch=${BRANCH:-0}" >> $GITHUB_OUTPUT
