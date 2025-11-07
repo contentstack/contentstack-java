@@ -2,6 +2,7 @@ package com.contentstack.sdk;
 
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -105,7 +106,10 @@ class TestCSBackgroundTask {
     void testCheckHeaderWithLongValues() {
         CSBackgroundTask task = new CSBackgroundTask();
         HashMap<String, Object> headers = new HashMap<>();
-        String longValue = "a".repeat(1000);
+        // Create a string with 1000 'a' characters (Java 8 compatible)
+        char[] chars = new char[1000];
+        Arrays.fill(chars, 'a');
+        String longValue = new String(chars);
         headers.put("Long-Header", longValue);
         
         assertDoesNotThrow(() -> task.checkHeader(headers));

@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -755,8 +756,8 @@ public class TestQuery {
         q.where("title", "Test");
         q.except(new String[]{"field1"});
         q.only(new String[]{"field2"});
-        q.onlyWithReferenceUid(List.of("ref_field"), "reference");
-        q.exceptWithReferenceUid(List.of("except_field"), "reference2");
+        q.onlyWithReferenceUid(Arrays.asList("ref_field"), "reference");
+        q.exceptWithReferenceUid(Arrays.asList("except_field"), "reference2");
         q.includeReference("include_ref");
         
         QueryResultsCallBack callback = new QueryResultsCallBack() {
