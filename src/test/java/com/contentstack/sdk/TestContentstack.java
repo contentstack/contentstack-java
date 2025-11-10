@@ -1,132 +1,218 @@
 package com.contentstack.sdk;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.logging.Logger;
-
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TestContentstack {
-
-    private String API_KEY, DELIVERY_TOKEN, ENV;
-    private final Logger logger = Logger.getLogger(TestContentstack.class.getName());
-
-    @BeforeAll
-    public void initBeforeTests() {
-        API_KEY = Credentials.API_KEY;
-        DELIVERY_TOKEN = Credentials.DELIVERY_TOKEN;
-        ENV = Credentials.ENVIRONMENT;
-    }
+/**
+ * Comprehensive unit tests for the Contentstack class.
+ * Tests stack creation, validation, and error handling.
+ */
+public class TestContentstack {
 
     @Test
-    void initStackPrivateModifier() {
-        try {
+    void testCannotInstantiateContentstackDirectly() {
+        assertThrows(IllegalAccessException.class, () -> {
             new Contentstack();
-        } catch (Exception e) {
-            logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Direct instantiation of Stack is not allowed. Use Contentstack.stack() to create an instance.", e.getLocalizedMessage());
-        }
+        });
     }
 
     @Test
-    void initStackWithNullAPIKey() {
-        try {
-            Contentstack.stack(null, DELIVERY_TOKEN, ENV);
-        } catch (Exception e) {
-            logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("API Key can not be null", e.getLocalizedMessage(), "Set APIKey Null");
-        }
+    void testCreateStackWithValidCredentials() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("test_api_key", "test_delivery_token", "test_environment");
+        
+        assertNotNull(stack);
+        assertNotNull(stack.headers);
+        assertEquals("test_api_key", stack.headers.get("api_key"));
+        assertEquals("test_delivery_token", stack.headers.get("access_token"));
+        assertEquals("test_environment", stack.headers.get("environment"));
     }
 
     @Test
-    void initStackWithNullDeliveryToken() {
-        try {
-            Contentstack.stack(API_KEY, null, ENV);
-        } catch (Exception e) {
-            logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Delivery Token can not be null", e.getLocalizedMessage(),
-                    "Set deliveryToken Null");
-        }
-    }
-
-    @Test
-    void initStackWithNullEnvironment() {
-        try {
-            Contentstack.stack(API_KEY, DELIVERY_TOKEN, null);
-        } catch (Exception e) {
-            logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Environment can not be null", e.getLocalizedMessage(), "Set Environment Null");
-        }
-    }
-
-    @Test
-    void initStackWithEmptyAPIKey() {
-        try {
-            Contentstack.stack("", DELIVERY_TOKEN, ENV);
-        } catch (Exception e) {
-            logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Missing API key. Provide a valid key from your Contentstack stack settings and try again.", e.getLocalizedMessage(), "Set APIKey Null");
-        }
-    }
-
-    @Test
-    void initStackWithEmptyDeliveryToken() {
-        try {
-            Contentstack.stack(API_KEY, "", ENV);
-        } catch (Exception e) {
-            logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Missing delivery token. Provide a valid token from your Contentstack stack settings and try again.", e.getLocalizedMessage(),
-                    "Set deliveryToken Null");
-        }
-    }
-
-    @Test
-    void initStackWithEmptyEnvironment() {
-        try {
-            Contentstack.stack(API_KEY, DELIVERY_TOKEN, "");
-        } catch (Exception e) {
-            logger.info(e.getLocalizedMessage());
-            Assertions.assertEquals("Missing environment. Provide a valid environment name and try again.", e.getLocalizedMessage(), "Set Environment Null");
-        }
-    }
-
-    @Test
-    void initStackWithAllValidCredentials() throws IllegalAccessException {
-        Stack stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV);
-        Assertions.assertNotNull(stack);
-    }
-
-    @Test
-    void initStackWithConfigs() throws IllegalAccessException {
+    void testCreateStackWithConfig() throws IllegalAccessException {
         Config config = new Config();
-        Stack stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
-        Assertions.assertEquals("cdn.contentstack.io", config.host);
-        Assertions.assertNotNull(stack);
-    }
-
-
-    @Test
-    void testConfigEarlyAccessSingleFeature() throws IllegalAccessException {
-        Config config = new Config();
-        String[] earlyAccess = {"Taxonomy"};
-        config.setEarlyAccess(earlyAccess);
-        Stack stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
-        Assertions.assertEquals(earlyAccess[0], config.earlyAccess[0]);
-        Assertions.assertNotNull(stack.headers.containsKey("x-header-ea"));
-        Assertions.assertEquals("Taxonomy", stack.headers.get("x-header-ea"));
+        config.setHost("custom-host.contentstack.com");
+        
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "environment", config);
+        
+        assertNotNull(stack);
+        assertNotNull(stack.config);
+        assertEquals("custom-host.contentstack.com", stack.config.getHost());
     }
 
     @Test
-    void testConfigEarlyAccessMultipleFeature() throws IllegalAccessException {
+    void testCreateStackWithBranch() throws IllegalAccessException {
         Config config = new Config();
-        String[] earlyAccess = {"Taxonomy", "Teams", "Terms", "LivePreview"};
-        config.setEarlyAccess(earlyAccess);
-        Stack stack = Contentstack.stack(API_KEY, DELIVERY_TOKEN, ENV, config);
-        Assertions.assertEquals(4, stack.headers.keySet().size());
-        Assertions.assertEquals(earlyAccess[1], config.earlyAccess[1]);
-        Assertions.assertTrue(stack.headers.containsKey("x-header-ea"));
-        Assertions.assertEquals("Taxonomy,Teams,Terms,LivePreview", stack.headers.get("x-header-ea"));
+        config.setBranch("test-branch");
+        
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "environment", config);
+        
+        assertNotNull(stack);
+        assertTrue(stack.headers.containsKey("branch"));
+        assertEquals("test-branch", stack.headers.get("branch"));
+    }
+
+    @Test
+    void testCreateStackWithEarlyAccess() throws IllegalAccessException {
+        Config config = new Config();
+        config.setEarlyAccess(new String[]{"feature1", "feature2"});
+        
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "environment", config);
+        
+        assertNotNull(stack);
+        assertTrue(stack.headers.containsKey("x-header-ea"));
+        String eaHeader = (String) stack.headers.get("x-header-ea");
+        assertTrue(eaHeader.contains("feature1"));
+        assertTrue(eaHeader.contains("feature2"));
+    }
+
+    @Test
+    void testCreateStackWithRegion() throws IllegalAccessException {
+        Config config = new Config();
+        config.setRegion(Config.ContentstackRegion.EU);
+        
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "environment", config);
+        
+        assertNotNull(stack);
+        assertEquals(Config.ContentstackRegion.EU, stack.config.region);
+    }
+
+    // ========== VALIDATION TESTS ==========
+
+    @Test
+    void testStackCreationWithNullApiKey() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+            Contentstack.stack(null, "delivery_token", "environment");
+        });
+        assertNotNull(exception);
+        assertTrue(exception.getMessage().contains("API Key"));
+    }
+
+    @Test
+    void testStackCreationWithNullDeliveryToken() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+            Contentstack.stack("api_key", null, "environment");
+        });
+        assertNotNull(exception);
+        assertTrue(exception.getMessage().contains("Delivery Token"));
+    }
+
+    @Test
+    void testStackCreationWithNullEnvironment() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+            Contentstack.stack("api_key", "delivery_token", null);
+        });
+        assertNotNull(exception);
+        assertTrue(exception.getMessage().contains("Environment"));
+    }
+
+    @Test
+    void testStackCreationWithEmptyApiKey() {
+        IllegalAccessException exception = assertThrows(IllegalAccessException.class, () -> {
+            Contentstack.stack("", "delivery_token", "environment");
+        });
+        assertEquals(ErrorMessages.MISSING_API_KEY, exception.getMessage());
+    }
+
+    @Test
+    void testStackCreationWithEmptyDeliveryToken() {
+        IllegalAccessException exception = assertThrows(IllegalAccessException.class, () -> {
+            Contentstack.stack("api_key", "", "environment");
+        });
+        assertEquals(ErrorMessages.MISSING_DELIVERY_TOKEN, exception.getMessage());
+    }
+
+    @Test
+    void testStackCreationWithEmptyEnvironment() {
+        IllegalAccessException exception = assertThrows(IllegalAccessException.class, () -> {
+            Contentstack.stack("api_key", "delivery_token", "");
+        });
+        assertEquals(ErrorMessages.MISSING_ENVIRONMENT, exception.getMessage());
+    }
+
+    @Test
+    void testStackCreationWithWhitespaceApiKey() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("  api_key  ", "delivery_token", "environment");
+        
+        assertNotNull(stack);
+        assertEquals("api_key", stack.apiKey); // Should be trimmed
+    }
+
+    // ========== MULTIPLE STACK CREATION TESTS ==========
+
+    @Test
+    void testCreateMultipleStacks() throws IllegalAccessException {
+        Stack stack1 = Contentstack.stack("api_key1", "token1", "env1");
+        Stack stack2 = Contentstack.stack("api_key2", "token2", "env2");
+        Stack stack3 = Contentstack.stack("api_key3", "token3", "env3");
+        
+        assertNotNull(stack1);
+        assertNotNull(stack2);
+        assertNotNull(stack3);
+        assertNotSame(stack1, stack2);
+        assertNotSame(stack2, stack3);
+    }
+
+    @Test
+    void testCreateStacksWithDifferentConfigs() throws IllegalAccessException {
+        Config config1 = new Config();
+        config1.setRegion(Config.ContentstackRegion.US);
+        
+        Config config2 = new Config();
+        config2.setRegion(Config.ContentstackRegion.EU);
+        
+        Stack stack1 = Contentstack.stack("api1", "token1", "env1", config1);
+        Stack stack2 = Contentstack.stack("api2", "token2", "env2", config2);
+        
+        assertNotNull(stack1);
+        assertNotNull(stack2);
+        assertEquals(Config.ContentstackRegion.US, stack1.config.region);
+        assertEquals(Config.ContentstackRegion.EU, stack2.config.region);
+    }
+
+    // ========== HEADER VALIDATION TESTS ==========
+
+    @Test
+    void testStackHeadersAreSetCorrectly() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("my_api_key", "my_token", "my_env");
+        
+        assertNotNull(stack.headers);
+        assertTrue(stack.headers.size() >= 3);
+        assertTrue(stack.headers.containsKey("api_key"));
+        assertTrue(stack.headers.containsKey("access_token"));
+        assertTrue(stack.headers.containsKey("environment"));
+    }
+
+    @Test
+    void testStackWithEmptyEarlyAccess() throws IllegalAccessException {
+        Config config = new Config();
+        config.setEarlyAccess(new String[]{});
+        
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "environment", config);
+        
+        assertNotNull(stack);
+        assertFalse(stack.headers.containsKey("x-header-ea"));
+    }
+
+    @Test
+    void testStackWithNullBranch() throws IllegalAccessException {
+        Config config = new Config();
+        config.setBranch(null);
+        
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "environment", config);
+        
+        assertNotNull(stack);
+        assertFalse(stack.headers.containsKey("branch"));
+    }
+
+    @Test
+    void testStackWithEmptyBranch() throws IllegalAccessException {
+        Config config = new Config();
+        config.setBranch("");
+        
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "environment", config);
+        
+        assertNotNull(stack);
+        assertFalse(stack.headers.containsKey("branch"));
     }
 }
+

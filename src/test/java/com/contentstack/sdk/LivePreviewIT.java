@@ -17,9 +17,9 @@ import java.util.logging.Logger;
 /**
  * The type Config testcase.
  */
-public class TestLivePreview {
+public class LivePreviewIT {
 
-    private static final Logger logger = Logger.getLogger(TestLivePreview.class.getName());
+    private static final Logger logger = Logger.getLogger(LivePreviewIT.class.getName());
     private static Config config;
 
     /**
