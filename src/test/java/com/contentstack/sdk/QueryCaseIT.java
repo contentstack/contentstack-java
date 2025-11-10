@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestQueryCase {
+class QueryCaseIT {
 
-    private final Logger logger = Logger.getLogger(TestQueryCase.class.getName());
+    private final Logger logger = Logger.getLogger(QueryCaseIT.class.getName());
     private final Stack stack = Credentials.getStack();
     private Query query;
     private String entryUid;
