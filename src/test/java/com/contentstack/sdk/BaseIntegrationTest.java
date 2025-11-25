@@ -47,9 +47,9 @@ public abstract class BaseIntegrationTest {
      */
     @BeforeAll
     public void logTestSuiteStart() {
-        logger.info("=" .repeat(60));
+        logger.info(repeatString("=", 60));
         logger.info("Starting Test Suite: " + this.getClass().getSimpleName());
-        logger.info("=" .repeat(60));
+        logger.info(repeatString("=", 60));
         
         // Log available test data
         if (TestHelpers.isComplexTestDataAvailable()) {
@@ -68,9 +68,9 @@ public abstract class BaseIntegrationTest {
      */
     @AfterAll
     public void logTestSuiteEnd(TestInfo testInfo) {
-        logger.info("=" .repeat(60));
+        logger.info(repeatString("=", 60));
         logger.info("Completed Test Suite: " + this.getClass().getSimpleName());
-        logger.info("=" .repeat(60));
+        logger.info(repeatString("=", 60));
     }
     
     /**
@@ -78,7 +78,7 @@ public abstract class BaseIntegrationTest {
      */
     @BeforeEach
     public void logTestStart(TestInfo testInfo) {
-        logger.info("-".repeat(60));
+        logger.info(repeatString("-", 60));
         logger.info("Starting Test: " + testInfo.getDisplayName());
     }
     
@@ -88,7 +88,18 @@ public abstract class BaseIntegrationTest {
     @AfterEach
     public void logTestEnd(TestInfo testInfo) {
         logger.info("Completed Test: " + testInfo.getDisplayName());
-        logger.info("-".repeat(60));
+        logger.info(repeatString("-", 60));
+    }
+    
+    /**
+     * Repeat a string n times (Java 8 compatible)
+     */
+    private String repeatString(String str, int count) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            sb.append(str);
+        }
+        return sb.toString();
     }
     
     /**
