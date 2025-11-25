@@ -277,10 +277,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <!-- Run only API tests (*IT.java) by default -->
-                    <includes>
-                        <include>**/*IT.java</include>
-                    </includes>
+                    <!-- Tests are skipped by default; use -Dtest to specify which tests to run -->
+                    <!-- Example: -Dtest='*IT' for integration tests, -Dtest='Test*' for unit tests -->
                     <skipTests>true</skipTests>
                     <!-- OPTIMIZED: Parallel execution with controlled concurrency -->
                     <parallel>classes</parallel>
@@ -293,7 +291,8 @@
                     <!-- Increase timeout for slow tests -->
                     <forkedProcessTimeoutInSeconds>500</forkedProcessTimeoutInSeconds>
                     <!-- Better memory management -->
-                    <argLine>-Xmx2048m -XX:MaxMetaspaceSize=512m</argLine>
+                    <!-- @{argLine} allows JaCoCo to inject its agent -->
+                    <argLine>@{argLine} -Xmx2048m -XX:MaxMetaspaceSize=512m</argLine>
                 </configuration>
             </plugin>
             
@@ -408,7 +407,7 @@
                         </goals>
                         <configuration>
                             <dataFile>target/jacoco.exec</dataFile>
-                            <outputDirectory>target/jacoco-ut</outputDirectory>
+                            <!-- outputDirectory removed - uses default: target/site/jacoco/ -->
                         </configuration>
                     </execution>
                 </executions>
