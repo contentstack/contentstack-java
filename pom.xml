@@ -20,8 +20,8 @@
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
         <dotenv-source.version>3.0.0</dotenv-source.version>
-        <rxjava-source.version>3.1.10</rxjava-source.version>
-        <retrofit-source.version>2.11.0</retrofit-source.version>
+        <rxjava-source.version>3.1.11</rxjava-source.version>
+        <retrofit-source.version>3.0.0</retrofit-source.version>
         <loggin.version>5.1.0</loggin.version>
         <jococo-plugin.version>0.8.5</jococo-plugin.version>
         <lombok-source.version>1.18.36</lombok-source.version>
@@ -184,7 +184,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.18.2</version>
+            <version>2.19.2</version>
         </dependency>
         <dependency>
             <groupId>com.slack.api</groupId>
@@ -194,7 +194,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.0.1</version>
+            <version>26.0.2</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
