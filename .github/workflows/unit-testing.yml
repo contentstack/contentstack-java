@@ -1,0 +1,102 @@
+name: Java SDK - Coverage Check
+
+on:
+  pull_request:
+    branches:
+      - development
+      - staging
+      - master
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧾 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ☕ Set up JDK 8 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 8
+          cache: maven
+
+      - name: 🧩 Ensure tests are enabled in pom.xml
+        run: |
+          echo "🔧 Ensuring tests are enabled in pom.xml..."
+          sed -i 's/<skipTests>true<\/skipTests>/<skipTests>false<\/skipTests>/g' pom.xml || true
+
+      - name: 🧪 Run tests and generate JaCoCo report
+        run: mvn clean test -Dtest='Test*' jacoco:report -Dgpg.skip=true
+
+      - name: 📊 Extract coverage from JaCoCo HTML report
+        id: extract_coverage
+        run: |
+          echo "📊 Extracting coverage summary from JaCoCo HTML report..."
+
+          REPORT="target/site/jacoco/index.html"
+
+          if [ ! -f "$REPORT" ]; then
+            echo "❌ JaCoCo HTML report not found!"
+            exit 1
+          fi
+
+          # Extract the <tfoot> Total row and clean it up
+          TOTAL_ROW=$(grep -A2 "<td>Total</td>" "$REPORT" | tr -d '\n')
+
+          # Extract numeric percentages in order (Instruction first, Branch second)
+          PERCENTAGES=($(echo "$TOTAL_ROW" | grep -oE '[0-9]+%' | sed 's/%//g'))
+
+          INSTRUCTION=${PERCENTAGES[0]:-0}
+          BRANCH=${PERCENTAGES[1]:-0}
+
+          echo "📘 Instruction Coverage: ${INSTRUCTION}%"
+          echo "🌿 Branch Coverage: ${BRANCH}%"
+
+          echo "instruction=${INSTRUCTION}" >> $GITHUB_OUTPUT
+          echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
+
+      - name: 🚦 Enforce coverage threshold
+        run: |
+          MIN_INSTRUCTION=90
+          MIN_BRANCH=80
+
+          INSTRUCTION=${{ steps.extract_coverage.outputs.instruction }}
+          BRANCH=${{ steps.extract_coverage.outputs.branch }}
+
+          echo "🧾 Required minimums:"
+          echo "   • Instruction: ${MIN_INSTRUCTION}%"
+          echo "   • Branch: ${MIN_BRANCH}%"
+          echo ""
+          echo "📈 Actual coverage:"
+          echo "   • Instruction: ${INSTRUCTION}%"
+          echo "   • Branch: ${BRANCH}%"
+
+          if [ "$INSTRUCTION" -lt "$MIN_INSTRUCTION" ]; then
+            echo "❌ Instruction coverage (${INSTRUCTION}%) is below the threshold (${MIN_INSTRUCTION}%)"
+            exit 1
+          fi
+
+          if [ "$BRANCH" -lt "$MIN_BRANCH" ]; then
+            echo "❌ Branch coverage (${BRANCH}%) is below the threshold (${MIN_BRANCH}%)"
+            exit 1
+          fi
+
+          echo "✅ Coverage thresholds met!"
+
+      - name: 💬 Post coverage summary as PR comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: 🧪 JaCoCo Coverage Report
+          message: |
+            **Coverage Summary**
+            - 📘 Instruction Coverage: `${{ steps.extract_coverage.outputs.instruction }}%`
+            - 🌿 Branch Coverage: `${{ steps.extract_coverage.outputs.branch }}%`
+
+      - name: 📦 Upload JaCoCo HTML report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
+          if-no-files-found: warn
