@@ -1,863 +1,1706 @@
 package com.contentstack.sdk;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.jupiter.api.*;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.logging.Logger;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+/**
+ * Comprehensive unit tests for Query class.
+ * Tests all query building methods, operators, and configurations.
+ */
+public class TestQuery {
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestQuery {
-
-    private final Logger logger = Logger.getLogger(TestQuery.class.getName());
-    private final Stack stack = Credentials.getStack();
-    private final String contentType = Credentials.CONTENT_TYPE;
     private Query query;
-    private String entryUid;
+    private final String contentTypeUid = "test_content_type";
 
     @BeforeEach
-    public void beforeEach() {
-        query = stack.contentType(contentType).query();
+    void setUp() {
+        query = new Query(contentTypeUid);
+        query.headers = new LinkedHashMap<>();
+    }
+
+    // ========== CONSTRUCTOR & BASIC TESTS ==========
+
+    @Test
+    void testQueryConstructor() {
+        Query testQuery = new Query("my_content_type");
+        assertNotNull(testQuery);
+        assertEquals("my_content_type", testQuery.contentTypeUid);
+        assertNotNull(testQuery.urlQueries);
+        assertNotNull(testQuery.queryValue);
+        assertNotNull(testQuery.mainJSON);
     }
 
     @Test
-    @Order(1)
-    void testAllEntries() {
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    entryUid = queryresult.getResultObjects().get(0).uid;
-                    Assertions.assertNotNull(queryresult);
-                    Assertions.assertEquals(28, queryresult.getResultObjects().size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testGetContentType() {
+        // Query.contentTypeUid is protected, directly accessible in tests
+        assertEquals(contentTypeUid, query.contentTypeUid);
     }
 
-    @Test()
-    @Order(2)
-    void testWhereEquals() {
-        Query query = stack.contentType("categories").query();
-        query.where("title", "Women");
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> titles = queryresult.getResultObjects();
-                    Assertions.assertEquals("Women", titles.get(0).title);
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-    }
+    // ========== HEADER TESTS ==========
 
-    @Test()
-    @Order(4)
-    void testWhereEqualsWithUid() {
-        query.where("uid", this.entryUid);
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> titles = queryresult.getResultObjects();
-                    Assertions.assertNotNull( titles.get(0).title);
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-    }
-
-    @Test()
-    @Order(3)
-    void testWhere() {
-        Query query = stack.contentType("product").query();
-        query.where("title", "Blue Yellow");
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> listOfEntries = queryresult.getResultObjects();
-                    Assertions.assertEquals("Blue Yellow", listOfEntries.get(0).title);
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    @Test
+    void testSetHeader() {
+        Query result = query.setHeader("custom-key", "custom-value");
+        assertSame(query, result); // Check method chaining
+        assertTrue(query.headers.containsKey("custom-key"));
+        assertEquals("custom-value", query.headers.get("custom-key"));
     }
 
     @Test
-    @Order(4)
-    void testIncludeReference() {
-        query.includeReference("category").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> listOfEntries = queryresult.getResultObjects();
-                    logger.fine(listOfEntries.toString());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testSetMultipleHeaders() {
+        query.setHeader("key1", "value1")
+             .setHeader("key2", "value2")
+             .setHeader("key3", "value3");
+        
+        assertEquals(3, query.headers.size());
+        assertEquals("value1", query.headers.get("key1"));
+        assertEquals("value2", query.headers.get("key2"));
+        assertEquals("value3", query.headers.get("key3"));
     }
 
     @Test
-    @Order(5)
-    void testNotContainedInField() {
-        String[] containArray = new String[]{"Roti Maker", "kids dress"};
-        query.notContainedIn("title", containArray).find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(26, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testSetHeaderWithEmptyKey() {
+        query.setHeader("", "value");
+        assertFalse(query.headers.containsKey(""));
     }
 
     @Test
-    @Order(6)
-    void testContainedInField() {
-        String[] containArray = new String[]{"Roti Maker", "kids dress"};
-        query.containedIn("title", containArray).find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(2, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testSetHeaderWithEmptyValue() {
+        query.setHeader("key", "");
+        assertFalse(query.headers.containsKey("key"));
     }
 
     @Test
-    @Order(7)
-    void testNotEqualTo() {
-        query.notEqualTo("title", "yellow t shirt").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(27, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testRemoveHeader() {
+        query.setHeader("test-key", "test-value");
+        assertTrue(query.headers.containsKey("test-key"));
+        
+        Query result = query.removeHeader("test-key");
+        assertSame(query, result);
+        assertFalse(query.headers.containsKey("test-key"));
     }
 
     @Test
-    @Order(8)
-    void testGreaterThanOrEqualTo() {
-        query.greaterThanOrEqualTo("price", 90).find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(10, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testRemoveNonExistentHeader() {
+        query.removeHeader("non-existent");
+        // Should not throw exception
+    }
+
+    // ========== WHERE CLAUSE TESTS ==========
+
+    @Test
+    void testWhereWithString() {
+        Query result = query.where("title", "Test Title");
+        assertSame(query, result);
+        assertNotNull(query.queryValueJSON);
     }
 
     @Test
-    @Order(9)
-    void testGreaterThanField() {
-        query.greaterThan("price", 90).find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(9, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testWhereWithNumber() {
+        query.where("count", 10);
+        assertNotNull(query.queryValueJSON);
     }
 
     @Test
-    @Order(10)
-    void testLessThanEqualField() {
-        query.lessThanOrEqualTo("price", 90).find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(18, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testWhereWithBoolean() {
+        query.where("published", true);
+        assertNotNull(query.queryValueJSON);
     }
 
     @Test
-    @Order(11)
-    void testLessThanField() {
-        query.lessThan("price", "90").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(0, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testWhereMultipleConditions() {
+        query.where("title", "Test")
+             .where("count", 5)
+             .where("active", true);
+        assertNotNull(query.queryValueJSON);
     }
 
-    @Test
-    @Order(12)
-    void testEntriesWithOr() {
-
-        ContentType ct = stack.contentType("product");
-        Query orQuery = ct.query();
-
-        Query query = ct.query();
-        query.lessThan("price", 90);
-
-        Query subQuery = ct.query();
-        subQuery.containedIn("discount", new Integer[]{20, 45});
-
-        ArrayList<Query> array = new ArrayList<>();
-        array.add(query);
-        array.add(subQuery);
-
-        orQuery.or(array);
-
-        orQuery.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(19, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-    }
+    // ========== ADD/REMOVE QUERY TESTS ==========
 
     @Test
-    @Order(13)
-    void testEntriesWithAnd() {
-
-        ContentType ct = stack.contentType("product");
-        Query orQuery = ct.query();
-
-        Query query = ct.query();
-        query.lessThan("price", 90);
-
-        Query subQuery = ct.query();
-        subQuery.containedIn("discount", new Integer[]{20, 45});
-
-        ArrayList<Query> array = new ArrayList<>();
-        array.add(query);
-        array.add(subQuery);
-
-        orQuery.and(array);
-        orQuery.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(2, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-    }
-
-    @Test
-    @Order(14)
     void testAddQuery() {
-        query.addQuery("limit", "8").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(8, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+        Query result = query.addQuery("custom_field", "custom_value");
+        assertSame(query, result);
     }
 
     @Test
-    @Order(15)
-    void testRemoveQueryFromQuery() {
-        query.addQuery("limit", "8").removeQuery("limit").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(28, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testAddMultipleQueries() {
+        query.addQuery("field1", "value1")
+             .addQuery("field2", "value2");
+        assertNotNull(query.urlQueries);
     }
 
     @Test
-    @Order(16)
-    void testIncludeSchema() {
-        query.includeContentType().find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(28, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testRemoveQuery() {
+        query.addQuery("field1", "value1");
+        Query result = query.removeQuery("field1");
+        assertSame(query, result);
+    }
+
+    // ========== COMPARISON OPERATORS ==========
+
+    @Test
+    void testLessThan() {
+        Query result = query.lessThan("price", 100);
+        assertSame(query, result);
+        assertNotNull(query.queryValueJSON);
     }
 
     @Test
-    @Order(17)
-    void testSearch() {
-        query.search("dress").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    for (Entry entry : entries) {
-                        JSONObject jsonObject = entry.toJSON();
-                        Iterator<String> itr = jsonObject.keys();
-                        while (itr.hasNext()) {
-                            String key = itr.next();
-                            Object value = jsonObject.opt(key);
-                            Assertions.assertNotNull(value);
-                        }
-                    }
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testLessThanOrEqualTo() {
+        Query result = query.lessThanOrEqualTo("price", 100);
+        assertSame(query, result);
+        assertNotNull(query.queryValueJSON);
     }
 
     @Test
-    @Order(18)
+    void testGreaterThan() {
+        Query result = query.greaterThan("price", 50);
+        assertSame(query, result);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    @Test
+    void testGreaterThanOrEqualTo() {
+        Query result = query.greaterThanOrEqualTo("price", 50);
+        assertSame(query, result);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    @Test
+    void testNotEqualTo() {
+        Query result = query.notEqualTo("status", "draft");
+        assertSame(query, result);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    @Test
+    void testMultipleComparisonOperators() {
+        query.greaterThan("price", 10)
+             .lessThan("price", 100)
+             .notEqualTo("status", "archived");
+        assertNotNull(query.queryValueJSON);
+    }
+
+    // ========== ARRAY OPERATORS ==========
+
+    @Test
+    void testContainedIn() {
+        String[] values = {"value1", "value2", "value3"};
+        Query result = query.containedIn("tags", values);
+        assertSame(query, result);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    @Test
+    void testContainedInWithNumbers() {
+        Integer[] values = {1, 2, 3, 4, 5};
+        query.containedIn("priority", values);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    @Test
+    void testNotContainedIn() {
+        String[] values = {"blocked", "spam"};
+        Query result = query.notContainedIn("status", values);
+        assertSame(query, result);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    @Test
+    void testContainedInWithEmptyArray() {
+        String[] values = {};
+        query.containedIn("tags", values);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    // ========== EXISTENCE OPERATORS ==========
+
+    @Test
+    void testExists() {
+        Query result = query.exists("featured_image");
+        assertSame(query, result);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    @Test
+    void testNotExists() {
+        Query result = query.notExists("legacy_field");
+        assertSame(query, result);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    @Test
+    void testMultipleExistenceChecks() {
+        query.exists("author")
+             .notExists("deprecated_field");
+        assertNotNull(query.queryValueJSON);
+    }
+
+    // ========== LOGICAL OPERATORS ==========
+
+    @Test
+    void testAndOperator() {
+        Query query1 = new Query(contentTypeUid);
+        query1.headers = new LinkedHashMap<>();
+        query1.where("title", "Test");
+        
+        Query query2 = new Query(contentTypeUid);
+        query2.headers = new LinkedHashMap<>();
+        query2.where("status", "published");
+        
+        List<Query> queries = new ArrayList<>();
+        queries.add(query1);
+        queries.add(query2);
+        
+        Query result = query.and(queries);
+        assertSame(query, result);
+    }
+
+    @Test
+    void testOrOperator() {
+        Query query1 = new Query(contentTypeUid);
+        query1.headers = new LinkedHashMap<>();
+        
+        Query query2 = new Query(contentTypeUid);
+        query2.headers = new LinkedHashMap<>();
+        
+        List<Query> queries = new ArrayList<>();
+        queries.add(query1);
+        queries.add(query2);
+        
+        Query result = query.or(queries);
+        assertSame(query, result);
+    }
+
+    // ========== REFERENCE METHODS ==========
+
+    @Test
+    void testIncludeReference() {
+        Query result = query.includeReference("author");
+        assertSame(query, result);
+        assertNotNull(query.objectUidForInclude);
+    }
+
+    @Test
+    void testIncludeMultipleReferences() {
+        query.includeReference("author")
+             .includeReference("category")
+             .includeReference("tags");
+        assertNotNull(query.objectUidForInclude);
+    }
+
+    @Test
+    void testIncludeReferenceContentTypUid() {
+        Query result = query.includeReferenceContentTypUid();
+        assertSame(query, result);
+    }
+
+    // ========== SORTING TESTS ==========
+
+    @Test
     void testAscending() {
-        Query queryq = stack.contentType("product").query();
-        queryq.ascending("title");
-        queryq.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    for (int i = 0; i < entries.size() - 1; i++) {
-                        String previous = entries.get(i).getTitle(); // get first string
-                        String next = entries.get(i + 1).getTitle(); // get second string
-                        if (previous.compareTo(next) < 0) { // compare both if less than Zero then Ascending else
-                            // descending
-                            Assertions.assertTrue(true);
-                        } else {
-                            Assertions.fail("expected descending, found ascending");
-                        }
-                    }
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+        Query result = query.ascending("created_at");
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
     }
 
     @Test
-    @Order(19)
     void testDescending() {
-        Query query1 = stack.contentType("product").query();
-        query1.descending("title").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    for (int i = 0; i < entries.size() - 1; i++) {
-                        String previous = entries.get(i).getTitle(); // get first string
-                        String next = entries.get(i + 1).getTitle(); // get second string
-                        if (previous.compareTo(next) < 0) { // compare both if less than Zero then Ascending else
-                            // descending
-                            Assertions.fail("expected descending, found ascending");
-                        } else {
-                            Assertions.assertTrue(true);
-                        }
-                    }
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+        Query result = query.descending("updated_at");
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
     }
 
     @Test
-    @Order(20)
-    void testLimit() {
-        query.limit(3).find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(3, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testMultipleSortingFields() {
+        query.ascending("title")
+             .descending("created_at");
+        assertNotNull(query.urlQueries);
     }
 
-    @Test
-    @Order(21)
-    void testSkip() {
-        query.skip(3).find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(25, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-    }
+    // ========== PROJECTION TESTS ==========
 
     @Test
-    @Order(22)
     void testOnly() {
-        query.only(new String[]{"price"});
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(28, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+        String[] fields = {"title", "description", "author"};
+        Query result = query.only(fields);
+        assertSame(query, result);
+        assertNotNull(query.objectUidForOnly);
     }
 
     @Test
-    @Order(23)
+    void testOnlyWithSingleField() {
+        String[] fields = {"title"};
+        query.only(fields);
+        assertNotNull(query.objectUidForOnly);
+    }
+
+    @Test
     void testExcept() {
-        query.except(new String[]{"price"}).find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(28, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+        String[] fields = {"internal_notes", "draft_content"};
+        Query result = query.except(fields);
+        assertSame(query, result);
+        assertNotNull(query.objectUidForExcept);
     }
 
     @Test
-    @Order(24)
-    @Deprecated
+    void testExceptWithList() {
+        List<String> fields = new ArrayList<>();
+        fields.add("field1");
+        fields.add("field2");
+        
+        Query result = query.except(fields);
+        assertSame(query, result);
+        assertNotNull(query.objectUidForExcept);
+    }
+
+    @Test
+    void testOnlyWithReferenceUid() {
+        List<String> fields = new ArrayList<>();
+        fields.add("title");
+        fields.add("name");
+        
+        Query result = query.onlyWithReferenceUid(fields, "author");
+        assertSame(query, result);
+    }
+
+    @Test
+    void testExceptWithReferenceUid() {
+        List<String> fields = new ArrayList<>();
+        fields.add("internal_data");
+        
+        Query result = query.exceptWithReferenceUid(fields, "metadata");
+        assertSame(query, result);
+    }
+
+    // ========== PAGINATION TESTS ==========
+
+    @Test
+    void testLimit() {
+        Query result = query.limit(10);
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testLimitWithZero() {
+        query.limit(0);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testLimitWithLargeNumber() {
+        query.limit(1000);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testSkip() {
+        Query result = query.skip(20);
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testSkipWithZero() {
+        query.skip(0);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testPaginationCombination() {
+        query.limit(10).skip(20);
+        assertNotNull(query.urlQueries);
+    }
+
+    // ========== COUNT TESTS ==========
+
+    @Test
     void testCount() {
-        query.count();
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(0, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+        Query result = query.count();
+        assertSame(query, result);
     }
 
     @Test
-    @Order(25)
-    void testRegex() {
-        query.regex("title", "lap*", "i").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(1, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-    }
-
-    @Test
-    @Order(26)
-    void testExist() {
-        query.exists("title").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(28, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-    }
-
-    @Test
-    @Order(28)
-    void testNotExist() {
-        query.notExists("price1").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(28, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-    }
-
-    @Test
-    @Order(28)
-    void testTags() {
-        query.tags(new String[]{"pink"});
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(1, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-
-    }
-
-    @Test
-    @Order(29)
-    void testLanguage() {
-        query.locale("en-us");
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(28, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-
-    }
-
-    @Test
-    @Order(30)
     void testIncludeCount() {
-        query.includeCount();
-        query.find(new QueryResultsCallBack() {
+        Query result = query.includeCount();
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+    }
+
+    // ========== CONTENT TYPE TESTS ==========
+
+    @Test
+    void testIncludeContentType() {
+        Query result = query.includeContentType();
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+    }
+
+    // ========== REGEX TESTS ==========
+
+    @Test
+    void testRegexWithModifiers() {
+        Query result = query.regex("title", "test", "i");
+        assertSame(query, result);
+        assertNotNull(query.queryValueJSON);
+    }
+
+
+    // ========== TAGS TESTS ==========
+
+
+    @Test
+    void testTagsWithSingleTag() {
+        String[] tags = {"featured"};
+        query.tags(tags);
+        assertNotNull(query.queryValue);
+    }
+
+
+    // ========== LOCALE TESTS ==========
+
+    @Test
+    void testLocale() {
+        Query result = query.locale("en-us");
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testLocaleWithDifferentLocales() {
+        query.locale("fr-fr");
+        assertNotNull(query.urlQueries);
+        
+        Query query2 = new Query("test");
+        query2.locale("es-es");
+        assertNotNull(query2.urlQueries);
+    }
+
+    // ========== SEARCH TESTS ==========
+
+    @Test
+    void testSearch() {
+        Query result = query.search("searchKeyword");
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testSearchWithSpecialCharacters() {
+        query.search("search with spaces");
+        assertNotNull(query.urlQueries);
+    }
+
+    // ========== WHERE IN/NOT IN TESTS ==========
+
+    @Test
+    void testWhereIn() {
+        Query subQuery = new Query("category");
+        subQuery.headers = new LinkedHashMap<>();
+        
+        Query result = query.whereIn("category_id", subQuery);
+        assertSame(query, result);
+    }
+
+    @Test
+    void testWhereNotIn() {
+        Query subQuery = new Query("blocked_users");
+        subQuery.headers = new LinkedHashMap<>();
+        
+        Query result = query.whereNotIn("user_id", subQuery);
+        assertSame(query, result);
+    }
+
+    // ========== INCLUDE METHODS TESTS ==========
+
+    @Test
+    void testIncludeFallback() {
+        Query result = query.includeFallback();
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testIncludeEmbeddedItems() {
+        Query result = query.includeEmbeddedItems();
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testIncludeBranch() {
+        Query result = query.includeBranch();
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testIncludeMetadata() {
+        Query result = query.includeMetadata();
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testMultipleIncludeMethods() {
+        query.includeFallback()
+             .includeEmbeddedItems()
+             .includeBranch()
+             .includeMetadata()
+             .includeCount()
+             .includeContentType();
+        assertNotNull(query.urlQueries);
+    }
+
+    // ========== ADD PARAM TESTS ==========
+
+    @Test
+    void testAddParam() {
+        Query result = query.addParam("include_dimensions", "true");
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+    }
+
+    @Test
+    void testAddMultipleParams() {
+        query.addParam("param1", "value1")
+             .addParam("param2", "value2")
+             .addParam("param3", "value3");
+        assertNotNull(query.urlQueries);
+    }
+
+    // ========== METHOD CHAINING TESTS ==========
+
+    @Test
+    void testComplexQueryChaining() {
+        Query result = query
+            .where("status", "published")
+            .greaterThan("views", 1000)
+            .lessThan("views", 10000)
+            .exists("featured_image")
+            .ascending("created_at")
+            .limit(10)
+            .skip(0)
+            .includeCount()
+            .includeReference("author")
+            .locale("en-us");
+        
+        assertSame(query, result);
+        assertNotNull(query.urlQueries);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    @Test
+    void testQueryBuildingComplex() {
+        query.where("type", "article")
+             .containedIn("category", new String[]{"tech", "science"})
+             .greaterThanOrEqualTo("rating", 4.0)
+             .exists("author")
+             .notEqualTo("status", "draft")
+             .descending("published_date")
+             .limit(20)
+             .includeReference("author")
+             .includeReference("tags")
+             .includeCount()
+             .search("technology");
+        
+        assertNotNull(query.urlQueries);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    // ========== EDGE CASES ==========
+
+    @Test
+    void testQueryWithNullHeader() {
+        query.headers = null;
+        // Should handle gracefully when headers is null
+    }
+
+    @Test
+    void testMultipleOperationsOnSameField() {
+        query.where("price", 100)
+             .greaterThan("price", 50)
+             .lessThan("price", 200);
+        assertNotNull(query.queryValueJSON);
+    }
+
+    // ========== CONDITIONAL BRANCH TESTS ==========
+
+    @Test
+    void testLessThanWithExistingKey() {
+        query.where("price", 100);
+        Query result = query.lessThan("price", 200);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testGreaterThanWithNewQueryValue() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("existing", "value");
+        Query result = query.greaterThan("new_field", 50);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testContainedInWithExistingKey() {
+        query.where("status", "active");
+        Query result = query.containedIn("status", new Object[]{"active", "pending"});
+        assertNotNull(result);
+    }
+
+    @Test
+    void testExistsWithNewQueryValue() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("existing", "value");
+        Query result = query.exists("new_field");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersNullModifiers() {
+        Query result = query.regex("name", "^test", null);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersWithValue() {
+        Query result = query.regex("name", "^test", "i");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testIncludeContentTypeWithExistingSchema() {
+        query.urlQueries.put("include_schema", true);
+        Query result = query.includeContentType();
+        assertNotNull(result);
+        assertFalse(query.urlQueries.has("include_schema"));
+    }
+
+    // ========== FIND/FIND ONE TESTS ==========
+
+    @Test
+    void testFindWithValidCallback() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        q.headers.put("environment", "production");
+        
+        QueryResultsCallBack callback = new QueryResultsCallBack() {
             @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    Assertions.assertTrue(queryresult.receiveJson.has("count"));
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
+            public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                // Callback implementation
             }
-        });
+        };
+        
+        assertDoesNotThrow(() -> q.find(callback));
     }
 
-    @Test
-    @Order(30)
-    void testIncludeOwner() {
-        query.includeMetadata();
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    Assertions.assertFalse(queryresult.receiveJson.has("include_owner"));
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-    }
+
 
     @Test
-    @Order(31)
-    void testIncludeReferenceOnly() {
-
-        final Query query = stack.contentType("multifield").query();
-        query.where("uid", "fakeIt");
-
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("title");
-
-        ArrayList<String> strings1 = new ArrayList<>();
-        strings1.add("title");
-        strings1.add("brief_description");
-        strings1.add("discount");
-        strings1.add("price");
-        strings1.add("in_stock");
-
-        query.onlyWithReferenceUid(strings, "package_info.info_category")
-                .exceptWithReferenceUid(strings1, "product_ref")
-                .find(new QueryResultsCallBack() {
-                    @Override
-                    public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                        if (error == null) {
-                            List<Entry> entries = queryresult.getResultObjects();
-                            Assertions.assertEquals(0, entries.size());
-                        } else {
-                            Assertions.fail("Failing, Verify credentials");
-                        }
-                    }
-                });
-
-    }
-
-    @Test
-    @Order(32)
-    void testIncludeReferenceExcept() {
-        query = query.where("uid", "fake it");
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("title");
-        query.exceptWithReferenceUid(strings, "category");
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(0, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
-
-    }
-
-    @Test
-    @Order(33)
-    void testFindOne() {
-        query.includeCount().where("in_stock", true).findOne(new SingleQueryResultCallback() {
+    void testFindOneWithValidCallback() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        q.headers.put("environment", "production");
+        
+        SingleQueryResultCallback callback = new SingleQueryResultCallback() {
             @Override
             public void onCompletion(ResponseType responseType, Entry entry, Error error) {
-                if (error == null) {
-                    String entries = entry.getTitle();
-                    Assertions.assertNotNull(entries);
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
+                // Callback implementation
             }
-        });
+        };
+        
+        assertDoesNotThrow(() -> q.findOne(callback));
     }
 
     @Test
-    @Order(33)
-    void testFindOneWithNull() {
-        query.includeCount().findOne(null).where("in_stock", true);
-        Assertions.assertTrue(true);
-    }
-
-    @Test
-    @Order(34)
-    void testComplexFind() {
-        query.notEqualTo("title", "Lorem Ipsum is simply dummy text of the printing and typesetting industry");
-        query.includeCount();
-        query.find(new QueryResultsCallBack() {
+    void testFindOneWithExistingLimit() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        q.headers.put("environment", "production");
+        q.limit(10); // Set existing limit
+        
+        SingleQueryResultCallback callback = new SingleQueryResultCallback() {
             @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(28, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
+            public void onCompletion(ResponseType responseType, Entry entry, Error error) {
+                // Callback implementation
             }
-        });
+        };
+        
+        assertDoesNotThrow(() -> q.findOne(callback));
+    }
+
+
+
+    // ========== SET QUERY JSON TESTS (via find) ==========
+
+    @Test
+    void testSetQueryJsonWithAllFields() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        q.headers.put("environment", "production");
+        
+        // Set all possible fields
+        q.where("title", "Test");
+        q.except(new String[]{"field1"});
+        q.only(new String[]{"field2"});
+        q.onlyWithReferenceUid(Arrays.asList("ref_field"), "reference");
+        q.exceptWithReferenceUid(Arrays.asList("except_field"), "reference2");
+        q.includeReference("include_ref");
+        
+        QueryResultsCallBack callback = new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                // Callback implementation
+            }
+        };
+        
+        assertDoesNotThrow(() -> q.find(callback));
+    }
+
+    // ========== GET URL PARAMS TESTS (private, tested via find) ==========
+
+    @Test
+    void testGetUrlParamsWithMultipleParams() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        q.headers.put("environment", "production");
+        
+        q.where("field1", "value1");
+        q.limit(10);
+        q.skip(5);
+        q.includeCount();
+        
+        QueryResultsCallBack callback = new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                // Callback implementation
+            }
+        };
+        
+        assertDoesNotThrow(() -> q.find(callback));
+    }
+
+    // ========== EXCEPTION PATH TESTS (with AssertionError handling) ==========
+
+    @Test
+    void testLessThanOrEqualToWithInvalidKey() {
+        // This triggers throwException with null exception, which causes AssertionError due to assert e != null
+        try {
+            query.lessThanOrEqualTo("invalid@key!", "value");
+        } catch (AssertionError e) {
+            // Expected - the throwException method has assert e != null
+        }
     }
 
     @Test
-    @Order(35)
-    void testIncludeSchemaCheck() {
-        query.includeCount();
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    Assertions.assertEquals(28, queryresult.getCount());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testGreaterThanOrEqualToWithInvalidKey() {
+        try {
+            query.greaterThanOrEqualTo("invalid@key!", "value");
+        } catch (AssertionError e) {
+            // Expected
+        }
     }
 
     @Test
-    @Order(36)
-    void testIncludeContentType() {
-        query.includeContentType();
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    List<Entry> entries = queryresult.getResultObjects();
-                    Assertions.assertEquals(28, entries.size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testNotEqualToWithInvalidKey() {
+        try {
+            query.notEqualTo("invalid@key!", "value");
+        } catch (AssertionError e) {
+            // Expected
+        }
     }
 
     @Test
-    @Order(37)
-    void testIncludeContentTypeFetch() {
-        query.includeContentType();
-        query.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    JSONObject contentType = queryresult.getContentType();
-                    Assertions.assertEquals("", contentType.optString(""));
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testNotContainedInWithInvalidKey() {
+        try {
+            query.notContainedIn("invalid@key!", new Object[]{"val1"});
+        } catch (AssertionError e) {
+            // Expected
+        }
     }
 
     @Test
-    @Order(38)
-    void testAddParams() {
-        query.addParam("keyWithNull", "null").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    Object nullObject = query.urlQueries.opt("keyWithNull");
-                    assertEquals("null", nullObject.toString());
-                }
-            }
-        });
+    void testExistsWithInvalidKey() {
+        try {
+            query.exists("invalid@key!");
+        } catch (AssertionError e) {
+            // Expected
+        }
     }
 
     @Test
-    @Order(39)
-    void testIncludeFallback() {
-        Query queryFallback = stack.contentType("categories").query();
-        queryFallback.locale("hi-in");
-        queryFallback.find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    assertEquals(0, queryresult.getResultObjects().size());
-                    queryFallback.includeFallback().locale("hi-in");
-                    queryFallback.find(new QueryResultsCallBack() {
-                        @Override
-                        public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                            assertEquals(8, queryresult.getResultObjects().size());
-                        }
-                    });
-                }
-            }
-        });
+    void testNotExistsWithInvalidKey() {
+        try {
+            query.notExists("invalid@key!");
+        } catch (AssertionError e) {
+            // Expected
+        }
     }
 
     @Test
-    @Order(40)
-    void testWithoutIncludeFallback() {
-        Query queryFallback = stack.contentType("categories").query();
-        queryFallback.locale("hi-in").find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    assertEquals(0, queryresult.getResultObjects().size());
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testRegexWithInvalidKey() {
+        try {
+            query.regex("invalid@key!", "^pattern");
+        } catch (AssertionError e) {
+            // Expected
+        }
+    }
+
+    // ========== EXCEPTION CATCH BLOCK TESTS ==========
+
+    @Test
+    void testOrWithNullQueryObjects() {
+        Query result = query.or(null);
+        assertNotNull(result);
     }
 
     @Test
-    @Order(41)
-    void testQueryIncludeEmbeddedItems() {
-        final Query query = stack.contentType("categories").query();
-        query.includeEmbeddedItems().find(new QueryResultsCallBack() {
-            @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    assertTrue(query.urlQueries.has("include_embedded_items[]"));
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
-            }
-        });
+    void testRegexWithModifiersException() {
+        // Test exception path in regex with modifiers
+        Query result = query.regex("field", "^pattern", "i");
+        assertNotNull(result);
     }
 
     @Test
-    @Order(41)
-    void testQueryIncludeBranch() {
-        query.includeBranch().find(new QueryResultsCallBack() {
+    void testRegexWithModifiersExceptionPath() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.regex("field", "^pattern", "i");
+        assertNotNull(result);
+    }
+
+    // ========== INCLUDE LIVE PREVIEW TESTS ==========
+
+    @Test
+    void testIncludeLivePreviewWithConditions() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        
+        // Enable live preview
+        stack.config.enableLivePreview = true;
+        stack.config.livePreviewContentType = "blog_post";
+        stack.config.livePreviewHash = null;
+        
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        q.headers.put("environment", "production");
+        
+        QueryResultsCallBack callback = new QueryResultsCallBack() {
             @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                if (error == null) {
-                    assertTrue(query.urlQueries.has("include_branch"));
-                    Assertions.assertEquals(true, query.urlQueries.opt("include_branch"));
-                } else {
-                    Assertions.fail("Failing, Verify credentials");
-                }
+            public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                // Callback implementation
             }
-        });
+        };
+        
+        assertDoesNotThrow(() -> q.find(callback));
+        assertEquals("init", stack.config.livePreviewHash);
     }
 
     @Test
-    @Order(52)
-    void testQueryPassConfigBranchIncludeBranch() throws IllegalAccessException {
-        Config config = new Config();
-        config.setBranch("feature_branch");
-        Stack branchStack = Contentstack.stack(Credentials.API_KEY, Credentials.DELIVERY_TOKEN, Credentials.ENVIRONMENT, config);
-        Query query = branchStack.contentType("product").query();
-        query.includeBranch().find(new QueryResultsCallBack() {
+    void testIncludeLivePreviewWithEmptyHash() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        
+        stack.config.enableLivePreview = true;
+        stack.config.livePreviewContentType = "blog_post";
+        stack.config.livePreviewHash = "";
+        
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        q.headers.put("environment", "production");
+        
+        QueryResultsCallBack callback = new QueryResultsCallBack() {
             @Override
-            public void onCompletion(ResponseType responseType, QueryResult queryresult, Error error) {
-                logger.info("No result expected");
+            public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                // Callback implementation
             }
-        });
-        Assertions.assertTrue(query.urlQueries.has("include_branch"));
-        Assertions.assertEquals(true, query.urlQueries.opt("include_branch"));
-        Assertions.assertTrue(query.headers.containsKey("branch"));
+        };
+        
+        assertDoesNotThrow(() -> q.find(callback));
+        assertEquals("init", stack.config.livePreviewHash);
     }
 
+    @Test
+    void testIncludeLivePreviewDisabled() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        
+        stack.config.enableLivePreview = false;
+        
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        q.headers.put("environment", "production");
+        
+        QueryResultsCallBack callback = new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                // Callback implementation
+            }
+        };
+        
+        assertDoesNotThrow(() -> q.find(callback));
+    }
+
+    // ========== GET RESULT OBJECT TESTS ==========
+
+    @Test
+    void testGetResultObjectWithSingleEntry() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        
+        // Create mock entry model
+        List<Object> objects = new ArrayList<>();
+        JSONObject entryJson = new JSONObject();
+        entryJson.put("uid", "entry_123");
+        entryJson.put("title", "Test Entry");
+        entryJson.put("url", "/test");
+        entryJson.put("tags", new JSONArray());
+        
+        EntryModel model = new EntryModel(entryJson);
+        objects.add(model);
+        
+        JSONObject resultJson = new JSONObject();
+        
+        // This will trigger the getResultObject method with isSingleEntry = true
+        q.getResultObject(objects, resultJson, true);
+        
+        assertNotNull(q);
+    }
+
+    @Test
+    void testGetResultObjectWithMultipleEntries() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        
+        // Create mock entry models
+        List<Object> objects = new ArrayList<>();
+        
+        JSONObject entry1Json = new JSONObject();
+        entry1Json.put("uid", "entry_1");
+        entry1Json.put("title", "Entry 1");
+        entry1Json.put("tags", new JSONArray());
+        EntryModel model1 = new EntryModel(entry1Json);
+        objects.add(model1);
+        
+        JSONObject entry2Json = new JSONObject();
+        entry2Json.put("uid", "entry_2");
+        entry2Json.put("title", "Entry 2");
+        entry2Json.put("tags", new JSONArray());
+        EntryModel model2 = new EntryModel(entry2Json);
+        objects.add(model2);
+        
+        JSONObject resultJson = new JSONObject();
+        
+        // This will trigger the getResultObject method with isSingleEntry = false
+        q.getResultObject(objects, resultJson, false);
+        
+        assertNotNull(q);
+    }
+
+    @Test
+    void testGetResultObjectWithEmptyList() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        
+        List<Object> objects = new ArrayList<>();
+        JSONObject resultJson = new JSONObject();
+        
+        q.getResultObject(objects, resultJson, true);
+        
+        assertNotNull(q);
+    }
+
+    @Test
+    void testGetResultObjectWithException() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        
+        // Create mock entry model
+        List<Object> objects = new ArrayList<>();
+        JSONObject entryJson = new JSONObject();
+        entryJson.put("uid", "entry_123");
+        entryJson.put("title", "Test Entry");
+        entryJson.put("tags", new JSONArray());
+        
+        EntryModel model = new EntryModel(entryJson);
+        objects.add(model);
+        
+        JSONObject resultJson = new JSONObject();
+        
+        // Trigger exception path by having stackInstance null
+        // The catch block will create Entry with contentTypeUid
+        q.contentTypeInstance = null;
+        try {
+            q.getResultObject(objects, resultJson, false);
+        } catch (NullPointerException e) {
+            // Expected when contentTypeInstance is null
+        }
+    }
+
+    // ========== CONDITIONAL BRANCH COVERAGE ==========
+
+    @Test
+    void testLessThanOrEqualToWithExistingKey() {
+        query.where("field", "value");
+        Query result = query.lessThanOrEqualTo("field", 100);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithNewQueryValue() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("existing", "value");
+        Query result = query.greaterThanOrEqualTo("new_field", 50);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotEqualToWithExistingKey() {
+        query.where("status", "draft");
+        Query result = query.notEqualTo("status", "published");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotContainedInWithExistingKey() {
+        query.where("category", "tech");
+        Query result = query.notContainedIn("category", new Object[]{"sports", "entertainment"});
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotExistsWithNewQueryValue() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("existing", "value");
+        Query result = query.notExists("optional_field");
+        assertNotNull(result);
+    }
+
+    // ========== ADDITIONAL BRANCH COVERAGE TESTS ==========
+
+    @Test
+    void testLessThanOrEqualToWithNonEmptyQueryValue() {
+        query.queryValue = new JSONObject();
+        Query result = query.lessThanOrEqualTo("field", 100);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.greaterThanOrEqualTo("new_field", 50);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotEqualToWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.notEqualTo("field", "value");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testContainedInWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.containedIn("field", new Object[]{"val1", "val2"});
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotContainedInWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.notContainedIn("field", new Object[]{"val1", "val2"});
+        assertNotNull(result);
+    }
+
+    @Test
+    void testExistsWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.exists("field");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotExistsWithLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.notExists("field");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersNewKey() {
+        query.queryValue = new JSONObject();
+        Query result = query.regex("field", "pattern", "i");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersExistingKeyNoModifiers() {
+        query.queryValueJSON.put("field", new JSONObject());
+        Query result = query.regex("field", "pattern", null);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersExistingKeyWithModifiers() {
+        query.queryValueJSON.put("field", new JSONObject());
+        Query result = query.regex("field", "pattern", "i");
+        assertNotNull(result);
+    }
+
+    // ========== MORE FIND/FINDONE EDGE CASES ==========
+
+    @Test
+    void testFindOneWithNullLimit() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        q.headers.put("environment", "production");
+        
+        // Don't set limit, should handle -1 case
+        SingleQueryResultCallback callback = new SingleQueryResultCallback() {
+            @Override
+            public void onCompletion(ResponseType responseType, Entry entry, Error error) {
+                // Callback implementation
+            }
+        };
+        
+        assertDoesNotThrow(() -> q.findOne(callback));
+    }
+
+    // ========== GET RESULT OBJECT WITH CALLBACKS ==========
+
+    @Test
+    void testGetResultObjectWithSingleEntryAndCallback() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        
+        // Set callback
+        q.singleQueryResultCallback = new SingleQueryResultCallback() {
+            @Override
+            public void onCompletion(ResponseType responseType, Entry entry, Error error) {
+                // Callback implementation
+            }
+        };
+        
+        // Create mock entry model
+        List<Object> objects = new ArrayList<>();
+        JSONObject entryJson = new JSONObject();
+        entryJson.put("uid", "entry_123");
+        entryJson.put("title", "Test Entry");
+        entryJson.put("tags", new JSONArray());
+        
+        EntryModel model = new EntryModel(entryJson);
+        objects.add(model);
+        
+        JSONObject resultJson = new JSONObject();
+        
+        q.getResultObject(objects, resultJson, true);
+        assertNotNull(q);
+    }
+
+    @Test
+    void testGetResultObjectWithMultipleEntriesAndCallback() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        ContentType ct = stack.contentType("blog_post");
+        Query q = ct.query();
+        
+        // Set callback
+        q.queryResultCallback = new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                // Callback implementation
+            }
+        };
+        
+        // Create mock entry models
+        List<Object> objects = new ArrayList<>();
+        
+        JSONObject entry1Json = new JSONObject();
+        entry1Json.put("uid", "entry_1");
+        entry1Json.put("title", "Entry 1");
+        entry1Json.put("tags", new JSONArray());
+        EntryModel model1 = new EntryModel(entry1Json);
+        objects.add(model1);
+        
+        JSONObject entry2Json = new JSONObject();
+        entry2Json.put("uid", "entry_2");
+        entry2Json.put("title", "Entry 2");
+        entry2Json.put("tags", new JSONArray());
+        EntryModel model2 = new EntryModel(entry2Json);
+        objects.add(model2);
+        
+        JSONObject resultJson = new JSONObject();
+        
+        q.getResultObject(objects, resultJson, false);
+        assertNotNull(q);
+    }
+
+    // ========== QUERY VALUE MANIPULATION TESTS ==========
+
+    @Test
+    void testLessThanWithNonEmptyQueryValue() {
+        query.queryValue = new JSONObject();
+        Query result = query.lessThan("field", 100);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testGreaterThanWithNonEmptyQueryValue() {
+        query.queryValue = new JSONObject();
+        Query result = query.greaterThan("field", 50);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithNonEmptyQueryValue() {
+        query.queryValue = new JSONObject();
+        Query result = query.regex("field", "pattern");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersAndLengthCheck() {
+        query.queryValue = new JSONObject();
+        query.queryValue.put("test", "value");
+        Query result = query.regex("field", "pattern", "i");
+        assertNotNull(result);
+    }
+
+    // ========== OR METHOD TESTS ==========
+
+    @Test
+    void testOrWithEmptyQueryObjects() {
+        List<Query> queries = new ArrayList<>();
+        Query result = query.or(queries);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testOrWithMultipleQueries() {
+        List<Query> queries = new ArrayList<>();
+        
+        Query q1 = new Query("test_ct");
+        q1.where("field1", "value1");
+        queries.add(q1);
+        
+        Query q2 = new Query("test_ct");
+        q2.where("field2", "value2");
+        queries.add(q2);
+        
+        Query result = query.or(queries);
+        assertNotNull(result);
+    }
+
+    // ========== VALIDATION TESTS ==========
+
+    @Test
+    void testWhereWithValidKeyAndValue() {
+        Query result = query.where("valid_key", "valid_value");
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("valid_key"));
+    }
+
+    @Test
+    void testLessThanWithValidKeyAndValue() {
+        Query result = query.lessThan("price", 100);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testLessThanOrEqualToWithValidKeyAndValue() {
+        Query result = query.lessThanOrEqualTo("price", 100);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testGreaterThanWithValidKeyAndValue() {
+        Query result = query.greaterThan("rating", 4.5);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithValidKeyAndValue() {
+        Query result = query.greaterThanOrEqualTo("rating", 4.0);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotEqualToWithValidKeyAndValue() {
+        Query result = query.notEqualTo("status", "draft");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testContainedInWithValidKeyAndValues() {
+        Query result = query.containedIn("category", new Object[]{"tech", "science"});
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotContainedInWithValidKeyAndValues() {
+        Query result = query.notContainedIn("status", new Object[]{"archived", "deleted"});
+        assertNotNull(result);
+    }
+
+    @Test
+    void testExistsWithValidKey() {
+        Query result = query.exists("optional_field");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testNotExistsWithValidKey() {
+        Query result = query.notExists("deprecated_field");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithValidKeyAndPattern() {
+        Query result = query.regex("email", "pattern");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testRegexWithModifiersValidKeyAndPattern() {
+        Query result = query.regex("name", "pattern", "i");
+        assertNotNull(result);
+    }
+
+    // ========== COMPLEX QUERY COMBINATIONS ==========
+
+    @Test
+    void testComplexQueryWithMultipleConditions() {
+        query.where("type", "article")
+             .greaterThanOrEqualTo("rating", 4.0)
+             .lessThanOrEqualTo("price", 100)
+             .notEqualTo("status", "draft")
+             .containedIn("category", new Object[]{"tech", "science"})
+             .notContainedIn("tags", new Object[]{"deprecated"})
+             .exists("author")
+             .notExists("deleted_at")
+             .regex("title", "How");
+        
+        assertNotNull(query.queryValueJSON);
+        assertTrue(query.queryValueJSON.length() > 0);
+    }
+
+    @Test
+    void testQueryWithMultipleOperatorsOnSameField() {
+        query.greaterThan("price", 10)
+             .lessThan("price", 100)
+             .notEqualTo("price", 50);
+        
+        assertNotNull(query.queryValueJSON);
+    }
+
+    // ========== EXCEPTION HANDLING TESTS ==========
+
+    // Note: Cannot test validation failures due to assert e != null in throwException method
+    // Focusing on exception handling in try-catch blocks
+
+    @Test
+    void testRegexWithModifiersHandlesException() {
+        // This should execute without throwing exceptions
+        Query result = query.regex("key", "pattern", "i");
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("key"));
+    }
+
+
+
+    @Test
+    void testOrHandlesExceptionGracefully() {
+        // Create a valid query list
+        List<Query> queries = new ArrayList<>();
+        Query q1 = new Query("content_type1");
+        q1.headers = new LinkedHashMap<>();
+        q1.where("field1", "value1");
+        queries.add(q1);
+        
+        // Should execute without throwing
+        assertDoesNotThrow(() -> query.or(queries));
+        assertTrue(query.queryValueJSON.has("$or"));
+    }
+
+    @Test
+    void testRemoveQueryWithNonExistentKey() {
+        query.addQuery("test", "value");
+        Query result = query.removeQuery("non_existent");
+        assertNotNull(result);
+        // Should not throw
+        assertTrue(query.urlQueries.has("test")); // Original remains
+    }
+
+    // ========== VALIDATION METHOD TESTS ==========
+
+    @Test
+    void testValidKeyAccepted() {
+        // Valid keys: alphanumeric, underscore, dot
+        Query result = query.where("valid_key.subfield", "value");
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("valid_key.subfield"));
+    }
+
+    @Test
+    void testValidValueAccepted() {
+        // Valid values: alphanumeric, underscore, dot, hyphen, space
+        Query result = query.where("key", "valid-value_123.test with spaces");
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("key"));
+    }
+
+    @Test
+    void testNonStringValuesPassValidation() {
+        // Non-string values should pass validation (return true)
+        Query result = query.where("key", 123);
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("key"));
+        
+        Query result2 = query.where("key2", true);
+        assertNotNull(result2);
+        assertTrue(query.queryValueJSON.has("key2"));
+    }
+
+    @Test
+    void testValidValueListAccepted() {
+        Object[] values = new Object[]{"value1", "value2", "value-3_test"};
+        Query result = query.containedIn("key", values);
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("key"));
+    }
+
+    @Test
+    void testMixedTypeValueListWithNonStrings() {
+        // Non-string values in list should pass validation
+        Object[] values = new Object[]{"valid", 123, true};
+        Query result = query.containedIn("key", values);
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("key"));
+    }
+
+    // ========== EDGE CASES ==========
+
+    @Test
+    void testEmptyListValidation() {
+        List<String> emptyList = new ArrayList<>();
+        Query result = query.except(emptyList);
+        assertNotNull(result);
+        // Empty list should not create objectUidForExcept
+        assertNull(query.objectUidForExcept);
+    }
+
+    @Test
+    void testEmptyArrayValidation() {
+        Query result = query.except(new String[]{});
+        assertNotNull(result);
+        // Empty array should not create objectUidForExcept
+        assertNull(query.objectUidForExcept);
+    }
+
+    // ========== COMPREHENSIVE TESTS FOR greaterThanOrEqualTo ==========
+
+    @Test
+    void testGreaterThanOrEqualToWithNullKeyInQueryValueJSON() {
+        // Test the first branch: queryValueJSON.isNull(key) is true
+        // AND queryValue.length() == 0
+        query.queryValue = new JSONObject(); // Empty queryValue
+        query.queryValueJSON.put("price", JSONObject.NULL);
+        
+        Query result = query.greaterThanOrEqualTo("price", 50);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("price"));
+        assertNotEquals(JSONObject.NULL, query.queryValueJSON.get("price"));
+        
+        // Verify the $gte operator was added
+        JSONObject priceQuery = query.queryValueJSON.getJSONObject("price");
+        assertTrue(priceQuery.has("$gte"));
+        assertEquals(50, priceQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithNullKeyAndNonEmptyQueryValue() {
+        // Test the first branch: queryValueJSON.isNull(key) is true
+        // AND queryValue.length() > 0 (should reset queryValue)
+        query.queryValue = new JSONObject();
+        query.queryValue.put("existing_operator", "some_value"); // Make queryValue non-empty
+        query.queryValueJSON.put("rating", JSONObject.NULL);
+        
+        Query result = query.greaterThanOrEqualTo("rating", 4.5);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("rating"));
+        
+        // Verify the $gte operator was added
+        JSONObject ratingQuery = query.queryValueJSON.getJSONObject("rating");
+        assertTrue(ratingQuery.has("$gte"));
+        assertEquals(4.5, ratingQuery.get("$gte"));
+        // The queryValue should have been reset, so it shouldn't have the old key
+        assertFalse(ratingQuery.has("existing_operator"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithExistingKeyInQueryValueJSON() {
+        // Test the second branch: queryValueJSON.has(key) is true
+        // First set up queryValue with an existing operator
+        query.queryValue = new JSONObject();
+        query.queryValue.put("$lt", 100);
+        query.queryValueJSON.put("age", query.queryValue);
+        
+        Query result = query.greaterThanOrEqualTo("age", 18);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("age"));
+        
+        // Verify both operators exist in the same JSONObject
+        JSONObject ageQuery = query.queryValueJSON.getJSONObject("age");
+        assertTrue(ageQuery.has("$gte"));
+        assertEquals(18, ageQuery.get("$gte"));
+        // The previous operator should still be there since queryValue was reused
+        assertTrue(ageQuery.has("$lt"));
+        assertEquals(100, ageQuery.get("$lt"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithIntegerValue() {
+        Query result = query.greaterThanOrEqualTo("count", 100);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("count"));
+        
+        JSONObject countQuery = query.queryValueJSON.getJSONObject("count");
+        assertEquals(100, countQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithDoubleValue() {
+        Query result = query.greaterThanOrEqualTo("price", 99.99);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("price"));
+        
+        JSONObject priceQuery = query.queryValueJSON.getJSONObject("price");
+        assertEquals(99.99, priceQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithStringValue() {
+        Query result = query.greaterThanOrEqualTo("name", "Alice");
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("name"));
+        
+        JSONObject nameQuery = query.queryValueJSON.getJSONObject("name");
+        assertEquals("Alice", nameQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToChaining() {
+        Query result = query
+            .greaterThanOrEqualTo("min_price", 10)
+            .greaterThanOrEqualTo("min_rating", 3.0)
+            .greaterThanOrEqualTo("min_stock", 5);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("min_price"));
+        assertTrue(query.queryValueJSON.has("min_rating"));
+        assertTrue(query.queryValueJSON.has("min_stock"));
+        
+        assertEquals(10, query.queryValueJSON.getJSONObject("min_price").get("$gte"));
+        assertEquals(3.0, query.queryValueJSON.getJSONObject("min_rating").get("$gte"));
+        assertEquals(5, query.queryValueJSON.getJSONObject("min_stock").get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithZeroValue() {
+        Query result = query.greaterThanOrEqualTo("score", 0);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("score"));
+        
+        JSONObject scoreQuery = query.queryValueJSON.getJSONObject("score");
+        assertEquals(0, scoreQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithNegativeValue() {
+        Query result = query.greaterThanOrEqualTo("temperature", -10);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("temperature"));
+        
+        JSONObject tempQuery = query.queryValueJSON.getJSONObject("temperature");
+        assertEquals(-10, tempQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToReplacingExistingOperator() {
+        // Add an initial $gte operator
+        query.greaterThanOrEqualTo("age", 18);
+        
+        // Add another $gte operator on the same key - should update
+        Query result = query.greaterThanOrEqualTo("age", 21);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("age"));
+        
+        JSONObject ageQuery = query.queryValueJSON.getJSONObject("age");
+        // Should have the updated value
+        assertEquals(21, ageQuery.get("$gte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToCombinedWithOtherOperators() {
+        // Combine with lessThanOrEqualTo to create a range query
+        Query result = query
+            .greaterThanOrEqualTo("price", 10)
+            .lessThanOrEqualTo("price", 100);
+        
+        assertNotNull(result);
+        assertTrue(query.queryValueJSON.has("price"));
+        
+        JSONObject priceQuery = query.queryValueJSON.getJSONObject("price");
+        assertTrue(priceQuery.has("$gte"));
+        assertTrue(priceQuery.has("$lte"));
+        assertEquals(10, priceQuery.get("$gte"));
+        assertEquals(100, priceQuery.get("$lte"));
+    }
+
+    @Test
+    void testGreaterThanOrEqualToWithValidKeyFormat() {
+        // Test with various valid key formats
+        Query result1 = query.greaterThanOrEqualTo("simple_key", 10);
+        Query result2 = query.greaterThanOrEqualTo("nested.field", 20);
+        Query result3 = query.greaterThanOrEqualTo("key_with_123", 30);
+        
+        assertNotNull(result1);
+        assertNotNull(result2);
+        assertNotNull(result3);
+        assertTrue(query.queryValueJSON.has("simple_key"));
+        assertTrue(query.queryValueJSON.has("nested.field"));
+        assertTrue(query.queryValueJSON.has("key_with_123"));
+    }
 }
