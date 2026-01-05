@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.contentstack.sdk</groupId>
     <artifactId>java</artifactId>
-    <version>2.3.1</version>
+    <version>2.3.2</version>
     <packaging>jar</packaging>
     <name>contentstack-java</name>
     <description>Java SDK for Contentstack Content Delivery API</description>
@@ -20,8 +20,8 @@
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
         <dotenv-source.version>3.0.0</dotenv-source.version>
-        <rxjava-source.version>3.1.10</rxjava-source.version>
-        <retrofit-source.version>2.11.0</retrofit-source.version>
+        <rxjava-source.version>3.1.11</rxjava-source.version>
+        <retrofit-source.version>3.0.0</retrofit-source.version>
         <loggin.version>5.1.0</loggin.version>
         <jococo-plugin.version>0.8.5</jococo-plugin.version>
         <lombok-source.version>1.18.36</lombok-source.version>
@@ -172,12 +172,19 @@
             <artifactId>json-simple</artifactId>
             <version>${json-simple-version}</version>
             <scope>compile</scope>
+            <!-- Exclude junit - it was incorrectly included as compile dep in json-simple -->
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.18.2</version>
+            <version>2.19.2</version>
         </dependency>
         <dependency>
             <groupId>com.slack.api</groupId>
@@ -187,7 +194,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.0.1</version>
+            <version>26.0.2</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
@@ -214,6 +221,34 @@
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>
                 <version>2.1.0</version> 
+            </dependency>
+            <!-- Fix CVE-2025-48924: Uncontrolled Recursion in commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.18.0</version>
+            </dependency>
+            <!-- Fix Spring vulnerabilities from contentstack-utils transitive deps -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>6.2.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>6.2.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>6.2.11</version>
+            </dependency>
+            <!-- Fix CVE-2020-15250: junit pulled by json-simple -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -271,13 +306,43 @@
                 </executions>
             </plugin>
 
+            <!-- Surefire Plugin for API Tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
+                    <!-- Tests are skipped by default; use -Dtest to specify which tests to run -->
+                    <!-- Example: -Dtest='*IT' for integration tests, -Dtest='Test*' for unit tests -->
                     <skipTests>true</skipTests>
+                    <!-- OPTIMIZED: Parallel execution with controlled concurrency -->
+                    <parallel>classes</parallel>
+                    <threadCount>4</threadCount>
+                    <perCoreThreadCount>false</perCoreThreadCount>
+                    <useUnlimitedThreads>false</useUnlimitedThreads>
+                    <!-- Reuse forks for better performance -->
+                    <reuseForks>true</reuseForks>
+                    <forkCount>2</forkCount>
+                    <!-- Increase timeout for slow tests -->
+                    <forkedProcessTimeoutInSeconds>500</forkedProcessTimeoutInSeconds>
+                    <!-- Better memory management -->
+                    <!-- @{argLine} allows JaCoCo to inject its agent -->
+                    <argLine>@{argLine} -Xmx2048m -XX:MaxMetaspaceSize=512m</argLine>
                 </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.22.2</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report-only</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -377,7 +442,7 @@
                         </goals>
                         <configuration>
                             <dataFile>target/jacoco.exec</dataFile>
-                            <outputDirectory>target/jacoco-ut</outputDirectory>
+                            <!-- outputDirectory removed - uses default: target/site/jacoco/ -->
                         </configuration>
                     </execution>
                 </executions>
