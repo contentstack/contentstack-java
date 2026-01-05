@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.3.2
+
+### Jan 05, 2026
+- Snyk Fixes
+
 ## v2.3.1
 
 ### Date: 03-Nov-2025
