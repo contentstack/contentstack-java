@@ -254,6 +254,7 @@ class TestEntryModel {
         JSONObject publishDetails = new JSONObject();
         publishDetails.put("environment", "production");
         publishDetails.put("time", "2024-01-01T00:00:00.000Z");
+        // file deepcode ignore NoHardcodedCredentials/test: <please specify a reason of ignoring this>
         publishDetails.put("user", "user123");
 
         JSONObject json = new JSONObject();
