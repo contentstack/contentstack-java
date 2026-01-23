@@ -609,15 +609,23 @@ class RetryInterceptorTest {
 
     @Test
     @DisplayName("Test FIXED backoff strategy delays are constant")
-    void testFixedBackoffStrategy() {
+    void testFixedBackoffStrategy() throws IOException {
+        Request request = createTestRequest();
+        Response failureResponse = createMockResponse(503);
+        Response successResponse = createMockResponse(200);
+        
+        DynamicMockChain chain = new DynamicMockChain(request,
+                failureResponse, failureResponse, successResponse);
+
         retryOptions.setBackoffStrategy(RetryOptions.BackoffStrategy.FIXED)
-                   .setRetryDelay(100L);
+                   .setRetryDelay(10L)
+                   .setRetryLimit(2);
         interceptor = new RetryInterceptor(retryOptions);
 
-        // Access private calculateDelay method through reflection for testing
-        // Or we can test indirectly by measuring actual delays
+        Response result = interceptor.intercept(chain);
         
-        // For now, just verify the configuration is accepted
+        assertEquals(200, result.code(), "Should succeed after retries");
+        assertEquals(3, chain.getCallCount(), "Should make 3 calls (1 initial + 2 retries)");
         assertEquals(RetryOptions.BackoffStrategy.FIXED,
                 retryOptions.getBackoffStrategy(),
                 "Backoff strategy should be FIXED");
@@ -625,11 +633,23 @@ class RetryInterceptorTest {
 
     @Test
     @DisplayName("Test LINEAR backoff strategy")
-    void testLinearBackoffStrategy() {
+    void testLinearBackoffStrategy() throws IOException {
+        Request request = createTestRequest();
+        Response failureResponse = createMockResponse(503);
+        Response successResponse = createMockResponse(200);
+        
+        DynamicMockChain chain = new DynamicMockChain(request,
+                failureResponse, failureResponse, successResponse);
+
         retryOptions.setBackoffStrategy(RetryOptions.BackoffStrategy.LINEAR)
-                   .setRetryDelay(100L);
+                   .setRetryDelay(10L)
+                   .setRetryLimit(2);
         interceptor = new RetryInterceptor(retryOptions);
 
+        Response result = interceptor.intercept(chain);
+        
+        assertEquals(200, result.code(), "Should succeed after retries");
+        assertEquals(3, chain.getCallCount(), "Should make 3 calls (1 initial + 2 retries)");
         assertEquals(RetryOptions.BackoffStrategy.LINEAR,
                 retryOptions.getBackoffStrategy(),
                 "Backoff strategy should be LINEAR");
@@ -1109,6 +1129,70 @@ class RetryInterceptorTest {
 
         assertThrows(IOException.class, () -> interceptor.intercept(chain));
         assertTrue(Thread.interrupted(), "Thread should be interrupted");
+    }
+
+    @Test
+    @DisplayName("Test interruption when response is null")
+    void testInterruptionWithNullResponse() {
+        Request request = createTestRequest();
+        MockChain chain = new MockChain(request);
+        chain.setException(new IOException("Network error"));
+
+        // Interrupt immediately before any response is received
+        retryOptions.setRetryLimit(1)
+                .setCustomBackoffStrategy((attempt, statusCode, exception) -> {
+                    Thread.currentThread().interrupt();
+                    return 10L;
+                });
+        interceptor = new RetryInterceptor(retryOptions);
+
+        IOException thrown = assertThrows(IOException.class,
+                () -> interceptor.intercept(chain),
+                "Should throw IOException when interrupted");
+        
+        assertTrue(thrown.getMessage().contains("Retry interrupted"),
+                "Exception message should indicate interruption");
+        assertTrue(Thread.interrupted(), "Thread interrupt flag should be set");
+    }
+
+    @Test
+    @DisplayName("Test FIXED backoff with multiple retries")
+    void testFixedBackoffWithMultipleRetries() throws IOException {
+        Request request = createTestRequest();
+        Response failure1 = createMockResponse(503);
+        Response failure2 = createMockResponse(502);
+        Response success = createMockResponse(200);
+        
+        DynamicMockChain chain = new DynamicMockChain(request, failure1, failure2, success);
+
+        retryOptions.setBackoffStrategy(RetryOptions.BackoffStrategy.FIXED)
+                .setRetryDelay(5L)
+                .setRetryLimit(3);
+        interceptor = new RetryInterceptor(retryOptions);
+
+        Response result = interceptor.intercept(chain);
+        assertEquals(200, result.code(), "Should succeed after retries with FIXED backoff");
+        assertEquals(3, chain.getCallCount(), "Should make 3 calls");
+    }
+
+    @Test
+    @DisplayName("Test LINEAR backoff with multiple retries")
+    void testLinearBackoffWithMultipleRetries() throws IOException {
+        Request request = createTestRequest();
+        Response failure1 = createMockResponse(503);
+        Response failure2 = createMockResponse(502);
+        Response success = createMockResponse(200);
+        
+        DynamicMockChain chain = new DynamicMockChain(request, failure1, failure2, success);
+
+        retryOptions.setBackoffStrategy(RetryOptions.BackoffStrategy.LINEAR)
+                .setRetryDelay(5L)
+                .setRetryLimit(3);
+        interceptor = new RetryInterceptor(retryOptions);
+
+        Response result = interceptor.intercept(chain);
+        assertEquals(200, result.code(), "Should succeed after retries with LINEAR backoff");
+        assertEquals(3, chain.getCallCount(), "Should make 3 calls");
     }
 }
 
