@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for RetryInterceptor class.
  * Tests retry logic, backoff strategies, and error handling.
  */
-class RetryInterceptorTest {
+class TestRetryInterceptor {
 
     private RetryOptions retryOptions;
     private RetryInterceptor interceptor;

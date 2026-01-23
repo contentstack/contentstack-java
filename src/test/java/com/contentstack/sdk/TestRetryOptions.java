@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for RetryOptions class.
  * Tests configuration, validation, and default values.
  */
-class RetryOptionsTest {
+class TestRetryOptions {
 
     private RetryOptions retryOptions;
 
