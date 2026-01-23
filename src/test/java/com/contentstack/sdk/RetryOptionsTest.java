@@ -263,6 +263,45 @@ class RetryOptionsTest {
     // ===========================
 
     @Test
+    @DisplayName("Test setRetryableStatusCodes with code below 100 throws exception")
+    void testSetRetryableStatusCodesWithCodeBelow100() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> retryOptions.setRetryableStatusCodes(99),
+                "Should throw exception for status code < 100"
+        );
+        assertTrue(exception.getMessage().contains("Invalid HTTP status code: 99"),
+                "Exception message should mention invalid code 99");
+        assertTrue(exception.getMessage().contains("Must be between 100 and 599"),
+                "Exception message should mention valid range");
+    }
+
+    @Test
+    @DisplayName("Test setRetryableStatusCodes with code above 599 throws exception")
+    void testSetRetryableStatusCodesWithCodeAbove599() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> retryOptions.setRetryableStatusCodes(600),
+                "Should throw exception for status code > 599"
+        );
+        assertTrue(exception.getMessage().contains("Invalid HTTP status code: 600"),
+                "Exception message should mention invalid code 600");
+        assertTrue(exception.getMessage().contains("Must be between 100 and 599"),
+                "Exception message should mention valid range");
+    }
+
+    @Test
+    @DisplayName("Test setRetryableStatusCodes with mixed valid and invalid codes")
+    void testSetRetryableStatusCodesWithMixedCodes() {
+        // Should throw on first invalid code encountered
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> retryOptions.setRetryableStatusCodes(200, 50, 503),
+                "Should throw exception when encountering invalid code in array"
+        );
+    }
+
+    @Test
     @DisplayName("Test toString contains all configuration")
     void testToStringContainsConfiguration() {
         String result = retryOptions.toString();
