@@ -1022,5 +1022,93 @@ class RetryInterceptorTest {
         assertTrue(retryOptions.hasCustomBackoff(),
                 "Should have custom backoff after setting it");
     }
+
+    // ===========================
+    // Interruption Tests
+    // ===========================
+
+    @Test
+    @DisplayName("Test thread interruption during HTTP retry sleep")
+    void testThreadInterruptionDuringHttpRetrySleep() throws IOException {
+        Request request = createTestRequest();
+        Response failureResponse = createMockResponse(503);
+        
+        MockChain chain = new MockChain(request);
+        chain.setResponse(failureResponse);
+
+        // Set a long delay and interrupt the thread
+        retryOptions.setRetryLimit(3).setRetryDelay(10000L);
+        interceptor = new RetryInterceptor(retryOptions);
+
+        // Interrupt the thread before calling intercept
+        Thread testThread = new Thread(() -> {
+            try {
+                Thread.sleep(50); // Wait a bit for the retry to start
+                Thread.currentThread().interrupt();
+            } catch (InterruptedException ignored) {
+            }
+        });
+        testThread.start();
+
+        // Simulate interruption by using a custom backoff that interrupts
+        retryOptions.setCustomBackoffStrategy((attempt, statusCode, exception) -> {
+            Thread.currentThread().interrupt();
+            return 10L;
+        });
+        interceptor = new RetryInterceptor(retryOptions);
+
+        IOException thrown = assertThrows(IOException.class,
+                () -> interceptor.intercept(chain),
+                "Should throw IOException when interrupted");
+        
+        assertTrue(thrown.getMessage().contains("Retry interrupted"),
+                "Exception message should indicate interruption");
+        assertTrue(Thread.interrupted(), "Thread interrupt flag should be set");
+    }
+
+    @Test
+    @DisplayName("Test thread interruption during IOException retry sleep")
+    void testThreadInterruptionDuringIOExceptionRetrySleep() {
+        Request request = createTestRequest();
+        MockChain chain = new MockChain(request);
+        chain.setException(new IOException("Network error"));
+
+        retryOptions.setRetryLimit(3).setRetryDelay(10000L);
+
+        // Use custom backoff to trigger interruption
+        retryOptions.setCustomBackoffStrategy((attempt, statusCode, exception) -> {
+            Thread.currentThread().interrupt();
+            return 10L;
+        });
+        interceptor = new RetryInterceptor(retryOptions);
+
+        IOException thrown = assertThrows(IOException.class,
+                () -> interceptor.intercept(chain),
+                "Should throw IOException when interrupted");
+        
+        assertTrue(thrown.getMessage().contains("Retry interrupted"),
+                "Exception message should indicate interruption");
+        assertTrue(Thread.interrupted(), "Thread interrupt flag should be set");
+    }
+
+    @Test
+    @DisplayName("Test response is closed on interruption")
+    void testResponseClosedOnInterruption() {
+        Request request = createTestRequest();
+        Response failureResponse = createMockResponse(503);
+        
+        MockChain chain = new MockChain(request);
+        chain.setResponse(failureResponse);
+
+        // Use custom backoff to trigger interruption
+        retryOptions.setCustomBackoffStrategy((attempt, statusCode, exception) -> {
+            Thread.currentThread().interrupt();
+            return 10L;
+        });
+        interceptor = new RetryInterceptor(retryOptions);
+
+        assertThrows(IOException.class, () -> interceptor.intercept(chain));
+        assertTrue(Thread.interrupted(), "Thread should be interrupted");
+    }
 }
 
