@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.4.0
+
+### Feb 02, 2026
+- Enhancement: Retry mechanism added
+
 ## v2.3.2
 
 ### Jan 05, 2026
