@@ -31,6 +31,7 @@ public class Config {
     protected Proxy proxy = null;
     protected String[] earlyAccess = null;
     protected ConnectionPool connectionPool = new ConnectionPool();
+    protected RetryOptions retryOptions = new RetryOptions();
     public String releaseId;
     public String previewTimestamp;
 
@@ -127,6 +128,26 @@ public class Config {
 
     public void setPlugins(List<ContentstackPlugin> plugins) {
         this.plugins = plugins;
+    }
+
+    /**
+     * Sets the retry options.
+     *
+     * @param retryOptions the retry options
+     * @return the config
+     */
+    public Config setRetryOptions(RetryOptions retryOptions) {
+        this.retryOptions = retryOptions;
+        return this;
+    }
+
+    /**
+     * Gets the retry options.
+     *
+     * @return the retry options
+     */
+    public RetryOptions getRetryOptions() {
+        return this.retryOptions;
     }
 
     /**
