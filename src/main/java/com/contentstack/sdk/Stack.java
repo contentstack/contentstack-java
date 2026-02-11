@@ -97,10 +97,20 @@ public class Stack {
     private void client(String endpoint) {
         Proxy proxy = this.config.getProxy();
         ConnectionPool pool = this.config.connectionPool;
-        OkHttpClient client = new OkHttpClient.Builder()
+        
+        // Build OkHttpClient with optional retry interceptor
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
                 .proxy(proxy)
-                .connectionPool(pool)
-                .build();
+                .connectionPool(pool);
+        
+        // Add retry interceptor if enabled
+        RetryOptions retryOptions = this.config.getRetryOptions();
+        if (retryOptions != null && retryOptions.isRetryEnabled()) {
+            clientBuilder.addInterceptor(new RetryInterceptor(retryOptions));
+            logger.fine("Retry interceptor added with options: " + retryOptions);
+        }
+        
+        OkHttpClient client = clientBuilder.build();
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(endpoint)
                 .client(client)
