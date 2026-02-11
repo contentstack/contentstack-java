@@ -14,3 +14,5 @@ jobs:
         with:
           args: --fail-on=all
           json: true
+        continue-on-error: true
+      - uses: contentstack/sca-policy@main
