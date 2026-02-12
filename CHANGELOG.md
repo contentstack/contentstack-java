@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.5.0
+
+### Feb 12, 2026
+- Enhancement: assetFields method added
+
 ## v2.4.0
 
 ### Feb 02, 2026
