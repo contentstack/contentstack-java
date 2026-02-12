@@ -399,6 +399,33 @@ class TestCSHttpConnection {
         assertTrue(result.contains("environment=staging"));
     }
 
+    @Test
+    void testGetParamsWithAssetFieldsArray() throws Exception {
+        connection.setInfo("ENTRY");
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("environment", "production");
+
+        JSONArray assetFieldsArray = new JSONArray();
+        assetFieldsArray.put("user_defined_fields");
+        assetFieldsArray.put("embedded");
+        assetFieldsArray.put("ai_suggested");
+        assetFieldsArray.put("visual_markups");
+        params.put("asset_fields[]", assetFieldsArray);
+
+        Method getParamsMethod = CSHttpConnection.class.getDeclaredMethod("getParams", HashMap.class);
+        getParamsMethod.setAccessible(true);
+
+        String result = (String) getParamsMethod.invoke(connection, params);
+
+        assertNotNull(result);
+        assertTrue(result.contains("environment=production"));
+        assertTrue(result.contains("user_defined_fields"));
+        assertTrue(result.contains("embedded"));
+        assertTrue(result.contains("ai_suggested"));
+        assertTrue(result.contains("visual_markups"));
+    }
+
     // ========== CONVERT URL PARAM TESTS ==========
 
     @Test
