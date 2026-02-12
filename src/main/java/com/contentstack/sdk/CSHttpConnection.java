@@ -102,7 +102,9 @@ public class CSHttpConnection implements IURLRequestHTTP {
         if (params != null && params.size() > 0) {
             String urlParams = null;
             urlParams = info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.QUERY.name())
-                    || info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.ENTRY.name()) ? getParams(params) : null;
+                    || info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.ENTRY.name())
+                    || info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.ASSET.name())
+                    || info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.ASSETLIBRARY.name()) ? getParams(params) : null;
             if (urlParams == null) {
                 for (Map.Entry<String, Object> e : params.entrySet()) {
                     if (urlParams == null) {
@@ -124,7 +126,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
             Object value = e.getValue();
             try {
                 if (key.equalsIgnoreCase("include[]") || key.equalsIgnoreCase("only[BASE][]")
-                        || key.equalsIgnoreCase("except[BASE][]")) {
+                        || key.equalsIgnoreCase("except[BASE][]") || key.equalsIgnoreCase("asset_fields[]")) {
                     urlParams = convertUrlParam(urlParams, value, key);
                 } else if (key.equalsIgnoreCase("only")) {
                     JSONObject onlyJSON = (JSONObject) value;

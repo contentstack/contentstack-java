@@ -904,6 +904,19 @@ public class Entry {
         return this;
     }
 
+
+    public Entry assetFields(String... fields) {
+        if (fields != null && fields.length > 0) {
+            JSONArray array = new JSONArray();
+            for (String field : fields) {
+                array.put(field);
+            }
+            if (!array.isEmpty()) {
+                params.put("asset_fields[]", array);
+            }
+        }
+        return this;
+    }
     /**
      * Fetches the latest version of the entries from Contentstack.com content stack
      *
