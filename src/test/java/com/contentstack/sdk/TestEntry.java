@@ -1,5 +1,6 @@
 package com.contentstack.sdk;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -249,6 +250,106 @@ public class TestEntry {
         assertSame(entry, result);
         assertTrue(entry.params.has("include_metadata"));
         assertEquals(true, entry.params.get("include_metadata"));
+    }
+
+    // ========== ASSET FIELDS TESTS (CDA asset_fields[] parameter) ==========
+
+    @Test
+    void testAssetFieldsWithSupportedValues() {
+        Entry result = entry.assetFields("user_defined_fields", "embedded", "ai_suggested", "visual_markups");
+        assertSame(entry, result);
+        assertTrue(entry.params.has("asset_fields[]"));
+        Object val = entry.params.get("asset_fields[]");
+        assertTrue(val instanceof JSONArray);
+        JSONArray arr = (JSONArray) val;
+        assertEquals(4, arr.length());
+        assertEquals("user_defined_fields", arr.get(0));
+        assertEquals("embedded", arr.get(1));
+        assertEquals("ai_suggested", arr.get(2));
+        assertEquals("visual_markups", arr.get(3));
+    }
+
+    @Test
+    void testAssetFieldsReturnsThis() {
+        Entry result = entry.assetFields("embedded");
+        assertSame(entry, result);
+    }
+
+    @Test
+    void testAssetFieldsWithNoArgsDoesNotSetParam() {
+        entry.assetFields();
+        assertFalse(entry.params.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsWithNullDoesNotSetParam() {
+        entry.assetFields((String[]) null);
+        assertFalse(entry.params.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsChainingWithIncludeMetadata() {
+        Entry result = entry.assetFields("user_defined_fields", "visual_markups").includeMetadata().setLocale("en-us");
+        assertSame(entry, result);
+        assertTrue(entry.params.has("asset_fields[]"));
+        assertTrue(entry.params.has("include_metadata"));
+        assertTrue(entry.params.has("locale"));
+    }
+
+    /**
+     * Usage: stack.contentType(ctUid).entry(entryUid).assetFields(...).fetch()
+     * Verifies the full chain sets asset_fields[] on the entry before fetch.
+     */
+    @Test
+    void testUsageSingleEntryFetchWithAssetFields() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        Entry entry = stack.contentType("blog").entry("entry_123")
+            .assetFields("user_defined_fields", "embedded");
+        assertTrue(entry.params.has("asset_fields[]"));
+        JSONArray arr = entry.params.getJSONArray("asset_fields[]");
+        assertEquals(2, arr.length());
+        assertEquals("user_defined_fields", arr.get(0));
+        assertEquals("embedded", arr.get(1));
+    }
+
+    @Test
+    void testAssetFieldsSingleField() {
+        entry.assetFields("embedded");
+        JSONArray arr = entry.params.getJSONArray("asset_fields[]");
+        assertEquals(1, arr.length());
+        assertEquals("embedded", arr.get(0));
+    }
+
+    @Test
+    void testAssetFieldsEmptyVarargsArrayDoesNotSetParam() {
+        entry.assetFields(new String[0]);
+        assertFalse(entry.params.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsSecondCallOverwrites() {
+        entry.assetFields("user_defined_fields", "embedded");
+        entry.assetFields("ai_suggested");
+        JSONArray arr = entry.params.getJSONArray("asset_fields[]");
+        assertEquals(1, arr.length());
+        assertEquals("ai_suggested", arr.get(0));
+    }
+
+    @Test
+    void testAssetFieldsDuplicateValuesAllowed() {
+        entry.assetFields("embedded", "embedded");
+        JSONArray arr = entry.params.getJSONArray("asset_fields[]");
+        assertEquals(2, arr.length());
+        assertEquals("embedded", arr.get(0));
+        assertEquals("embedded", arr.get(1));
+    }
+
+    @Test
+    void testAssetFieldsWithEmptyStringInArray() {
+        entry.assetFields("valid", "", "visual_markups");
+        JSONArray arr = entry.params.getJSONArray("asset_fields[]");
+        assertEquals(3, arr.length());
+        assertEquals("", arr.get(1));
     }
 
     // ========== ONLY/EXCEPT FIELD TESTS ==========

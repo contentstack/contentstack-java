@@ -1,6 +1,7 @@
 package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import retrofit2.Retrofit;
 import lombok.Getter;
@@ -541,6 +542,19 @@ public class Asset {
      */
     public Asset includeMetadata() {
         urlQueries.put("include_metadata", true);
+        return this;
+    }
+
+    public Asset assetFields(String... fields) {
+        if (fields != null && fields.length > 0) {
+            JSONArray array = new JSONArray();
+            for (String field : fields) {
+                array.put(field);
+            }
+            if (!array.isEmpty()) {
+                urlQueries.put("asset_fields[]", array);
+            }
+        }
         return this;
     }
 
