@@ -550,6 +550,109 @@ public class TestQuery {
         assertNotNull(query.urlQueries);
     }
 
+    // ========== ASSET FIELDS TESTS (CDA asset_fields[] parameter) ==========
+
+    @Test
+    void testAssetFieldsWithSupportedValues() {
+        Query result = query.assetFields("user_defined_fields", "embedded", "ai_suggested", "visual_markups");
+        assertSame(query, result);
+        assertTrue(query.urlQueries.has("asset_fields[]"));
+        Object val = query.urlQueries.get("asset_fields[]");
+        assertTrue(val instanceof JSONArray);
+        JSONArray arr = (JSONArray) val;
+        assertEquals(4, arr.length());
+        assertEquals("user_defined_fields", arr.get(0));
+        assertEquals("embedded", arr.get(1));
+        assertEquals("ai_suggested", arr.get(2));
+        assertEquals("visual_markups", arr.get(3));
+    }
+
+    @Test
+    void testAssetFieldsReturnsThis() {
+        Query result = query.assetFields("embedded");
+        assertSame(query, result);
+    }
+
+    @Test
+    void testAssetFieldsWithNoArgsDoesNotSetParam() {
+        query.assetFields();
+        assertFalse(query.urlQueries.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsWithNullDoesNotSetParam() {
+        query.assetFields((String[]) null);
+        assertFalse(query.urlQueries.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsChainingWithIncludeMetadata() {
+        Query result = query.assetFields("ai_suggested", "visual_markups").includeMetadata().includeCount();
+        assertSame(query, result);
+        assertTrue(query.urlQueries.has("asset_fields[]"));
+        assertTrue(query.urlQueries.has("include_count"));
+        JSONArray arr = query.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(2, arr.length());
+        assertEquals("ai_suggested", arr.get(0));
+        assertEquals("visual_markups", arr.get(1));
+    }
+
+    /**
+     * Usage: stack.contentType(ctUid).query().assetFields(...).find()
+     * Verifies the full chain sets asset_fields[] on the query before find.
+     */
+    @Test
+    void testUsageQueryEntriesFindWithAssetFields() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        Query query = stack.contentType("blog").query()
+            .assetFields("ai_suggested", "visual_markups");
+        assertTrue(query.urlQueries.has("asset_fields[]"));
+        JSONArray arr = query.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(2, arr.length());
+        assertEquals("ai_suggested", arr.get(0));
+        assertEquals("visual_markups", arr.get(1));
+    }
+
+    @Test
+    void testAssetFieldsSingleField() {
+        query.assetFields("user_defined_fields");
+        JSONArray arr = query.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(1, arr.length());
+        assertEquals("user_defined_fields", arr.get(0));
+    }
+
+    @Test
+    void testAssetFieldsEmptyVarargsArrayDoesNotSetParam() {
+        query.assetFields(new String[0]);
+        assertFalse(query.urlQueries.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsSecondCallOverwrites() {
+        query.assetFields("user_defined_fields", "embedded");
+        query.assetFields("visual_markups");
+        JSONArray arr = query.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(1, arr.length());
+        assertEquals("visual_markups", arr.get(0));
+    }
+
+    @Test
+    void testAssetFieldsDuplicateValuesAllowed() {
+        query.assetFields("ai_suggested", "ai_suggested");
+        JSONArray arr = query.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(2, arr.length());
+        assertEquals("ai_suggested", arr.get(0));
+        assertEquals("ai_suggested", arr.get(1));
+    }
+
+    @Test
+    void testAssetFieldsWithEmptyStringInArray() {
+        query.assetFields("valid", "", "embedded");
+        JSONArray arr = query.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(3, arr.length());
+        assertEquals("", arr.get(1));
+    }
+
     @Test
     void testMultipleIncludeMethods() {
         query.includeFallback()

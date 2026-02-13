@@ -2,6 +2,7 @@ package com.contentstack.sdk;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -33,7 +34,8 @@ public class AssetLibrary implements INotifyClass {
 
     //Sanitization of keys
     private boolean isValidKey(String key) {
-        return key.matches("^[a-zA-Z0-9_.]+$");
+        // Fixed regex: allow alphanumeric, underscore, dot, and square brackets at the end, escaped properly
+        return key.matches("^[a-zA-Z0-9_.]+(\\[\\])?$");
     }
 
     //Sanitization of values
@@ -262,6 +264,19 @@ public class AssetLibrary implements INotifyClass {
 
     public AssetLibrary limit (@NotNull int number) {
         urlQueries.put("limit", number);
+        return this;
+    }
+
+    public AssetLibrary assetFields(String... fields) {
+        if (fields != null && fields.length > 0) {
+            JSONArray array = new JSONArray();
+            for (String field : fields) {
+                array.put(field);
+            }
+            if (!array.isEmpty()) {
+                urlQueries.put("asset_fields[]", array);
+            }
+        }
         return this;
     }
 

@@ -1,5 +1,6 @@
 package com.contentstack.sdk;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -133,6 +134,107 @@ public class TestAssetLibrary {
         assertSame(assetLibrary, result);
         assertTrue(assetLibrary.urlQueries.has("include_metadata"));
         assertEquals(true, assetLibrary.urlQueries.get("include_metadata"));
+    }
+
+    // ========== ASSET FIELDS TESTS (CDA asset_fields[] parameter) ==========
+
+    @Test
+    void testAssetFieldsWithSupportedValues() {
+        AssetLibrary result = assetLibrary.assetFields("user_defined_fields", "embedded", "ai_suggested", "visual_markups");
+        assertSame(assetLibrary, result);
+        assertTrue(assetLibrary.urlQueries.has("asset_fields[]"));
+        Object val = assetLibrary.urlQueries.get("asset_fields[]");
+        assertTrue(val instanceof JSONArray);
+        JSONArray arr = (JSONArray) val;
+        assertEquals(4, arr.length());
+        assertEquals("user_defined_fields", arr.get(0));
+        assertEquals("embedded", arr.get(1));
+        assertEquals("ai_suggested", arr.get(2));
+        assertEquals("visual_markups", arr.get(3));
+    }
+
+    @Test
+    void testAssetFieldsReturnsThis() {
+        AssetLibrary result = assetLibrary.assetFields("embedded");
+        assertSame(assetLibrary, result);
+    }
+
+    @Test
+    void testAssetFieldsWithNoArgsDoesNotSetParam() {
+        assetLibrary.assetFields();
+        assertFalse(assetLibrary.urlQueries.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsWithNullDoesNotSetParam() {
+        assetLibrary.assetFields((String[]) null);
+        assertFalse(assetLibrary.urlQueries.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsChainingWithIncludeMetadata() {
+        AssetLibrary result = assetLibrary.assetFields("user_defined_fields").includeMetadata().includeCount();
+        assertSame(assetLibrary, result);
+        assertTrue(assetLibrary.urlQueries.has("asset_fields[]"));
+        assertTrue(assetLibrary.urlQueries.has("include_metadata"));
+        assertTrue(assetLibrary.urlQueries.has("include_count"));
+    }
+
+    /**
+     * Usage: stack.assetLibrary().assetFields(...).fetchAll()
+     * (AssetQuery / query assets - in this SDK use assetLibrary(), not asset().find())
+     * Verifies the full chain sets asset_fields[] on the asset library before fetchAll.
+     */
+    @Test
+    void testUsageAssetLibraryFetchAllWithAssetFields() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        AssetLibrary lib = stack.assetLibrary()
+            .assetFields("user_defined_fields", "embedded");
+        assertTrue(lib.urlQueries.has("asset_fields[]"));
+        JSONArray arr = lib.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(2, arr.length());
+        assertEquals("user_defined_fields", arr.get(0));
+        assertEquals("embedded", arr.get(1));
+    }
+
+    @Test
+    void testAssetFieldsSingleField() {
+        assetLibrary.assetFields("visual_markups");
+        JSONArray arr = assetLibrary.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(1, arr.length());
+        assertEquals("visual_markups", arr.get(0));
+    }
+
+    @Test
+    void testAssetFieldsEmptyVarargsArrayDoesNotSetParam() {
+        assetLibrary.assetFields(new String[0]);
+        assertFalse(assetLibrary.urlQueries.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsSecondCallOverwrites() {
+        assetLibrary.assetFields("user_defined_fields", "embedded");
+        assetLibrary.assetFields("ai_suggested");
+        JSONArray arr = assetLibrary.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(1, arr.length());
+        assertEquals("ai_suggested", arr.get(0));
+    }
+
+    @Test
+    void testAssetFieldsDuplicateValuesAllowed() {
+        assetLibrary.assetFields("embedded", "embedded");
+        JSONArray arr = assetLibrary.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(2, arr.length());
+        assertEquals("embedded", arr.get(0));
+        assertEquals("embedded", arr.get(1));
+    }
+
+    @Test
+    void testAssetFieldsWithEmptyStringInArray() {
+        assetLibrary.assetFields("valid", "", "visual_markups");
+        JSONArray arr = assetLibrary.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(3, arr.length());
+        assertEquals("", arr.get(1));
     }
 
     @Test
