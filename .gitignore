@@ -274,3 +274,4 @@ src/main/resources/
 /.vscode/
 /docs/
 INTEGRATION-TESTS-GUIDE.md
+src/main/java/com/demo/*
