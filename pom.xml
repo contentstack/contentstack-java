@@ -33,7 +33,7 @@
         <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-        <json-version>20250107</json-version>
+        <json-version>20251224</json-version>
         <jacoco-maven-plugin-version>0.8.11</jacoco-maven-plugin-version>
         <maven-release-plugin-version>2.5.3</maven-release-plugin-version>
         <contentstack-utils-version>1.2.15</contentstack-utils-version>
