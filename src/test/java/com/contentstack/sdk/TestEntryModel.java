@@ -254,8 +254,8 @@ class TestEntryModel {
         JSONObject publishDetails = new JSONObject();
         publishDetails.put("environment", "production");
         publishDetails.put("time", "2024-01-01T00:00:00.000Z");
-        // file deepcode ignore NoHardcodedCredentials/test: <please specify a reason of ignoring this>
-        publishDetails.put("user", "user123");
+        // Test fixture: user is a non-secret publish-detail field (not a credential)
+        publishDetails.put("user", "test_publisher_uid");
 
         JSONObject json = new JSONObject();
         json.put("uid", "published_entry");
@@ -267,7 +267,7 @@ class TestEntryModel {
         assertNotNull(model.publishDetails);
         assertEquals("production", model.environment);
         assertEquals("2024-01-01T00:00:00.000Z", model.time);
-        assertEquals("user123", model.user);
+        assertEquals("test_publisher_uid", model.user);
         
         // Verify metadata is populated
         assertNotNull(model.metadata);
