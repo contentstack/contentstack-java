@@ -43,6 +43,7 @@ public class Asset {
     protected String fileSize = null;
     protected String fileName = null;
     protected String uploadUrl = null;
+    protected String language = null;
     protected JSONObject json = null;
     protected String[] tagsArray = null;
     protected LinkedHashMap<String, Object> headers;
@@ -75,6 +76,7 @@ public class Asset {
         this.contentType = model.contentType;
         this.fileSize = model.fileSize;
         this.uploadUrl = model.uploadUrl;
+        this.language = model.language;
         this.fileName = model.fileName;
         this.json = model.json;
         this.assetUid = model.uploadedUid;
@@ -556,6 +558,38 @@ public class Asset {
             }
         }
         return this;
+    }
+
+    /**
+     * Specifies the fields to be included in the asset response.
+     * <p>
+     * This method allows you to specify one or more field names, and only those fields
+     * will be included in the returned asset data. This is useful for reducing response size
+     * and fetching only the required asset properties.
+     *
+     * @param fields Variable number of field names to be included in the asset response.
+     * @return The {@link Asset} instance for chaining further calls.
+     *
+     * <b>Example:</b><br>
+     * <pre class="prettyprint">
+     * Asset asset = stack.asset("asset_uid");
+     * asset.assetFields("title", "filename");
+     * </pre>
+     */
+
+    public Asset setLocale(String locale) {
+        urlQueries.put("locale",locale);
+        return this;
+    }
+
+
+    /**
+     * Returns the locale (language) associated with this asset.
+     *
+     * @return The asset's locale as a {@link String}, or {@code null} if not set.
+     */
+    public String getLocale() {
+        return this.language;
     }
 
     /**
