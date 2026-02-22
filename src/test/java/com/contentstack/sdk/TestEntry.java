@@ -1448,4 +1448,31 @@ public class TestEntry {
         // This will call setIncludeJSON with all these params
         assertDoesNotThrow(() -> entry.fetch(callback));
     }
+
+    @Test
+    void testFetchReturnsCachedDraftWhenLivePreviewMatchingEntry() throws IllegalAccessException {
+        Config config = new Config();
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("rest-preview.contentstack.com");
+        JSONObject draftEntry = new JSONObject();
+        draftEntry.put("uid", "entry1");
+        draftEntry.put("title", "Draft Title");
+        draftEntry.put("locale", "en-us");
+        config.setLivePreviewEntry(draftEntry);
+        config.livePreviewEntryUid = "entry1";
+        config.livePreviewContentType = "page";
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env", config);
+        ContentType ct = stack.contentType("page");
+        Entry entry = ct.entry("entry1");
+        final boolean[] callbackInvoked = { false };
+        EntryResultCallBack callback = new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                callbackInvoked[0] = true;
+            }
+        };
+        entry.fetch(callback);
+        assertTrue(callbackInvoked[0], "Callback should be invoked when returning cached draft");
+        assertEquals("Draft Title", entry.getTitle());
+    }
 }
