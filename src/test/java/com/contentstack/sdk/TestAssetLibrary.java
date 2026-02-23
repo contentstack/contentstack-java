@@ -136,6 +136,41 @@ public class TestAssetLibrary {
         assertEquals(true, assetLibrary.urlQueries.get("include_metadata"));
     }
 
+    // ========== LOCALE TESTS (setLocale for asset localisation) ==========
+
+    @Test
+    void testSetLocale() {
+        AssetLibrary result = assetLibrary.setLocale("en-us");
+        assertSame(assetLibrary, result);
+        assertTrue(assetLibrary.urlQueries.has("locale"));
+        assertEquals("en-us", assetLibrary.urlQueries.get("locale"));
+    }
+
+    @Test
+    void testSetLocaleReturnsThisForChaining() {
+        AssetLibrary result = assetLibrary.setLocale("fr-fr").includeCount().limit(10);
+        assertSame(assetLibrary, result);
+        assertEquals("fr-fr", assetLibrary.urlQueries.get("locale"));
+        assertTrue(assetLibrary.urlQueries.has("include_count"));
+        assertEquals(10, assetLibrary.urlQueries.get("limit"));
+    }
+
+    @Test
+    void testSetLocaleOverwritesPrevious() {
+        assetLibrary.setLocale("en-us");
+        assertEquals("en-us", assetLibrary.urlQueries.get("locale"));
+        assetLibrary.setLocale("de-de");
+        assertEquals("de-de", assetLibrary.urlQueries.get("locale"));
+    }
+
+    @Test
+    void testSetLocaleWithVariousLocaleCodes() {
+        assetLibrary.setLocale("ja-jp");
+        assertEquals("ja-jp", assetLibrary.urlQueries.get("locale"));
+        assetLibrary.setLocale("pt-br");
+        assertEquals("pt-br", assetLibrary.urlQueries.get("locale"));
+    }
+
     // ========== ASSET FIELDS TESTS (CDA asset_fields[] parameter) ==========
 
     @Test

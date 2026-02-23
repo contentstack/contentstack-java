@@ -81,6 +81,79 @@ public class TestAsset {
         assertSame(asset, result);
     }
 
+    @Test
+    void testConfigureWithLocaleSetsLanguage() {
+        JSONObject json = new JSONObject();
+        json.put("uid", "locale_asset_uid");
+        json.put("locale", "en-us");
+        json.put("filename", "localized.jpg");
+
+        asset.configure(json);
+        assertEquals("en-us", asset.getLocale());
+        assertEquals("en-us", asset.language);
+    }
+
+    @Test
+    void testConfigureWithoutLocaleLeavesLanguageNull() {
+        JSONObject json = new JSONObject();
+        json.put("uid", "no_locale_uid");
+        json.put("filename", "test.jpg");
+
+        asset.configure(json);
+        assertNull(asset.getLocale());
+        assertNull(asset.language);
+    }
+
+    // ========== LOCALE TESTS (setLocale / getLocale) ==========
+
+    @Test
+    void testSetLocale() {
+        Asset result = asset.setLocale("en-us");
+        assertSame(asset, result);
+        assertTrue(asset.urlQueries.has("locale"));
+        assertEquals("en-us", asset.urlQueries.get("locale"));
+    }
+
+    @Test
+    void testSetLocaleReturnsThisForChaining() {
+        Asset result = asset.setLocale("fr-fr").includeDimension().includeMetadata();
+        assertSame(asset, result);
+        assertEquals("fr-fr", asset.urlQueries.get("locale"));
+        assertTrue(asset.urlQueries.has("include_dimension"));
+        assertTrue(asset.urlQueries.has("include_metadata"));
+    }
+
+    @Test
+    void testSetLocaleOverwritesPrevious() {
+        asset.setLocale("en-us");
+        assertEquals("en-us", asset.urlQueries.get("locale"));
+        asset.setLocale("de-de");
+        assertEquals("de-de", asset.urlQueries.get("locale"));
+    }
+
+    @Test
+    void testGetLocaleBeforeConfigureReturnsNull() {
+        assertNull(asset.getLocale());
+    }
+
+    @Test
+    void testGetLocaleAfterConfigureWithLocale() {
+        JSONObject json = new JSONObject();
+        json.put("uid", "uid");
+        json.put("locale", "ja-jp");
+        asset.configure(json);
+        assertEquals("ja-jp", asset.getLocale());
+    }
+
+    @Test
+    void testGetLocaleAfterSetLocaleOnlySetsQueryNotLanguage() {
+        asset.setLocale("es-es");
+        // setLocale only puts in urlQueries; it does not set this.language
+        assertTrue(asset.urlQueries.has("locale"));
+        assertEquals("es-es", asset.urlQueries.get("locale"));
+        assertNull(asset.getLocale()); // getLocale returns this.language, not urlQueries
+    }
+
     // ========== HEADER TESTS ==========
 
     @Test

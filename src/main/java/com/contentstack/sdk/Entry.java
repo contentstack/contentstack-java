@@ -946,6 +946,14 @@ public class Entry {
                 logger.log(Level.SEVERE, ErrorMessages.ENTRY_FETCH_FAILED, e);
             }
         }
+        Config config = contentType.stackInstance.config;
+        if (config.enableLivePreview && config.livePreviewEntry != null && !config.livePreviewEntry.isEmpty()
+                && java.util.Objects.equals(config.livePreviewEntryUid, uid)
+                && contentTypeUid != null && contentTypeUid.equalsIgnoreCase(config.livePreviewContentType)) {
+            this.configure(config.livePreviewEntry);
+            callback.onRequestFinish(ResponseType.NETWORK);
+            return;
+        }
         String urlString = "content_types/" + contentTypeUid + "/entries/" + uid;
         JSONObject urlQueries = new JSONObject();
         urlQueries.put(ENVIRONMENT, headers.get(ENVIRONMENT));

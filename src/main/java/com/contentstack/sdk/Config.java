@@ -206,6 +206,10 @@ public class Config {
         return this;
     }
 
+    protected void clearLivePreviewEntry() {
+        this.livePreviewEntry = null;
+    }
+
      /**
      * Sets preview token.
      *

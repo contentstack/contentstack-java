@@ -599,6 +599,36 @@ class TestCSHttpConnection {
     }
 
     @Test
+    void testHandleJSONArrayWhenEntryUidDoesNotMatch() throws Exception {
+        Config config = new Config();
+        JSONObject livePreviewEntry = new JSONObject();
+        livePreviewEntry.put("uid", "preview_uid");
+        livePreviewEntry.put("title", "Preview Title");
+        config.setLivePreviewEntry(livePreviewEntry);
+        connection.setConfig(config);
+        
+        JSONObject responseJSON = new JSONObject();
+        JSONObject entry = new JSONObject();
+        entry.put("uid", "other_uid");
+        entry.put("title", "Original Title");
+        responseJSON.put("entry", entry);
+        
+        Field responseField = CSHttpConnection.class.getDeclaredField("responseJSON");
+        responseField.setAccessible(true);
+        responseField.set(connection, responseJSON);
+        
+        Method handleJSONArrayMethod = CSHttpConnection.class.getDeclaredMethod("handleJSONArray");
+        handleJSONArrayMethod.setAccessible(true);
+        handleJSONArrayMethod.invoke(connection);
+        
+        JSONObject updatedResponse = (JSONObject) responseField.get(connection);
+        assertNotNull(updatedResponse);
+        assertTrue(updatedResponse.has("entry"));
+        assertEquals("other_uid", updatedResponse.getJSONObject("entry").optString("uid"));
+        assertEquals("Original Title", updatedResponse.getJSONObject("entry").optString("title"));
+    }
+
+    @Test
     void testHandleJSONObjectWithMatchingUid() throws Exception {
         // Create a config with livePreviewEntry
         Config config = new Config();

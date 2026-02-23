@@ -212,6 +212,70 @@ public class TestAssetModel {
         assertEquals(2, model.tags.length);
     }
 
+    // ========== LOCALE / LANGUAGE TESTS (asset localisation) ==========
+
+    @Test
+    void testConstructorWithLocaleIsArrayTrue() {
+        JSONObject response = new JSONObject();
+        response.put("uid", "localized_asset");
+        response.put("filename", "localized.jpg");
+        response.put("locale", "en-us");
+
+        AssetModel model = new AssetModel(response, true);
+
+        assertNotNull(model);
+        assertEquals("localized_asset", model.uploadedUid);
+        assertEquals("en-us", model.language);
+    }
+
+    @Test
+    void testConstructorWithoutLocaleLeavesLanguageNull() {
+        JSONObject response = new JSONObject();
+        response.put("uid", "no_locale_asset");
+        response.put("filename", "test.jpg");
+
+        AssetModel model = new AssetModel(response, true);
+
+        assertNotNull(model);
+        assertNull(model.language);
+    }
+
+    @Test
+    void testConstructorWithVariousLocaleCodes() {
+        JSONObject response = new JSONObject();
+        response.put("uid", "uid");
+        response.put("locale", "fr-fr");
+
+        AssetModel model = new AssetModel(response, true);
+        assertEquals("fr-fr", model.language);
+
+        JSONObject response2 = new JSONObject();
+        response2.put("uid", "uid2");
+        response2.put("locale", "ja-jp");
+        AssetModel model2 = new AssetModel(response2, true);
+        assertEquals("ja-jp", model2.language);
+    }
+
+    @Test
+    void testConstructorWithLocaleAndOtherFields() {
+        JSONObject response = new JSONObject();
+        response.put("uid", "full_localized");
+        response.put("content_type", "image/png");
+        response.put("file_size", "1024");
+        response.put("filename", "image.png");
+        response.put("url", "https://cdn.example.com/image.png");
+        response.put("locale", "de-de");
+
+        AssetModel model = new AssetModel(response, true);
+
+        assertEquals("full_localized", model.uploadedUid);
+        assertEquals("image/png", model.contentType);
+        assertEquals("1024", model.fileSize);
+        assertEquals("image.png", model.fileName);
+        assertEquals("https://cdn.example.com/image.png", model.uploadUrl);
+        assertEquals("de-de", model.language);
+    }
+
     @Test
     void testConstructorWithMinimalData() {
         JSONObject response = new JSONObject();

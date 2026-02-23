@@ -21,6 +21,7 @@ class AssetModel {
     String fileSize;
     String fileName;
     String uploadUrl;
+    String language;
     String[] tags;
     JSONObject json;
     int count = 0;
@@ -45,6 +46,7 @@ class AssetModel {
             fileSize = (String) json.opt("file_size");
             fileName = (String) json.opt("filename");
             uploadUrl = (String) json.opt("url");
+            language = (String) json.opt("locale");
             if (json.opt("tags") instanceof JSONArray) {
                 extractTags();
             }

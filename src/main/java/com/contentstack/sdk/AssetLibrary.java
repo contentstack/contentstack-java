@@ -152,6 +152,28 @@ public class AssetLibrary implements INotifyClass {
     }
 
     /**
+     * Sets the locale for asset queries.
+     * <p>
+     * This method allows you to specify a locale code, so asset results are returned 
+     * for a particular language or region. If not explicitly set, the default locale 
+     * configured in the stack will be used.
+     *
+     * @param locale The locale code to filter assets by (e.g., "en-us").
+     * @return The {@link AssetLibrary} instance for method chaining.
+     *
+     * <b>Example:</b>
+     * <pre class="prettyprint">
+     * Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     * AssetLibrary assetLibrary = stack.assetLibrary();
+     * assetLibrary.setLocale("en-us");
+     * </pre>
+     */
+    public AssetLibrary setLocale(String locale) {
+        urlQueries.put("locale",locale);
+        return this;
+    }
+
+    /**
      * Gets count.
      *
      * @return the count

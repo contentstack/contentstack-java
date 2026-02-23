@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.6.0
+
+### Feb 23, 2026
+- Enhancement: Asset localization added
+
 ## v2.5.0
 
 ### Feb 12, 2026
