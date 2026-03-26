@@ -1146,6 +1146,19 @@ public class Query implements INotifyClass {
         return this;
     }
 
+    public Query assetFields(String... fields) {
+        if (fields != null && fields.length > 0) {
+            JSONArray array = new JSONArray();
+            for (String field : fields) {
+                array.put(field);
+            }
+            if (!array.isEmpty()) {
+                urlQueries.put("asset_fields[]", array);
+            }
+        }
+        return this;
+    }
+
     /**
      * Execute a Query and Caches its result (Optional)
      *

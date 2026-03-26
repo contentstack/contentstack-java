@@ -64,6 +64,7 @@ public final class ErrorMessages {
     
     public static final String MISSING_PREVIEW_TOKEN = "Missing preview token for rest-preview.contentstack.com. Set the preview token in your configuration to use Live Preview.";
     public static final String LIVE_PREVIEW_NOT_ENABLED = "Live Preview is not enabled in the configuration. Enable it and try again.";
+    public static final String LIVE_PREVIEW_HOST_NOT_ENABLED = "Live Preview host is not set. Call config.setLivePreviewHost(\"rest-preview.contentstack.com\") (or your preview host) before using Live Preview.";
     public static final String EMBEDDED_ITEMS_NOT_INCLUDED = "Embedded items are not included in the entry. Call includeEmbeddedItems() and try again.";
     
     // ========== OPERATION ERRORS ==========

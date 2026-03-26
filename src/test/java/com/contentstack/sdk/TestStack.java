@@ -1543,6 +1543,42 @@ public class TestStack {
     }
 
     @Test
+    void testLivePreviewQueryThrowsWhenLivePreviewHostIsNull() throws IllegalAccessException {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(false);
+        stack.setConfig(config);
+        config.enableLivePreview(true);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        
+        IllegalStateException ex = assertThrows(IllegalStateException.class, () -> stack.livePreviewQuery(query));
+        assertTrue(ex.getMessage().contains(ErrorMessages.LIVE_PREVIEW_HOST_NOT_ENABLED));
+    }
+
+    @Test
+    void testLivePreviewQueryThrowsWhenLivePreviewHostIsEmpty() throws IllegalAccessException {
+        Config config = new Config();
+        config.setHost("api.contentstack.io");
+        config.enableLivePreview(true);
+        config.setLivePreviewHost("");
+        stack.setConfig(config);
+        stack.headers.put("api_key", "test_api_key");
+        
+        Map<String, String> query = new HashMap<>();
+        query.put("live_preview", "hash123");
+        query.put("content_type_uid", "blog");
+        query.put("entry_uid", "entry123");
+        
+        IllegalStateException ex = assertThrows(IllegalStateException.class, () -> stack.livePreviewQuery(query));
+        assertTrue(ex.getMessage().contains(ErrorMessages.LIVE_PREVIEW_HOST_NOT_ENABLED));
+    }
+
+    @Test
     void testLivePreviewQueryWithNullContentType() {
         Config config = new Config();
         config.setHost("api.contentstack.io");

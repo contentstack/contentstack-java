@@ -265,6 +265,18 @@ public class TestConfig {
         assertEquals("blog_post", config.livePreviewEntry.opt("content_type"));
     }
 
+    @Test
+    void testClearLivePreviewEntry() throws Exception {
+        JSONObject entry = new JSONObject();
+        entry.put("uid", "entry_123");
+        config.setLivePreviewEntry(entry);
+        assertNotNull(config.livePreviewEntry);
+        java.lang.reflect.Method clearMethod = Config.class.getDeclaredMethod("clearLivePreviewEntry");
+        clearMethod.setAccessible(true);
+        clearMethod.invoke(config);
+        assertNull(config.livePreviewEntry);
+    }
+
     // ========== PREVIEW TOKEN TESTS ==========
 
     @Test

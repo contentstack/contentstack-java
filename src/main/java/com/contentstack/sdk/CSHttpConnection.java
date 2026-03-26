@@ -102,7 +102,9 @@ public class CSHttpConnection implements IURLRequestHTTP {
         if (params != null && params.size() > 0) {
             String urlParams = null;
             urlParams = info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.QUERY.name())
-                    || info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.ENTRY.name()) ? getParams(params) : null;
+                    || info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.ENTRY.name())
+                    || info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.ASSET.name())
+                    || info.equalsIgnoreCase(Constants.REQUEST_CONTROLLER.ASSETLIBRARY.name()) ? getParams(params) : null;
             if (urlParams == null) {
                 for (Map.Entry<String, Object> e : params.entrySet()) {
                     if (urlParams == null) {
@@ -124,7 +126,7 @@ public class CSHttpConnection implements IURLRequestHTTP {
             Object value = e.getValue();
             try {
                 if (key.equalsIgnoreCase("include[]") || key.equalsIgnoreCase("only[BASE][]")
-                        || key.equalsIgnoreCase("except[BASE][]")) {
+                        || key.equalsIgnoreCase("except[BASE][]") || key.equalsIgnoreCase("asset_fields[]")) {
                     urlParams = convertUrlParam(urlParams, value, key);
                 } else if (key.equalsIgnoreCase("only")) {
                     JSONObject onlyJSON = (JSONObject) value;
@@ -266,17 +268,21 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     void handleJSONArray() {
-        if (responseJSON.has("entries") && !responseJSON.optJSONArray("entries").isEmpty()) {
-            JSONArray finalEntries = responseJSON.optJSONArray("entries");
+        JSONArray entriesArray = responseJSON.optJSONArray("entries");
+        if (responseJSON.has("entries") && entriesArray != null && !entriesArray.isEmpty()) {
+            JSONArray finalEntries = entriesArray;
             IntStream.range(0, finalEntries.length()).forEach(idx -> {
                 JSONObject objJSON = (JSONObject) finalEntries.get(idx);
                 handleJSONObject(finalEntries, objJSON, idx);
             });
         }
-        if (responseJSON.has("entry") && !responseJSON.optJSONObject("entry").isEmpty()) {
-            JSONObject entry = responseJSON.optJSONObject("entry");
-            if (!entry.isEmpty()) {
-                if (entry.has("uid") && entry.opt("uid").equals(this.config.livePreviewEntry.opt("uid"))) {
+        JSONObject entryObj = responseJSON.optJSONObject("entry");
+        if (responseJSON.has("entry") && entryObj != null && !entryObj.isEmpty()) {
+            JSONObject entry = entryObj;
+            if (!entry.isEmpty() && this.config.livePreviewEntry != null) {
+                Object entryUid = entry.opt("uid");
+                Object previewUid = this.config.livePreviewEntry.opt("uid");
+                if (entryUid != null && java.util.Objects.equals(entryUid, previewUid)) {
                     responseJSON = new JSONObject().put("entry", this.config.livePreviewEntry);
                 }
             }
@@ -285,8 +291,10 @@ public class CSHttpConnection implements IURLRequestHTTP {
     }
 
     void handleJSONObject(JSONArray arrayEntry, JSONObject jsonObj, int idx) {
-        if (!jsonObj.isEmpty()) {
-            if (jsonObj.has("uid") && jsonObj.opt("uid").equals(this.config.livePreviewEntry.opt("uid"))) {
+        if (!jsonObj.isEmpty() && this.config.livePreviewEntry != null) {
+            Object entryUid = jsonObj.opt("uid");
+            Object previewUid = this.config.livePreviewEntry.opt("uid");
+            if (entryUid != null && java.util.Objects.equals(entryUid, previewUid)) {
                 arrayEntry.put(idx, this.config.livePreviewEntry);
             }
         }

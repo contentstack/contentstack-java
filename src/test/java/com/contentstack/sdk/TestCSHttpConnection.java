@@ -399,6 +399,33 @@ class TestCSHttpConnection {
         assertTrue(result.contains("environment=staging"));
     }
 
+    @Test
+    void testGetParamsWithAssetFieldsArray() throws Exception {
+        connection.setInfo("ENTRY");
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("environment", "production");
+
+        JSONArray assetFieldsArray = new JSONArray();
+        assetFieldsArray.put("user_defined_fields");
+        assetFieldsArray.put("embedded");
+        assetFieldsArray.put("ai_suggested");
+        assetFieldsArray.put("visual_markups");
+        params.put("asset_fields[]", assetFieldsArray);
+
+        Method getParamsMethod = CSHttpConnection.class.getDeclaredMethod("getParams", HashMap.class);
+        getParamsMethod.setAccessible(true);
+
+        String result = (String) getParamsMethod.invoke(connection, params);
+
+        assertNotNull(result);
+        assertTrue(result.contains("environment=production"));
+        assertTrue(result.contains("user_defined_fields"));
+        assertTrue(result.contains("embedded"));
+        assertTrue(result.contains("ai_suggested"));
+        assertTrue(result.contains("visual_markups"));
+    }
+
     // ========== CONVERT URL PARAM TESTS ==========
 
     @Test
@@ -569,6 +596,36 @@ class TestCSHttpConnection {
         
         assertNotNull(updatedResponse);
         assertTrue(updatedResponse.has("entry"));
+    }
+
+    @Test
+    void testHandleJSONArrayWhenEntryUidDoesNotMatch() throws Exception {
+        Config config = new Config();
+        JSONObject livePreviewEntry = new JSONObject();
+        livePreviewEntry.put("uid", "preview_uid");
+        livePreviewEntry.put("title", "Preview Title");
+        config.setLivePreviewEntry(livePreviewEntry);
+        connection.setConfig(config);
+        
+        JSONObject responseJSON = new JSONObject();
+        JSONObject entry = new JSONObject();
+        entry.put("uid", "other_uid");
+        entry.put("title", "Original Title");
+        responseJSON.put("entry", entry);
+        
+        Field responseField = CSHttpConnection.class.getDeclaredField("responseJSON");
+        responseField.setAccessible(true);
+        responseField.set(connection, responseJSON);
+        
+        Method handleJSONArrayMethod = CSHttpConnection.class.getDeclaredMethod("handleJSONArray");
+        handleJSONArrayMethod.setAccessible(true);
+        handleJSONArrayMethod.invoke(connection);
+        
+        JSONObject updatedResponse = (JSONObject) responseField.get(connection);
+        assertNotNull(updatedResponse);
+        assertTrue(updatedResponse.has("entry"));
+        assertEquals("other_uid", updatedResponse.getJSONObject("entry").optString("uid"));
+        assertEquals("Original Title", updatedResponse.getJSONObject("entry").optString("title"));
     }
 
     @Test

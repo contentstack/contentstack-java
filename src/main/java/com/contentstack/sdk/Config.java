@@ -31,6 +31,7 @@ public class Config {
     protected Proxy proxy = null;
     protected String[] earlyAccess = null;
     protected ConnectionPool connectionPool = new ConnectionPool();
+    protected RetryOptions retryOptions = new RetryOptions();
     public String releaseId;
     public String previewTimestamp;
 
@@ -130,6 +131,26 @@ public class Config {
     }
 
     /**
+     * Sets the retry options.
+     *
+     * @param retryOptions the retry options
+     * @return the config
+     */
+    public Config setRetryOptions(RetryOptions retryOptions) {
+        this.retryOptions = retryOptions;
+        return this;
+    }
+
+    /**
+     * Gets the retry options.
+     *
+     * @return the retry options
+     */
+    public RetryOptions getRetryOptions() {
+        return this.retryOptions;
+    }
+
+    /**
      * Gets host.
      *
      * @return the host
@@ -183,6 +204,10 @@ public class Config {
     protected Config setLivePreviewEntry(@NotNull JSONObject livePreviewEntry) {
         this.livePreviewEntry = livePreviewEntry;
         return this;
+    }
+
+    protected void clearLivePreviewEntry() {
+        this.livePreviewEntry = null;
     }
 
      /**
