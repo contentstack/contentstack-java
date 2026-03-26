@@ -30,7 +30,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * 9. Query Count Operation
  * 10. Reference with Projection
  * 
- * Total Tests: 28
+ * 11. Query locale() and assetFields() (CDA)
+ * 12. Entry assetFields() (CDA)
+ *
+ * Total Tests: 31
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -47,7 +50,7 @@ public class SDKMethodCoverageIT extends BaseIntegrationTest {
         assertNotNull(stack, "Stack initialization failed");
         logger.info("============================================================");
         logger.info("Starting SDK Method Coverage Integration Tests");
-        logger.info("Testing 28 missing SDK methods for complete API coverage");
+        logger.info("Testing SDK method coverage including locale and assetFields APIs");
         logger.info("============================================================");
     }
 
@@ -61,7 +64,7 @@ public class SDKMethodCoverageIT extends BaseIntegrationTest {
     void tearDown() {
         logger.info("============================================================");
         logger.info("Completed SDK Method Coverage Integration Tests");
-        logger.info("All 28 SDK method coverage tests executed");
+        logger.info("All 31 SDK method coverage tests executed");
         logger.info("============================================================");
     }
 
@@ -969,6 +972,108 @@ public class SDKMethodCoverageIT extends BaseIntegrationTest {
         });
 
         assertTrue(awaitLatch(latch, "testQueryCount"));
+    }
+
+    // ============================================
+    // Section 10: Locale & asset field projection (3 tests)
+    // ============================================
+
+    @Test
+    @Order(29)
+    @DisplayName("Test Query.locale() - locale query parameter on CDA")
+    void testQueryLocale() throws InterruptedException {
+        Assumptions.assumeTrue(Credentials.hasSimpleEntry(),
+                "SIMPLE_CONTENT_TYPE_UID / SIMPLE_ENTRY_UID not configured");
+
+        CountDownLatch latch = createLatch();
+        String locale = Credentials.PRIMARY_LOCALE != null && !Credentials.PRIMARY_LOCALE.isEmpty()
+                ? Credentials.PRIMARY_LOCALE
+                : "en-us";
+
+        query = stack.contentType(Credentials.SIMPLE_CONTENT_TYPE_UID).query();
+        query.locale(locale).limit(5);
+
+        query.find(new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                try {
+                    assertNull(error, "BUG: Query.locale() failed: "
+                            + (error != null ? error.getErrorMessage() : ""));
+                    assertNotNull(queryResult, "BUG: QueryResult is null");
+                    assertNotNull(queryResult.getResultObjects(), "BUG: results null");
+                    logger.info("✅ Query.locale() OK (" + locale + "): "
+                            + queryResult.getResultObjects().size() + " entries");
+                    logSuccess("testQueryLocale", locale);
+                } finally {
+                    latch.countDown();
+                }
+            }
+        });
+
+        assertTrue(awaitLatch(latch, "testQueryLocale"));
+    }
+
+    @Test
+    @Order(30)
+    @DisplayName("Test Query.assetFields() - asset field subset on entry query")
+    void testQueryAssetFieldsLive() throws InterruptedException {
+        Assumptions.assumeTrue(Credentials.hasSimpleEntry(),
+                "SIMPLE_CONTENT_TYPE_UID not configured");
+
+        CountDownLatch latch = createLatch();
+
+        query = stack.contentType(Credentials.SIMPLE_CONTENT_TYPE_UID).query();
+        query.assetFields("title", "filename").limit(5);
+
+        query.find(new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                try {
+                    assertNull(error, "BUG: Query.assetFields() failed: "
+                            + (error != null ? error.getErrorMessage() : ""));
+                    assertNotNull(queryResult, "BUG: QueryResult is null");
+                    logger.info("✅ Query.assetFields() OK: "
+                            + queryResult.getResultObjects().size() + " entries");
+                    logSuccess("testQueryAssetFieldsLive", "asset_fields[]");
+                } finally {
+                    latch.countDown();
+                }
+            }
+        });
+
+        assertTrue(awaitLatch(latch, "testQueryAssetFieldsLive"));
+    }
+
+    @Test
+    @Order(31)
+    @DisplayName("Test Entry.assetFields() on single entry fetch")
+    void testEntryAssetFieldsLive() throws InterruptedException {
+        Assumptions.assumeTrue(Credentials.hasSimpleEntry(),
+                "SIMPLE_ENTRY_UID not configured");
+
+        CountDownLatch latch = createLatch();
+
+        entry = stack.contentType(Credentials.SIMPLE_CONTENT_TYPE_UID)
+                .entry(Credentials.SIMPLE_ENTRY_UID);
+        entry.assetFields("title", "filename");
+
+        entry.fetch(new EntryResultCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                try {
+                    assertNull(error, "BUG: Entry.assetFields() fetch failed: "
+                            + (error != null ? error.getErrorMessage() : ""));
+                    assertEquals(Credentials.SIMPLE_ENTRY_UID, entry.getUid(),
+                            "CRITICAL BUG: Wrong entry fetched");
+                    logger.info("✅ Entry.assetFields() OK: " + entry.getUid());
+                    logSuccess("testEntryAssetFieldsLive", entry.getUid());
+                } finally {
+                    latch.countDown();
+                }
+            }
+        });
+
+        assertTrue(awaitLatch(latch, "testEntryAssetFieldsLive"));
     }
 
 }

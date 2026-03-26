@@ -168,12 +168,88 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
         assertTrue(awaitLatch(latch, "testAssetUrlAccess"));
     }
 
+    @Test
+    @Order(4)
+    @DisplayName("Test asset fetch with locale (CDA asset localisation)")
+    void testAssetFetchWithLocale() throws InterruptedException {
+        CountDownLatch latch = createLatch();
+
+        if (Credentials.IMAGE_ASSET_UID == null || Credentials.IMAGE_ASSET_UID.isEmpty()) {
+            logger.info("ℹ️ No asset UID configured, skipping test");
+            logSuccess("testAssetFetchWithLocale", "Skipped");
+            latch.countDown();
+            assertTrue(awaitLatch(latch, "testAssetFetchWithLocale"));
+            return;
+        }
+
+        String locale = Credentials.PRIMARY_LOCALE != null && !Credentials.PRIMARY_LOCALE.isEmpty()
+                ? Credentials.PRIMARY_LOCALE
+                : "en-us";
+
+        Asset asset = stack.asset(Credentials.IMAGE_ASSET_UID);
+        asset.setLocale(locale);
+
+        asset.fetch(new FetchResultCallback() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                try {
+                    assertNull(error, "Asset fetch with locale should not error: " +
+                            (error != null ? error.getErrorMessage() : ""));
+                    assertEquals(locale, asset.getLocale(),
+                            "BUG: Asset locale should match query param");
+                    assertNotNull(asset.getFileName(), "BUG: Filename missing after locale fetch");
+                    logger.info("✅ Asset locale fetch: " + asset.getLocale());
+                    logSuccess("testAssetFetchWithLocale", locale);
+                } finally {
+                    latch.countDown();
+                }
+            }
+        });
+
+        assertTrue(awaitLatch(latch, "testAssetFetchWithLocale"));
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("Test asset fetch with assetFields projection")
+    void testAssetFetchWithAssetFields() throws InterruptedException {
+        CountDownLatch latch = createLatch();
+
+        if (Credentials.IMAGE_ASSET_UID == null || Credentials.IMAGE_ASSET_UID.isEmpty()) {
+            logger.info("ℹ️ No asset UID configured, skipping test");
+            logSuccess("testAssetFetchWithAssetFields", "Skipped");
+            latch.countDown();
+            assertTrue(awaitLatch(latch, "testAssetFetchWithAssetFields"));
+            return;
+        }
+
+        Asset asset = stack.asset(Credentials.IMAGE_ASSET_UID);
+        asset.assetFields("title", "filename");
+
+        asset.fetch(new FetchResultCallback() {
+            @Override
+            public void onCompletion(ResponseType responseType, Error error) {
+                try {
+                    assertNull(error, "Asset fetch with assetFields should not error");
+                    assertNotNull(asset.getAssetUid(), "BUG: UID missing");
+                    assertNotNull(asset.getFileName(), "BUG: filename missing with assetFields");
+                    logger.info("✅ Asset assetFields() fetch OK: " + asset.getFileName());
+                    logSuccess("testAssetFetchWithAssetFields", asset.getFileName());
+                } finally {
+                    latch.countDown();
+                }
+            }
+        });
+
+        assertTrue(awaitLatch(latch, "testAssetFetchWithAssetFields"));
+    }
+
     // ===========================
     // Asset Library Tests
     // ===========================
 
     @Test
-    @Order(4)
+    @Order(6)
     @DisplayName("Test fetch asset library")
     void testFetchAssetLibrary() throws InterruptedException {
         CountDownLatch latch = createLatch();
@@ -210,7 +286,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(5)
+    @Order(7)
     @DisplayName("Test asset library with limit")
     void testAssetLibraryWithLimit() throws InterruptedException, IllegalAccessException {
         CountDownLatch latch = createLatch();
@@ -239,7 +315,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(6)
+    @Order(8)
     @DisplayName("Test asset library with skip")
     void testAssetLibraryWithSkip() throws InterruptedException, IllegalAccessException {
         CountDownLatch latch = createLatch();
@@ -272,7 +348,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     // ===========================
 
     @Test
-    @Order(7)
+    @Order(9)
     @DisplayName("Test asset library with include count")
     void testAssetLibraryWithIncludeCount() throws InterruptedException, IllegalAccessException {
         CountDownLatch latch = createLatch();
@@ -299,7 +375,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(8)
+    @Order(10)
     @DisplayName("Test asset library with relative URLs")
     void testAssetLibraryWithRelativeUrls() throws InterruptedException, IllegalAccessException {
         CountDownLatch latch = createLatch();
@@ -333,12 +409,47 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
         assertTrue(awaitLatch(latch, "testAssetLibraryWithRelativeUrls"));
     }
 
+    @Test
+    @Order(11)
+    @DisplayName("Test asset library with setLocale and assetFields")
+    void testAssetLibraryWithLocaleAndAssetFields() throws InterruptedException, IllegalAccessException {
+        CountDownLatch latch = createLatch();
+
+        String locale = Credentials.PRIMARY_LOCALE != null && !Credentials.PRIMARY_LOCALE.isEmpty()
+                ? Credentials.PRIMARY_LOCALE
+                : "en-us";
+
+        assetLibrary = stack.assetLibrary();
+        assetLibrary.setLocale(locale).assetFields("title", "filename").limit(5);
+
+        assetLibrary.fetchAll(new FetchAssetsCallback() {
+            @Override
+            public void onCompletion(ResponseType responseType, java.util.List<Asset> assets, Error error) {
+                try {
+                    assertNull(error, "Asset library with locale/assetFields should not error");
+                    assertNotNull(assets, "Assets list should not be null");
+                    assertTrue(assets.size() <= 5, "BUG: limit(5) not respected");
+                    if (!assets.isEmpty()) {
+                        Asset first = assets.get(0);
+                        assertNotNull(first.getAssetUid(), "BUG: asset UID missing");
+                    }
+                    logger.info("✅ Asset library locale + assetFields: " + assets.size() + " assets (" + locale + ")");
+                    logSuccess("testAssetLibraryWithLocaleAndAssetFields", assets.size() + " assets");
+                } finally {
+                    latch.countDown();
+                }
+            }
+        });
+
+        assertTrue(awaitLatch(latch, "testAssetLibraryWithLocaleAndAssetFields"));
+    }
+
     // ===========================
     // Asset with Entries
     // ===========================
 
     @Test
-    @Order(9)
+    @Order(12)
     @DisplayName("Test asset used in entries")
     void testAssetUsedInEntries() throws InterruptedException {
         CountDownLatch latch = createLatch();
@@ -379,7 +490,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     // ===========================
 
     @Test
-    @Order(10)
+    @Order(13)
     @DisplayName("Test asset file type validation")
     void testAssetFileTypeValidation() throws InterruptedException {
         CountDownLatch latch = createLatch();
@@ -436,7 +547,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(11)
+    @Order(14)
     @DisplayName("Test asset file size")
     void testAssetFileSize() throws InterruptedException {
         CountDownLatch latch = createLatch();
@@ -479,7 +590,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(12)
+    @Order(15)
     @DisplayName("Test asset creation metadata")
     void testAssetCreationMetadata() throws InterruptedException {
         CountDownLatch latch = createLatch();
@@ -524,7 +635,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     // ===========================
 
     @Test
-    @Order(13)
+    @Order(16)
     @DisplayName("Test asset fetch performance")
     void testAssetFetchPerformance() throws InterruptedException {
         CountDownLatch latch = createLatch();
@@ -565,7 +676,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(14)
+    @Order(17)
     @DisplayName("Test asset library fetch performance")
     void testAssetLibraryFetchPerformance() throws InterruptedException, IllegalAccessException {
         CountDownLatch latch = createLatch();
@@ -601,7 +712,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(15)
+    @Order(18)
     @DisplayName("Test multiple asset fetches performance")
     void testMultipleAssetFetchesPerformance() throws InterruptedException {
         if (Credentials.IMAGE_ASSET_UID == null || Credentials.IMAGE_ASSET_UID.isEmpty()) {
@@ -649,7 +760,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     // ===========================
 
     @Test
-    @Order(16)
+    @Order(19)
     @DisplayName("Test invalid asset UID")
     void testInvalidAssetUid() throws InterruptedException {
         CountDownLatch latch = createLatch();
@@ -677,7 +788,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(17)
+    @Order(20)
     @DisplayName("Test asset library pagination")
     void testAssetLibraryPagination() throws InterruptedException, IllegalAccessException {
         // Fetch two pages and ensure no overlap
@@ -735,7 +846,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(18)
+    @Order(21)
     @DisplayName("Test asset library consistency")
     void testAssetLibraryConsistency() throws InterruptedException, IllegalAccessException {
         // Fetch asset library twice and compare count
@@ -791,7 +902,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(19)
+    @Order(22)
     @DisplayName("Test asset with all metadata fields")
     void testAssetWithAllMetadataFields() throws InterruptedException {
         CountDownLatch latch = createLatch();
@@ -839,7 +950,7 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(20)
+    @Order(23)
     @DisplayName("Test comprehensive asset management scenario")
     void testComprehensiveAssetManagementScenario() throws InterruptedException, IllegalAccessException {
         CountDownLatch latch = createLatch();
@@ -885,8 +996,8 @@ class AssetManagementComprehensiveIT extends BaseIntegrationTest {
     @AfterAll
     void tearDown() {
         logger.info("Completed AssetManagementComprehensiveIT test suite");
-        logger.info("All 20 asset management tests executed");
-        logger.info("Tested: fetch, metadata, library, filters, performance, edge cases");
+        logger.info("All 23 asset management tests executed");
+        logger.info("Tested: fetch, metadata, locale, assetFields, library, filters, performance, edge cases");
     }
 }
 

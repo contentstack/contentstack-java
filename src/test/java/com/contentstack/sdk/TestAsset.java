@@ -81,6 +81,79 @@ public class TestAsset {
         assertSame(asset, result);
     }
 
+    @Test
+    void testConfigureWithLocaleSetsLanguage() {
+        JSONObject json = new JSONObject();
+        json.put("uid", "locale_asset_uid");
+        json.put("locale", "en-us");
+        json.put("filename", "localized.jpg");
+
+        asset.configure(json);
+        assertEquals("en-us", asset.getLocale());
+        assertEquals("en-us", asset.language);
+    }
+
+    @Test
+    void testConfigureWithoutLocaleLeavesLanguageNull() {
+        JSONObject json = new JSONObject();
+        json.put("uid", "no_locale_uid");
+        json.put("filename", "test.jpg");
+
+        asset.configure(json);
+        assertNull(asset.getLocale());
+        assertNull(asset.language);
+    }
+
+    // ========== LOCALE TESTS (setLocale / getLocale) ==========
+
+    @Test
+    void testSetLocale() {
+        Asset result = asset.setLocale("en-us");
+        assertSame(asset, result);
+        assertTrue(asset.urlQueries.has("locale"));
+        assertEquals("en-us", asset.urlQueries.get("locale"));
+    }
+
+    @Test
+    void testSetLocaleReturnsThisForChaining() {
+        Asset result = asset.setLocale("fr-fr").includeDimension().includeMetadata();
+        assertSame(asset, result);
+        assertEquals("fr-fr", asset.urlQueries.get("locale"));
+        assertTrue(asset.urlQueries.has("include_dimension"));
+        assertTrue(asset.urlQueries.has("include_metadata"));
+    }
+
+    @Test
+    void testSetLocaleOverwritesPrevious() {
+        asset.setLocale("en-us");
+        assertEquals("en-us", asset.urlQueries.get("locale"));
+        asset.setLocale("de-de");
+        assertEquals("de-de", asset.urlQueries.get("locale"));
+    }
+
+    @Test
+    void testGetLocaleBeforeConfigureReturnsNull() {
+        assertNull(asset.getLocale());
+    }
+
+    @Test
+    void testGetLocaleAfterConfigureWithLocale() {
+        JSONObject json = new JSONObject();
+        json.put("uid", "uid");
+        json.put("locale", "ja-jp");
+        asset.configure(json);
+        assertEquals("ja-jp", asset.getLocale());
+    }
+
+    @Test
+    void testGetLocaleAfterSetLocaleOnlySetsQueryNotLanguage() {
+        asset.setLocale("es-es");
+        // setLocale only puts in urlQueries; it does not set this.language
+        assertTrue(asset.urlQueries.has("locale"));
+        assertEquals("es-es", asset.urlQueries.get("locale"));
+        assertNull(asset.getLocale()); // getLocale returns this.language, not urlQueries
+    }
+
     // ========== HEADER TESTS ==========
 
     @Test
@@ -180,6 +253,133 @@ public class TestAsset {
         assertSame(asset, result);
         assertTrue(asset.urlQueries.has("include_metadata"));
         assertEquals(true, asset.urlQueries.get("include_metadata"));
+    }
+
+    // ========== ASSET FIELDS TESTS (CDA asset_fields[] parameter) ==========
+
+    @Test
+    void testAssetFieldsWithSupportedValues() {
+        Asset result = asset.assetFields("user_defined_fields", "embedded", "ai_suggested", "visual_markups");
+        assertSame(asset, result);
+        assertTrue(asset.urlQueries.has("asset_fields[]"));
+        Object val = asset.urlQueries.get("asset_fields[]");
+        assertTrue(val instanceof JSONArray);
+        JSONArray arr = (JSONArray) val;
+        assertEquals(4, arr.length());
+        assertEquals("user_defined_fields", arr.get(0));
+        assertEquals("embedded", arr.get(1));
+        assertEquals("ai_suggested", arr.get(2));
+        assertEquals("visual_markups", arr.get(3));
+    }
+
+    @Test
+    void testAssetFieldsReturnsThis() {
+        Asset result = asset.assetFields("user_defined_fields");
+        assertSame(asset, result);
+    }
+
+    @Test
+    void testAssetFieldsWithNoArgsDoesNotSetParam() {
+        asset.assetFields();
+        assertFalse(asset.urlQueries.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsWithNullDoesNotSetParam() {
+        asset.assetFields((String[]) null);
+        assertFalse(asset.urlQueries.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsChainingWithOtherMethods() {
+        Asset result = asset.assetFields("embedded", "visual_markups")
+            .includeMetadata()
+            .includeDimension();
+        assertSame(asset, result);
+        assertTrue(asset.urlQueries.has("asset_fields[]"));
+        assertTrue(asset.urlQueries.has("include_metadata"));
+        assertTrue(asset.urlQueries.has("include_dimension"));
+        JSONArray arr = asset.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(2, arr.length());
+        assertEquals("embedded", arr.get(0));
+        assertEquals("visual_markups", arr.get(1));
+    }
+
+    /**
+     * Usage: stack.asset(assetUid).assetFields(...).fetch()
+     * Verifies the full chain sets asset_fields[] on the asset before fetch.
+     */
+    @Test
+    void testUsageSingleAssetFetchWithAssetFields() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        Asset asset = stack.asset("asset_uid_123")
+            .assetFields("embedded", "visual_markups");
+        assertTrue(asset.urlQueries.has("asset_fields[]"));
+        JSONArray arr = asset.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(2, arr.length());
+        assertEquals("embedded", arr.get(0));
+        assertEquals("visual_markups", arr.get(1));
+    }
+
+
+    @Test
+    void testAssetFieldsSingleField() {
+        asset.assetFields("embedded");
+        assertTrue(asset.urlQueries.has("asset_fields[]"));
+        JSONArray arr = asset.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(1, arr.length());
+        assertEquals("embedded", arr.get(0));
+    }
+
+    @Test
+    void testAssetFieldsEmptyVarargsArrayDoesNotSetParam() {
+        asset.assetFields(new String[0]);
+        assertFalse(asset.urlQueries.has("asset_fields[]"));
+    }
+
+    @Test
+    void testAssetFieldsDuplicateValuesAllowed() {
+        asset.assetFields("embedded", "embedded");
+        JSONArray arr = asset.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(2, arr.length());
+        assertEquals("embedded", arr.get(0));
+        assertEquals("embedded", arr.get(1));
+    }
+
+    @Test
+    void testAssetFieldsSecondCallOverwrites() {
+        asset.assetFields("user_defined_fields", "embedded");
+        asset.assetFields("ai_suggested");
+        JSONArray arr = asset.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(1, arr.length());
+        assertEquals("ai_suggested", arr.get(0));
+    }
+
+    @Test
+    void testAssetFieldsWithEmptyStringInArray() {
+        asset.assetFields("valid", "", "embedded");
+        JSONArray arr = asset.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(3, arr.length());
+        assertEquals("valid", arr.get(0));
+        assertEquals("", arr.get(1));
+        assertEquals("embedded", arr.get(2));
+    }
+
+    @Test
+    void testAssetFieldsWithNullInArray() {
+        asset.assetFields("valid", null, "embedded");
+        JSONArray arr = asset.urlQueries.getJSONArray("asset_fields[]");
+        assertEquals(3, arr.length());
+        assertEquals("valid", arr.get(0));
+        assertEquals("embedded", arr.get(2));
+    }
+
+    @Test
+    void testAssetFieldsSingleEmptyStringSetsParam() {
+        asset.assetFields("");
+        assertTrue(asset.urlQueries.has("asset_fields[]"));
+        assertEquals(1, asset.urlQueries.getJSONArray("asset_fields[]").length());
+        assertEquals("", asset.urlQueries.getJSONArray("asset_fields[]").get(0));
     }
 
     // ========== CHAINING TESTS ==========

@@ -443,11 +443,54 @@ class RetryIntegrationIT extends BaseIntegrationTest {
         assertTrue(awaitLatch(latch, "testComprehensiveRetryScenario"));
     }
 
+    @Test
+    @Order(11)
+    @DisplayName("Test CDA query with custom Config.RetryOptions (OkHttp retry interceptor)")
+    void testStackWithCustomRetryOptions() throws InterruptedException, IllegalAccessException {
+        RetryOptions options = new RetryOptions()
+                .setRetryEnabled(true)
+                .setRetryLimit(1)
+                .setRetryDelay(50L);
+        Config cfg = new Config();
+        cfg.setHost(Credentials.HOST);
+        cfg.setRetryOptions(options);
+
+        Stack retryStack = Contentstack.stack(
+                Credentials.API_KEY,
+                Credentials.DELIVERY_TOKEN,
+                Credentials.ENVIRONMENT,
+                cfg);
+
+        CountDownLatch latch = createLatch();
+        Query query = retryStack
+                .contentType(Credentials.COMPLEX_CONTENT_TYPE_UID)
+                .query();
+        query.limit(3);
+
+        query.find(new QueryResultsCallBack() {
+            @Override
+            public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                try {
+                    assertNull(error, "BUG: Query with RetryOptions stack failed: "
+                            + (error != null ? error.getErrorMessage() : ""));
+                    assertNotNull(queryResult, "BUG: QueryResult is null");
+                    logger.info("✅ Custom RetryOptions stack: query returned "
+                            + queryResult.getResultObjects().size() + " entries");
+                    logSuccess("testStackWithCustomRetryOptions", "retry stack OK");
+                } finally {
+                    latch.countDown();
+                }
+            }
+        });
+
+        assertTrue(awaitLatch(latch, "testStackWithCustomRetryOptions"));
+    }
+
     @AfterAll
     void tearDown() {
         logger.info("Completed RetryIntegrationIT test suite");
-        logger.info("All 10 retry integration tests executed");
-        logger.info("Tested: retry configuration, behavior, performance, error handling, comprehensive scenarios");
+        logger.info("All 11 retry integration tests executed");
+        logger.info("Tested: retry configuration, behavior, performance, error handling, comprehensive scenarios, Config.RetryOptions");
     }
 }
 

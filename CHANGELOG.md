@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## v2.6.0
+
+### Feb 23, 2026
+- Enhancement: Asset localization added
+
+## v2.5.0
+
+### Feb 12, 2026
+- Enhancement: assetFields method added
+
+## v2.4.0
+
+### Feb 02, 2026
+- Enhancement: Retry mechanism added
+
+## v2.3.2
+
+### Jan 05, 2026
+- Snyk Fixes
+
 ## v2.3.1
 
 ### Date: 03-Nov-2025
