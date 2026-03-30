@@ -1,0 +1,36 @@
+---
+description: PR and code review checklist – API stability, errors, compatibility, security
+alwaysApply: true
+---
+
+# Code Review Checklist – Contentstack Java CDA SDK
+
+Use this checklist when reviewing pull requests or before opening a PR.
+
+## API design and stability
+
+- [ ] **Public API:** New or changed public methods/classes are necessary and clearly documented (Javadoc).
+- [ ] **Backward compatibility:** No breaking changes to public API unless explicitly called out and justified (e.g. major version).
+- [ ] **Naming:** Method and class names are consistent with existing SDK style and CDA terminology.
+
+## Error handling and robustness
+
+- [ ] **Errors:** API failures are mapped to the SDK **`Error`** type and passed through existing callback/result patterns.
+- [ ] **Null safety:** No unintended NPEs; parameters and return values are documented or annotated where it matters (e.g. `@NotNull`/`@Nullable`).
+- [ ] **Exceptions:** Checked exceptions are handled or declared; unchecked exceptions are used only where appropriate and documented.
+
+## Dependencies and security
+
+- [ ] **Dependencies:** No new dependencies without justification; version bumps are intentional and do not introduce known vulnerabilities.
+- [ ] **SCA:** Address any security findings (e.g. from Snyk or similar) in the scope of the PR or in a follow-up.
+
+## Testing
+
+- [ ] **Coverage:** New or modified behavior is covered by unit and/or integration tests as appropriate.
+- [ ] **Test quality:** Tests are readable, stable (no flakiness), and follow project conventions (`Test*` / `*IT`, `BaseIntegrationTest` for integration tests).
+
+## Severity (optional)
+
+- **Blocker:** Must fix before merge (e.g. breaking public API without approval, security issue, no tests for new code).
+- **Major:** Should fix (e.g. inconsistent error handling, missing Javadoc on new public API).
+- **Minor:** Nice to fix (e.g. style, minor docs).

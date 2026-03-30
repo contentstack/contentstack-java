@@ -1,0 +1,41 @@
+---
+description: Java 8 standards and com.contentstack.sdk conventions for the CDA SDK
+globs: "**/*.java"
+---
+
+# Java Standards – Contentstack Java CDA SDK
+
+Apply these conventions when editing Java code in this repository.
+
+## Language and runtime
+
+- **Java 8** (source/target 1.8). Do not use language or API features that require a higher version.
+- Avoid raw types; use proper generics where applicable.
+
+## Package and layout
+
+- All SDK code lives under **`com.contentstack.sdk`** (see `src/main/java/com/contentstack/sdk/`).
+- Keep the existing package structure; do not introduce new top-level packages without alignment with the rest of the SDK.
+
+## Naming
+
+- **Classes:** PascalCase (e.g. `CSHttpConnection`, `RetryOptions`).
+- **Methods/variables:** camelCase.
+- **Constants:** UPPER_SNAKE_CASE (e.g. in `Constants.java`).
+- **Test classes:** `Test*` for unit tests, `*IT` for integration tests (see **testing.mdc** for test rules).
+
+## Logging
+
+- Use **`java.util.logging`** (Logger) as in `CSHttpConnection` and other SDK classes.
+- Obtain loggers with `Logger.getLogger(ClassName.class.getName())`.
+- Log at appropriate levels (e.g. `warning` for recoverable issues, `fine`/`finer` for debug).
+
+## Annotations and Lombok
+
+- Use **Lombok** where the project already does (e.g. getters/setters, builders) for consistency.
+- Use **`@NotNull`** / **`@Nullable`** (e.g. JetBrains annotations) where they are already used to document nullability.
+
+## General
+
+- Prefer immutability where practical (e.g. final fields, defensive copies for collections).
+- Document public API with Javadoc; keep examples in Javadoc in sync with actual usage (e.g. `Contentstack.stack(...)`, `Config`).
