@@ -1,50 +1,43 @@
-# Contentstack Java CDA SDK – Agent Guide
+# Contentstack Java Delivery SDK – Agent guide
 
-This document is the main entry point for AI agents working in this repository.
+**Universal entry point** for contributors and AI agents. Detailed conventions live in **`skills/*/SKILL.md`**.
 
-## Project
+## What this repo is
 
-- **Name:** Contentstack Java CDA SDK (contentstack-java)
-- **Purpose:** Java client for the Contentstack **Content Delivery API (CDA)**. It fetches content (entries, assets, content types, sync, taxonomy) from Contentstack and delivers it to Java applications.
-- **Repo:** [contentstack-java](https://github.com/contentstack/contentstack-java)
+| Field | Detail |
+|--------|--------|
+| **Name:** | [contentstack-java](https://github.com/contentstack/contentstack-java) (`com.contentstack.sdk:java`) |
+| **Purpose:** | Java SDK for the Contentstack Content Delivery API (stack, entries, assets, queries, sync, etc.). |
+| **Out of scope:** | Not the Android or Swift SDKs—use those repositories for mobile-specific clients. |
 
-## Tech stack
+## Tech stack (at a glance)
 
-- **Language:** Java 8 (source/target 1.8)
-- **Build:** Maven
-- **Testing:** JUnit 5, JaCoCo (coverage)
-- **HTTP:** Retrofit 2, OkHttp
-- **Other:** Gson, RxJava 3, Lombok, contentstack-utils
+| Area | Details |
+|------|---------|
+| Language | Java **8** (`maven.compiler.source/target` in `pom.xml`) |
+| Build | Maven (`pom.xml`); JaCoCo for coverage |
+| Tests | JUnit 5; unit tests and `*IT` integration tests under `src/test/java/` |
+| Lint / coverage | JaCoCo (`jacoco:report` in CI); no separate Checkstyle in quick path—follow existing style |
+| CI | `.github/workflows/unit-testing.yml`, `check-branch.yml`, `sca-scan.yml`, `policy-scan.yml`, `codeql-analysis.yml`, publish workflows |
 
-## Main entry points
+## Commands (quick reference)
 
-- **`Contentstack`** – Static factory: `Contentstack.stack(apiKey, deliveryToken, environment)` returns a `Stack`.
-- **`Stack`** – Main API surface: entries, assets, content types, sync, live preview, etc.
-- **`Config`** – Optional configuration: host, version, region, branch, retry, proxy, connection pool, plugins.
-- **Paths:** `src/main/java/com/contentstack/sdk/` (production), `src/test/java/com/contentstack/sdk/` (tests).
+| Command type | Command |
+|--------------|---------|
+| Build / test | `mvn clean test -Dgpg.skip=true` (adjust `-Dtest` per `pom.xml` surefire notes) |
+| Coverage (CI-style) | `mvn clean test -Dtest='Test*' jacoco:report -Dgpg.skip=true` |
 
-## Commands
+## Where the documentation lives: skills
 
-- **Build and test:** `mvn clean test`
-- **Single test class:** `mvn test -Dtest=TestEntry`
-- **Integration tests only:** `mvn test -Dtest='*IT'`
-- **Unit tests only:** `mvn test -Dtest='Test*'`
+| Skill | Path | What it covers |
+|-------|------|----------------|
+| **Development workflow** | [`skills/dev-workflow/SKILL.md`](skills/dev-workflow/SKILL.md) | Branches, Maven, CI, JaCoCo |
+| **Java CDA SDK** | [`skills/contentstack-java-cda/SKILL.md`](skills/contentstack-java-cda/SKILL.md) | Public API: `Stack`, queries, callbacks, HTTP layer |
+| **Java style & layout** | [`skills/java/SKILL.md`](skills/java/SKILL.md) | `src/main/java` packages, Lombok, Retrofit/Rx usage |
+| **Framework / HTTP** | [`skills/framework/SKILL.md`](skills/framework/SKILL.md) | Config, RetryOptions, CSHttpConnection, OkHttp/Retrofit flow |
+| **Testing** | [`skills/testing/SKILL.md`](skills/testing/SKILL.md) | Unit vs integration tests, resources, credentials |
+| **Code review** | [`skills/code-review/SKILL.md`](skills/code-review/SKILL.md) | PR checklist for JVM SDK |
 
-Integration tests may require a `.env` with stack credentials (see `Credentials` and test README/docs).
+## Using Cursor (optional)
 
-## Rules and skills
-
-- **`.cursor/rules/`** – Cursor rules for this repo:
-  - **README.md** – Index of all rules.
-  - **dev-workflow.md** – Development workflow (branches, tests, PRs).
-  - **java.mdc** – Applies to `**/*.java`: Java 8 and SDK conventions.
-  - **contentstack-java-cda.mdc** – Applies to SDK core: CDA patterns, Config, HTTP, retry, callbacks.
-  - **testing.mdc** – Applies to `src/test/**/*.java`: JUnit 5, Test* / *IT, BaseIntegrationTest, JaCoCo.
-  - **code-review.mdc** – Always applied: PR/review checklist.
-- **`skills/`** – Reusable skill docs:
-  - Use **contentstack-java-cda** when implementing or changing CDA API usage or SDK core behavior.
-  - Use **testing** when adding or refactoring tests.
-  - Use **code-review** when reviewing PRs or before opening one.
-  - Use **framework** when changing config, retry, or HTTP layer (Config, RetryOptions, RetryInterceptor, CSHttpConnection).
-
-Refer to `.cursor/rules/README.md` for when each rule applies and to `skills/README.md` for skill details.
+If you use **Cursor**, [`.cursor/rules/README.md`](.cursor/rules/README.md) only points to **`AGENTS.md`**—same docs as everyone else.
