@@ -47,8 +47,3 @@ Use this skill when changing configuration, retry behavior, or the HTTP connecti
 - **Retry:** `RetryOptions.java`, `RetryOptions.BackoffStrategy`, `RetryInterceptor.java`, `CustomBackoffStrategy.java`
 - **HTTP:** `CSHttpConnection.java`, `APIService.java`, `CSConnectionRequest.java`, `Constants.java`
 - **Errors/callbacks:** `Error.java`, `ResultCallBack`, and related callback types
-
-## References
-
-- Project rules: `.cursor/rules/contentstack-java-cda.mdc`, `.cursor/rules/java.mdc`
-- CDA skill: `skills/contentstack-java-cda/SKILL.md` for CDA-specific usage of Config and HTTP
