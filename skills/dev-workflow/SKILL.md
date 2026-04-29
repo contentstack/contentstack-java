@@ -14,7 +14,7 @@ description: Use for Maven lifecycle, CI, JaCoCo, and branch expectations in con
 
 ### Branches
 
-- Integration branches include **`development`**, **`staging`**, and **`master`**—confirm target branch for your PR against team policy.
+- Integration/release flow is **`development` -> `master`** (direct release PRs; no `staging` branch in release flow).
 
 ### Commands
 
