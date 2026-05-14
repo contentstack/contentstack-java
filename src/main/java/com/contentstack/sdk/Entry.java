@@ -1145,26 +1145,40 @@ public class Entry {
     }
 
     /**
-     * The variant header will be added to client
-     * @return {Entry}
-     * 
-     *          import contentstack from '@contentstack/delivery-sdk'
+     * Sets a single variant UID for the entry request.
+     * Adds the {@code x-cs-variant-uid} header to the request.
      *
-     *          Stack stack = contentstack.Stack("apiKey", "deliveryToken",
-     *          "environment");
-     *          Entry entry =
-     *          stack.contentType("user").entry("entry_uid").variant("variant_uid").fetch();
+     * @param variants single variant UID
+     * @return {@link Entry} object, so you can chain this call.
+     *
+     * <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Entry entry = stack.contentType("abc").entry("entry_uid").variants("xyz");
+     *         entry.fetch(callback);
+     *         </pre>
      */
     public Entry variants(@NotNull String variants) {
-        if (variants != null && variants.length() > 0) {
+        if (!variants.isEmpty()) {
             this.headers.put("x-cs-variant-uid", variants.trim());
         }
         return this;
-
     }
 
+    /**
+     * Sets multiple variant UIDs for the entry request.
+     * Adds the {@code x-cs-variant-uid} header with a comma-separated list.
+     *
+     * @param variants array of variant UIDs
+     * @return {@link Entry} object, so you can chain this call.
+     *
+     * <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Entry entry = stack.contentType("abc").entry("entry_uid").variants(new String[]{"v1","v2"});
+     *         entry.fetch(callback);
+     *         </pre>
+     */
     public Entry variants(@NotNull String[] variants) {
-        if (variants != null && variants.length > 0) {
+        if (variants.length > 0) {
             List<String> variantList = new ArrayList<>();
             for (String variant : variants) {
                 if (variant != null && !variant.trim().isEmpty())
@@ -1173,6 +1187,51 @@ public class Entry {
             if (!variantList.isEmpty()) {
                 this.headers.put("x-cs-variant-uid", String.join(", ", variantList));
             }
+        }
+        return this;
+    }
+
+    /**
+     * Sets the variant UID and branch for the entry request.
+     * The {@code x-cs-variant-uid} and {@code branch} headers are added to the request.
+     *
+     * @param variants  single variant UID
+     * @param branch    branch name to scope this request
+     * @return {@link Entry} object, so you can chain this call.
+     *
+     * <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Entry entry = stack.contentType("abc").entry("entry_uid").variants("xyz", "branch_name");
+     *         entry.fetch(callback);
+     *         </pre>
+     */
+    public Entry variants(@NotNull String variants, @NotNull String branch) {
+        variants(variants);
+        return applyBranch(branch);
+    }
+
+    /**
+     * Sets multiple variant UIDs and a branch for the entry request.
+     * The {@code x-cs-variant-uid} and {@code branch} headers are added to the request.
+     *
+     * @param variants  array of variant UIDs
+     * @param branch    branch name to scope this request
+     * @return {@link Entry} object, so you can chain this call.
+     *
+     * <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Entry entry = stack.contentType("abc").entry("entry_uid").variants(new String[]{"v1","v2"}, "branch_name");
+     *         entry.fetch(callback);
+     *         </pre>
+     */
+    public Entry variants(@NotNull String[] variants, @NotNull String branch) {
+        variants(variants);
+        return applyBranch(branch);
+    }
+
+    private Entry applyBranch(String branch) {
+        if (branch != null && !branch.isEmpty()) {
+            this.headers.put("branch", branch.trim());
         }
         return this;
     }
