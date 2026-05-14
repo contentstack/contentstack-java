@@ -1798,12 +1798,117 @@ public class TestQuery {
         Query result1 = query.greaterThanOrEqualTo("simple_key", 10);
         Query result2 = query.greaterThanOrEqualTo("nested.field", 20);
         Query result3 = query.greaterThanOrEqualTo("key_with_123", 30);
-        
+
         assertNotNull(result1);
         assertNotNull(result2);
         assertNotNull(result3);
         assertTrue(query.queryValueJSON.has("simple_key"));
         assertTrue(query.queryValueJSON.has("nested.field"));
         assertTrue(query.queryValueJSON.has("key_with_123"));
+    }
+
+    // ========== VARIANTS METHOD TESTS ==========
+
+    @Test
+    void testQueryVariantsWithSingleVariant() {
+        Query result = query.variants("variant_uid_123");
+
+        assertNotNull(result);
+        assertEquals("variant_uid_123", query.headers.get("x-cs-variant-uid"));
+        assertFalse(query.headers.containsKey("branch"));
+    }
+
+    @Test
+    void testQueryVariantsWithEmptyString() {
+        query.variants("");
+
+        assertFalse(query.headers.containsKey("x-cs-variant-uid"));
+    }
+
+    @Test
+    void testQueryVariantsWithMultipleVariants() {
+        Query result = query.variants(new String[]{"variant1", "variant2", "variant3"});
+
+        assertNotNull(result);
+        String headerValue = (String) query.headers.get("x-cs-variant-uid");
+        assertTrue(headerValue.contains("variant1"));
+        assertTrue(headerValue.contains("variant2"));
+        assertTrue(headerValue.contains("variant3"));
+    }
+
+    @Test
+    void testQueryVariantsWithEmptyArray() {
+        query.variants(new String[]{});
+
+        assertFalse(query.headers.containsKey("x-cs-variant-uid"));
+    }
+
+    @Test
+    void testQueryVariantsWithNullAndEmptyStrings() {
+        query.variants(new String[]{null, "", "valid_variant", "  ", "another_valid"});
+
+        String headerValue = (String) query.headers.get("x-cs-variant-uid");
+        assertTrue(headerValue.contains("valid_variant"));
+        assertTrue(headerValue.contains("another_valid"));
+        assertFalse(headerValue.contains("null"));
+    }
+
+    @Test
+    void testQueryVariantsWithSingleVariantAndBranch() {
+        Query result = query.variants("variant_uid_123", "staging");
+
+        assertNotNull(result);
+        assertEquals("variant_uid_123", query.headers.get("x-cs-variant-uid"));
+        assertEquals("staging", query.headers.get("branch"));
+    }
+
+    @Test
+    void testQueryVariantsWithMultipleVariantsAndBranch() {
+        Query result = query.variants(new String[]{"variant1", "variant2"}, "feature-branch");
+
+        assertNotNull(result);
+        String variantHeader = (String) query.headers.get("x-cs-variant-uid");
+        assertTrue(variantHeader.contains("variant1"));
+        assertTrue(variantHeader.contains("variant2"));
+        assertEquals("feature-branch", query.headers.get("branch"));
+    }
+
+    @Test
+    void testQueryVariantsWithEmptyVariantAndBranch() {
+        query.variants("", "staging");
+
+        assertFalse(query.headers.containsKey("x-cs-variant-uid"));
+        assertEquals("staging", query.headers.get("branch"));
+    }
+
+    @Test
+    void testQueryVariantsWithEmptyBranch() {
+        query.variants("variant_uid_123", "");
+
+        assertEquals("variant_uid_123", query.headers.get("x-cs-variant-uid"));
+        assertFalse(query.headers.containsKey("branch"));
+    }
+
+    @Test
+    void testQueryVariantsArrayWithNullStringsAndBranch() {
+        query.variants(new String[]{null, "", "valid_variant", "  ", "another_valid"}, "main");
+
+        String variantHeader = (String) query.headers.get("x-cs-variant-uid");
+        assertTrue(variantHeader.contains("valid_variant"));
+        assertTrue(variantHeader.contains("another_valid"));
+        assertFalse(variantHeader.contains("null"));
+        assertEquals("main", query.headers.get("branch"));
+    }
+
+    @Test
+    void testQueryVariantsChaining() {
+        Query result = query
+            .variants("variant_uid_123", "staging")
+            .includeBranch()
+            .limit(10);
+
+        assertNotNull(result);
+        assertEquals("variant_uid_123", query.headers.get("x-cs-variant-uid"));
+        assertEquals("staging", query.headers.get("branch"));
     }
 }
