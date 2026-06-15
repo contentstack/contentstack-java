@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.7.0
+
+### Jun 15, 2026
+- Enhancement: Endpoint integration
+
 ## v2.6.0
 
 ### Feb 23, 2026

@@ -59,40 +59,19 @@ public class Stack {
 
     protected void setConfig(Config config) {
         this.config = config;
-        String urlDomain = config.host;
 
-        if (!config.region.name().isEmpty()) {
-            String region = config.region.name().toLowerCase();
-            if (region.equalsIgnoreCase("eu")) {
-                if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
-                    urlDomain = "cdn.contentstack.com";
+        // Explicit host (set via Config.setHost()) always takes precedence over region resolution.
+        // When no host was explicitly set, resolve the content-delivery host from regions.json via
+        // Endpoint so that new regions are picked up without SDK changes.
+        if (!config.hostOverridden) {
+            String regionId = config.region.name().toLowerCase();
+            try {
+                config.host = Endpoint.getContentstackEndpoint(regionId, "contentDelivery", true);
+            } catch (IllegalArgumentException e) {
+                // Unrecognised region: apply the legacy prefix pattern for backward compatibility
+                if (!regionId.equals("us")) {
+                    config.host = regionId.replace("_", "-") + "-cdn.contentstack.com";
                 }
-                config.host = region + "-" + urlDomain;
-            } else if (region.equalsIgnoreCase("azure_na")) {
-                if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
-                    urlDomain = "cdn.contentstack.com";
-                }
-                config.host = "azure-na" + "-" + urlDomain;
-            } else if (region.equalsIgnoreCase("azure_eu")) {
-                if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
-                    urlDomain = "cdn.contentstack.com";
-                }
-                config.host = "azure-eu" + "-" + urlDomain;
-            } else if (region.equalsIgnoreCase("gcp_na")) {
-                if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
-                    urlDomain = "cdn.contentstack.com";
-                }
-                config.host = "gcp-na" + "-" + urlDomain;
-            } else if (region.equalsIgnoreCase("gcp_eu")) {
-                if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
-                    urlDomain = "cdn.contentstack.com";
-                }
-                config.host = "gcp-eu" + "-" + urlDomain;
-            } else if (region.equalsIgnoreCase("au")) {
-                if (urlDomain.equalsIgnoreCase("cdn.contentstack.io")) {
-                    urlDomain = "cdn.contentstack.com";
-                }
-                config.host = region + "-" + urlDomain;
             }
         }
 
