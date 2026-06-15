@@ -1344,15 +1344,15 @@ public class TestStack {
     @Test
     void testSetConfigWithCustomHostNoRegionChange() {
         Config config = new Config();
-        config.host = "custom-cdn.example.com";
+        // Use setHost() so the explicit host takes precedence over region resolution
+        config.setHost("custom-cdn.example.com");
         config.setRegion(Config.ContentstackRegion.EU);
-        
+
         stack.setConfig(config);
-        
+
         assertNotNull(stack.config);
-        // Custom host should get region prefix but not change domain
-        assertTrue(stack.config.getHost().contains("eu-"));
-        assertTrue(stack.config.getHost().contains("custom-cdn.example.com"));
+        // An explicit host set via setHost() is used as-is — no region prefix is applied on top
+        assertEquals("custom-cdn.example.com", stack.config.getHost());
     }
 
     // ========== LIVE PREVIEW WITH DIFFERENT REGIONS ==========

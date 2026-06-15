@@ -18,6 +18,7 @@ public class Config {
     protected String livePreviewContentType = null;
     protected String livePreviewEntryUid = null;
     protected String host = "cdn.contentstack.io";
+    protected boolean hostOverridden = false;
     protected String version = "v3";
     protected String scheme = "https://";
     protected String endpoint;
@@ -167,6 +168,7 @@ public class Config {
     public void setHost(String hostName) {
         if (hostName != null && !hostName.isEmpty()) {
             host = hostName;
+            hostOverridden = true;
         }
     }
 
