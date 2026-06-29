@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.7.1
+
+### Jun 29, 2026
+- Snyk fixes
+
 ## v2.7.0
 
 ### Jun 15, 2026
