@@ -1559,4 +1559,96 @@ public class Query implements INotifyClass {
         urlQueries.put("include_metadata", true);
         return this;
     }
+
+    /**
+     * Sets a single variant UID for the query request.
+     * Adds the {@code x-cs-variant-uid} header to the request.
+     *
+     * @param variants single variant UID
+     * @return {@link Query} object, so you can chain this call.
+     *
+     * <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Query query = stack.contentType("abc").query().variants("xyz");
+     *         query.find(callback);
+     *         </pre>
+     */
+    public Query variants(@NotNull String variants) {
+        if (!variants.isEmpty()) {
+            this.headers.put("x-cs-variant-uid", variants.trim());
+        }
+        return this;
+    }
+
+    /**
+     * Sets multiple variant UIDs for the query request.
+     * Adds the {@code x-cs-variant-uid} header with a comma-separated list.
+     *
+     * @param variants array of variant UIDs
+     * @return {@link Query} object, so you can chain this call.
+     *
+     * <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Query query = stack.contentType("abc").query().variants(new String[]{"v1","v2"});
+     *         query.find(callback);
+     *         </pre>
+     */
+    public Query variants(@NotNull String[] variants) {
+        if (variants.length > 0) {
+            List<String> variantList = new ArrayList<>();
+            for (String variant : variants) {
+                if (variant != null && !variant.trim().isEmpty())
+                    variantList.add(variant.trim());
+            }
+            if (!variantList.isEmpty()) {
+                this.headers.put("x-cs-variant-uid", String.join(", ", variantList));
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Sets a single variant UID and branch for the query request.
+     * Adds {@code x-cs-variant-uid} and {@code branch} headers to the request.
+     *
+     * @param variants single variant UID
+     * @param branch   branch name to scope this request
+     * @return {@link Query} object, so you can chain this call.
+     *
+     * <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Query query = stack.contentType("abc").query().variants("xyz", "branch_name");
+     *         query.find(callback);
+     *         </pre>
+     */
+    public Query variants(@NotNull String variants, @NotNull String branch) {
+        variants(variants);
+        return applyBranch(branch);
+    }
+
+    /**
+     * Sets multiple variant UIDs and a branch for the query request.
+     * Adds {@code x-cs-variant-uid} and {@code branch} headers to the request.
+     *
+     * @param variants array of variant UIDs
+     * @param branch   branch name to scope this request
+     * @return {@link Query} object, so you can chain this call.
+     *
+     * <pre class="prettyprint">
+     *         Stack stack = Contentstack.stack("apiKey", "deliveryToken", "environment");
+     *         Query query = stack.contentType("abc").query().variants(new String[]{"v1","v2"}, "branch_name");
+     *         query.find(callback);
+     *         </pre>
+     */
+    public Query variants(@NotNull String[] variants, @NotNull String branch) {
+        variants(variants);
+        return applyBranch(branch);
+    }
+
+    private Query applyBranch(String branch) {
+        if (branch != null && !branch.isEmpty()) {
+            this.headers.put("branch", branch.trim());
+        }
+        return this;
+    }
 }

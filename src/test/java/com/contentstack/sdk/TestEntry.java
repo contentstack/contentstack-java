@@ -1140,6 +1140,83 @@ public class TestEntry {
         assertFalse(headerValue.contains("null"));
     }
 
+    // ========== VARIANTS WITH BRANCH TESTS ==========
+
+    @Test
+    void testVariantsWithSingleVariantAndBranch() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        Entry entry = stack.contentType("test").entry();
+
+        Entry result = entry.variants("variant_uid_123", "staging");
+
+        assertNotNull(result);
+        assertEquals("variant_uid_123", entry.headers.get("x-cs-variant-uid"));
+        assertEquals("staging", entry.headers.get("branch"));
+    }
+
+    @Test
+    void testVariantsWithMultipleVariantsAndBranch() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        Entry entry = stack.contentType("test").entry();
+
+        Entry result = entry.variants(new String[]{"variant1", "variant2"}, "feature-branch");
+
+        assertNotNull(result);
+        String variantHeader = (String) entry.headers.get("x-cs-variant-uid");
+        assertTrue(variantHeader.contains("variant1"));
+        assertTrue(variantHeader.contains("variant2"));
+        assertEquals("feature-branch", entry.headers.get("branch"));
+    }
+
+    @Test
+    void testVariantsWithEmptyVariantAndBranch() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        Entry entry = stack.contentType("test").entry();
+
+        entry.variants("", "staging");
+
+        assertFalse(entry.headers.containsKey("x-cs-variant-uid"));
+        assertEquals("staging", entry.headers.get("branch"));
+    }
+
+    @Test
+    void testVariantsWithEmptyBranch() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        Entry entry = stack.contentType("test").entry();
+
+        entry.variants("variant_uid_123", "");
+
+        assertEquals("variant_uid_123", entry.headers.get("x-cs-variant-uid"));
+        assertFalse(entry.headers.containsKey("branch"));
+    }
+
+    @Test
+    void testVariantsArrayWithNullAndEmptyStringsAndBranch() throws IllegalAccessException {
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env");
+        Entry entry = stack.contentType("test").entry();
+
+        entry.variants(new String[]{null, "", "valid_variant", "  ", "another_valid"}, "main");
+
+        String variantHeader = (String) entry.headers.get("x-cs-variant-uid");
+        assertTrue(variantHeader.contains("valid_variant"));
+        assertTrue(variantHeader.contains("another_valid"));
+        assertFalse(variantHeader.contains("null"));
+        assertEquals("main", entry.headers.get("branch"));
+    }
+
+    @Test
+    void testVariantsBranchOverridesStackBranch() throws IllegalAccessException {
+        Config config = new Config();
+        config.setBranch("main");
+        Stack stack = Contentstack.stack("api_key", "delivery_token", "env", config);
+        Entry entry = stack.contentType("test").entry();
+
+        entry.variants("variant_uid_123", "feature-branch");
+
+        assertEquals("variant_uid_123", entry.headers.get("x-cs-variant-uid"));
+        assertEquals("feature-branch", entry.headers.get("branch"));
+    }
+
     // ========== GET HEADERS METHOD TEST ==========
 
     @Test
