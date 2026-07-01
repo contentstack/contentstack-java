@@ -1,13 +1,12 @@
 package com.contentstack.sdk;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.type.MapType;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -201,6 +200,41 @@ public class CSHttpConnection implements IURLRequestHTTP {
         return json;
     }
 
+    /**
+     * Recursively converts a parsed {@link JSONObject} into plain Java collections that
+     * mirror what the response models expect: JSON objects become {@link LinkedHashMap}
+     * (preserving key order) and JSON arrays become {@link ArrayList}.
+     */
+    private static Map<String, Object> jsonToOrderedMap(JSONObject object) {
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+        for (String key : object.keySet()) {
+            map.put(key, convertJsonValue(object.get(key)));
+        }
+        return map;
+    }
+
+    private static Object convertJsonValue(Object value) {
+        if (value == null || value == JSONObject.NULL) {
+            return null;
+        }
+        if (value instanceof JSONObject) {
+            return jsonToOrderedMap((JSONObject) value);
+        }
+        if (value instanceof JSONArray) {
+            JSONArray array = (JSONArray) value;
+            ArrayList<Object> list = new ArrayList<>(array.length());
+            for (int i = 0; i < array.length(); i++) {
+                list.add(convertJsonValue(array.get(i)));
+            }
+            return list;
+        }
+        // Normalize floating-point numbers to Double to match the previous parser's output.
+        if (value instanceof BigDecimal) {
+            return ((BigDecimal) value).doubleValue();
+        }
+        return value;
+    }
+
     private void getService(String requestUrl) throws IOException {
 
         this.headers.put(X_USER_AGENT_KEY, "contentstack-delivery-java/" + SDK_VERSION);
@@ -226,12 +260,11 @@ public class CSHttpConnection implements IURLRequestHTTP {
                     response = pluginResponseImp(request, response);
                 }
                 try {
-                    // Use Jackson to parse the JSON while preserving order
-                    ObjectMapper mapper = JsonMapper.builder().build();
-                    MapType type = mapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class,
-                            Object.class);
-                    Map<String, Object> responseMap = mapper.readValue(response.body().string(), type);
-                    
+                    // Parse the JSON into ordered maps/lists using org.json. Nested objects
+                    // become LinkedHashMap and arrays become ArrayList, matching the shape
+                    // the response models expect.
+                    Map<String, Object> responseMap = jsonToOrderedMap(new JSONObject(response.body().string()));
+
                     // Use the custom method to create an ordered JSONObject
                     responseJSON = createOrderedJSONObject(responseMap);
                     if (this.config.livePreviewEntry != null && !this.config.livePreviewEntry.isEmpty()) {
