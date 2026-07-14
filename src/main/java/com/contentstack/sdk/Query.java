@@ -1574,7 +1574,7 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query variants(@NotNull String variants) {
-        if (!variants.isEmpty()) {
+        if (variants != null && !variants.trim().isEmpty()) {
             this.headers.put("x-cs-variant-uid", variants.trim());
         }
         return this;
@@ -1594,14 +1594,14 @@ public class Query implements INotifyClass {
      *         </pre>
      */
     public Query variants(@NotNull String[] variants) {
-        if (variants.length > 0) {
+        if (variants != null && variants.length > 0) {
             List<String> variantList = new ArrayList<>();
             for (String variant : variants) {
                 if (variant != null && !variant.trim().isEmpty())
                     variantList.add(variant.trim());
             }
             if (!variantList.isEmpty()) {
-                this.headers.put("x-cs-variant-uid", String.join(", ", variantList));
+                this.headers.put("x-cs-variant-uid", String.join(",", variantList));
             }
         }
         return this;
@@ -1646,7 +1646,7 @@ public class Query implements INotifyClass {
     }
 
     private Query applyBranch(String branch) {
-        if (branch != null && !branch.isEmpty()) {
+        if (branch != null && !branch.trim().isEmpty()) {
             this.headers.put("branch", branch.trim());
         }
         return this;
