@@ -9,8 +9,11 @@ import retrofit2.Response;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -1058,10 +1061,157 @@ class TestCSHttpConnection {
         CSHttpConnection conn = new CSHttpConnection("https://test.com", csConnectionRequest);
         
         conn.setError("{\"some_field\": \"some_value\"}");
-        
+
         assertNotNull(csConnectionRequest.error);
         assertEquals("An unknown error occurred.", csConnectionRequest.error.getString("error_message"));
         assertEquals("0", csConnectionRequest.error.getString("error_code"));
         assertEquals("No additional error details available.", csConnectionRequest.error.getString("errors"));
+    }
+
+    // ========== JSON -> ORDERED MAP CONVERSION TESTS ==========
+    // These exercise the org.json based response parsing that replaced Jackson.
+
+    private static Method jsonToOrderedMapMethod() throws Exception {
+        Method m = CSHttpConnection.class.getDeclaredMethod("jsonToOrderedMap", JSONObject.class);
+        m.setAccessible(true);
+        return m;
+    }
+
+    private static Method convertJsonValueMethod() throws Exception {
+        Method m = CSHttpConnection.class.getDeclaredMethod("convertJsonValue", Object.class);
+        m.setAccessible(true);
+        return m;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testJsonToOrderedMapWithPrimitives() throws Exception {
+        JSONObject input = new JSONObject();
+        input.put("uid", "abc123");
+        input.put("count", 42);
+        input.put("active", true);
+
+        Map<String, Object> result = (Map<String, Object>) jsonToOrderedMapMethod().invoke(null, input);
+
+        assertTrue(result instanceof LinkedHashMap);
+        assertEquals("abc123", result.get("uid"));
+        assertEquals(42, result.get("count"));
+        assertEquals(true, result.get("active"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testJsonToOrderedMapWithEmptyObject() throws Exception {
+        Map<String, Object> result = (Map<String, Object>) jsonToOrderedMapMethod().invoke(null, new JSONObject());
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testJsonToOrderedMapWithNestedObjectAndArray() throws Exception {
+        JSONObject nested = new JSONObject();
+        nested.put("x", 1);
+
+        JSONArray array = new JSONArray();
+        array.put("a");
+        array.put("b");
+
+        JSONObject input = new JSONObject();
+        input.put("nested", nested);
+        input.put("arr", array);
+
+        Map<String, Object> result = (Map<String, Object>) jsonToOrderedMapMethod().invoke(null, input);
+
+        // Nested objects must become LinkedHashMap and arrays ArrayList, so the
+        // response models' instanceof checks keep working after the Jackson removal.
+        assertTrue(result.get("nested") instanceof LinkedHashMap);
+        assertEquals(1, ((Map<String, Object>) result.get("nested")).get("x"));
+        assertTrue(result.get("arr") instanceof ArrayList);
+        assertEquals(2, ((List<Object>) result.get("arr")).size());
+        assertEquals("a", ((List<Object>) result.get("arr")).get(0));
+    }
+
+    @Test
+    void testConvertJsonValueWithNull() throws Exception {
+        Object result = convertJsonValueMethod().invoke(null, new Object[] { null });
+        assertNull(result);
+    }
+
+    @Test
+    void testConvertJsonValueWithJsonNull() throws Exception {
+        Object result = convertJsonValueMethod().invoke(null, JSONObject.NULL);
+        assertNull(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testConvertJsonValueWithJsonObject() throws Exception {
+        JSONObject obj = new JSONObject();
+        obj.put("k", "v");
+
+        Object result = convertJsonValueMethod().invoke(null, obj);
+
+        assertTrue(result instanceof LinkedHashMap);
+        assertEquals("v", ((Map<String, Object>) result).get("k"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testConvertJsonValueWithEmptyJsonArray() throws Exception {
+        Object result = convertJsonValueMethod().invoke(null, new JSONArray());
+
+        assertTrue(result instanceof ArrayList);
+        assertTrue(((List<Object>) result).isEmpty());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testConvertJsonValueWithPopulatedJsonArray() throws Exception {
+        JSONArray array = new JSONArray();
+        array.put(1);
+        array.put(2);
+        array.put(3);
+
+        Object result = convertJsonValueMethod().invoke(null, array);
+
+        assertTrue(result instanceof ArrayList);
+        assertEquals(3, ((List<Object>) result).size());
+        assertEquals(1, ((List<Object>) result).get(0));
+    }
+
+    @Test
+    void testConvertJsonValueWithBigDecimal() throws Exception {
+        // Floating point numbers must be normalized to Double to match the old parser.
+        Object result = convertJsonValueMethod().invoke(null, new BigDecimal("3.14"));
+
+        assertTrue(result instanceof Double);
+        assertEquals(3.14, (Double) result, 0.0);
+    }
+
+    @Test
+    void testConvertJsonValueWithPlainString() throws Exception {
+        Object result = convertJsonValueMethod().invoke(null, "hello");
+        assertEquals("hello", result);
+    }
+
+    @Test
+    void testConvertJsonValueWithPlainNumber() throws Exception {
+        Object result = convertJsonValueMethod().invoke(null, 42);
+        assertEquals(42, result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testJsonToOrderedMapDropsJsonNullValues() throws Exception {
+        JSONObject input = new JSONObject();
+        input.put("present", "value");
+        input.put("missing", JSONObject.NULL);
+
+        Map<String, Object> result = (Map<String, Object>) jsonToOrderedMapMethod().invoke(null, input);
+
+        assertEquals("value", result.get("present"));
+        assertNull(result.get("missing"));
     }
 }

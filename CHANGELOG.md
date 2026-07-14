@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v2.7.2
+
+### Jul 06, 2026
+- Snyk fixes
+
+## v2.7.1
+
+### Jun 29, 2026
+- Snyk fixes
+
+## v2.7.0
+
+### Jun 15, 2026
+- Enhancement: Endpoint integration
+
 ## v2.6.0
 
 ### Feb 23, 2026

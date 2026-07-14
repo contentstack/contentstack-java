@@ -597,6 +597,130 @@ class TestCSConnectionRequest {
         assertDoesNotThrow(() -> request.onRequestFailed(errorResponse, 500, null));
     }
 
+    @Test
+    void testOnRequestFailedWithEmptyError() throws Exception {
+        // Empty error object exercises the "false" side of the has(error_message/
+        // error_code/errors) checks in onRequestFailed.
+        JSONObject errorResponse = new JSONObject();
+
+        AtomicBoolean callbackCalled = new AtomicBoolean(false);
+        ResultCallBack callback = new ResultCallBack() {
+            @Override
+            public void onRequestFail(ResponseType responseType, Error error) {
+                callbackCalled.set(true);
+            }
+        };
+
+        CSConnectionRequest request = new CSConnectionRequest(stack);
+        Field callbackField = CSConnectionRequest.class.getDeclaredField("resultCallBack");
+        callbackField.setAccessible(true);
+        callbackField.set(request, callback);
+
+        assertDoesNotThrow(() -> request.onRequestFailed(errorResponse, 0, callback));
+        assertTrue(callbackCalled.get());
+    }
+
+    @Test
+    void testOnRequestFinishedFetchEntryWithNullCallback() throws Exception {
+        CSHttpConnection mockConnection = createMockConnection();
+
+        Field controllerField = CSHttpConnection.class.getDeclaredField("controller");
+        controllerField.setAccessible(true);
+        controllerField.set(mockConnection, Constants.FETCHENTRY);
+
+        LinkedHashMap<String, Object> entryMap = new LinkedHashMap<>();
+        entryMap.put("uid", "test_entry_uid");
+        entryMap.put("title", "Test Entry");
+
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("entry", entryMap);
+
+        Field responseField = CSHttpConnection.class.getDeclaredField("responseJSON");
+        responseField.setAccessible(true);
+        responseField.set(mockConnection, response);
+
+        // No callback set -> exercises the "false" side of the callback null-check.
+        CSConnectionRequest request = new CSConnectionRequest(entry);
+        assertDoesNotThrow(() -> request.onRequestFinished(mockConnection));
+        assertEquals("test_entry_uid", entry.uid);
+    }
+
+    @Test
+    void testOnRequestFinishedFetchSyncWithNullCallback() throws Exception {
+        CSHttpConnection mockConnection = createMockConnection();
+
+        Field controllerField = CSHttpConnection.class.getDeclaredField("controller");
+        controllerField.setAccessible(true);
+        controllerField.set(mockConnection, Constants.FETCHSYNC);
+
+        JSONObject response = new JSONObject();
+        response.put("sync_token", "test_sync_token");
+        response.put("items", new JSONArray());
+
+        Field responseField = CSHttpConnection.class.getDeclaredField("responseJSON");
+        responseField.setAccessible(true);
+        responseField.set(mockConnection, response);
+
+        CSConnectionRequest request = new CSConnectionRequest(stack);
+        assertDoesNotThrow(() -> request.onRequestFinished(mockConnection));
+    }
+
+    @Test
+    void testOnRequestFinishedFetchContentTypesWithNullCallback() throws Exception {
+        CSHttpConnection mockConnection = createMockConnection();
+
+        Field controllerField = CSHttpConnection.class.getDeclaredField("controller");
+        controllerField.setAccessible(true);
+        controllerField.set(mockConnection, Constants.FETCHCONTENTTYPES);
+
+        LinkedHashMap<String, Object> contentTypeMap = new LinkedHashMap<>();
+        contentTypeMap.put("uid", "blog_post");
+
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("content_type", contentTypeMap);
+
+        Field responseField = CSHttpConnection.class.getDeclaredField("responseJSON");
+        responseField.setAccessible(true);
+        responseField.set(mockConnection, response);
+
+        CSConnectionRequest request = new CSConnectionRequest(contentType);
+        assertDoesNotThrow(() -> request.onRequestFinished(mockConnection));
+    }
+
+    @Test
+    void testOnRequestFinishedFetchGlobalFieldsWithNullCallback() throws Exception {
+        CSHttpConnection mockConnection = createMockConnection();
+
+        Field controllerField = CSHttpConnection.class.getDeclaredField("controller");
+        controllerField.setAccessible(true);
+        controllerField.set(mockConnection, Constants.FETCHGLOBALFIELDS);
+
+        LinkedHashMap<String, Object> globalFieldMap = new LinkedHashMap<>();
+        globalFieldMap.put("uid", "test_global_field");
+
+        JSONObject response = new JSONObject();
+        Field mapField = JSONObject.class.getDeclaredField("map");
+        mapField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> internalMap = (Map<String, Object>) mapField.get(response);
+        internalMap.put("global_field", globalFieldMap);
+
+        Field responseField = CSHttpConnection.class.getDeclaredField("responseJSON");
+        responseField.setAccessible(true);
+        responseField.set(mockConnection, response);
+
+        CSConnectionRequest request = new CSConnectionRequest(globalField);
+        assertDoesNotThrow(() -> request.onRequestFinished(mockConnection));
+    }
+
     // ========== HELPER METHODS ==========
 
     private CSHttpConnection createMockConnection() throws Exception {
