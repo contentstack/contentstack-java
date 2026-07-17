@@ -125,6 +125,13 @@ public class Credentials {
     }
 
     /**
+     * Check if branch support is configured
+     */
+    public static boolean hasBranchSupport() {
+        return BRANCH_UID != null && !BRANCH_UID.isEmpty();
+    }
+
+    /**
      * Check if global field configuration is available
      */
     public static boolean hasGlobalFieldsConfigured() {
