@@ -220,6 +220,12 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>3.18.0</version>
             </dependency>
+            <!-- Fix Cross-site Scripting (XSS) in jsoup pulled by contentstack-utils transitive deps -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>1.23.1</version>
+            </dependency>
             <!-- Fix Spring vulnerabilities from contentstack-utils transitive deps -->
             <dependency>
                 <groupId>org.springframework</groupId>
