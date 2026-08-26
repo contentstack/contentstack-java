@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.8.2
+
+### Aug 26, 2026
+- Fix: Upgraded `org.jsoup:jsoup` (pulled in transitively via `com.contentstack.sdk:utils`) to 1.23.2 to address a Snyk-reported Allocation of Resources Without Limits or Throttling vulnerability (CVE-2026-75140)
+
 ## v2.8.1
 
 ### Aug 17, 2026
