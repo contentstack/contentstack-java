@@ -254,7 +254,7 @@ class TestEntryModel {
         JSONObject publishDetails = new JSONObject();
         publishDetails.put("environment", "production");
         publishDetails.put("time", "2024-01-01T00:00:00.000Z");
-        // Test fixture: user is a non-secret publish-detail field (not a credential)
+        // deepcode ignore NoHardcodedCredentials: false positive - method signature/parameter names, no actual hardcoded credential
         publishDetails.put("user", "test_publisher_uid");
 
         JSONObject json = new JSONObject();
@@ -331,6 +331,7 @@ class TestEntryModel {
         JSONObject publishDetails = new JSONObject();
         publishDetails.put("environment", "staging");
         publishDetails.put("time", "2024-02-01T12:00:00.000Z");
+        // deepcode ignore NoHardcodedCredentials: false positive - method signature/parameter names, no actual hardcoded credential
         publishDetails.put("user", "admin");
 
         // Create images array
@@ -442,6 +443,7 @@ class TestEntryModel {
         JSONObject publishDetails = new JSONObject();
         publishDetails.put("environment", "development");
         publishDetails.put("time", "2024-03-01T15:00:00.000Z");
+        // deepcode ignore NoHardcodedCredentials: false positive - method signature/parameter names, no actual hardcoded credential
         publishDetails.put("user", "dev_user");
         
         // Create images
