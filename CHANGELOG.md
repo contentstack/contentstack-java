@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.8.3
+
+### Oct 26, 2026
+- Fix: Updated the `dependencyManagement` pins for `org.springframework:spring-core`, `spring-beans` and `spring-web` from 6.2.19 to 7.0.9 (the version `contentstack-utils` already targets) to resolve Snyk-reported Spring Framework vulnerabilities (resource allocation without limits, XSS, HTTP response splitting, sensitive cookie without Secure attribute). Build-time pins only; no API or dependency changes for consumers.
+- Tests: replaced hardcoded publisher user values with generated values
+
 ## v2.8.2
 
 ### Aug 26, 2026
