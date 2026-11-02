@@ -1,5 +1,6 @@
 package com.contentstack.sdk;
 
+import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -254,8 +255,8 @@ class TestEntryModel {
         JSONObject publishDetails = new JSONObject();
         publishDetails.put("environment", "production");
         publishDetails.put("time", "2024-01-01T00:00:00.000Z");
-        // deepcode ignore NoHardcodedCredentials: false positive - method signature/parameter names, no actual hardcoded credential
-        publishDetails.put("user", "test_publisher_uid");
+        String publisherUid = UUID.randomUUID().toString();
+        publishDetails.put("user", publisherUid);
 
         JSONObject json = new JSONObject();
         json.put("uid", "published_entry");
@@ -267,7 +268,7 @@ class TestEntryModel {
         assertNotNull(model.publishDetails);
         assertEquals("production", model.environment);
         assertEquals("2024-01-01T00:00:00.000Z", model.time);
-        assertEquals("test_publisher_uid", model.user);
+        assertEquals(publisherUid, model.user);
         
         // Verify metadata is populated
         assertNotNull(model.metadata);
@@ -331,7 +332,6 @@ class TestEntryModel {
         JSONObject publishDetails = new JSONObject();
         publishDetails.put("environment", "staging");
         publishDetails.put("time", "2024-02-01T12:00:00.000Z");
-        // deepcode ignore NoHardcodedCredentials: false positive - method signature/parameter names, no actual hardcoded credential
         publishDetails.put("user", "admin");
 
         // Create images array
@@ -443,8 +443,7 @@ class TestEntryModel {
         JSONObject publishDetails = new JSONObject();
         publishDetails.put("environment", "development");
         publishDetails.put("time", "2024-03-01T15:00:00.000Z");
-        // deepcode ignore NoHardcodedCredentials: false positive - method signature/parameter names, no actual hardcoded credential
-        publishDetails.put("user", "dev_user");
+        publishDetails.put("user", UUID.randomUUID().toString());
         
         // Create images
         JSONArray imagesArray = new JSONArray();
