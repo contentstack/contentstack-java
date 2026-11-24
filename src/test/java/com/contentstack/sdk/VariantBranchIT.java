@@ -26,6 +26,16 @@ class VariantBranchIT extends BaseIntegrationTest {
         logger.info("Entry UID       : " + Credentials.ENTRY_UID);
     }
 
+    /**
+     * ContentType, Entry and Query share the Stack's header map, so variant/branch
+     * headers set by one test would leak into the next. Reset them before each test.
+     */
+    @BeforeEach
+    void resetSharedVariantBranchHeaders() {
+        stack.headers.remove("x-cs-variant-uid");
+        stack.headers.remove("branch");
+    }
+
     // =========================================================
     // Entry.fetch() — single-entry with variant(s)
     // =========================================================
